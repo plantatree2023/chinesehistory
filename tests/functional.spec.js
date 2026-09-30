@@ -42,6 +42,25 @@ test.describe('时间轴浏览', () => {
     await expect(page.locator('#detailModal')).toBeHidden();
   });
 
+  test('左右翻页按钮为圆形，箭头居中，点击可前后翻页', async ({ page }) => {
+    await openApp(page);
+    for (const id of ['#navLeft', '#navRight']) {
+      const btn = page.locator(id);
+      const box = await btn.boundingBox();
+      expect(Math.abs(box.width - box.height)).toBeLessThanOrEqual(0.5);
+      expect(await btn.evaluate((b) => getComputedStyle(b).borderRadius)).toBe('50%');
+      const icon = await btn.locator('svg').boundingBox();
+      expect(Math.abs(icon.x + icon.width / 2 - (box.x + box.width / 2))).toBeLessThanOrEqual(1);
+      expect(Math.abs(icon.y + icon.height / 2 - (box.y + box.height / 2))).toBeLessThanOrEqual(1);
+    }
+    const start = await trackOffset(page);
+    await page.click('#navRight');
+    await expect.poll(() => trackOffset(page)).toBeLessThan(start - 500);
+    const moved = await trackOffset(page);
+    await page.click('#navLeft');
+    await expect.poll(() => trackOffset(page)).toBeGreaterThan(moved + 500);
+  });
+
   test('键盘 End / Home 跳到时间轴两端', async ({ page }) => {
     await openApp(page);
     await page.locator('#stage').focus();

@@ -354,17 +354,21 @@ body.bars-hidden .bars-toggle { transform: rotate(180deg); }
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 40px; height: 64px;
+  width: 46px; height: 46px;          /* 圆形按钮，箭头为 SVG，保证在圆心 */
+  padding: 0;
+  display: grid;
+  place-items: center;
   border: 1px solid var(--line);
-  background: rgba(255, 252, 246, .85);
+  border-radius: 50%;
+  background: rgba(255, 252, 246, .9);
   color: var(--ink-2);
-  font-size: 30px;
-  line-height: 1;
-  border-radius: 8px;
   z-index: 6;
   box-shadow: var(--shadow);
+  transition: color .15s, background .15s, box-shadow .15s;
 }
-.nav-arrow:hover { color: var(--red); }
+.nav-arrow svg { display: block; }
+.nav-arrow:hover { color: var(--red); background: var(--card); box-shadow: var(--shadow), 0 0 0 3px rgba(168, 50, 42, .12); }
+.nav-arrow:active { transform: translateY(-50%) scale(.94); }
 .nav-arrow.left { left: 10px; }
 .nav-arrow.right { right: 10px; }
 
