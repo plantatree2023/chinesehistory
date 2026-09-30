@@ -10,14 +10,18 @@ const MIN_SUMMARY = 20;
 const DATASET = 'cn_zh';
 const DATA_URL = `/data/${DATASET}.json`;
 const STORAGE_KEY = `zh-history-timeline:v1:${DATASET}`;
+const DEBUG_KEY = 'zh-history-timeline:debug';
 const DEFAULT_EVENT_COUNT = 100;
 const PUNCT = /[\s，。、；：“”‘’《》〈〉（）【】！？·—…,.;:()[\]!?"'-]/;
 
 // 扩展 test：
 // - 屏蔽所有非本机请求（维基媒体图片等），测试完全离线、结果稳定；
-// - 收集页面脚本错误，测试结束时断言没有任何错误。
+// - 收集页面脚本错误，测试结束时断言没有任何错误；
+// - 选项 debugMode：为 true 时在每次打开页面前开启调试模式（编辑功能只在调试模式下显示），
+//   需要编辑的测试用 test.use({ debugMode: true })。
 const test = base.test.extend({
-  page: async ({ page, baseURL }, use) => {
+  debugMode: [false, { option: true }],
+  page: async ({ page, baseURL, debugMode }, use) => {
     // 安全检查：默认测试服务器必须是只读的，否则浏览器模式的测试会把测试数据写进真实数据文件
     if (baseURL) {
       const status = await page.request.get('/api/status');
@@ -26,6 +30,7 @@ const test = base.test.extend({
     const errors = [];
     page.on('pageerror', (e) => errors.push(e.message));
     await page.route(/^https?:\/\/(?!127\.0\.0\.1[:/])/, (route) => route.abort());
+    if (debugMode) await page.addInitScript((key) => localStorage.setItem(key, '1'), DEBUG_KEY);
     await use(page);
     expect(errors, '页面不应出现脚本错误').toEqual([]);
   },
@@ -171,6 +176,7 @@ function makePng(w, h, shade = 0) {
 }
 
 module.exports = {
+  DEBUG_KEY,
   test, expect,
   MAX_PER_SCREEN, MIN_SUMMARY, DATASET, DATA_URL, STORAGE_KEY, DEFAULT_EVENT_COUNT,
   makePng,

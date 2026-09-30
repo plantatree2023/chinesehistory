@@ -10,12 +10,15 @@
 //   PUT  /api/data/<id>       保存整个数据集，<id> 形如 cn_zh（<国家>_<语言>）
 //   POST /api/images          保存上传的图片（{ dataUrl }），返回 { path: "images/xxxx.jpg", w, h }
 //   POST /api/images/fetch    按网址下载图片并保存（{ url }，仅 http / https），返回 { path, w, h }
+// 另外，项目中没有 version.json 时（只在部署时生成），GET /version.json 根据 git 最近一次提交生成版本信息，
+// 供网页调试模式显示“网站最近更新”时间（两种模式都提供）。
 //
 // 安全：只监听 127.0.0.1；写入请求必须来自本服务自身的页面（校验 Host / Origin / Content-Type），
 // 防止其他网站借用户的浏览器向本机写文件。
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const { execFileSync } = require('child_process');
 const { writeAtomic, saveImage, fetchImage, MAX_IMAGE_BYTES } = require('./lib/images');
 
 const DATASET_ID = /^[a-z]{2}_[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})?$/;   // 例：cn_zh、jp_ja、cn_zh-Hant
@@ -173,6 +176,16 @@ function createServer({ root = __dirname, writeDir = root, readonly = false } = 
     throw new HttpError(404, 'Not Found');
   }
 
+  // 本地的版本信息：最近一次提交的时间和短哈希；不是 git 仓库或没有 git 时返回 null
+  function localVersion() {
+    try {
+      const [at, commit] = execFileSync('git', ['log', '-1', '--format=%cI%n%h'], { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim().split('\n');
+      return at && commit ? { updatedAt: at, commit, commitAt: at, source: 'local' } : null;
+    } catch {
+      return null;
+    }
+  }
+
   function serveStatic(req, res, pathname) {
     if (req.method !== 'GET' && req.method !== 'HEAD') throw new HttpError(405, 'Method Not Allowed');
     if (pathname.endsWith('/')) pathname += 'index.html';
@@ -180,6 +193,12 @@ function createServer({ root = __dirname, writeDir = root, readonly = false } = 
     const candidates = [resolveIn(writeDir, pathname), resolveIn(root, pathname)].filter(Boolean);
     if (!candidates.length) throw new HttpError(403, 'Forbidden');
     const file = candidates.find((f) => fs.existsSync(f) && fs.statSync(f).isFile());
+    if (!file && pathname === '/version.json') {
+      const version = localVersion();
+      if (!version) throw new HttpError(404, 'Not Found');
+      sendJson(res, 200, version);
+      return;
+    }
     if (!file) throw new HttpError(404, 'Not Found');
     res.writeHead(200, {
       'Content-Type': CONTENT_TYPES[path.extname(file).toLowerCase()] || 'application/octet-stream',

@@ -33,18 +33,22 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 390, height: 780 
       expect((await layoutMetrics(page)).outOfBounds).toBe(0);
     });
 
-    test('H 键切换工具栏，在输入框中输入 h 不触发', async ({ page }) => {
-      await openApp(page);
-      await page.locator('#stage').focus();
-      await page.keyboard.press('h');
-      await expect(page.locator('.topbar')).toBeHidden();
-      await page.keyboard.press('h');
-      await expect(page.locator('.topbar')).toBeVisible();
+    test.describe('调试模式', () => {
+      test.use({ debugMode: true });
 
-      await page.click('#addBtn');
-      await page.locator('#editForm [name=title]').pressSequentially('hh');
-      await expect(page.locator('#editForm [name=title]')).toHaveValue('hh');
-      await expect(page.locator('.topbar')).toBeVisible();
+      test('H 键切换工具栏，在输入框中输入 h 不触发', async ({ page }) => {
+        await openApp(page);
+        await page.locator('#stage').focus();
+        await page.keyboard.press('h');
+        await expect(page.locator('.topbar')).toBeHidden();
+        await page.keyboard.press('h');
+        await expect(page.locator('.topbar')).toBeVisible();
+
+        await page.click('#addBtn');
+        await page.locator('#editForm [name=title]').pressSequentially('hh');
+        await expect(page.locator('#editForm [name=title]')).toHaveValue('hh');
+        await expect(page.locator('.topbar')).toBeVisible();
+      });
     });
 
     test('切换按钮完整位于顶栏内且垂直居中', async ({ page }) => {

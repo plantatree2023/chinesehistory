@@ -12,6 +12,10 @@
   <header class="topbar">
     <h1 class="brand"><span class="brand-name">时间上的中国</span><span class="brand-era" id="currentEra" aria-live="polite"></span></h1>
   </header>
+  <!-- 调试信息：只在调试模式下显示 -->
+  <div class="debug-bar debug-only" id="debugBar" aria-live="polite">
+    网站最近更新：<time id="debugUpdated">…</time><span class="debug-commit" id="debugCommit"></span>
+  </div>
 
   <main class="stage" id="stage" tabindex="0" aria-label="历史时间轴，可左右拖动或使用方向键浏览">
     <div class="track" id="track">
@@ -43,7 +47,7 @@
     <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M4 4h16v2H4zm0 14h16v2H4zm4-8 4-3 4 3-1.2 1.6L12 9.5l-2.8 2.1zm0 4 1.2-1.6 2.8 2.1 2.8-2.1L16 14l-4 3z"/></svg>
   </button>
 
-  <button class="fab" id="addBtn" aria-label="添加新事件" title="添加新事件">
+  <button class="fab debug-only" id="addBtn" aria-label="添加新事件" title="添加新事件">
     <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="currentColor" d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg>
   </button>
 
@@ -63,8 +67,15 @@
     <div class="filter-panel" id="filterPanel" hidden></div>
     <ol class="event-list" id="eventList"></ol>
     <div class="sidebar-foot">
-      <p class="storage-note" id="storageNote"></p>
-      <button class="btn btn-ghost btn-small" id="resetBtn">恢复默认数据</button>
+      <label class="switch" title="开启后显示网站更新时间和编辑功能">
+        <input type="checkbox" role="switch" id="debugToggle">
+        <span class="switch-track" aria-hidden="true"></span>
+        <span>调试模式</span>
+      </label>
+      <div class="debug-only foot-edit">
+        <p class="storage-note" id="storageNote"></p>
+        <button class="btn btn-ghost btn-small" id="resetBtn">恢复默认数据</button>
+      </div>
     </div>
   </aside>
 
@@ -81,7 +92,7 @@
         <p class="detail-text" id="detailText"></p>
         <div class="gallery" id="detailGallery"></div>
         <div class="detail-source" id="detailSource"></div>
-        <div class="detail-actions">
+        <div class="detail-actions debug-only">
           <button class="btn btn-primary" id="detailEdit">编辑</button>
           <button class="btn btn-danger" id="detailDelete">删除</button>
         </div>

@@ -40,6 +40,8 @@ body {
 }
 button { font: inherit; cursor: pointer; }
 [hidden] { display: none !important; }
+/* 编辑功能与调试信息只在调试模式（body.debug-mode）下显示 */
+body:not(.debug-mode) .debug-only { display: none !important; }
 
 /* ---------- 顶栏 ---------- */
 .topbar {
@@ -56,7 +58,24 @@ button { font: inherit; cursor: pointer; }
   z-index: 5;
   transition: border-color .4s ease;
 }
-body.bars-hidden .topbar, body.bars-hidden .bottombar { display: none; }
+body.bars-hidden .topbar, body.bars-hidden .bottombar, body.bars-hidden .debug-bar { display: none; }
+
+/* 调试模式：顶栏下方的网站更新时间 */
+.debug-bar {
+  flex: none;
+  padding: 3px 20px;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--ink-2);
+  background: repeating-linear-gradient(135deg, #f7ecc9 0 10px, #f2e4b8 10px 20px);
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  z-index: 4;
+}
+.debug-bar time { font-variant-numeric: tabular-nums; font-weight: 600; }
+.debug-commit { margin-left: .8em; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
 
 /* 显示 / 隐藏工具栏按钮 */
 .bars-toggle {
@@ -644,6 +663,31 @@ body.bars-hidden .bars-toggle { transform: rotate(180deg); }
 .list-empty { padding: 30px; text-align: center; color: var(--muted); }
 .sidebar-foot { padding: 10px 20px 16px; border-top: 1px solid var(--line); }
 .storage-note { margin: 0 0 8px; font-size: 12px; color: var(--muted); }
+.foot-edit { margin-top: 10px; }
+
+/* 开关（调试模式） */
+.switch { position: relative; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-2); cursor: pointer; user-select: none; }
+.switch input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
+.switch-track {
+  position: relative;
+  width: 34px; height: 20px;
+  border-radius: 10px;
+  background: var(--line);
+  transition: background .2s;
+}
+.switch-track::after {
+  content: "";
+  position: absolute;
+  top: 2px; left: 2px;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .25);
+  transition: transform .2s;
+}
+.switch input:checked + .switch-track { background: var(--red); }
+.switch input:checked + .switch-track::after { transform: translateX(14px); }
+.switch input:focus-visible + .switch-track { outline: 2px solid var(--gold); outline-offset: 2px; }
 .load-error {
   position: absolute;
   left: 50%; top: 50%;

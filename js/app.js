@@ -939,6 +939,7 @@
   $('detailDelete').addEventListener('click', function () { askDelete(detailId); });
 
   function askDelete(id) {
+    if (!debugMode) return;
     var ev = findEvent(id);
     if (!ev) return;
     confirmDialog('确定要删除“' + ev.title + '”吗？此操作无法撤销。', function () {
@@ -988,6 +989,7 @@
   var draftImages = [];
 
   function openEditor(id) {
+    if (!debugMode) return;
     var ev = id ? findEvent(id) : null;
     editingId = ev ? ev.id : null;
     $('editTitle').textContent = ev ? '编辑事件' : '添加新事件';
@@ -1513,10 +1515,10 @@
         var v = el('button', 'btn btn-ghost btn-small', '查看详情');
         v.type = 'button';
         v.addEventListener('click', function () { openDetail(ev.id); });
-        var ed = el('button', 'btn btn-primary btn-small', '编辑');
+        var ed = el('button', 'btn btn-primary btn-small debug-only', '编辑');
         ed.type = 'button';
         ed.addEventListener('click', function () { openEditor(ev.id); });
-        var del = el('button', 'btn btn-danger btn-small', '删除');
+        var del = el('button', 'btn btn-danger btn-small debug-only', '删除');
         del.type = 'button';
         del.addEventListener('click', function () { askDelete(ev.id); });
         acts.appendChild(v); acts.appendChild(ed); acts.appendChild(del);
@@ -1557,6 +1559,59 @@
     if (openStack.length || !$('lightbox').hidden) return;
     setBarsHidden(!document.body.classList.contains('bars-hidden'));
   });
+
+  // ---------- 调试模式（默认关闭） ----------
+  // 开启后在顶栏下方显示网站最近更新时间，并显示全部编辑功能（新增、编辑、删除、恢复默认数据）。
+  // 关闭时这些元素带 .debug-only 类被 CSS 隐藏，openEditor / askDelete 也直接返回。
+  // 设置保存在当前浏览器中，所有数据集共用。
+  var DEBUG_KEY = 'zh-history-timeline:debug';
+  var debugMode = false;
+  var versionRequest = null;
+
+  function setDebugMode(on) {
+    debugMode = on;
+    document.body.classList.toggle('debug-mode', on);
+    $('debugToggle').checked = on;
+    try {
+      if (on) localStorage.setItem(DEBUG_KEY, '1');
+      else localStorage.removeItem(DEBUG_KEY);
+    } catch (e) { /* 浏览器禁止存储时只在本次访问中生效 */ }
+    if (on) loadVersion();
+  }
+
+  // version.json：部署时由 GitHub Actions 生成（每次 push 都会更新）；本地服务器根据 git 最近一次提交生成
+  function loadVersion() {
+    if (versionRequest) return versionRequest;
+    versionRequest = fetch('version.json', { cache: 'no-store' })
+      .then(function (res) { return res.ok ? res.json() : null; })
+      .catch(function () { return null; })
+      .then(function (v) {
+        var when = v && formatTimestamp(v.updatedAt);
+        var time = $('debugUpdated');
+        time.textContent = when || '未知';
+        if (when) time.setAttribute('datetime', v.updatedAt); else time.removeAttribute('datetime');
+        $('debugCommit').textContent = when && v.commit
+          ? '版本 ' + v.commit + (v.source === 'local' ? '（本地）' : '')
+          : '';
+      });
+    return versionRequest;
+  }
+  function formatTimestamp(iso) {
+    var d = typeof iso === 'string' ? new Date(iso) : null;
+    if (!d || isNaN(d.getTime())) return '';
+    var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+    var off = -d.getTimezoneOffset();
+    var tz = 'UTC' + (off >= 0 ? '+' : '-') + Math.floor(Math.abs(off) / 60) + (Math.abs(off) % 60 ? ':' + pad(Math.abs(off) % 60) : '');
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' +
+      pad(d.getHours()) + ':' + pad(d.getMinutes()) + '（' + tz + '）';
+  }
+
+  $('debugToggle').addEventListener('change', function (e) { setDebugMode(e.target.checked); });
+  (function () {
+    var on = false;
+    try { on = localStorage.getItem(DEBUG_KEY) === '1'; } catch (e) { /* noop */ }
+    setDebugMode(on);
+  })();
 
   // ---------- 启动 ----------
   function showLoadError(message) {

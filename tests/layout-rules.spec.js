@@ -31,7 +31,7 @@ for (const viewport of VIEWPORTS) {
 }
 
 test.describe('动态保证', () => {
-  test.use({ viewport: { width: 1440, height: 860 } });
+  test.use({ viewport: { width: 1440, height: 860 }, debugMode: true });
 
   test('同一年集中新增 12 个事件后规则仍成立', async ({ page }) => {
     await seedEvents(page, (events) => {

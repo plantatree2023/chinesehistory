@@ -13,7 +13,8 @@ const ROOT = path.resolve(__dirname, '..');
 const REPO_DATA = path.join(ROOT, 'data', `${DATASET}.json`);
 const sha256 = (file) => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 
-test.use({ viewport: { width: 1440, height: 860 } });
+// 编辑功能只在调试模式下显示
+test.use({ viewport: { width: 1440, height: 860 }, debugMode: true });
 
 let server, origin, tmpDir, tmpData, repoHash;
 

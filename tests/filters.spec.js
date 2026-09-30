@@ -158,43 +158,47 @@ test.describe('时期更迭', () => {
     await expect(page.locator('#detailTransition')).toBeHidden();
   });
 
-  test('在编辑页设置和清除时期更迭，筛选随之更新', async ({ page }) => {
-    await openApp(page);
-    const { events } = await loadDataset(page);
-    const count = events.filter((e) => e.transition).length;
-    await page.click('#browseBtn');
-    await page.fill('#searchInput', '贞观之治');
-    await page.locator('.list-row').first().click();
-    await page.click('.list-actions .btn-primary');
-    // 下拉选项来自数据集的时期
-    const { eras } = await loadDataset(page);
-    await expect(page.locator('#editForm [name=transitionFrom] option')).toHaveText(['无', ...eras.map((e) => e.name)]);
+  test.describe('调试模式', () => {
+    test.use({ debugMode: true });
 
-    await page.selectOption('#editForm [name=transitionFrom]', '隋');
-    await page.click('#editForm button[type=submit]');
-    await expect(page.locator('#formError')).toContainText('同时选择');
-    await page.selectOption('#editForm [name=transitionTo]', '隋');
-    await page.click('#editForm button[type=submit]');
-    await expect(page.locator('#formError')).toContainText('不能相同');
-    await page.selectOption('#editForm [name=transitionTo]', '唐');
-    await page.click('#editForm button[type=submit]');
-    await expect(page.locator('#editModal')).toBeHidden();
-    await expect(page.locator('.list-transition')).toHaveText(['隋 → 唐']);
+    test('在编辑页设置和清除时期更迭，筛选随之更新', async ({ page }) => {
+      await openApp(page);
+      const { events } = await loadDataset(page);
+      const count = events.filter((e) => e.transition).length;
+      await page.click('#browseBtn');
+      await page.fill('#searchInput', '贞观之治');
+      await page.locator('.list-row').first().click();
+      await page.click('.list-actions .btn-primary');
+      // 下拉选项来自数据集的时期
+      const { eras } = await loadDataset(page);
+      await expect(page.locator('#editForm [name=transitionFrom] option')).toHaveText(['无', ...eras.map((e) => e.name)]);
 
-    await page.fill('#searchInput', '');
-    await page.click('#filterToggle');
-    await expect(page.locator('.filter-section[data-filter="transition"]')).toContainText(`（${count + 1}）`);
+      await page.selectOption('#editForm [name=transitionFrom]', '隋');
+      await page.click('#editForm button[type=submit]');
+      await expect(page.locator('#formError')).toContainText('同时选择');
+      await page.selectOption('#editForm [name=transitionTo]', '隋');
+      await page.click('#editForm button[type=submit]');
+      await expect(page.locator('#formError')).toContainText('不能相同');
+      await page.selectOption('#editForm [name=transitionTo]', '唐');
+      await page.click('#editForm button[type=submit]');
+      await expect(page.locator('#editModal')).toBeHidden();
+      await expect(page.locator('.list-transition')).toHaveText(['隋 → 唐']);
 
-    // 清除（保存后该行仍处于展开状态，只有收起时才需要点开）
-    await page.fill('#searchInput', '贞观之治');
-    if (!(await page.locator('.list-actions').isVisible())) await page.locator('.list-row').first().click();
-    await page.click('.list-actions .btn-primary');
-    await expect(page.locator('#editForm [name=transitionFrom]')).toHaveValue('隋');
-    await page.selectOption('#editForm [name=transitionFrom]', '');
-    await page.selectOption('#editForm [name=transitionTo]', '');
-    await page.click('#editForm button[type=submit]');
-    await expect(page.locator('.list-transition')).toHaveCount(0);
-    await expect(page.locator('.filter-section[data-filter="transition"]')).toContainText(`（${count}）`);
+      await page.fill('#searchInput', '');
+      await page.click('#filterToggle');
+      await expect(page.locator('.filter-section[data-filter="transition"]')).toContainText(`（${count + 1}）`);
+
+      // 清除（保存后该行仍处于展开状态，只有收起时才需要点开）
+      await page.fill('#searchInput', '贞观之治');
+      if (!(await page.locator('.list-actions').isVisible())) await page.locator('.list-row').first().click();
+      await page.click('.list-actions .btn-primary');
+      await expect(page.locator('#editForm [name=transitionFrom]')).toHaveValue('隋');
+      await page.selectOption('#editForm [name=transitionFrom]', '');
+      await page.selectOption('#editForm [name=transitionTo]', '');
+      await page.click('#editForm button[type=submit]');
+      await expect(page.locator('.list-transition')).toHaveCount(0);
+      await expect(page.locator('.filter-section[data-filter="transition"]')).toContainText(`（${count}）`);
+    });
   });
 
   test('数据中的时期更迭：from / to 都是已有时期、互不相同，且事件年份落在 to 时期内', async ({ page }) => {
@@ -257,21 +261,25 @@ test('多个筛选条件与搜索同时生效，清除筛选恢复全部', async
   await expect(page.locator('#filterPanel input[data-range="to"]')).toHaveValue('');
 });
 
-test('筛选时列表中的编辑和删除仍可用，删除后可选项随数据更新', async ({ page }) => {
-  await openApp(page);
-  const { eras, events } = await loadDataset(page);
-  const qin = events.filter((e) => eraOf(eras, e.year).name === '秦');
-  await openFilters(page);
-  await pickEras(page, '秦');
-  await expect(page.locator('.list-item')).toHaveCount(qin.length);
-  await page.locator('.list-row').first().click();
-  await page.click('.list-actions .btn-danger');
-  await page.click('#confirmOk');
-  await expect(page.locator('.list-item')).toHaveCount(qin.length - 1);
-  // 时期的事件数随之减少，已选中的条件保留
-  await expect(eraOption(page, '秦').locator('.ms-count')).toHaveText(String(qin.length - 1));
-  await expect(eraOption(page, '秦')).toHaveAttribute('aria-selected', 'true');
-  await expect(eraTrigger(page).locator('.ms-tag')).toHaveText(['秦']);
+test.describe('调试模式', () => {
+  test.use({ debugMode: true });
+
+  test('筛选时列表中的编辑和删除仍可用，删除后可选项随数据更新', async ({ page }) => {
+    await openApp(page);
+    const { eras, events } = await loadDataset(page);
+    const qin = events.filter((e) => eraOf(eras, e.year).name === '秦');
+    await openFilters(page);
+    await pickEras(page, '秦');
+    await expect(page.locator('.list-item')).toHaveCount(qin.length);
+    await page.locator('.list-row').first().click();
+    await page.click('.list-actions .btn-danger');
+    await page.click('#confirmOk');
+    await expect(page.locator('.list-item')).toHaveCount(qin.length - 1);
+    // 时期的事件数随之减少，已选中的条件保留
+    await expect(eraOption(page, '秦').locator('.ms-count')).toHaveText(String(qin.length - 1));
+    await expect(eraOption(page, '秦')).toHaveAttribute('aria-selected', 'true');
+    await expect(eraTrigger(page).locator('.ms-tag')).toHaveText(['秦']);
+  });
 });
 
 test('可选项完全由数据集决定（使用另一份数据）', async ({ page }) => {

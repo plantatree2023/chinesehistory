@@ -53,6 +53,8 @@ test.describe('时间轴浏览', () => {
 });
 
 test.describe('事件详情', () => {
+  test.use({ debugMode: true });
+
   test('点击卡片打开详情，说明不超过 350 字', async ({ page }) => {
     await openApp(page);
     const card = await visibleCard(page);
@@ -89,6 +91,8 @@ test.describe('事件详情', () => {
 });
 
 test.describe('新增事件', () => {
+  test.use({ debugMode: true });
+
   test('填写表单后出现在时间轴上，并执行字数与图片数量上限', async ({ page }) => {
     await openApp(page);
     await page.click('#addBtn');
@@ -164,6 +168,8 @@ test.describe('新增事件', () => {
 });
 
 test.describe('侧栏', () => {
+  test.use({ debugMode: true });
+
   test('按时间顺序列出全部事件，可搜索', async ({ page }) => {
     await openApp(page);
     await page.click('#browseBtn');
