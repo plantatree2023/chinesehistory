@@ -4,6 +4,8 @@
   var STORAGE_KEY = 'zh-history-timeline:v1';
   var MAX_IMAGES = 9;
   var MAX_DETAIL = 350;
+  var MAX_PER_SCREEN = 6;   // 任意一屏宽度内最多显示的事件数
+  var MIN_SUMMARY = 20;     // 卡片说明文字至少的字数（不计标点）
 
   // 朝代 / 时期色带（用于时间轴着色与“当前时代”提示）
   var ERAS = [
@@ -65,6 +67,20 @@
   function eraOf(y) {
     for (var i = ERAS.length - 1; i >= 0; i--) if (y >= ERAS[i].start) return ERAS[i];
     return ERAS[0];
+  }
+
+  // 不计标点和空白的字数
+  function charCount(t) {
+    return (t || '').replace(/[\s，。、；：“”‘’《》〈〉（）【】！？·—…,.;:()\[\]!?"'-]/g, '').length;
+  }
+  // 卡片上显示的说明：简要说明不足 20 字时从详细说明中截取补足
+  function summaryOf(ev) {
+    var short = (ev.short || '').trim();
+    if (charCount(short) >= MIN_SUMMARY) return short;
+    var detail = (ev.detail || '').replace(/\s+/g, '');
+    if (!detail) return short;
+    var text = short && detail.indexOf(short) === -1 ? short + detail : detail;
+    return text.length > 60 ? text.slice(0, 58) + '…' : text;
   }
 
   function toast(msg) {
@@ -143,12 +159,12 @@
 
   // 卡片样式：尺寸不同，图文关系不同
   var VARIANTS = {
-    tall:    { w: 196, h: 248 },   // 上图下文，图占约三分之二
-    wide:    { w: 330, h: 150 },   // 左图右文，图占约六成
-    mirror:  { w: 330, h: 150 },   // 右图左文
-    mini:    { w: 176, h: 150 },   // 小图，标题压在图上
-    overlay: { w: 256, h: 186 },   // 整图 + 文字压在图片下缘
-    feature: { w: 304, h: 290 }    // 重大事件：大图
+    tall:    { w: 204, h: 262 },   // 上图下文，图占约三分之二
+    wide:    { w: 330, h: 152, keep: true },   // 左图右文，图占约六成（文字栏窄，不随屏幕高度缩小）
+    mirror:  { w: 330, h: 152, keep: true },   // 右图左文
+    mini:    { w: 196, h: 176 },   // 小图，文字压在图上
+    overlay: { w: 262, h: 196 },   // 整图 + 文字压在图片下缘
+    feature: { w: 310, h: 300 }    // 重大事件：大图
   };
   var PATTERN = ['tall', 'mini', 'wide', 'overlay', 'mini', 'mirror', 'tall', 'overlay', 'wide', 'mini', 'mirror', 'tall', 'mini', 'overlay'];
 
@@ -173,7 +189,7 @@
     var list = sorted();
     var H = stage.clientHeight || 600;
     var axisY = H / 2;
-    var s = clamp(H / 680, 0.7, 1.12);
+    var s = clamp(H / 680, 0.82, 1.12);
     var band = Math.round(30 * s);          // 轴线附近留给刻度和朝代名的空间
     var half = axisY - 12;                  // 卡片离舞台边缘至少 12px
     var maxW = Math.max(150, viewW() - 48);
@@ -182,6 +198,22 @@
     var xs = [], anchors = [], placed = [];
     var base = list.length ? rawPos(list[0].year) : 0;
     var prevX = -Infinity, prevSide = 0, prevSame = 0;
+
+    // 放入新卡片后，任意一屏宽度内的卡片（按中心计）不超过 MAX_PER_SCREEN 个
+    var centers = [];
+    var screenW = viewW();
+    function densityOk(cx) {
+      var near = [cx];
+      for (var i = centers.length - 1; i >= 0; i--) {
+        if (Math.abs(centers[i] - cx) < screenW) near.push(centers[i]);
+      }
+      if (near.length <= MAX_PER_SCREEN) return true;
+      near.sort(function (a, b) { return a - b; });
+      for (var j = 0; j + MAX_PER_SCREEN < near.length; j++) {
+        if (near[j + MAX_PER_SCREEN] - near[j] < screenW) return false;
+      }
+      return true;
+    }
 
     function free(rect, isCard) {
       var i, g = isCard ? CARD_GAP : LINK_GAP;
@@ -192,12 +224,13 @@
 
     list.forEach(function (ev, i) {
       var vname = variantFor(ev, i), v = VARIANTS[vname];
-      var w = Math.min(maxW, Math.round(v.w * s)), h = Math.round(v.h * s);
-      if (h > half - band) h = Math.round(half - band);
+      var vs = v.keep ? Math.max(s, 1) : s;
+      var w = Math.min(maxW, Math.round(v.w * vs)), h = Math.round(v.h * vs);
+      if (h > half - band - 12) h = Math.floor(half - band - 12);   // 留出折线所需的空间
       var x0 = Math.max(PAD + (rawPos(ev.year) - base) * 1, prevX + minGap, PAD);
       var best = null;
 
-      for (var tries = 0; tries < 400 && !best; tries++) {
+      for (var tries = 0; tries < 2000 && !best; tries++) {
         [-1, 1].forEach(function (side) {
           for (var d = band; d + h <= half; d += Math.round(20 * s)) {
             var top = side < 0 ? axisY - d - h : axisY + d;
@@ -226,6 +259,7 @@
                 var ex = L > x0 ? L : L + w;
                 pts = [[x0, ay], [x0, yy], [ex, yy]];
               }
+              if (!densityOk(L + w / 2)) return;
               if (!free(rect, true)) return;
               segs = [];
               for (var k = 1; k < pts.length; k++) {
@@ -249,6 +283,7 @@
         best = { rect: { l: x0 - w / 2, r: x0 + w / 2, t: tp, b: tp + h }, segs: [], pts: [[x0, axisY], [x0, tp + h]], side: -1 };
       }
       cards.push(best.rect);
+      centers.push((best.rect.l + best.rect.r) / 2);
       Array.prototype.push.apply(links, best.segs);
       prevSame = best.side === prevSide ? prevSame + 1 : 0;
       prevSide = best.side;
@@ -363,7 +398,8 @@
       var body = el('div', 'card-body');
       body.appendChild(el('div', 'card-date', ev.date || formatYear(ev.year)));
       body.appendChild(el('div', 'card-title', ev.title));
-      if (ev.short) body.appendChild(el('p', 'card-short', ev.short));
+      var summary = summaryOf(ev);
+      if (summary) body.appendChild(el('p', 'card-short', summary));
       card.appendChild(body);
       card.addEventListener('click', function () {
         if (drag.moved) return;
@@ -779,6 +815,7 @@
     if (!title) err = '请填写事件名称';
     else if (!yAbs || yAbs < 1) err = '请填写有效的年份（正整数）';
     else if (form.detail.value.length > MAX_DETAIL) err = '详细说明不能超过 350 字';
+    else if (charCount(form.short.value) < MIN_SUMMARY && charCount(form.detail.value) < MIN_SUMMARY) err = '请至少填写 20 字的说明（简要说明或详细说明），时间轴上会显示这段文字';
     if (err) { $('formError').textContent = err; return; }
     var year = form.era.value === 'bce' ? -yAbs : yAbs;
     var data = {
