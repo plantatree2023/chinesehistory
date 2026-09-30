@@ -12,8 +12,11 @@
   var LEGACY_STORAGE_KEY = 'zh-history-timeline:v1';   // 旧版本（仅中国数据）使用的键
   var MAX_IMAGES = 9;
   var MAX_DETAIL = 350;
-  var MAX_PER_SCREEN = 6;
-  var MAX_CAPTION = 60;     // 图片标题最多字数   // 任意一屏宽度内最多显示的事件数
+  // 任意一屏宽度内最多显示的事件数：大屏幕（时间轴区域宽度不小于 LARGE_SCREEN_W）上放宽到 8 个，
+  // 其余（笔记本、平板、手机）为 6 个。窗口大小变化时会重新排版
+  var MAX_PER_SCREEN = 6, MAX_PER_SCREEN_LARGE = 8, LARGE_SCREEN_W = 1600;
+  function maxPerScreen(width) { return width >= LARGE_SCREEN_W ? MAX_PER_SCREEN_LARGE : MAX_PER_SCREEN; }
+  var MAX_CAPTION = 60;     // 图片标题最多字数
   var MIN_SUMMARY = 20;     // 卡片说明文字至少的字数（不计标点）
 
   // 朝代 / 时期色带（用于时间轴着色与“当前时代”提示），从数据集加载
@@ -454,18 +457,19 @@
     var base = list.length ? rawPos(list[0].year) : 0;
     var prevX = -Infinity, prevSide = 0, prevSame = 0;
 
-    // 放入新卡片后，任意一屏宽度内的卡片（按中心计）不超过 MAX_PER_SCREEN 个
+    // 放入新卡片后，任意一屏宽度内的卡片（按中心计）不超过 limit 个（大屏幕 8 个，其余 6 个）
     var centers = [];
     var screenW = viewW();
+    var limit = maxPerScreen(screenW);
     function densityOk(cx) {
       var near = [cx];
       for (var i = centers.length - 1; i >= 0; i--) {
         if (Math.abs(centers[i] - cx) < screenW) near.push(centers[i]);
       }
-      if (near.length <= MAX_PER_SCREEN) return true;
+      if (near.length <= limit) return true;
       near.sort(function (a, b) { return a - b; });
-      for (var j = 0; j + MAX_PER_SCREEN < near.length; j++) {
-        if (near[j + MAX_PER_SCREEN] - near[j] < screenW) return false;
+      for (var j = 0; j + limit < near.length; j++) {
+        if (near[j + limit] - near[j] < screenW) return false;
       }
       return true;
     }

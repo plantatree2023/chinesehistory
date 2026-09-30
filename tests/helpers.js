@@ -5,7 +5,10 @@ const base = require('@playwright/test');
 const { expect } = base;
 
 // 与 js/app.js 中的规则保持一致
-const MAX_PER_SCREEN = 6;
+const MAX_PER_SCREEN = 6;          // 笔记本、平板、手机
+const MAX_PER_SCREEN_LARGE = 8;    // 大屏幕：时间轴区域宽度不小于 LARGE_SCREEN_W
+const LARGE_SCREEN_W = 1600;
+const maxPerScreenFor = (stageWidth) => (stageWidth >= LARGE_SCREEN_W ? MAX_PER_SCREEN_LARGE : MAX_PER_SCREEN);
 const MIN_SUMMARY = 20;
 const DATASET = 'cn_zh';
 const DATA_URL = `/data/${DATASET}.json`;
@@ -150,7 +153,7 @@ function layoutMetrics(page) {
       }
       if (visible < minVisible) { minVisible = visible; worst = card.querySelector('.card-title').textContent; }
     }
-    return { count: cards.length, maxPerScreen, overlaps, outOfBounds, minVisible, worst };
+    return { count: cards.length, stageWidth: V, maxPerScreen, overlaps, outOfBounds, minVisible, worst };
   }, { punct: PUNCT.source });
 }
 
@@ -178,7 +181,7 @@ function makePng(w, h, shade = 0) {
 module.exports = {
   DEBUG_KEY,
   test, expect,
-  MAX_PER_SCREEN, MIN_SUMMARY, DATASET, DATA_URL, STORAGE_KEY, DEFAULT_EVENT_COUNT,
+  MAX_PER_SCREEN, MAX_PER_SCREEN_LARGE, LARGE_SCREEN_W, maxPerScreenFor, MIN_SUMMARY, DATASET, DATA_URL, STORAGE_KEY, DEFAULT_EVENT_COUNT,
   makePng,
   openApp, loadDataset, seedEvents, waitForStableLayout, trackOffset, centerOnTrackX, centerOnCard, layoutMetrics,
 };
