@@ -46,6 +46,27 @@ button { font: inherit; cursor: pointer; }
   backdrop-filter: blur(6px);
   z-index: 5;
 }
+.topbar { padding-right: 64px; }
+body.bars-hidden .topbar, body.bars-hidden .bottombar { display: none; }
+
+/* 显示 / 隐藏工具栏按钮 */
+.bars-toggle {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 25;
+  width: 36px; height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: rgba(255, 252, 246, .92);
+  color: var(--ink-2);
+  box-shadow: var(--shadow);
+  transition: color .15s, transform .25s;
+}
+.bars-toggle:hover { color: var(--red); }
+body.bars-hidden .bars-toggle { transform: rotate(180deg); }
 .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .seal {
   flex: none;
@@ -594,7 +615,8 @@ button { font: inherit; cursor: pointer; }
   .subtitle { display: none; }
 }
 @media (max-width: 640px) {
-  .topbar { padding: 8px 16px; }
+  .topbar { padding: 8px 60px 8px 16px; }
+  .bars-toggle { top: 12px; right: 12px; }
   .brand h1 { font-size: 18px; }
   .current-era { font-size: 13px; padding: 3px 9px; }
   .bottombar { padding: 8px 84px 10px 16px; }

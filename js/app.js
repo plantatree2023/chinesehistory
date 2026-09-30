@@ -1029,6 +1029,27 @@
     });
   });
 
+  // ---------- 显示 / 隐藏工具栏（默认显示） ----------
+  var barsBtn = $('barsToggle');
+  function setBarsHidden(hidden) {
+    document.body.classList.toggle('bars-hidden', hidden);
+    var label = hidden ? '显示工具栏' : '隐藏工具栏';
+    barsBtn.setAttribute('aria-pressed', hidden ? 'true' : 'false');
+    barsBtn.setAttribute('aria-label', label);
+    barsBtn.title = label + '（H）';
+    if (hidden && sidebarOpen) closeSidebar();
+  }
+  barsBtn.addEventListener('click', function () {
+    setBarsHidden(!document.body.classList.contains('bars-hidden'));
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key !== 'h' && e.key !== 'H') || e.ctrlKey || e.metaKey || e.altKey) return;
+    var t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) return;
+    if (openStack.length || !$('lightbox').hidden) return;
+    setBarsHidden(!document.body.classList.contains('bars-hidden'));
+  });
+
   // ---------- 启动 ----------
   renderTimeline();
   lastSize = stage.clientWidth + 'x' + stage.clientHeight;
