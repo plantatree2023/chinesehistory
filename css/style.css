@@ -37,6 +37,8 @@
   --toast-bg: #2a2521;
   --toast-ink: #fff;
   --axis: #4a423b;                             /* 时间轴线（时期色带以外的部分） */
+  --ok-fill: #2f7d4f;                          /* “已保存”按钮底色（上面是白字） */
+  --type-lighten: 0%;                          /* 类型标签：类型色与白色混合的比例（深色模式下调亮以保证对比度） */
   color-scheme: light;
   --radius: 10px;
   --bottombar-h: 54px;      /* 底栏高度；添加按钮悬浮在底栏上方 */
@@ -76,6 +78,8 @@
   --toast-bg: #ece4d6;
   --toast-ink: #1b1815;
   --axis: #6f655a;
+  --ok-fill: #2d7449;
+  --type-lighten: 45%;
   color-scheme: dark;
 }
 
@@ -754,21 +758,30 @@ body.bars-hidden .fab { bottom: 18px; }
 .list-meta { min-width: 0; }
 .list-date { font-size: 11px; color: var(--red); font-weight: 600; }
 .list-title { font-family: var(--font-serif); font-size: 14px; font-weight: 700; }
-/* 事件类型标签（颜色来自数据集的 types） */
-.list-type, .type-tag {
+/* 事件类型标签（颜色来自数据集的 types）：描边 + 彩色文字、直角，不填充，
+   与朝代 / 时期的实心圆角色块在形状上区分开 */
+.list-type, .type-tag, .ms[data-name="type"] .ms-tag {
+  --type-ink: color-mix(in srgb, var(--chip-color), #fff var(--type-lighten));
   display: inline-block;
-  padding: 0 7px;
-  border-radius: 999px;
-  background: var(--chip-color);
-  color: #fff;
+  padding: 0 6px;
+  border: 1.5px solid var(--type-ink);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--type-ink);
+  font-family: var(--font-sans);
   font-size: 11px;
   font-weight: 600;
-  line-height: 17px;
+  line-height: 15px;
   vertical-align: 1px;
+}
+.ms[data-name="type"] .ms-swatch {
+  background: transparent;
+  border: 2px solid color-mix(in srgb, var(--chip-color), #fff var(--type-lighten));
+  border-radius: 0;
 }
 .list-type { margin-left: 6px; }
 .detail-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 4px 0 2px; }
-.type-tag { font-size: 12px; line-height: 20px; padding: 0 9px; }
+.type-tag { font-size: 12px; line-height: 18px; padding: 0 8px; }
 .list-transition { margin-top: 1px; font-size: 11px; color: var(--muted); }
 .list-transition::before { content: "⇄ "; color: var(--red); }
 .list-actions {
@@ -971,6 +984,21 @@ body.bars-hidden .fab { bottom: 18px; }
 .image-add { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
 .image-add input { flex: 1; min-width: 160px; }
 .file-btn { cursor: pointer; }
+/* 保存按钮：保存中显示转圈（CSS 动画在排版计算时也能继续转动），完成后短暂显示“✓ 已保存” */
+.save-btn { min-width: 96px; }
+.btn-spinner {
+  display: none;
+  width: 14px; height: 14px;
+  border: 2px solid rgba(255, 255, 255, .45);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: btn-spin .7s linear infinite;
+}
+@keyframes btn-spin { to { transform: rotate(360deg); } }
+.edit-card.saving .btn-spinner { display: inline-block; }
+.edit-card.saving .save-btn, .edit-card.saved .save-btn { opacity: 1; cursor: default; }
+.edit-card.saved .save-btn { background: var(--ok-fill); }
+.edit-card.saving [data-close] { opacity: .5; pointer-events: none; }
 .form-error { color: var(--red); font-size: 13px; min-height: 1em; margin: 0 0 8px; }
 .confirm-card { width: min(380px, 100%); padding: 24px; }
 .confirm-card p { margin: 0 0 18px; font-size: 15px; line-height: 1.6; }

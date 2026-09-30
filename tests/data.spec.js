@@ -6,7 +6,7 @@ test('每个事件都有类型和重要程度：类型在 types 列表中，重�
   const data = await loadDataset(page);
   const names = data.types.map((t) => t.name);
   expect(new Set(names).size).toBe(names.length);
-  // 类型颜色用作标签底色（上面是白字），对比度至少 4.5
+  // 类型颜色用作标签的文字和描边（浅色背景上），对比度至少 4.5
   const lum = (hex) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
     .map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4))
     .reduce((s, c, i) => s + c * [0.2126, 0.7152, 0.0722][i], 0);

@@ -254,6 +254,45 @@ test.describe('事件详情', () => {
     await expect(page.locator('#sourceAdd')).toBeDisabled();
   });
 
+  test('点击保存后立即显示“保存中”，完成后显示“已保存”再关闭编辑页', async ({ page }) => {
+    await openApp(page);
+    await (await visibleCard(page)).click();
+    await page.click('#detailEdit');
+    await page.fill('#editForm [name=title]', '保存动画测试');
+    // 点击后的第一帧：按钮已显示转圈和“保存中…”，而时间轴还没有开始重新排版（排版要花几百毫秒）
+    const first = await page.evaluate(() => new Promise((resolve) => {
+      const renders = document.getElementById('track').dataset.renders;
+      // 记录按钮文字的每一次变化，以及编辑页关闭时按钮显示的文字
+      const label = document.querySelector('#saveBtn .btn-label');
+      window.__labels = [];
+      new MutationObserver(() => window.__labels.push(label.textContent)).observe(label, { childList: true, characterData: true, subtree: true });
+      new MutationObserver(() => {
+        if (document.getElementById('editModal').hidden && !window.__closedWith) window.__closedWith = window.__labels.slice();
+      }).observe(document.getElementById('editModal'), { attributes: true, attributeFilter: ['hidden'] });
+      document.getElementById('saveBtn').click();
+      requestAnimationFrame(() => {
+        const btn = document.getElementById('saveBtn');
+        resolve({
+          label: btn.querySelector('.btn-label').textContent,
+          spinner: getComputedStyle(btn.querySelector('.btn-spinner')).display !== 'none',
+          disabled: btn.disabled,
+          busy: document.getElementById('editForm').getAttribute('aria-busy'),
+          relayoutStarted: document.getElementById('track').dataset.renders !== renders,
+        });
+      });
+    }));
+    expect(first).toEqual({ label: '保存中…', spinner: true, disabled: true, busy: 'true', relayoutStarted: false });
+    await expect(page.locator('#editModal')).toBeHidden();
+    // 顺序：保存中… → ✓ 已保存 → （关闭编辑页时恢复）保存
+    expect(await page.evaluate(() => window.__closedWith)).toEqual(['保存中…', '✓ 已保存', '保存']);
+    await expect(page.locator('.toast')).toContainText('已保存修改');
+    await expect(page.locator('.card-title', { hasText: '保存动画测试' })).toHaveCount(1);
+    // 再次打开编辑页时按钮恢复正常
+    await page.click('#detailEdit');
+    await expect(page.locator('#saveBtn .btn-label')).toHaveText('保存');
+    await expect(page.locator('#saveBtn')).toBeEnabled();
+  });
+
   test('在详情中删除事件', async ({ page }) => {
     await openApp(page);
     await (await visibleCard(page)).click();

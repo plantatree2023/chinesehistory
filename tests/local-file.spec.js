@@ -177,6 +177,43 @@ test.describe('界面', () => {
     expect(findEvent('贞观之治')).not.toHaveProperty('source');
   });
 
+  test('保存时等待写入完成：写入期间显示“保存中”且不能关闭；写入失败时提示并可再次保存，不会重复新增', async ({ page }) => {
+    await openLocal(page);
+    let release, fail = true;
+    const held = new Promise((r) => { release = r; });
+    await page.route('**/api/data/**', async (route) => {
+      await held;
+      if (fail) await route.fulfill({ status: 500, contentType: 'application/json', body: JSON.stringify({ error: '磁盘已满（模拟）' }) });
+      else await route.continue();
+    });
+    await page.click('#addBtn');
+    await page.fill('#editForm [name=title]', '写入等待测试');
+    await page.fill('#editForm [name=yearAbs]', '1999');
+    await page.fill('#editForm [name=short]', '用于测试本地文件模式下保存时等待写入完成的说明文字。');
+    await page.click('#saveBtn');
+    await expect(page.locator('#saveBtn .btn-label')).toHaveText('保存中…');
+    await expect(page.locator('#saveBtn .btn-spinner')).toBeVisible();
+    // 写入完成前：按 Esc、点“取消”都不会关闭编辑页，也不能重复提交
+    await page.keyboard.press('Escape');
+    await page.locator('#editForm [data-close]').last().click({ force: true });
+    await expect(page.locator('#editModal')).toBeVisible();
+    await expect(page.locator('#saveBtn')).toBeDisabled();
+
+    // 写入失败：显示原因，编辑页保留，按钮恢复
+    release();
+    await expect(page.locator('#formError')).toContainText('写入数据文件失败：磁盘已满（模拟）');
+    await expect(page.locator('#editModal')).toBeVisible();
+    await expect(page.locator('#saveBtn .btn-label')).toHaveText('保存');
+    expect(findEvent('写入等待测试')).toBeUndefined();
+
+    // 再次保存成功：只新增一个事件
+    fail = false;
+    await page.click('#saveBtn');
+    await expect(page.locator('#editModal')).toBeHidden();
+    await expect.poll(() => readData().events.filter((e) => e.title === '写入等待测试').length).toBe(1);
+    await expect(page.locator('.card-title', { hasText: '写入等待测试' })).toHaveCount(1);
+  });
+
   test('编辑和删除同样写入数据文件', async ({ page }) => {
     await openLocal(page);
     await page.click('#browseBtn');

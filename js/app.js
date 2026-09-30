@@ -253,7 +253,7 @@
   }
   function save() {
     if (fileMode) {
-      saveToFile();
+      saveToFile().catch(function (e) { toast('写入数据文件失败：' + e.message); });
       return true;
     }
     try {
@@ -293,16 +293,16 @@
   }
   // 依次写入，避免连续修改时后发的请求被先发的覆盖
   var saveQueue = Promise.resolve();
+  // 返回这一次写入的结果（失败时 reject）；队列本身吞掉错误，不影响之后的写入
   function saveToFile() {
-    saveQueue = saveQueue.then(function () {
+    var run = saveQueue.then(function () {
       return uploadInlineImages().then(function () {
         var payload = Object.assign({}, meta, { events: sorted() });
         return requestJson('api/data/' + dataset, 'PUT', payload);
       });
-    }).catch(function (e) {
-      toast('写入数据文件失败：' + e.message);
     });
-    return saveQueue;
+    saveQueue = run.catch(function () {});
+    return run;
   }
   function sorted() {
     return events.slice().sort(function (a, b) { return a.year - b.year; });
@@ -1035,11 +1035,13 @@
   }
   Array.prototype.forEach.call(document.querySelectorAll('.modal'), function (m) {
     m.addEventListener('click', function (e) {
+      if (m.id === 'editModal' && form.classList.contains('saving')) return;   // 保存过程中不关闭
       if (e.target.closest('[data-close]')) closeModal(m.id);
     });
   });
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Escape') return;
+    if (form.classList.contains('saving')) return;   // 保存过程中不关闭编辑页
     if (!$('lightbox').hidden) { closeLightbox(); return; }
     if (openStack.length) { closeModal(openStack[openStack.length - 1]); return; }
     if (sidebarOpen) closeSidebar();
@@ -1171,6 +1173,7 @@
     if (!debugMode) return;
     var ev = id ? findEvent(id) : null;
     editingId = ev ? ev.id : null;
+    setSaveState(null);
     $('editTitle').textContent = ev ? '编辑事件' : '添加新事件';
     form.reset();
     form.title.value = ev ? ev.title : '';
@@ -1400,8 +1403,23 @@
     return bad.length ? '参考链接必须以 http:// 或 https:// 开头：' + (bad[0].url || bad[0].title) : '';
   }
 
+  // 保存按钮的状态：saving（转圈 + “保存中…”）→ saved（“✓ 已保存”）→ 恢复。
+  // 保存要重新排版整条时间轴（可能要几百毫秒），先让按钮状态显示出来再开始，避免页面看起来卡住
+  function setSaveState(state) {
+    form.classList.toggle('saving', state === 'saving');
+    form.classList.toggle('saved', state === 'saved');
+    form.setAttribute('aria-busy', state === 'saving' ? 'true' : 'false');
+    $('saveBtn').disabled = !!state;
+    $('saveBtn').querySelector('.btn-label').textContent = state === 'saving' ? '保存中…' : state === 'saved' ? '✓ 已保存' : '保存';
+  }
+  function afterPaint(fn) {
+    requestAnimationFrame(function () { setTimeout(fn, 0); });
+  }
+  var SAVED_PAUSE = 450;   // “已保存”停留的时间（毫秒）
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
+    if (form.classList.contains('saving') || form.classList.contains('saved')) return;   // 防止重复提交
     var title = form.title.value.trim();
     var yAbs = parseInt(form.yearAbs.value, 10);
     var err = '';
@@ -1416,6 +1434,12 @@
       else if (tFrom === tTo) err = '时期更迭的“从”和“到”不能相同';
     }
     if (err) { $('formError').textContent = err; return; }
+    $('formError').textContent = '';
+    setSaveState('saving');
+    afterPaint(function () { commitEdit(yAbs, title, tFrom, tTo); });
+  });
+
+  function commitEdit(yAbs, title, tFrom, tTo) {
     var year = form.era.value === 'bce' ? -yAbs : yAbs;
     var data = {
       title: title,
@@ -1444,14 +1468,27 @@
       data.id = id = uid();
       events.push(data);
     }
-    save();
-    closeModal('editModal');
+    var wasEditing = !!editingId;
+    // 本地文件模式等待写入完成；浏览器模式直接保存到 localStorage
+    var written = fileMode ? saveToFile() : Promise.resolve(save());
     renderTimeline();
     renderList();
-    focusEvent(id);
-    toast(editingId ? '已保存修改' : '已添加新事件');
-    if (editingId && openStack.indexOf('detailModal') < 0 && !sidebarOpen) openDetail(id);
-  });
+    written.then(function () {
+      setSaveState('saved');
+      setTimeout(function () {
+        setSaveState(null);
+        closeModal('editModal');
+        focusEvent(id);
+        toast(wasEditing ? '已保存修改' : '已添加新事件');
+        if (wasEditing && openStack.indexOf('detailModal') < 0 && !sidebarOpen) openDetail(id);
+      }, SAVED_PAUSE);
+    }, function (e) {
+      // 写入失败：修改仍保留在页面中，编辑页不关闭，可以再次保存
+      setSaveState(null);
+      editingId = id;
+      $('formError').textContent = '写入数据文件失败：' + e.message + '。修改仍保留在页面中，可以再次点击保存。';
+    });
+  }
 
   $('addBtn').addEventListener('click', function () { openEditor(null); });
 

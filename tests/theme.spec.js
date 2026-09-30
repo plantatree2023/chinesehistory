@@ -59,6 +59,25 @@ for (const scheme of ['light', 'dark']) {
 
       await page.click('#browseBtn');
       const panel = await luminance(page, '.sidebar', 'backgroundColor');
+      // 类型标签（描边 + 彩色文字）：每种类型的文字在侧栏背景上都足够清楚
+      const tagContrast = await page.evaluate(() => {
+        const lum = (css) => {
+          // 'rgb(r, g, b)' 或 color-mix 得到的 'color(srgb r g b)'（0–1）
+          const srgb = /^color\(srgb/.test(css);
+          const m = css.match(/[\d.]+/g).map(Number).slice(0, 3).map((v) => (srgb ? v * 255 : v));
+          const f = (c) => { c /= 255; return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; };
+          return 0.2126 * f(m[0]) + 0.7152 * f(m[1]) + 0.0722 * f(m[2]);
+        };
+        const bg = lum(getComputedStyle(document.querySelector('.sidebar')).backgroundColor);
+        const seen = {};
+        for (const t of document.querySelectorAll('.list-type')) {
+          const c = lum(getComputedStyle(t).color);
+          seen[t.textContent] = (Math.max(c, bg) + 0.05) / (Math.min(c, bg) + 0.05);
+        }
+        return seen;
+      });
+      expect(Object.keys(tagContrast).length).toBeGreaterThanOrEqual(8);
+      for (const [name, ratio] of Object.entries(tagContrast)) expect(ratio, `${name} 标签`).toBeGreaterThan(4.5);
       const input = await luminance(page, '#searchInput', 'backgroundColor');
       expect(contrast(await luminance(page, '.list-title', 'color'), panel)).toBeGreaterThan(7);
       if (scheme === 'dark') { expect(panel).toBeLessThan(0.05); expect(input).toBeLessThan(0.05); }

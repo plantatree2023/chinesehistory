@@ -10,6 +10,11 @@ const eraOf = (eras, year) => eras.filter((e) => year >= e.start).pop() || eras[
 // '#c0892f' -> 'rgb(192, 137, 47)'
 // 重大事件：重要程度 majorScore 为 8–10（与网站的三级图片大小一致）
 const isMajor = (e) => e.majorScore >= 8;
+// 浏览器给出的颜色（'rgb(…)' 或 color-mix 得到的 'color(srgb 0–1 …)'）→ 'rgb(r, g, b)'，便于比较
+const norm = (css) => {
+  const m = /^color\(srgb ([\d.]+) ([\d.]+) ([\d.]+)/.exec(css);
+  return m ? `rgb(${m.slice(1, 4).map((v) => Math.round(v * 255)).join(', ')})` : css;
+};
 const rgb = (hex) => `rgb(${[1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)).join(', ')})`;
 
 const eraMenu = (page) => page.locator('.ms[data-name="era"] .ms-menu');
@@ -66,7 +71,7 @@ test.describe('事件类型下拉列表', () => {
   const typeTrigger = (page) => page.locator('.ms[data-name="type"] .ms-trigger');
   const typeOption = (page, name) => page.locator(`.ms[data-name="type"] .ms-option[data-value="${name}"]`);
 
-  test('选项按数据集 types 的顺序排列，带事件数和类型颜色；可多选', async ({ page }) => {
+  test('选项按数据集 types 的顺序排列，带事件数和类型颜色（描边、不填充，与朝代的实心色块区分）；可多选', async ({ page }) => {
     await openApp(page);
     const { types, events } = await loadDataset(page);
     await openFilters(page);
@@ -76,15 +81,28 @@ test.describe('事件类型下拉列表', () => {
     const shown = types.filter((t) => counts[t.name]);
     expect(await page.locator('.ms[data-name="type"] .ms-option').allTextContents()).toEqual(shown.map((t) => `${t.name}${counts[t.name]}`));
     for (const t of shown) {
-      const color = await typeOption(page, t.name).locator('.ms-swatch').evaluate((n) => getComputedStyle(n).backgroundColor);
-      expect(color, `${t.name} 的颜色`).toBe(rgb(t.color));
+      const sw = await typeOption(page, t.name).locator('.ms-swatch').evaluate((n) => {
+        const cs = getComputedStyle(n);
+        return { border: cs.borderTopColor, width: cs.borderTopWidth, bg: cs.backgroundColor, radius: cs.borderTopLeftRadius };
+      });
+      sw.border = norm(sw.border);
+      expect(sw, `${t.name} 的颜色`).toEqual({ border: rgb(t.color), width: '2px', bg: 'rgba(0, 0, 0, 0)', radius: '0px' });
     }
+    // 朝代的色块仍是实心的
+    await typeTrigger(page).click();
+    await eraTrigger(page).click();
+    const era = await page.locator('.ms[data-name="era"] .ms-option .ms-swatch').first().evaluate((n) => getComputedStyle(n).backgroundColor);
+    expect(era).not.toBe('rgba(0, 0, 0, 0)');
+    await eraTrigger(page).click();
+    await typeTrigger(page).click();
     await typeOption(page, '科技').click();
     await expectTitles(page, events.filter((e) => e.type === '科技'));
     await typeOption(page, '经济').click();
     await expectTitles(page, events.filter((e) => ['科技', '经济'].includes(e.type)));
     await expect(typeTrigger(page).locator('.ms-tag')).toHaveText(['科技', '经济']);
-    // 列表中每项都显示类型标签
+    // 列表中每项都显示类型标签：类型色的文字和描边，透明底
+    const tag = await page.locator('.list-type').first().evaluate((n) => { const cs = getComputedStyle(n); return [cs.color, cs.borderTopColor, cs.backgroundColor]; });
+    expect(tag.map(norm)).toEqual([rgb(types.find((t) => t.name === '科技').color), rgb(types.find((t) => t.name === '科技').color), 'rgba(0, 0, 0, 0)']);
     await expect(page.locator('.list-type')).toHaveText(events.filter((e) => ['科技', '经济'].includes(e.type)).sort((a, b) => a.year - b.year).map((e) => e.type));
     await expect(page.locator('#filterBadge')).toHaveText('1');
   });
