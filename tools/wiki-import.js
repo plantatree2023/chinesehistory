@@ -17,7 +17,8 @@
 //   （data/cn_zh.json → images/），按内容哈希命名、同一张图只存一份，并记录宽高；网站只从本地加载图片。
 //   单张图片下载失败时跳过该图片并给出提示。
 // - 已存在的条目（事件名与关键词相同，或对应同一维基条目）：更新详细说明、来源等来自维基的内容，
-//   保留事件名、年份、简要说明、重大事件标记等人工内容；若指定了年份，则同时更新年份。
+//   保留事件名、年份、简要说明、类型、重要程度等人工内容；若指定了年份，则同时更新年份。
+//   参考链接（sources）中同一维基站点的链接会更新为当前条目地址（没有时加在最前面），其他链接保持不变。
 //   已有图片默认保留（没有图片的条目会从维基补上）；加 --refresh-images 则用维基的图片整组替换。
 // - 新条目：事件名使用关键词；年份依次取自：指定的年份 → Wikidata（时间点 / 开始时间 / 成立时间 / 出生日期等）
 //   → 简介文字中的第一个年份（会提示核对）；都无法确定时不新增并报错。
@@ -416,8 +417,23 @@ function findExisting(events, keyword, wikiTitle) {
   const norm = (t) => (t || '').replace(/_/g, ' ');
   return events.find((e) => e.title === keyword)
     || events.find((e) => norm(e.wiki) === norm(wikiTitle))
-    || events.find((e) => norm(titleFromSource(e.source)) === norm(wikiTitle))
+    || events.find((e) => sourcesOf(e).some((s) => norm(titleFromSource(s.url)) === norm(wikiTitle)))
     || null;
+}
+
+// 参考链接列表（兼容旧版本的单个 source 字段）
+function sourcesOf(ev) {
+  if (Array.isArray(ev.sources)) return ev.sources;
+  return ev.source ? [{ url: ev.source }] : [];
+}
+
+// 更新维基链接：替换列表中第一条同一维基站点的链接（保留其标题），没有时加在最前面；其他链接不变
+function mergeWikiSource(sources, url, wikiBase) {
+  const host = new URL(wikiBase).host;
+  const sameWiki = (s) => { try { return new URL(s.url).host === host; } catch { return false; } };
+  const i = sources.findIndex(sameWiki);
+  if (i < 0) return [{ url }, ...sources];
+  return sources.map((s, k) => (k === i ? { ...s, url } : s));
 }
 
 function nextId(events) {
@@ -427,7 +443,7 @@ function nextId(events) {
   return `e${String(n).padStart(3, '0')}`;
 }
 
-const FIELD_NAMES = { title: '事件名', year: '年份', date: '时间', short: '简要说明', detail: '详细说明', images: '图片', source: '来源', type: '类型', majorScore: '重要程度', wiki: '维基条目' };
+const FIELD_NAMES = { title: '事件名', year: '年份', date: '时间', short: '简要说明', detail: '详细说明', images: '图片', sources: '参考链接', type: '类型', majorScore: '重要程度', wiki: '维基条目' };
 
 function changedFields(before, after) {
   return Object.keys(FIELD_NAMES).filter((k) => JSON.stringify(before[k]) !== JSON.stringify(after[k]));
@@ -494,9 +510,9 @@ async function importOne(client, data, info, { keyword, year, type, score }, opt
   const text = cleanExtract(summary.extract);
   const media = await client.mediaList(wikiTitle);
   const candidates = makeImages(summary, media);   // 维基图片地址，下载后才写入数据
+  const wikiUrl = pageUrl(client.wikiBase, wikiTitle);
   const fromWiki = {
     detail: makeDetail(text),
-    source: pageUrl(client.wikiBase, wikiTitle),
     wiki: wikiTitle,
   };
 
@@ -505,7 +521,8 @@ async function importOne(client, data, info, { keyword, year, type, score }, opt
   let when = year != null ? { year, precision: 9, from: '指定' } : null;
 
   if (existing) {
-    const updated = { ...existing, ...fromWiki };
+    const updated = { ...existing, ...fromWiki, sources: mergeWikiSource(sourcesOf(existing), wikiUrl, client.wikiBase) };
+    delete updated.source;   // 旧版本的单个参考链接，已并入 sources
     if (when) Object.assign(updated, { year: when.year, date: dateLabel(when.year, when.precision, info.lang) });
     const cls = await classify(client, data, info, { summary, text, title: existing.title, year: updated.year, existing, given });
     Object.assign(updated, cls.fields);
@@ -546,7 +563,7 @@ async function importOne(client, data, info, { keyword, year, type, score }, opt
     short: makeShort(text),
     detail: fromWiki.detail,
     images: [],
-    source: fromWiki.source,
+    sources: [{ url: wikiUrl }],
     ...cls.fields,
     wiki: fromWiki.wiki,
   };

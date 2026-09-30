@@ -73,6 +73,18 @@
 
   function transitionText(t) { return t.from + ' → ' + t.to; }
 
+  // 参考链接：sources 为 [{ url, title }]；兼容旧版本保存在浏览器中的单个 source 字段
+  var MAX_SOURCES = 10;
+  function sourcesOf(ev) {
+    if (Array.isArray(ev.sources)) return ev.sources.filter(function (s) { return s && s.url; });
+    return ev.source ? [{ url: ev.source }] : [];
+  }
+  function isWikipedia(s) { return /^https?:\/\/[^/]*wikipedia\.org\//.test(s.url); }
+  function sourceLabel(s) {
+    if (s.title) return s.title;
+    return isWikipedia(s) ? '维基百科' : s.url;
+  }
+
   // 事件类型：顺序和颜色来自数据集的 types；数据中出现但不在列表里的类型排在后面（灰色），没有类型的归为“未分类”
   var TYPES = [];
   var UNTYPED_COLOR = '#8a8178';
@@ -1062,7 +1074,6 @@
       tag.style.setProperty('--chip-color', typeInfo(ev.type).color);
       tagBox.appendChild(tag);
     }
-    tagBox.appendChild(el('span', 'score-tag', '重要程度 ' + scoreOf(ev) + ' / 10'));
     $('detailTransition').hidden = !ev.transition;
     $('detailTransition').textContent = ev.transition ? '时期更迭：' + transitionText(ev.transition) : '';
     $('detailTitle').textContent = ev.title;
@@ -1079,12 +1090,19 @@
     });
     var src = $('detailSource');
     src.innerHTML = '';
-    if (ev.source) {
-      src.appendChild(document.createTextNode('资料来源：'));
-      var a = el('a', null, ev.source.indexOf('wikipedia.org') > -1 ? '维基百科' : ev.source);
-      a.href = ev.source; a.target = '_blank'; a.rel = 'noopener';
-      src.appendChild(a);
-      if (ev.source.indexOf('wikipedia.org') > -1) src.appendChild(document.createTextNode('（文字与图片遵循 CC BY-SA 等相应许可）'));
+    var links = sourcesOf(ev);
+    if (links.length) {
+      src.appendChild(el('span', 'source-label', '参考链接：'));
+      var ul = el('ul', 'source-list');
+      links.forEach(function (s) {
+        var li = el('li');
+        var a = el('a', null, sourceLabel(s));
+        a.href = s.url; a.target = '_blank'; a.rel = 'noopener';
+        li.appendChild(a);
+        ul.appendChild(li);
+      });
+      src.appendChild(ul);
+      if (links.some(isWikipedia)) src.appendChild(el('p', 'source-note', '来自维基百科的文字与图片遵循 CC BY-SA 等相应许可'));
     }
     openModal('detailModal');
     $('detailModal').querySelector('.modal-card').scrollTop = 0;
@@ -1158,7 +1176,8 @@
     form.date.value = ev ? (ev.date || '') : '';
     form.short.value = ev ? (ev.short || '') : '';
     form.detail.value = ev ? (ev.detail || '') : '';
-    form.source.value = ev ? (ev.source || '') : '';
+    draftSources = ev ? clone(sourcesOf(ev)) : [];
+    renderSourceEditor();
     form.majorScore.value = String(ev ? scoreOf(ev) : DEFAULT_SCORE);
     var typeSel = form.type;
     typeSel.innerHTML = '';
@@ -1321,6 +1340,62 @@
     });
   });
 
+  // ---------- 编辑页：参考链接（可增删改） ----------
+  var draftSources = [];
+  function renderSourceEditor() {
+    var box = $('sourceEditor');
+    box.innerHTML = '';
+    draftSources.forEach(function (src, i) {
+      var li = el('li', 'source-row');
+      var url = el('input', 'source-url');
+      url.type = 'url';
+      url.placeholder = 'https://…';
+      url.value = src.url || '';
+      url.setAttribute('aria-label', '第 ' + (i + 1) + ' 条参考链接的网址');
+      url.addEventListener('input', function () { src.url = url.value; });
+      var title = el('input', 'source-title');
+      title.type = 'text';
+      title.maxLength = 60;
+      title.placeholder = '标题（可选）';
+      title.value = src.title || '';
+      title.setAttribute('aria-label', '第 ' + (i + 1) + ' 条参考链接的标题');
+      title.addEventListener('input', function () { src.title = title.value; });
+      var rm = el('button', 'icon-btn source-remove', '×');
+      rm.type = 'button';
+      rm.title = '删除这条链接';
+      rm.setAttribute('aria-label', '删除第 ' + (i + 1) + ' 条参考链接');
+      rm.addEventListener('click', function () {
+        draftSources.splice(i, 1);
+        renderSourceEditor();
+      });
+      li.appendChild(url);
+      li.appendChild(title);
+      li.appendChild(rm);
+      box.appendChild(li);
+    });
+    $('sourceAdd').disabled = draftSources.length >= MAX_SOURCES;
+  }
+  $('sourceAdd').addEventListener('click', function () {
+    if (draftSources.length >= MAX_SOURCES) return;
+    draftSources.push({ url: '', title: '' });
+    renderSourceEditor();
+    var inputs = $('sourceEditor').querySelectorAll('.source-url');
+    inputs[inputs.length - 1].focus();
+  });
+  // 保存用的参考链接：去掉首尾空格和空行，标题为空时不写 title；网址无效时返回错误说明
+  function cleanSources() {
+    return draftSources.map(function (s) {
+      var out = { url: (s.url || '').trim() };
+      var t = (s.title || '').trim();
+      if (t) out.title = t;
+      return out;
+    }).filter(function (s) { return s.url || s.title; });
+  }
+  function sourcesError() {
+    var bad = cleanSources().filter(function (s) { return !/^https?:\/\/\S+$/.test(s.url); });
+    return bad.length ? '参考链接必须以 http:// 或 https:// 开头：' + (bad[0].url || bad[0].title) : '';
+  }
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var title = form.title.value.trim();
@@ -1331,6 +1406,7 @@
     else if (form.detail.value.length > MAX_DETAIL) err = '详细说明不能超过 350 字';
     else if (charCount(form.short.value) < MIN_SUMMARY && charCount(form.detail.value) < MIN_SUMMARY) err = '请至少填写 20 字的说明（简要说明或详细说明），时间轴上会显示这段文字';
     var tFrom = form.transitionFrom.value, tTo = form.transitionTo.value;
+    if (!err) err = sourcesError();
     if (!err && (tFrom || tTo)) {
       if (!tFrom || !tTo) err = '时期更迭需要同时选择“从”和“到”';
       else if (tFrom === tTo) err = '时期更迭的“从”和“到”不能相同';
@@ -1346,7 +1422,7 @@
       images: draftImages.slice(0, MAX_IMAGES).map(function (im) {
         return Object.assign({}, im, { caption: (im.caption || '').trim() });
       }),
-      source: form.source.value.trim(),
+      sources: cleanSources(),
       majorScore: parseInt(form.majorScore.value, 10) || DEFAULT_SCORE
     };
     if (tFrom) data.transition = { from: tFrom, to: tTo };
@@ -1357,7 +1433,8 @@
       Object.keys(data).forEach(function (k) { ev[k] = data[k]; });
       if (!tFrom) delete ev.transition;
       if (!form.type.value) delete ev.type;
-      delete ev.major;   // 旧版本的重大事件标记，已由 majorScore 代替
+      delete ev.major;    // 旧版本的重大事件标记，已由 majorScore 代替
+      delete ev.source;   // 旧版本的单个参考链接，已由 sources 代替
       id = ev.id;
     } else {
       data.id = id = uid();
@@ -1761,9 +1838,67 @@
     setBarsHidden(!document.body.classList.contains('bars-hidden'));
   });
 
+  // ---------- 下拉刷新（触屏设备） ----------
+  // 页面本身不滚动（浏览器自带的下拉刷新因此不可用，CSS 中也关闭了它以免重复触发），这里自己实现：
+  // 手指向下拉（竖直方向明显大于水平方向，横向拖动时间轴不受影响）超过阈值后松开即刷新。
+  // 侧栏、弹窗、图片查看器打开时，或在可滚动且未滚到顶部的区域内，不触发。
+  var PTR_THRESHOLD = 70;   // 提示条下移的距离（px）达到该值后松开即刷新
+  var ptr = { state: null, x: 0, y: 0, dist: 0 };
+  var ptrEl = $('ptr');
+  function ptrBlocked(target) {
+    if (openStack.length || sidebarOpen || !$('lightbox').hidden) return true;
+    for (var n = target; n && n !== document.body; n = n.parentElement) {
+      if (n.scrollTop > 0) return true;
+    }
+    return false;
+  }
+  function ptrShow(dist) {
+    var ready = dist >= PTR_THRESHOLD;
+    ptrEl.style.transform = 'translate(-50%, ' + (dist - 48) + 'px)';
+    ptrEl.style.opacity = String(Math.min(1, dist / 40));
+    ptrEl.classList.toggle('ready', ready);
+    ptrEl.querySelector('.ptr-text').textContent = ready ? '释放刷新' : '下拉刷新';
+  }
+  function ptrReset() {
+    ptr.state = null;
+    ptrEl.classList.remove('pulling', 'ready');
+    ptrEl.style.transform = '';
+    ptrEl.style.opacity = '';
+  }
+  document.addEventListener('touchstart', function (e) {
+    if (e.touches.length !== 1 || ptr.state === 'refreshing' || ptrBlocked(e.target)) { ptr.state = null; return; }
+    ptr.state = 'maybe';
+    ptr.x = e.touches[0].clientX;
+    ptr.y = e.touches[0].clientY;
+  }, { passive: true });
+  document.addEventListener('touchmove', function (e) {
+    if (!ptr.state || ptr.state === 'refreshing' || e.touches.length !== 1) return;
+    var dx = e.touches[0].clientX - ptr.x, dy = e.touches[0].clientY - ptr.y;
+    if (ptr.state === 'maybe') {
+      if (Math.abs(dx) > 10 && Math.abs(dx) >= dy) { ptr.state = null; return; }   // 横向拖动时间轴
+      if (dy < 12 || dy < Math.abs(dx) * 1.5) return;
+      ptr.state = 'pulling';
+      ptrEl.classList.add('pulling');
+    }
+    ptr.dist = Math.min(110, Math.max(0, dy) * 0.55);   // 阻尼：手指移动越远，提示条移动越慢
+    ptrShow(ptr.dist);
+  }, { passive: true });
+  function ptrEnd() {
+    if (ptr.state !== 'pulling') { if (ptr.state !== 'refreshing') ptr.state = null; return; }
+    if (ptr.dist >= PTR_THRESHOLD) {
+      ptr.state = 'refreshing';
+      ptrEl.classList.add('refreshing');
+      ptrEl.querySelector('.ptr-text').textContent = '正在刷新…';
+      location.reload();
+    } else {
+      ptrReset();
+    }
+  }
+  document.addEventListener('touchend', ptrEnd);
+  document.addEventListener('touchcancel', function () { if (ptr.state !== 'refreshing') ptrReset(); });
+
   // ---------- 深色模式 ----------
-  // <html data-theme> 由 index.html 中的脚本在绘制前设置（用户选过的优先，否则跟随系统）。
-  // 点击按钮切换并保存选择；没有保存选择时，随系统设置变化。
+  // 默认浅色（日间）；点击右上角按钮切换并保存选择。<html data-theme> 由 index.html 中的脚本在绘制前设置
   var THEME_KEY = 'zh-history-timeline:theme';
   var themeBtn = $('themeToggle');
   function applyTheme(theme) {
@@ -1772,21 +1907,12 @@
     themeBtn.setAttribute('aria-label', label);
     themeBtn.title = label;
   }
-  function savedTheme() {
-    try { var t = localStorage.getItem(THEME_KEY); return t === 'light' || t === 'dark' ? t : null; } catch (e) { return null; }
-  }
   applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
   themeBtn.addEventListener('click', function () {
     var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     applyTheme(next);
     try { localStorage.setItem(THEME_KEY, next); } catch (e) { /* 只在本次访问中生效 */ }
   });
-  if (window.matchMedia) {
-    var systemDark = window.matchMedia('(prefers-color-scheme: dark)');
-    var onSystemChange = function (e) { if (!savedTheme()) applyTheme(e.matches ? 'dark' : 'light'); };
-    if (systemDark.addEventListener) systemDark.addEventListener('change', onSystemChange);
-    else if (systemDark.addListener) systemDark.addListener(onSystemChange);
-  }
 
   // ---------- 调试模式（默认关闭） ----------
   // 开启后在顶栏下方显示网站最近更新时间，并显示全部编辑功能（新增、编辑、删除、恢复默认数据）。

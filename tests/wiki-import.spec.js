@@ -151,7 +151,8 @@ test.describe('单个关键词', () => {
     expect(r.stdout).toContain('类型 战争，重要程度 6');
     expect(r.stdout).toContain('类型“战争”由 Wikidata 性质推断，请核对');
     expect(r.stdout).toContain('重要程度 6 根据 Wikidata 语言版本数（50 个）估算，请核对');
-    expect(ev.source).toBe(`${base}/wiki/${encodeURIComponent('测试战役')}`);
+    expect(ev.sources).toEqual([{ url: `${base}/wiki/${encodeURIComponent('测试战役')}` }]);
+    expect(ev).not.toHaveProperty('source');
     expect(ev.detail.length).toBeLessThanOrEqual(350);
     expect(ev.detail).not.toContain('英语');
     expect(charCount(ev.short)).toBeGreaterThanOrEqual(20);
@@ -194,6 +195,36 @@ test.describe('单个关键词', () => {
     expect(wiki.hits.some((h) => h.includes('EntityData'))).toBe(false);
     expect(ev.images, '已有图片保持不变').toEqual(target.images);
     expect(wiki.hits.some((h) => h.startsWith('/img/')), '不应下载图片').toBe(false);
+  });
+
+  test('参考链接：更新同一维基站点的链接并保留标题，其他链接不变；没有维基链接时加在最前面；旧的 source 字段并入', async () => {
+    const data = readData();
+    const a = data.events.find((e) => e.title === '赤壁之战');
+    const b = data.events.find((e) => e.title === '官渡之战');
+    const c = data.events.find((e) => e.title === '淝水之战');
+    a.sources = [{ url: 'https://example.org/chibi', title: '三国志' }, { url: 'https://zh.wikipedia.org/wiki/old', title: '维基：赤壁' }];
+    b.sources = [{ url: 'https://example.org/guandu' }];
+    delete c.sources;
+    c.source = 'https://example.org/feishui';
+    fs.writeFileSync(dataFile, JSON.stringify(data, null, 2));
+    const base = await startWiki({
+      赤壁之战: page('赤壁之战', '赤壁之战的简介，来自模拟的维基百科。'),
+      官渡之战: page('官渡之战', '官渡之战的简介，来自模拟的维基百科。'),
+      淝水之战: page('淝水之战', '淝水之战的简介，来自模拟的维基百科。'),
+    });
+    // 模拟服务与真实维基不是同一站点：先把 a 的维基链接改成模拟服务的地址
+    const d2 = readData();
+    d2.events.find((e) => e.title === '赤壁之战').sources[1].url = `${base}/wiki/old`;
+    fs.writeFileSync(dataFile, JSON.stringify(d2, null, 2));
+
+    const r = await run(['--file', dataFile, '赤壁之战', '官渡之战', '淝水之战'], base);
+    expect(r.code, r.stdout + r.stderr).toBe(0);
+    const url = (t) => `${base}/wiki/${encodeURIComponent(t)}`;
+    expect(find('赤壁之战').sources).toEqual([{ url: 'https://example.org/chibi', title: '三国志' }, { url: url('赤壁之战'), title: '维基：赤壁' }]);
+    expect(find('官渡之战').sources).toEqual([{ url: url('官渡之战') }, { url: 'https://example.org/guandu' }]);
+    expect(find('淝水之战').sources).toEqual([{ url: url('淝水之战') }, { url: 'https://example.org/feishui' }]);
+    expect(find('淝水之战')).not.toHaveProperty('source');
+    expect(() => validateDataset('cn_zh', readData())).not.toThrow();
   });
 
   test('--refresh-images 用维基图片整组替换已有图片', async () => {

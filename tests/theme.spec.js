@@ -1,4 +1,4 @@
-// 深色模式：默认跟随系统设置；右上角按钮切换并记住选择；各处文字与背景有足够对比度。
+// 深色模式：默认浅色（日间），不随系统设置变化；右上角按钮切换并记住选择；两种配色下文字与背景都有足够对比度。
 const { test, expect, openApp, layoutMetrics, MAX_PER_SCREEN } = require('./helpers');
 
 const THEME_KEY = 'zh-history-timeline:theme';
@@ -15,18 +15,35 @@ const luminance = (page, selector, prop) => page.evaluate(({ selector, prop }) =
 }, { selector, prop });
 const contrast = (a, b) => (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
 
-for (const scheme of ['light', 'dark']) {
-  test.describe(`系统为${scheme === 'dark' ? '深色' : '浅色'}`, () => {
-    test.use({ colorScheme: scheme });
+for (const system of ['light', 'dark']) {
+  test(`默认为浅色，系统设置为${system === 'dark' ? '深色' : '浅色'}时也一样`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme: system });
+    await openApp(page);
+    expect(await theme(page)).toBe('light');
+    expect(await luminance(page, 'body', 'backgroundColor')).toBeGreaterThan(0.7);
+    await expect(page.locator('#themeToggle')).toHaveAttribute('aria-label', '切换到深色模式');
+    await expect(page.locator('#themeToggle .icon-moon')).toBeVisible();
+    await expect(page.locator('#themeToggle .icon-sun')).toBeHidden();
+    // 系统设置变化不影响
+    await page.emulateMedia({ colorScheme: system === 'dark' ? 'light' : 'dark' });
+    await page.waitForTimeout(100);
+    expect(await theme(page)).toBe('light');
+  });
+}
 
-    test('默认跟随系统设置', async ({ page }) => {
+// 两种配色分别检查：通过保存的选择进入深色模式
+for (const scheme of ['light', 'dark']) {
+  test.describe(`${scheme === 'dark' ? '深色' : '浅色'}模式`, () => {
+    test.beforeEach(async ({ page }) => {
+      await page.addInitScript(({ k, v }) => localStorage.setItem(k, v), { k: THEME_KEY, v: scheme });
+    });
+
+    test('使用对应配色', async ({ page }) => {
       await openApp(page);
       expect(await theme(page)).toBe(scheme);
       const bg = await luminance(page, 'body', 'backgroundColor');
       if (scheme === 'dark') expect(bg).toBeLessThan(0.05); else expect(bg).toBeGreaterThan(0.7);
-      await expect(page.locator('#themeToggle')).toHaveAttribute('aria-label', scheme === 'dark' ? '切换到浅色模式' : '切换到深色模式');
       await expect(page.locator(`#themeToggle .icon-${scheme === 'dark' ? 'sun' : 'moon'}`)).toBeVisible();
-      await expect(page.locator(`#themeToggle .icon-${scheme === 'dark' ? 'moon' : 'sun'}`)).toBeHidden();
     });
 
     test('文字与背景的对比度足够，输入框等也使用对应配色', async ({ page }) => {
@@ -64,8 +81,7 @@ for (const scheme of ['light', 'dark']) {
   });
 }
 
-test('点击按钮切换并记住选择，刷新后保持，优先于系统设置', async ({ page }) => {
-  await page.emulateMedia({ colorScheme: 'light' });
+test('点击按钮切换并记住选择，刷新后保持', async ({ page }) => {
   await openApp(page);
   expect(await theme(page)).toBe('light');
   await page.click('#themeToggle');
@@ -74,23 +90,11 @@ test('点击按钮切换并记住选择，刷新后保持，优先于系统设�
   expect(await page.evaluate((k) => localStorage.getItem(k), THEME_KEY)).toBe('dark');
   await page.reload();
   expect(await theme(page)).toBe('dark');
-  // 用户选过之后，系统设置变化不再影响
-  await page.emulateMedia({ colorScheme: 'dark' });
   await page.emulateMedia({ colorScheme: 'light' });
   expect(await theme(page)).toBe('dark');
   await page.click('#themeToggle');
   expect(await theme(page)).toBe('light');
   expect(await page.evaluate((k) => localStorage.getItem(k), THEME_KEY)).toBe('light');
-});
-
-test('没有选择过时随系统设置实时变化', async ({ page }) => {
-  await page.emulateMedia({ colorScheme: 'light' });
-  await openApp(page);
-  expect(await theme(page)).toBe('light');
-  await page.emulateMedia({ colorScheme: 'dark' });
-  await expect.poll(() => theme(page)).toBe('dark');
-  await page.emulateMedia({ colorScheme: 'light' });
-  await expect.poll(() => theme(page)).toBe('light');
 });
 
 test('页面在绘制前就确定配色（不先闪一下浅色）', async ({ page }) => {

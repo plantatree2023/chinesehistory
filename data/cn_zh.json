@@ -266,7 +266,11 @@
           "caption": "元谋人博物馆"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%85%83%E8%B0%8B%E4%BA%BA",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%85%83%E8%B0%8B%E4%BA%BA"
+        }
+      ],
       "type": "史前",
       "majorScore": 6
     },
@@ -309,7 +313,11 @@
           "caption": ""
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%8C%97%E4%BA%AC%E7%8C%BF%E4%BA%BA",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%8C%97%E4%BA%AC%E7%8C%BF%E4%BA%BA"
+        }
+      ],
       "type": "史前",
       "majorScore": 8
     },
@@ -358,7 +366,11 @@
           "caption": "周口店遗址博物馆"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%B1%B1%E9%A1%B6%E6%B4%9E%E4%BA%BA",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%B1%B1%E9%A1%B6%E6%B4%9E%E4%BA%BA"
+        }
+      ],
       "type": "史前",
       "majorScore": 4
     },
@@ -383,7 +395,11 @@
           "caption": "河姆渡遗址模拟的干栏式建筑发掘现场"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E6%B2%B3%E5%A7%86%E6%B8%A1%E6%96%87%E5%8C%96",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E6%B2%B3%E5%A7%86%E6%B8%A1%E6%96%87%E5%8C%96"
+        }
+      ],
       "type": "史前",
       "majorScore": 5
     },
@@ -420,7 +436,11 @@
           "caption": "汉藏语系的起源与传播。红椭圆是磁山晚期和仰韶早期的文化，即汉藏语系的假定起源。黑色箭头是藏缅语族从汉藏语系分开后向西扩张的假定迁移途径。在将语言比较方法应用于沙"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E4%BB%B0%E9%9F%B6%E6%96%87%E5%8C%96",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E4%BB%B0%E9%9F%B6%E6%96%87%E5%8C%96"
+        }
+      ],
       "type": "史前",
       "majorScore": 5
     },
@@ -487,7 +507,11 @@
           "caption": "良渚玉琮上的人面兽面纹"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E8%89%AF%E6%B8%9A%E6%96%87%E5%8C%96",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E8%89%AF%E6%B8%9A%E6%96%87%E5%8C%96"
+        }
+      ],
       "type": "史前",
       "majorScore": 5
     },
@@ -542,7 +566,11 @@
           "caption": "位于中华人民共和国湖北省神农架林区，祭祀炎帝神农的神农坛。雕塑为人身牛首的形象"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E6%B6%BF%E9%B9%BF%E4%B9%8B%E6%88%B0",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E6%B6%BF%E9%B9%BF%E4%B9%8B%E6%88%B0"
+        }
+      ],
       "type": "战争",
       "majorScore": 4
     },
@@ -567,7 +595,11 @@
           "caption": "玉器，现藏于山东博物馆"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E9%BE%99%E5%B1%B1%E6%96%87%E5%8C%96",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E9%BE%99%E5%B1%B1%E6%96%87%E5%8C%96"
+        }
+      ],
       "type": "史前",
       "majorScore": 4
     },
@@ -610,7 +642,11 @@
           "caption": "夏禹治水"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E9%B2%A7%E7%A6%B9%E6%B2%BB%E6%B0%B4",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E9%B2%A7%E7%A6%B9%E6%B2%BB%E6%B0%B4"
+        }
+      ],
       "type": "社会",
       "majorScore": 5
     },
@@ -681,7 +717,11 @@
           "caption": ""
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%A4%8F%E6%9C%9D",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%A4%8F%E6%9C%9D"
+        }
+      ],
       "type": "政治",
       "majorScore": 7
     },
@@ -752,7 +792,11 @@
           "caption": ""
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%95%86%E6%9C%9D",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%95%86%E6%9C%9D"
+        }
+      ],
       "type": "政治",
       "majorScore": 5
     },
@@ -819,7 +863,11 @@
           "caption": ""
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E7%94%B2%E9%AA%A8%E6%96%87",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E7%94%B2%E9%AA%A8%E6%96%87"
+        }
+      ],
       "type": "文化",
       "majorScore": 8
     },
@@ -850,7 +898,11 @@
           "caption": "蒋介石参观司母戊大方鼎"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%90%8E%E6%AF%8D%E6%88%8A%E9%BC%8E",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%90%8E%E6%AF%8D%E6%88%8A%E9%BC%8E"
+        }
+      ],
       "type": "文化",
       "majorScore": 4
     },
@@ -897,7 +949,11 @@
           "caption": "带卜辞圣水牛头骨，记载帝辛十年商王猎得白兕。"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E7%89%A7%E9%87%8E%E4%B9%8B%E6%88%98",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E7%89%A7%E9%87%8E%E4%B9%8B%E6%88%98"
+        }
+      ],
       "type": "战争",
       "majorScore": 6
     },
@@ -922,7 +978,11 @@
           "caption": "《宗周钟》"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%9B%BD%E4%BA%BA%E6%9A%B4%E5%8A%A8",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%9B%BD%E4%BA%BA%E6%9A%B4%E5%8A%A8"
+        }
+      ],
       "type": "社会",
       "majorScore": 3
     },
@@ -951,7 +1011,11 @@
           "caption": ""
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%91%A8%E5%B9%B3%E7%8E%8B%E4%B8%9C%E8%BF%81",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%91%A8%E5%B9%B3%E7%8E%8B%E4%B8%9C%E8%BF%81"
+        }
+      ],
       "type": "政治",
       "majorScore": 5
     },
@@ -1018,7 +1082,11 @@
           "caption": "嘉定孔庙"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%AD%94%E5%AD%90",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%AD%94%E5%AD%90"
+        }
+      ],
       "type": "文化",
       "majorScore": 9
     },
@@ -1055,7 +1123,11 @@
           "caption": "西夏文的草书《孙子兵法》局部，藏于宁夏档案馆"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%AD%99%E5%AD%90%E5%85%B5%E6%B3%95",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%AD%99%E5%AD%90%E5%85%B5%E6%B3%95"
+        }
+      ],
       "type": "文化",
       "majorScore": 5
     },
@@ -1108,7 +1180,11 @@
           "caption": ""
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E4%B8%89%E5%AE%B6%E5%88%86%E6%99%8B",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E4%B8%89%E5%AE%B6%E5%88%86%E6%99%8B"
+        }
+      ],
       "type": "政治",
       "majorScore": 4
     },
@@ -1139,7 +1215,11 @@
           "caption": "战国形势图（前350年）"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%95%86%E9%9E%85%E5%8F%98%E6%B3%95",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%95%86%E9%9E%85%E5%8F%98%E6%B3%95"
+        }
+      ],
       "type": "政治",
       "majorScore": 7
     },
@@ -1182,7 +1262,11 @@
           "caption": ""
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E9%95%BF%E5%B9%B3%E4%B9%8B%E6%88%98",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E9%95%BF%E5%B9%B3%E4%B9%8B%E6%88%98"
+        }
+      ],
       "type": "战争",
       "majorScore": 5
     },
@@ -1249,7 +1333,11 @@
           "caption": "仿照传统技术制作的竹笼和杩槎"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E9%83%BD%E6%B1%9F%E5%A0%B0",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E9%83%BD%E6%B1%9F%E5%A0%B0"
+        }
+      ],
       "type": "科技",
       "majorScore": 5
     },
@@ -1320,7 +1408,11 @@
           "caption": "中国山东省武氏祠“荆轲刺秦王”石刻，左边为秦王政，右边为荆轲，中央伏在地上的是秦舞阳，下面是樊於期之首级"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E7%A7%A6%E5%A7%8B%E7%9A%87",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E7%A7%A6%E5%A7%8B%E7%9A%87"
+        }
+      ],
       "type": "政治",
       "majorScore": 10
     },
@@ -1387,7 +1479,11 @@
           "caption": ""
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E9%95%BF%E5%9F%8E",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E9%95%BF%E5%9F%8E"
+        }
+      ],
       "type": "科技",
       "majorScore": 7
     },
@@ -1454,7 +1550,11 @@
           "caption": ""
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E7%A7%A6%E5%A7%8B%E7%9A%87%E5%85%B5%E9%A9%AC%E4%BF%91",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E7%A7%A6%E5%A7%8B%E7%9A%87%E5%85%B5%E9%A9%AC%E4%BF%91"
+        }
+      ],
       "type": "文化",
       "majorScore": 8
     },
@@ -1466,7 +1566,11 @@
       "short": "陈胜、吴广揭竿而起，是中国历史上第一次大规模农民起义。",
       "detail": "大泽乡起义，又称陈吴起义，或陈吴之乱，是中国历史上第一次有记录的大规模平民起事。秦二世元年（公元前209年），陈胜、吴广屯戍渔阳（今北京密云西南），西汉史记写起因由于逾期应役按秦律要斩首（与后出土秦朝睡虎地秦简记载律法不符合），二人于是起义，号“楚”，一曰“张楚”。起义沉重打击秦朝政权，揭开秦末农民起义序幕。",
       "images": [],
-      "source": "https://zh.wikipedia.org/wiki/%E5%A4%A7%E6%B3%BD%E4%B9%A1%E8%B5%B7%E4%B9%89",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%A4%A7%E6%B3%BD%E4%B9%A1%E8%B5%B7%E4%B9%89"
+        }
+      ],
       "type": "战争",
       "majorScore": 5
     },
@@ -1537,7 +1641,11 @@
           "caption": "楚汉战争示意图"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%9E%93%E4%B8%8B%E4%B9%8B%E6%88%98",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%9E%93%E4%B8%8B%E4%B9%8B%E6%88%98"
+        }
+      ],
       "type": "政治",
       "majorScore": 7
     },
@@ -1586,7 +1694,11 @@
           "caption": "玉门关"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%BC%B5%E9%A8%AB",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%BC%B5%E9%A8%AB"
+        }
+      ],
       "type": "对外交流",
       "majorScore": 8
     },
@@ -1641,7 +1753,11 @@
           "caption": "唐朝依汉武帝拜佛像的传说而在敦煌莫高窟内绘制了壁画[80][81]"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E7%8B%AC%E5%B0%8A%E5%84%92%E6%9C%AF",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E7%8B%AC%E5%B0%8A%E5%84%92%E6%9C%AF"
+        }
+      ],
       "type": "文化",
       "majorScore": 6
     },
@@ -1678,7 +1794,11 @@
           "caption": "南宋建安黄善夫本《史记三家注》"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%8F%B2%E8%AE%B0",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%8F%B2%E8%AE%B0"
+        }
+      ],
       "type": "文化",
       "majorScore": 6
     },
@@ -1719,7 +1839,11 @@
           "caption": "汉光武帝"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%85%89%E6%AD%A6%E4%B8%AD%E8%88%88",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%85%89%E6%AD%A6%E4%B8%AD%E8%88%88"
+        }
+      ],
       "type": "政治",
       "majorScore": 5
     },
@@ -1786,7 +1910,11 @@
           "caption": ""
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E7%99%BD%E9%A9%AC%E5%AF%BA",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E7%99%BD%E9%A9%AC%E5%AF%BA"
+        }
+      ],
       "type": "文化",
       "majorScore": 3
     },
@@ -1829,7 +1957,11 @@
           "caption": "1962年，甘蔗渣为造纸原料"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E8%94%A1%E4%BC%A6",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E8%94%A1%E4%BC%A6"
+        }
+      ],
       "type": "科技",
       "majorScore": 8
     },
@@ -1848,7 +1980,11 @@
           "caption": "现代人所想像的地动仪臆造品"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%80%99%E9%A2%A8%E5%9C%B0%E5%8B%95%E5%84%80",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%80%99%E9%A2%A8%E5%9C%B0%E5%8B%95%E5%84%80"
+        }
+      ],
       "type": "科技",
       "majorScore": 4
     },
@@ -1873,7 +2009,11 @@
           "caption": "刘备关羽张飞参与平定黄巾之乱"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E9%BB%83%E5%B7%BE%E4%B9%8B%E4%BA%82",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E9%BB%83%E5%B7%BE%E4%B9%8B%E4%BA%82"
+        }
+      ],
       "type": "战争",
       "majorScore": 5
     },
@@ -1898,7 +2038,11 @@
           "caption": "周曰校插图版《三国志通俗演义》中的曹操破袁绍"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%AE%98%E6%B8%A1%E4%B9%8B%E6%88%98",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%AE%98%E6%B8%A1%E4%B9%8B%E6%88%98"
+        }
+      ],
       "type": "战争",
       "majorScore": 4
     },
@@ -1947,7 +2091,11 @@
           "caption": "《三国演义》中，曹操在战前观南屏山横槊赋诗。月冈芳年绘。"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E8%B5%A4%E5%A3%81%E4%B9%8B%E6%88%B0",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E8%B5%A4%E5%A3%81%E4%B9%8B%E6%88%B0"
+        }
+      ],
       "type": "战争",
       "majorScore": 8
     },
@@ -2018,7 +2166,11 @@
           "caption": "鲜卑的皮带扣，约3至4世纪之间"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E4%B8%89%E5%9B%BD",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E4%B8%89%E5%9B%BD"
+        }
+      ],
       "type": "政治",
       "majorScore": 6
     },
@@ -2043,7 +2195,11 @@
           "caption": ""
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E8%98%AD%E4%BA%AD%E9%9B%86%E5%BA%8F",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E8%98%AD%E4%BA%AD%E9%9B%86%E5%BA%8F"
+        }
+      ],
       "type": "文化",
       "majorScore": 4
     },
@@ -2068,7 +2224,11 @@
           "caption": "淮淝奏捷图"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E6%B7%9D%E6%B0%B4%E4%B9%8B%E6%88%B0",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E6%B7%9D%E6%B0%B4%E4%B9%8B%E6%88%B0"
+        }
+      ],
       "type": "战争",
       "majorScore": 5
     },
@@ -2123,7 +2283,11 @@
           "caption": "世界文化遗产 龙门石窟"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E9%BE%99%E9%97%A8%E7%9F%B3%E7%AA%9F",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E9%BE%99%E9%97%A8%E7%9F%B3%E7%AA%9F"
+        }
+      ],
       "type": "文化",
       "majorScore": 4
     },
@@ -2135,7 +2299,11 @@
       "short": "北魏孝文帝迁都洛阳，推行说汉语、穿汉服、改汉姓，促进民族融合。",
       "detail": "孝文帝改革（又称孝文汉化）是指南北朝时期北魏孝文帝拓跋宏推行的一系列政治、经济和文化改革。孝文帝在冯太后辅政时期已开始推行均田制、三长制和租调制。亲政后，他于494年以南征为名将都城从平城（今山西大同）迁到洛阳，随后全面推行汉化：禁穿胡服、改说汉语、改鲜卑复姓为汉姓（皇族拓跋氏改为元氏）、鼓励鲜卑贵族与汉族通婚、采用汉族官制和礼仪。改革加速了北方民族大融合，促进了北魏社会经济的发展。",
       "images": [],
-      "source": "https://zh.wikipedia.org/wiki/%E5%AD%9D%E6%96%87%E5%B8%9D%E6%94%B9%E9%9D%A9",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%AD%9D%E6%96%87%E5%B8%9D%E6%94%B9%E9%9D%A9"
+        }
+      ],
       "type": "政治",
       "majorScore": 5
     },
@@ -2206,7 +2374,11 @@
           "caption": "隋唐时期朝鲜半岛与日本各国局势图"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E9%9A%8B%E6%9C%9D",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E9%9A%8B%E6%9C%9D"
+        }
+      ],
       "type": "政治",
       "majorScore": 7
     },
@@ -2231,7 +2403,11 @@
           "caption": "隋唐大运河，以东都洛阳为中心，西沿广通渠达大兴城长安，北由永济渠达涿州、南经通济渠、山阳渎和江南运河达江都、余杭。"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E9%9A%8B%E5%94%90%E5%A4%A7%E8%BF%90%E6%B2%B3",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E9%9A%8B%E5%94%90%E5%A4%A7%E8%BF%90%E6%B2%B3"
+        }
+      ],
       "type": "科技",
       "majorScore": 7
     },
@@ -2280,7 +2456,11 @@
           "caption": "考场的座位"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E7%A7%91%E4%B8%BE",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E7%A7%91%E4%B8%BE"
+        }
+      ],
       "type": "政治",
       "majorScore": 7
     },
@@ -2347,7 +2527,11 @@
           "caption": ""
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E7%8E%84%E6%AD%A6%E9%97%A8%E4%B9%8B%E5%8F%98",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E7%8E%84%E6%AD%A6%E9%97%A8%E4%B9%8B%E5%8F%98"
+        }
+      ],
       "type": "政治",
       "majorScore": 4
     },
@@ -2366,7 +2550,11 @@
           "caption": "唐太宗像"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E8%B4%9E%E8%A7%82%E4%B9%8B%E6%B2%BB",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E8%B4%9E%E8%A7%82%E4%B9%8B%E6%B2%BB"
+        }
+      ],
       "type": "政治",
       "majorScore": 8
     },
@@ -2421,7 +2609,11 @@
           "caption": ""
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E7%8E%84%E5%A5%98",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E7%8E%84%E5%A5%98"
+        }
+      ],
       "type": "对外交流",
       "majorScore": 5
     },
@@ -2452,7 +2644,11 @@
           "caption": "1962年 话剧 《文成公主》，由田汉编剧。"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E6%96%87%E6%88%90%E5%85%AC%E4%B8%BB",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E6%96%87%E6%88%90%E5%85%AC%E4%B8%BB"
+        }
+      ],
       "type": "对外交流",
       "majorScore": 4
     },
@@ -2507,7 +2703,11 @@
           "caption": "武则天真容石刻像，四川省广元市皇泽寺"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E6%AD%A6%E5%88%99%E5%A4%A9",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E6%AD%A6%E5%88%99%E5%A4%A9"
+        }
+      ],
       "type": "政治",
       "majorScore": 5
     },
@@ -2526,7 +2726,11 @@
           "caption": "唐玄宗"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%BC%80%E5%85%83%E7%9B%9B%E4%B8%96",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%BC%80%E5%85%83%E7%9B%9B%E4%B8%96"
+        }
+      ],
       "type": "政治",
       "majorScore": 6
     },
@@ -2563,7 +2767,11 @@
           "caption": "颜真卿 祭侄文稿，758年，国立故宫博物院藏"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%AE%89%E5%8F%B2%E4%B9%8B%E4%BA%82",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%AE%89%E5%8F%B2%E4%B9%8B%E4%BA%82"
+        }
+      ],
       "type": "战争",
       "majorScore": 7
     },
@@ -2634,7 +2842,11 @@
           "caption": "割地称儿的后晋高祖石敬塘"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E4%BA%94%E4%BB%A3%E5%8D%81%E5%9B%BD",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E4%BA%94%E4%BB%A3%E5%8D%81%E5%9B%BD"
+        }
+      ],
       "type": "政治",
       "majorScore": 4
     },
@@ -2663,7 +2875,11 @@
           "caption": "赵匡胤"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E9%99%88%E6%A1%A5%E5%85%B5%E5%8F%98",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E9%99%88%E6%A1%A5%E5%85%B5%E5%8F%98"
+        }
+      ],
       "type": "政治",
       "majorScore": 5
     },
@@ -2682,7 +2898,11 @@
           "caption": "澶渊之盟示意图"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E6%BE%B6%E6%B8%8A%E4%B9%8B%E7%9B%9F",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E6%BE%B6%E6%B8%8A%E4%B9%8B%E7%9B%9F"
+        }
+      ],
       "type": "对外交流",
       "majorScore": 4
     },
@@ -2749,7 +2969,11 @@
           "caption": ""
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E6%B4%BB%E5%AD%97%E5%8D%B0%E5%88%B7%E6%9C%AF",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E6%B4%BB%E5%AD%97%E5%8D%B0%E5%88%B7%E6%9C%AF"
+        }
+      ],
       "type": "科技",
       "majorScore": 7
     },
@@ -2761,7 +2985,11 @@
       "short": "王安石在宋神宗支持下推行青苗法、募役法等新法，以求富国强兵。",
       "detail": "熙丰元丰变法，又作王安石变法、熙宁变法，由于变法于神宗熙宁、元丰年间推行，故称“熙丰变法”。指北宋大臣王安石推动的、宋神宗支持并推行的，旨在消除北宋建国以来积弊的一场改革。新法在一定程度上增加了国库的收入，但是在施行过程中对人民造成了很多额外负担，并遭到保守派旧党的激烈反对，造成新旧党争。新法一度被废除，但一些好的措施最终还是保留了下来，直至宋朝灭亡。当时，小冰期气候很可能显著的影响了社会的变化。",
       "images": [],
-      "source": "https://zh.wikipedia.org/wiki/%E7%86%99%E5%AF%A7%E5%85%83%E8%B1%90%E8%AE%8A%E6%B3%95",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E7%86%99%E5%AF%A7%E5%85%83%E8%B1%90%E8%AE%8A%E6%B3%95"
+        }
+      ],
       "type": "政治",
       "majorScore": 6
     },
@@ -2822,7 +3050,11 @@
           "caption": ""
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E6%B8%85%E6%98%8E%E4%B8%8A%E6%B2%B3%E5%9C%96",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E6%B8%85%E6%98%8E%E4%B8%8A%E6%B2%B3%E5%9C%96"
+        }
+      ],
       "type": "文化",
       "majorScore": 5
     },
@@ -2851,7 +3083,11 @@
           "caption": "靖康之变前的北宋东京城模型"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E9%9D%96%E5%BA%B7%E4%B9%8B%E5%8F%98",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E9%9D%96%E5%BA%B7%E4%B9%8B%E5%8F%98"
+        }
+      ],
       "type": "战争",
       "majorScore": 5
     },
@@ -2918,7 +3154,11 @@
           "caption": "日月潭文武庙供奉的岳飞和关羽神像"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%B2%B3%E9%A3%9E",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%B2%B3%E9%A3%9E"
+        }
+      ],
       "type": "战争",
       "majorScore": 4
     },
@@ -2985,7 +3225,11 @@
           "caption": "铁木真被拥立为成吉思可汗的场景，出自15世纪《史集》抄本的插画[80]。秃克（一种用牦牛或马的尾巴制成的旗帜）置于右侧；此处图中白色的秃克代表和平，而黑色的秃克"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E6%88%90%E5%90%89%E6%80%9D%E6%B1%97",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E6%88%90%E5%90%89%E6%80%9D%E6%B1%97"
+        }
+      ],
       "type": "政治",
       "majorScore": 6
     },
@@ -3052,7 +3296,11 @@
           "caption": "贝尔湖（即古称捕鱼儿海）的航拍图，元天元帝于此被明军击溃"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%85%83%E6%9C%9D",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%85%83%E6%9C%9D"
+        }
+      ],
       "type": "政治",
       "majorScore": 6
     },
@@ -3075,7 +3323,11 @@
           "caption": ""
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%B4%96%E9%97%A8%E6%B5%B7%E6%88%98",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%B4%96%E9%97%A8%E6%B5%B7%E6%88%98"
+        }
+      ],
       "type": "战争",
       "majorScore": 4
     },
@@ -3146,7 +3398,11 @@
           "caption": "侵犯明朝与朝鲜王国沿海的倭寇。倭寇主要由日本浪人与流浪海外的中国水手所组成"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E6%98%8E%E6%9C%9D",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E6%98%8E%E6%9C%9D"
+        }
+      ],
       "type": "政治",
       "majorScore": 6
     },
@@ -3213,7 +3469,11 @@
           "caption": "郑和纪念碑，位于马六甲荷兰红屋。"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E9%83%91%E5%92%8C%E4%B8%8B%E8%A5%BF%E6%B4%8B",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E9%83%91%E5%92%8C%E4%B8%8B%E8%A5%BF%E6%B4%8B"
+        }
+      ],
       "type": "对外交流",
       "majorScore": 8
     },
@@ -3280,7 +3540,11 @@
           "caption": ""
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E6%95%85%E5%AE%AB",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E6%95%85%E5%AE%AB"
+        }
+      ],
       "type": "文化",
       "majorScore": 5
     },
@@ -3305,7 +3569,11 @@
           "caption": "《本草纲目》金陵版"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E6%9C%AC%E8%8D%89%E7%BA%B2%E7%9B%AE",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E6%9C%AC%E8%8D%89%E7%BA%B2%E7%9B%AE"
+        }
+      ],
       "type": "科技",
       "majorScore": 5
     },
@@ -3372,7 +3640,11 @@
           "caption": "《天主实录》手稿，现藏于罗马国立中央图书馆"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%88%A9%E7%8E%9B%E7%AA%A6",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%88%A9%E7%8E%9B%E7%AA%A6"
+        }
+      ],
       "type": "对外交流",
       "majorScore": 4
     },
@@ -3395,7 +3667,11 @@
           "caption": ""
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E7%94%B2%E7%94%B3%E4%B9%8B%E8%AE%8A",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E7%94%B2%E7%94%B3%E4%B9%8B%E8%AE%8A"
+        }
+      ],
       "type": "政治",
       "majorScore": 7
     },
@@ -3462,7 +3738,11 @@
           "caption": "郑成功势力范围图"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E9%84%AD%E6%88%90%E5%8A%9F",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E9%84%AD%E6%88%90%E5%8A%9F"
+        }
+      ],
       "type": "战争",
       "majorScore": 5
     },
@@ -3499,7 +3779,11 @@
           "caption": "清朝康熙帝为测绘东北地区，特详谕大学士哪些属于“中国地方”，以及以什么为界线"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%B0%BC%E5%B8%83%E6%A5%9A%E6%A2%9D%E7%B4%84",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%B0%BC%E5%B8%83%E6%A5%9A%E6%A2%9D%E7%B4%84"
+        }
+      ],
       "type": "对外交流",
       "majorScore": 4
     },
@@ -3560,7 +3844,11 @@
           "caption": "台湾版第一册封面"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8"
+        }
+      ],
       "type": "文化",
       "majorScore": 4
     },
@@ -3627,7 +3915,11 @@
           "caption": "林则徐致维多利亚女王的信。"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E8%99%8E%E9%97%A8%E9%94%80%E7%83%9F",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E8%99%8E%E9%97%A8%E9%94%80%E7%83%9F"
+        }
+      ],
       "type": "政治",
       "majorScore": 5
     },
@@ -3694,7 +3986,11 @@
           "caption": "一艘英国海军护卫舰（1797年绘）"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E7%AC%AC%E4%B8%80%E6%AC%A1%E9%B8%A6%E7%89%87%E6%88%98%E4%BA%89",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E7%AC%AC%E4%B8%80%E6%AC%A1%E9%B8%A6%E7%89%87%E6%88%98%E4%BA%89"
+        }
+      ],
       "type": "战争",
       "majorScore": 9
     },
@@ -3761,7 +4057,11 @@
           "caption": "堂子街太平天国壁画"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%A4%AA%E5%B9%B3%E5%A4%A9%E5%9B%BD",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%A4%AA%E5%B9%B3%E5%A4%A9%E5%9B%BD"
+        }
+      ],
       "type": "战争",
       "majorScore": 6
     },
@@ -3828,7 +4128,11 @@
           "caption": "北京西北的皇家园林区"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%9C%86%E6%98%8E%E5%9B%AD",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%9C%86%E6%98%8E%E5%9B%AD"
+        }
+      ],
       "type": "战争",
       "majorScore": 5
     },
@@ -3895,7 +4199,11 @@
           "caption": "北洋舰队镇远号铁甲舰"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E6%B4%8B%E5%8A%A1%E8%BF%90%E5%8A%A8",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E6%B4%8B%E5%8A%A1%E8%BF%90%E5%8A%A8"
+        }
+      ],
       "type": "经济",
       "majorScore": 6
     },
@@ -3962,7 +4270,11 @@
           "caption": "甲午战争中的日军士兵，1895年"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E7%94%B2%E5%8D%88%E6%88%98%E4%BA%89",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E7%94%B2%E5%8D%88%E6%88%98%E4%BA%89"
+        }
+      ],
       "type": "战争",
       "majorScore": 7
     },
@@ -4029,7 +4341,11 @@
           "caption": "光绪于公元1898年起用康、梁两人等推行新政，并以谭嗣同等四军卿架空原有的军机大臣，受到保守派的反对。"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E6%88%8A%E6%88%8C%E5%8F%98%E6%B3%95",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E6%88%8A%E6%88%8C%E5%8F%98%E6%B3%95"
+        }
+      ],
       "type": "政治",
       "majorScore": 5
     },
@@ -4096,7 +4412,11 @@
           "caption": "海兰泡惨案中，俄军绑缚中国人准备屠杀"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%85%AB%E5%9B%BD%E8%81%94%E5%86%9B%E4%B9%8B%E5%BD%B9",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%85%AB%E5%9B%BD%E8%81%94%E5%86%9B%E4%B9%8B%E5%BD%B9"
+        }
+      ],
       "type": "战争",
       "majorScore": 6
     },
@@ -4163,7 +4483,11 @@
           "caption": "1906年孙中山与中国同盟会新加坡分会部分会员等合照。前排左起：1林干廷、2张永福、3陈楚楠、4孙中山、5尢列、6刘金声、7林义顺；后排左起：1吴悟叟、2张华丹"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E8%BE%9B%E4%BA%A5%E9%9D%A9%E5%91%BD",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E8%BE%9B%E4%BA%A5%E9%9D%A9%E5%91%BD"
+        }
+      ],
       "type": "政治",
       "majorScore": 9
     },
@@ -4210,7 +4534,11 @@
           "caption": ""
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E4%B8%AD%E8%8F%AF%E6%B0%91%E5%9C%8B%E8%87%A8%E6%99%82%E6%94%BF%E5%BA%9C",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E4%B8%AD%E8%8F%AF%E6%B0%91%E5%9C%8B%E8%87%A8%E6%99%82%E6%94%BF%E5%BA%9C"
+        }
+      ],
       "type": "政治",
       "majorScore": 7
     },
@@ -4253,7 +4581,11 @@
           "caption": "陈独秀"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E6%96%B0%E6%96%87%E5%8C%96%E8%BF%90%E5%8A%A8",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E6%96%B0%E6%96%87%E5%8C%96%E8%BF%90%E5%8A%A8"
+        }
+      ],
       "type": "文化",
       "majorScore": 6
     },
@@ -4320,7 +4652,11 @@
           "caption": "扬州群众火烧日货支援学生"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E4%BA%94%E5%9B%9B%E8%BF%90%E5%8A%A8",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E4%BA%94%E5%9B%9B%E8%BF%90%E5%8A%A8"
+        }
+      ],
       "type": "政治",
       "majorScore": 7
     },
@@ -4345,7 +4681,11 @@
           "caption": ""
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E5%85%B1%E4%BA%A7%E5%85%9A%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%85%A8%E5%9B%BD%E4%BB%A3%E8%A1%A8%E5%A4%A7%E4%BC%9A",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E5%85%B1%E4%BA%A7%E5%85%9A%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%85%A8%E5%9B%BD%E4%BB%A3%E8%A1%A8%E5%A4%A7%E4%BC%9A"
+        }
+      ],
       "type": "政治",
       "majorScore": 7
     },
@@ -4412,7 +4752,11 @@
           "caption": "当时《大公报》对918事件的有关报道"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E4%B9%9D%E4%B8%80%E5%85%AB%E4%BA%8B%E8%AE%8A",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E4%B9%9D%E4%B8%80%E5%85%AB%E4%BA%8B%E8%AE%8A"
+        }
+      ],
       "type": "战争",
       "majorScore": 6
     },
@@ -4479,7 +4823,11 @@
           "caption": ""
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E9%95%BF%E5%BE%81",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E9%95%BF%E5%BE%81"
+        }
+      ],
       "type": "战争",
       "majorScore": 6
     },
@@ -4546,7 +4894,11 @@
           "caption": "张学良公馆西二楼会议室，12月23至24日张学良、杨虎城与周恩来及宋美龄、宋子文谈判的场景还原"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E8%A5%BF%E5%AE%89%E4%BA%8B%E5%8F%98",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E8%A5%BF%E5%AE%89%E4%BA%8B%E5%8F%98"
+        }
+      ],
       "type": "政治",
       "majorScore": 5
     },
@@ -4613,7 +4965,11 @@
           "caption": "抗日战争十五周年纪念邮票：卢沟桥风云"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E4%B8%83%E4%B8%83%E4%BA%8B%E5%8F%98",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E4%B8%83%E4%B8%83%E4%BA%8B%E5%8F%98"
+        }
+      ],
       "type": "战争",
       "majorScore": 7
     },
@@ -4680,7 +5036,11 @@
           "caption": ""
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E6%8A%97%E6%97%A5%E6%88%98%E4%BA%89",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E6%8A%97%E6%97%A5%E6%88%98%E4%BA%89"
+        }
+      ],
       "type": "战争",
       "majorScore": 8
     },
@@ -4739,7 +5099,11 @@
           "caption": ""
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E4%B8%AD%E8%8F%AF%E4%BA%BA%E6%B0%91%E5%85%B1%E5%92%8C%E5%9C%8B%E4%B8%AD%E5%A4%AE%E4%BA%BA%E6%B0%91%E6%94%BF%E5%BA%9C%E6%88%90%E7%AB%8B%E5%85%B8%E7%A6%AE",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E4%B8%AD%E8%8F%AF%E4%BA%BA%E6%B0%91%E5%85%B1%E5%92%8C%E5%9C%8B%E4%B8%AD%E5%A4%AE%E4%BA%BA%E6%B0%91%E6%94%BF%E5%BA%9C%E6%88%90%E7%AB%8B%E5%85%B8%E7%A6%AE"
+        }
+      ],
       "type": "政治",
       "majorScore": 10
     },
@@ -4806,7 +5170,11 @@
           "caption": "1950年10月18日，在元山港附近韩军扫雷艇中鱼雷发生爆炸"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E6%9C%9D%E9%B2%9C%E6%88%98%E4%BA%89",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E6%9C%9D%E9%B2%9C%E6%88%98%E4%BA%89"
+        }
+      ],
       "type": "战争",
       "majorScore": 6
     },
@@ -4873,7 +5241,11 @@
           "caption": "1958年7月，时任苏联领导人赫鲁晓夫秘密访华，与毛泽东会面，双方在中国是否要发展核武器等问题上产生分歧[102][119]。"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%85%A9%E5%BD%88%E4%B8%80%E6%98%9F",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%85%A9%E5%BD%88%E4%B8%80%E6%98%9F"
+        }
+      ],
       "type": "科技",
       "majorScore": 6
     },
@@ -4940,7 +5312,11 @@
           "caption": "1966年，毛泽东在畅游长江前向江边群众挥手"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E6%96%87%E5%8C%96%E5%A4%A7%E9%9D%A9%E5%91%BD",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E6%96%87%E5%8C%96%E5%A4%A7%E9%9D%A9%E5%91%BD"
+        }
+      ],
       "type": "政治",
       "majorScore": 7
     },
@@ -4965,7 +5341,11 @@
           "caption": "1950年，中华人民共和国中央人民政府代表伍修权（前排左一）应联合国安理会邀请出席安理会朝鲜问题辩论，与当时在联合国代表中国的中华民国常驻联合国代表蒋廷黻当面对"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E8%81%AF%E5%90%88%E5%9C%8B%E5%A4%A7%E6%9C%83%E7%AC%AC2758%E8%99%9F%E6%B1%BA%E8%AD%B0",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E8%81%AF%E5%90%88%E5%9C%8B%E5%A4%A7%E6%9C%83%E7%AC%AC2758%E8%99%9F%E6%B1%BA%E8%AD%B0"
+        }
+      ],
       "type": "对外交流",
       "majorScore": 5
     },
@@ -5008,7 +5388,11 @@
           "caption": "毛泽东主席接见尼克松总统"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/1972%E5%B9%B4%E5%B0%BC%E5%85%8B%E6%9D%BE%E8%AE%BF%E5%8D%8E",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/1972%E5%B9%B4%E5%B0%BC%E5%85%8B%E6%9D%BE%E8%AE%BF%E5%8D%8E"
+        }
+      ],
       "type": "对外交流",
       "majorScore": 5
     },
@@ -5063,7 +5447,11 @@
           "caption": "纪念唐山大地震的天津市抗震纪念碑"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E5%94%90%E5%B1%B1%E5%A4%A7%E5%9C%B0%E9%9C%87",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E5%94%90%E5%B1%B1%E5%A4%A7%E5%9C%B0%E9%9C%87"
+        }
+      ],
       "type": "社会",
       "majorScore": 4
     },
@@ -5130,7 +5518,11 @@
           "caption": ""
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E6%94%B9%E9%9D%A9%E5%BC%80%E6%94%BE",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E6%94%B9%E9%9D%A9%E5%BC%80%E6%94%BE"
+        }
+      ],
       "type": "经济",
       "majorScore": 9
     },
@@ -5155,7 +5547,11 @@
           "caption": "1972年美国总统尼克松与中共中央主席毛泽东会面"
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E4%B8%AD%E7%BE%8E%E5%BB%BA%E4%BA%A4%E8%B0%88%E5%88%A4",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E4%B8%AD%E7%BE%8E%E5%BB%BA%E4%BA%A4%E8%B0%88%E5%88%A4"
+        }
+      ],
       "type": "对外交流",
       "majorScore": 5
     },
@@ -5222,7 +5618,11 @@
           "caption": ""
         }
       ],
-      "source": "https://zh.wikipedia.org/wiki/%E6%B7%B1%E5%9C%B3%E7%B6%93%E6%BF%9F%E7%89%B9%E5%8D%80",
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E6%B7%B1%E5%9C%B3%E7%B6%93%E6%BF%9F%E7%89%B9%E5%8D%80"
+        }
+      ],
       "type": "经济",
       "majorScore": 5
     }

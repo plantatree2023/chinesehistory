@@ -134,7 +134,7 @@ test.describe('事件详情', () => {
     await expect(captions.nth(0)).toHaveValue('');
   });
 
-  test('详情显示类型和重要程度；在编辑页修改后卡片大小等级随之变化', async ({ page }) => {
+  test('详情显示类型、不显示重要程度（内部信息）；在编辑页修改后卡片大小等级随之变化', async ({ page }) => {
     const { events, types } = await loadDataset(page);
     const target = events.find((e) => e.title === '贞观之治');
     await openApp(page);
@@ -143,7 +143,9 @@ test.describe('事件详情', () => {
     await page.locator('.list-row').first().click();
     await page.click('.list-actions .btn-ghost');
     await expect(page.locator('#detailTags .type-tag')).toHaveText(target.type);
-    await expect(page.locator('#detailTags .score-tag')).toHaveText(`重要程度 ${target.majorScore} / 10`);
+    // 重要程度是内部信息：详情中不显示（只在编辑页中可见）
+    await expect(page.locator('#detailModal')).not.toContainText('重要程度');
+    await expect(page.locator('#detailModal')).not.toContainText(`${target.majorScore} / 10`);
     await expect(page.locator(`.card[data-id="${target.id}"]`)).toHaveClass(/tier-3/);
 
     await page.click('#detailEdit');
@@ -158,7 +160,7 @@ test.describe('事件详情', () => {
     await expect(page.locator(`.card[data-id="${target.id}"]`)).not.toHaveClass(/major/);
     if (await page.locator('.list-actions').isHidden()) await page.locator('.list-row').first().click();
     await page.click('.list-actions .btn-ghost');
-    await expect(page.locator('#detailTags')).toHaveText('文化重要程度 6 / 10');
+    await expect(page.locator('#detailTags')).toHaveText('文化');
 
     // 清除类型、降为 3 分，刷新后保留
     await page.click('#detailEdit');
@@ -176,6 +178,80 @@ test.describe('事件详情', () => {
     await page.click('#addBtn');
     await expect(page.locator('#editForm [name=majorScore]')).toHaveValue('5');
     await expect(page.locator('#editForm [name=type]')).toHaveValue('');
+  });
+
+  test('参考链接：可添加多条、修改、删除，详情中逐条显示，刷新后保留', async ({ page }) => {
+    const { events } = await loadDataset(page);
+    const target = events.find((e) => e.title === '安史之乱');
+    const wiki = target.sources[0].url;
+    await openApp(page);
+    await page.click('#browseBtn');
+    await page.fill('#searchInput', '安史之乱');
+    await page.locator('.list-row').first().click();
+    await page.click('.list-actions .btn-primary');
+
+    const rows = page.locator('#sourceEditor .source-row');
+    await expect(rows).toHaveCount(1);
+    await expect(rows.nth(0).locator('.source-url')).toHaveValue(wiki);
+    // 添加两条：一条带标题，一条不带
+    await page.click('#sourceAdd');
+    await expect(rows.nth(1).locator('.source-url')).toBeFocused();
+    await rows.nth(1).locator('.source-url').fill(' https://example.org/anshi ');
+    await rows.nth(1).locator('.source-title').fill(' 《旧唐书·安禄山传》 ');
+    await page.click('#sourceAdd');
+    await rows.nth(2).locator('.source-url').fill('https://example.com/b');
+    // 空行不保存
+    await page.click('#sourceAdd');
+    await page.click('#editForm button[type=submit]');
+    await expect(page.locator('#editModal')).toBeHidden();
+
+    const openDetailFromList = async () => {
+      if (await page.locator('.list-actions').isHidden()) await page.locator('.list-row').first().click();
+      await page.click('.list-actions .btn-ghost');
+    };
+    await openDetailFromList();
+    const links = page.locator('#detailSource .source-list a');
+    await expect(links).toHaveText(['维基百科', '《旧唐书·安禄山传》', 'https://example.com/b']);
+    await expect(links.nth(1)).toHaveAttribute('href', 'https://example.org/anshi');
+    await expect(links.nth(1)).toHaveAttribute('target', '_blank');
+    await expect(page.locator('#detailSource')).toContainText('CC BY-SA');
+
+    // 修改第二条、删除第一条（维基百科）
+    await page.click('#detailEdit');
+    await expect(rows).toHaveCount(3);
+    await rows.nth(1).locator('.source-title').fill('旧唐书');
+    await rows.nth(0).locator('.source-remove').click();
+    await expect(rows).toHaveCount(2);
+    await expect(rows.nth(0).locator('.source-title')).toHaveValue('旧唐书');
+    await page.click('#editForm button[type=submit]');
+    await page.reload();
+    await page.click('#browseBtn');
+    await page.fill('#searchInput', '安史之乱');
+    await openDetailFromList();
+    await expect(links).toHaveText(['旧唐书', 'https://example.com/b']);
+    await expect(page.locator('#detailSource'), '没有维基百科链接时不显示许可说明').not.toContainText('CC BY-SA');
+    const stored = await page.evaluate((k) => JSON.parse(localStorage.getItem(k)), STORAGE_KEY);
+    expect(stored.changed[target.id].sources).toEqual([{ url: 'https://example.org/anshi', title: '旧唐书' }, { url: 'https://example.com/b' }]);
+  });
+
+  test('参考链接网址无效时拒绝保存；最多 10 条', async ({ page }) => {
+    await openApp(page);
+    await page.click('#addBtn');
+    await page.fill('#editForm [name=title]', '链接测试事件');
+    await page.fill('#editForm [name=short]', '用于测试参考链接校验的说明文字，长度超过二十个字。');
+    await page.click('#sourceAdd');
+    await page.locator('#sourceEditor .source-url').fill('ftp://example.org/x');
+    await page.click('#editForm button[type=submit]');
+    await expect(page.locator('#formError')).toContainText('参考链接必须以 http:// 或 https:// 开头');
+    await expect(page.locator('#editModal')).toBeVisible();
+    // 只填标题、没有网址也不行
+    await page.locator('#sourceEditor .source-url').fill('');
+    await page.locator('#sourceEditor .source-title').fill('只有标题');
+    await page.click('#editForm button[type=submit]');
+    await expect(page.locator('#formError')).toContainText('只有标题');
+    for (let i = 1; i < 10; i++) await page.click('#sourceAdd');
+    await expect(page.locator('#sourceEditor .source-row')).toHaveCount(10);
+    await expect(page.locator('#sourceAdd')).toBeDisabled();
   });
 
   test('在详情中删除事件', async ({ page }) => {

@@ -24,6 +24,7 @@ const { writeAtomic, saveImage, fetchImage, MAX_IMAGE_BYTES } = require('./lib/i
 const DATASET_ID = /^[a-z]{2}_[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})?$/;   // 例：cn_zh、jp_ja、cn_zh-Hant
 const LOCAL_IMAGE = /^images\/[A-Za-z0-9._-]+$/;             // 数据中图片路径的唯一合法形式
 const MAX_JSON_BYTES = 10 * 1024 * 1024;
+const MAX_SOURCES = 10;                                        // 每个事件最多的参考链接数
 const CONTENT_TYPES = {
   '.html': 'text/html; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
@@ -112,6 +113,15 @@ function validateDataset(id, data) {
       if (typeof ev.type !== 'string' || !ev.type.trim()) fail(`${where}.type 无效`);
       if (typeNames && !typeNames.has(ev.type)) fail(`${where}.type 必须是 types 中的类型名：${ev.type}`);
     }
+    // 参考链接（可选）：最多 10 条，每条有 http(s) 网址，标题可选
+    if (ev.sources != null) {
+      if (!Array.isArray(ev.sources) || ev.sources.length > MAX_SOURCES) fail(`${where}.sources 必须是最多 ${MAX_SOURCES} 项的数组`);
+      ev.sources.forEach((src) => {
+        if (!src || typeof src.url !== 'string' || !/^https?:\/\/\S+$/.test(src.url)) fail(`${where}.sources 中的网址必须以 http:// 或 https:// 开头`);
+        if (src.title != null && typeof src.title !== 'string') fail(`${where}.sources 中的标题必须是文字`);
+      });
+    }
+    if (ev.source != null) fail(`${where}.source 已由 sources（参考链接列表）代替`);
     if (!Array.isArray(ev.images) || ev.images.length > 9) fail(`${where}.images 必须是最多 9 项的数组`);
     ev.images.forEach((im) => {
       if (!im || typeof im.src !== 'string') fail(`${where}.images 中的图片缺少 src`);

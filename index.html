@@ -8,16 +8,20 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='4' width='56' height='56' rx='8' fill='%23b0302a'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23fff' font-family='serif'%3E史%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/style.css">
   <script>
-    // 在页面绘制前确定配色，避免闪烁：用户选过的优先，否则跟随系统设置
+    // 在页面绘制前确定配色，避免闪烁：默认浅色（日间），用户选过深色时用深色
     (function () {
       var t = null;
       try { t = localStorage.getItem('zh-history-timeline:theme'); } catch (e) {}
-      if (t !== 'light' && t !== 'dark') t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', t);
+      document.documentElement.setAttribute('data-theme', t === 'dark' ? 'dark' : 'light');
     })();
   </script>
 </head>
 <body>
+  <!-- 下拉刷新提示（触屏设备） -->
+  <div class="ptr" id="ptr" aria-hidden="true">
+    <svg class="ptr-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M12 5v13M6 12l6 6 6-6"/></svg>
+    <span class="ptr-text">下拉刷新</span>
+  </div>
   <header class="topbar">
     <h1 class="brand"><span class="brand-name">时间上的中国</span><span class="brand-era" id="currentEra" aria-live="polite"></span></h1>
   </header>
@@ -193,10 +197,11 @@
           </label>
         </div>
       </div>
-      <label class="field">
-        <span>参考链接（可选）</span>
-        <input type="url" name="source" placeholder="https://zh.wikipedia.org/wiki/…">
-      </label>
+      <div class="field">
+        <span>参考链接（可选，最多 10 条；标题留空时，维基百科链接显示为“维基百科”，其他链接显示网址）</span>
+        <ol class="source-editor" id="sourceEditor"></ol>
+        <button type="button" class="btn btn-ghost btn-small" id="sourceAdd">＋ 添加参考链接</button>
+      </div>
       <p class="form-error" id="formError" role="alert"></p>
       <div class="detail-actions">
         <button type="submit" class="btn btn-primary">保存</button>

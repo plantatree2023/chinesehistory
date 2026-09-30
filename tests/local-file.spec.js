@@ -160,6 +160,23 @@ test.describe('界面', () => {
     expect(ev).not.toHaveProperty('major');
   });
 
+  test('参考链接写入数据文件（sources 数组）', async ({ page }) => {
+    const before = findEvent('贞观之治');
+    await openLocal(page);
+    await page.click('#browseBtn');
+    await page.fill('#searchInput', '贞观之治');
+    await page.locator('.list-row').first().click();
+    await page.click('.list-actions .btn-primary');
+    await page.click('#sourceAdd');
+    const rows = page.locator('#sourceEditor .source-row');
+    await rows.nth(1).locator('.source-url').fill('https://example.org/zhenguan');
+    await rows.nth(1).locator('.source-title').fill('贞观政要');
+    await page.click('#editForm button[type=submit]');
+    await expect.poll(() => findEvent('贞观之治').sources.length).toBe(2);
+    expect(findEvent('贞观之治').sources).toEqual([...before.sources, { url: 'https://example.org/zhenguan', title: '贞观政要' }]);
+    expect(findEvent('贞观之治')).not.toHaveProperty('source');
+  });
+
   test('编辑和删除同样写入数据文件', async ({ page }) => {
     await openLocal(page);
     await page.click('#browseBtn');
