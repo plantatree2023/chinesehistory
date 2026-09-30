@@ -1,0 +1,143 @@
+// 各测试共用的夹具（fixture）与工具函数。
+const base = require('@playwright/test');
+
+const { expect } = base;
+
+// 与 js/app.js 中的规则保持一致
+const MAX_PER_SCREEN = 6;
+const MIN_SUMMARY = 20;
+const STORAGE_KEY = 'zh-history-timeline:v1';
+const DEFAULT_EVENT_COUNT = 100;
+const PUNCT = /[\s，。、；：“”‘’《》〈〉（）【】！？·—…,.;:()[\]!?"'-]/;
+
+// 扩展 test：
+// - 屏蔽所有非本机请求（维基媒体图片等），测试完全离线、结果稳定；
+// - 收集页面脚本错误，测试结束时断言没有任何错误。
+const test = base.test.extend({
+  page: async ({ page }, use) => {
+    const errors = [];
+    page.on('pageerror', (e) => errors.push(e.message));
+    await page.route(/^https?:\/\/(?!127\.0\.0\.1[:/])/, (route) => route.abort());
+    await use(page);
+    expect(errors, '页面不应出现脚本错误').toEqual([]);
+  },
+});
+
+// 等待排版稳定：字体加载完成后，排版计数连续 500ms（大于应用内 150ms 的重排防抖）不再变化。
+// 每次调用都重新计时，避免沿用上一次调用的状态而提前返回。
+async function waitForStableLayout(page) {
+  await page.evaluate(() => document.fonts.ready.then(() => { window.__layoutProbe = null; }));
+  await page.waitForFunction(() => {
+    const track = document.getElementById('track');
+    const n = track && track.dataset.renders;
+    if (!n) return false;
+    const now = performance.now();
+    const s = window.__layoutProbe || (window.__layoutProbe = { n, t: now });
+    if (s.n !== n) { s.n = n; s.t = now; return false; }
+    return now - s.t > 500;
+  }, null, { polling: 100 });
+}
+
+// 打开应用并等待首屏排版完成
+async function openApp(page) {
+  await page.goto('/');
+  await expect(page.locator('.card').first()).toBeVisible();
+  await waitForStableLayout(page);
+}
+
+// 在打开前写入自定义事件数据（模拟用户已添加、修改过的状态）
+async function seedEvents(page, mutate) {
+  await page.goto('/');
+  await page.evaluate(({ key, fnSrc }) => {
+    const events = JSON.parse(JSON.stringify(window.DEFAULT_EVENTS));
+    const mutated = new Function('events', `return (${fnSrc})(events);`)(events);
+    localStorage.setItem(key, JSON.stringify(mutated));
+  }, { key: STORAGE_KEY, fnSrc: mutate.toString() });
+  await page.reload();
+  await expect(page.locator('.card').first()).toBeVisible();
+  await waitForStableLayout(page);
+}
+
+// 当前时间轴的平移量（px，<= 0）
+function trackOffset(page) {
+  return page.evaluate(() => {
+    const m = new DOMMatrixReadOnly(getComputedStyle(document.getElementById('track')).transform);
+    return m.m41;
+  });
+}
+
+// 把指定横坐标（时间轴坐标）滚动到屏幕中央，并等待平移生效
+async function centerOnTrackX(page, x) {
+  await page.evaluate((x) => {
+    const stage = document.getElementById('stage');
+    const cur = new DOMMatrixReadOnly(getComputedStyle(document.getElementById('track')).transform).m41;
+    stage.dispatchEvent(new WheelEvent('wheel', { deltaY: x + cur - stage.clientWidth / 2, bubbles: true, cancelable: true }));
+  }, x);
+  await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
+}
+
+// 把标题为 title 的事件卡片滚动到屏幕中央
+async function centerOnCard(page, title) {
+  const x = await page.evaluate((title) => {
+    const card = [...document.querySelectorAll('.card')]
+      .find((c) => c.querySelector('.card-title').textContent === title);
+    if (!card) throw new Error(`找不到事件卡片：${title}`);
+    return card.offsetLeft + card.offsetWidth / 2;
+  }, title);
+  await centerOnTrackX(page, x);
+}
+
+// 排版指标：每屏最多事件数、卡片重叠数、超出显示区域的卡片数、最少可见说明字数
+function layoutMetrics(page) {
+  return page.evaluate(({ punct }) => {
+    const PUNCT = new RegExp(punct);
+    const stage = document.getElementById('stage');
+    const V = stage.clientWidth;
+    const H = stage.clientHeight;
+    const cards = [...document.querySelectorAll('.card')];
+    const rects = cards.map((c) => ({ l: c.offsetLeft, t: c.offsetTop, r: c.offsetLeft + c.offsetWidth, b: c.offsetTop + c.offsetHeight }));
+
+    // 任意一屏宽度窗口内的卡片数（按卡片中心计）
+    const centers = rects.map((r) => (r.l + r.r) / 2).sort((a, b) => a - b);
+    let maxPerScreen = 0;
+    for (let i = 0, j = 0; i < centers.length; i++) {
+      while (j < centers.length && centers[j] - centers[i] < V) j++;
+      maxPerScreen = Math.max(maxPerScreen, j - i);
+    }
+
+    let overlaps = 0;
+    for (let i = 0; i < rects.length; i++) {
+      for (let j = i + 1; j < rects.length; j++) {
+        const a = rects[i], b = rects[j];
+        if (a.l < b.r && a.r > b.l && a.t < b.b && a.b > b.t) overlaps++;
+      }
+    }
+    const outOfBounds = rects.filter((r) => r.t < 0 || r.b > H).length;
+
+    // 逐字测量说明文字在屏幕上的位置，只统计真正显示出来（未被截断、未被卡片裁掉）的字，不计标点
+    let minVisible = Infinity, worst = '';
+    const range = document.createRange();
+    for (const card of cards) {
+      const p = card.querySelector('.card-short');
+      let visible = 0;
+      if (p && p.firstChild && getComputedStyle(p).display !== 'none') {
+        const pr = p.getBoundingClientRect(), cr = card.getBoundingClientRect();
+        const bottom = Math.min(pr.bottom, cr.bottom) + 1, right = Math.min(pr.right, cr.right) + 1;
+        const text = p.firstChild;
+        for (let k = 0; k < text.length; k++) {
+          range.setStart(text, k); range.setEnd(text, k + 1);
+          const b = range.getBoundingClientRect();
+          if (b.bottom <= bottom && b.right <= right && !PUNCT.test(text.data[k])) visible++;
+        }
+      }
+      if (visible < minVisible) { minVisible = visible; worst = card.querySelector('.card-title').textContent; }
+    }
+    return { count: cards.length, maxPerScreen, overlaps, outOfBounds, minVisible, worst };
+  }, { punct: PUNCT.source });
+}
+
+module.exports = {
+  test, expect,
+  MAX_PER_SCREEN, MIN_SUMMARY, STORAGE_KEY, DEFAULT_EVENT_COUNT,
+  openApp, seedEvents, waitForStableLayout, trackOffset, centerOnTrackX, centerOnCard, layoutMetrics,
+};

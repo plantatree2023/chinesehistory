@@ -437,6 +437,7 @@
   function renderTimeline() {
     ensureRatios();
     computeLayout();
+    track.dataset.renders = (+track.dataset.renders || 0) + 1;   // 排版次数，供自动化测试判断排版是否稳定
     var W = layout.width;
     track.style.width = W + 'px';
     $('axis').style.width = W + 'px';
