@@ -12,17 +12,23 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/9911a10c5bd0.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/Teeth_of_Yuanmou_Man_%28Cast%29_-_cropped.png/330px-Teeth_of_Yuanmou_Man_%28Cast%29_-_cropped.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/Teeth_of_Yuanmou_Man_%28Cast%29_-_cropped.png/330px-Teeth_of_Yuanmou_Man_%28Cast%29_-_cropped.png",
+    "w": 330,
+    "h": 308
    },
    {
     "src": "images/4bc43e11dca0.jpg",
     "caption": "元谋人石器模型，收藏于上海自然博物馆",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Stone_Tools_of_Yuanmou_Man_%28Cast%29.png/500px-Stone_Tools_of_Yuanmou_Man_%28Cast%29.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Stone_Tools_of_Yuanmou_Man_%28Cast%29.png/500px-Stone_Tools_of_Yuanmou_Man_%28Cast%29.png",
+    "w": 500,
+    "h": 207
    },
    {
     "src": "images/882b962d8a03.jpg",
     "caption": "元谋人博物馆",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/%E5%85%83%E8%B0%8B%E4%BA%BA%E5%8D%9A%E7%89%A9%E9%A6%86_-_panoramio.jpg/500px-%E5%85%83%E8%B0%8B%E4%BA%BA%E5%8D%9A%E7%89%A9%E9%A6%86_-_panoramio.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/%E5%85%83%E8%B0%8B%E4%BA%BA%E5%8D%9A%E7%89%A9%E9%A6%86_-_panoramio.jpg/500px-%E5%85%83%E8%B0%8B%E4%BA%BA%E5%8D%9A%E7%89%A9%E9%A6%86_-_panoramio.jpg",
+    "w": 500,
+    "h": 375
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E5%85%83%E8%B0%8B%E4%BA%BA"
@@ -39,27 +45,37 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/a491bb0b0f4c.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ee/Peking_Man_Skull_%28replica%29_presented_at_Paleozoological_Museum_of_China.jpg/500px-Peking_Man_Skull_%28replica%29_presented_at_Paleozoological_Museum_of_China.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ee/Peking_Man_Skull_%28replica%29_presented_at_Paleozoological_Museum_of_China.jpg/500px-Peking_Man_Skull_%28replica%29_presented_at_Paleozoological_Museum_of_China.jpg",
+    "w": 500,
+    "h": 500
    },
    {
     "src": "images/4928617cba70.jpg",
     "caption": "电脑复原图",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c5/Homo_erectus_pekinensis_-_archeaeological.png/330px-Homo_erectus_pekinensis_-_archeaeological.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c5/Homo_erectus_pekinensis_-_archeaeological.png/330px-Homo_erectus_pekinensis_-_archeaeological.png",
+    "w": 330,
+    "h": 329
    },
    {
     "src": "images/7d84d8f88247.jpg",
     "caption": "北京猿人脑部左右不对称[4]",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/The_reconstructed_Zhoukoudian_skull.jpg/330px-The_reconstructed_Zhoukoudian_skull.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/The_reconstructed_Zhoukoudian_skull.jpg/330px-The_reconstructed_Zhoukoudian_skull.jpg",
+    "w": 330,
+    "h": 177
    },
    {
     "src": "images/cf6e20e63081.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/55/66036-Peking-Man-Site_%2828430388510%29.jpg/120px-66036-Peking-Man-Site_%2828430388510%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/55/66036-Peking-Man-Site_%2828430388510%29.jpg/120px-66036-Peking-Man-Site_%2828430388510%29.jpg",
+    "w": 120,
+    "h": 81
    },
    {
     "src": "images/4b89aa6058fc.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/Skull_pekingman.jpg/120px-Skull_pekingman.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/Skull_pekingman.jpg/120px-Skull_pekingman.jpg",
+    "w": 120,
+    "h": 139
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E5%8C%97%E4%BA%AC%E7%8C%BF%E4%BA%BA"
@@ -76,32 +92,44 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/67d0e61f7fd2.jpg",
     "caption": "山顶洞",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Zhoukoudian_Upper_Cave.jpg/500px-Zhoukoudian_Upper_Cave.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Zhoukoudian_Upper_Cave.jpg/500px-Zhoukoudian_Upper_Cave.jpg",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/461710570787.jpg",
     "caption": "山顶洞人头骨化石模型和石器模型，收藏于上海自然博物馆",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6f/Skull_and_Stone_Tools_of_Upper_Cave_Man_%28Cast%29.JPG/500px-Skull_and_Stone_Tools_of_Upper_Cave_Man_%28Cast%29.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6f/Skull_and_Stone_Tools_of_Upper_Cave_Man_%28Cast%29.JPG/500px-Skull_and_Stone_Tools_of_Upper_Cave_Man_%28Cast%29.JPG",
+    "w": 500,
+    "h": 326
    },
    {
     "src": "images/63eebddea435.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/66138-Peking-Man-Site_%2828097385664%29.jpg/500px-66138-Peking-Man-Site_%2828097385664%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/66138-Peking-Man-Site_%2828097385664%29.jpg/500px-66138-Peking-Man-Site_%2828097385664%29.jpg",
+    "w": 500,
+    "h": 334
    },
    {
     "src": "images/3c8a7bb37ac1.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/Zhoukoudian_Site_Entrance.JPG/500px-Zhoukoudian_Site_Entrance.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/Zhoukoudian_Site_Entrance.JPG/500px-Zhoukoudian_Site_Entrance.JPG",
+    "w": 500,
+    "h": 333
    },
    {
     "src": "images/76606e528e14.jpg",
     "caption": "周口店遗址是中国房山联合国教科文组织世界地质公园一部分",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2b/20220104_%E5%8C%97%E4%BA%AC%C2%B7%E5%91%A8%E5%8F%A3%E5%BA%97_Zhoukoudian%2C_Beijing_%E5%9C%B0%E8%B4%A8%E5%85%AC%E5%9B%AD%E6%A6%82%E5%BF%B5%E8%AF%9E%E7%94%9F%E5%9C%B0_The_Birthplace_of_Geopark_Concept.jpg/500px-20220104_%E5%8C%97%E4%BA%AC%C2%B7%E5%91%A8%E5%8F%A3%E5%BA%97_Zhoukoudian%2C_Beijing_%E5%9C%B0%E8%B4%A8%E5%85%AC%E5%9B%AD%E6%A6%82%E5%BF%B5%E8%AF%9E%E7%94%9F%E5%9C%B0_The_Birthplace_of_Geopark_Concept.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2b/20220104_%E5%8C%97%E4%BA%AC%C2%B7%E5%91%A8%E5%8F%A3%E5%BA%97_Zhoukoudian%2C_Beijing_%E5%9C%B0%E8%B4%A8%E5%85%AC%E5%9B%AD%E6%A6%82%E5%BF%B5%E8%AF%9E%E7%94%9F%E5%9C%B0_The_Birthplace_of_Geopark_Concept.jpg/500px-20220104_%E5%8C%97%E4%BA%AC%C2%B7%E5%91%A8%E5%8F%A3%E5%BA%97_Zhoukoudian%2C_Beijing_%E5%9C%B0%E8%B4%A8%E5%85%AC%E5%9B%AD%E6%A6%82%E5%BF%B5%E8%AF%9E%E7%94%9F%E5%9C%B0_The_Birthplace_of_Geopark_Concept.jpg",
+    "w": 500,
+    "h": 667
    },
    {
     "src": "images/c57e30da7450.jpg",
     "caption": "周口店遗址博物馆",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/55/66036-Peking-Man-Site_%2828430388510%29.jpg/500px-66036-Peking-Man-Site_%2828430388510%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/55/66036-Peking-Man-Site_%2828430388510%29.jpg/500px-66036-Peking-Man-Site_%2828430388510%29.jpg",
+    "w": 500,
+    "h": 335
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E5%B1%B1%E9%A1%B6%E6%B4%9E%E4%BA%BA"
@@ -118,12 +146,16 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/74fa5aa19437.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/Nanxun_-_Ancient_water_town_-_0081.jpg/500px-Nanxun_-_Ancient_water_town_-_0081.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/Nanxun_-_Ancient_water_town_-_0081.jpg/500px-Nanxun_-_Ancient_water_town_-_0081.jpg",
+    "w": 500,
+    "h": 312
    },
    {
     "src": "images/b7f3d4a883c6.jpg",
     "caption": "河姆渡遗址模拟的干栏式建筑发掘现场",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/70/Mimic_Archaeological_Site_of_Hemudu_Site.jpg/500px-Mimic_Archaeological_Site_of_Hemudu_Site.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/70/Mimic_Archaeological_Site_of_Hemudu_Site.jpg/500px-Mimic_Archaeological_Site_of_Hemudu_Site.jpg",
+    "w": 500,
+    "h": 375
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E6%B2%B3%E5%A7%86%E6%B8%A1%E6%96%87%E5%8C%96"
@@ -140,22 +172,30 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/cdb3d9833feb.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Banpo_bowl.jpg/500px-Banpo_bowl.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Banpo_bowl.jpg/500px-Banpo_bowl.jpg",
+    "w": 500,
+    "h": 364
    },
    {
     "src": "images/d6b1f90f9d42.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/China_100.78713E_35.63718N-2010-23-08.jpg/500px-China_100.78713E_35.63718N-2010-23-08.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/China_100.78713E_35.63718N-2010-23-08.jpg/500px-China_100.78713E_35.63718N-2010-23-08.jpg",
+    "w": 500,
+    "h": 374
    },
    {
     "src": "images/5c31098e02da.jpg",
     "caption": "鸮面像，仰韶文化庙底沟类型陶器",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5d/Owl%27s_face.jpg/500px-Owl%27s_face.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5d/Owl%27s_face.jpg/500px-Owl%27s_face.jpg",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/bf8a51c5583d.jpg",
     "caption": "汉藏语系的起源与传播。红椭圆是磁山晚期和仰韶早期的文化，即汉藏语系的假定起源。黑色箭头是藏缅语族从汉藏语系分开后向西扩张的假定迁移途径。在将语言比较方法应用于沙",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/The_origin_and_spread_of_the_Sino-Tibetan_language_family.png/500px-The_origin_and_spread_of_the_Sino-Tibetan_language_family.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/The_origin_and_spread_of_the_Sino-Tibetan_language_family.png/500px-The_origin_and_spread_of_the_Sino-Tibetan_language_family.png",
+    "w": 500,
+    "h": 335
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E4%BB%B0%E9%9F%B6%E6%96%87%E5%8C%96"
@@ -172,47 +212,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/74fa5aa19437.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/Nanxun_-_Ancient_water_town_-_0081.jpg/500px-Nanxun_-_Ancient_water_town_-_0081.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/Nanxun_-_Ancient_water_town_-_0081.jpg/500px-Nanxun_-_Ancient_water_town_-_0081.jpg",
+    "w": 500,
+    "h": 312
    },
    {
     "src": "images/d26dc5f6d88e.jpg",
     "caption": "玉璧是良渚文化（新石器时代晚期）最典型、最具代表性的玉礼器之一。在良渚文化中，玉璧通常与玉琮、玉钺共同构成了核心的用玉制度，分别象征着财权、神权与王权，是当时社",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4a/CMOC_Treasures_of_Ancient_China_exhibit_-_jade_disk.jpg/500px-CMOC_Treasures_of_Ancient_China_exhibit_-_jade_disk.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4a/CMOC_Treasures_of_Ancient_China_exhibit_-_jade_disk.jpg/500px-CMOC_Treasures_of_Ancient_China_exhibit_-_jade_disk.jpg",
+    "w": 500,
+    "h": 388
    },
    {
     "src": "images/2a720e415c89.jpg",
     "caption": "良渚遗址反山12号墓出土玉琮",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b7/Jade_Cong_King%2C_2018-06-09_01.jpg/500px-Jade_Cong_King%2C_2018-06-09_01.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b7/Jade_Cong_King%2C_2018-06-09_01.jpg/500px-Jade_Cong_King%2C_2018-06-09_01.jpg",
+    "w": 500,
+    "h": 334
    },
    {
     "src": "images/64adb64f5478.jpg",
     "caption": "良渚文化黑陶豆",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7b/Neolithic_pottery_dou%2C_Liangzhu_Culture%2C_Zhejiang%2C_1955.jpg/500px-Neolithic_pottery_dou%2C_Liangzhu_Culture%2C_Zhejiang%2C_1955.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7b/Neolithic_pottery_dou%2C_Liangzhu_Culture%2C_Zhejiang%2C_1955.jpg/500px-Neolithic_pottery_dou%2C_Liangzhu_Culture%2C_Zhejiang%2C_1955.jpg",
+    "w": 500,
+    "h": 347
    },
    {
     "src": "images/1d5c2929b561.jpg",
     "caption": "良渚文化玉璧",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/%E8%89%AF%E6%B8%9A%E7%8E%89%E5%A3%81.jpg/500px-%E8%89%AF%E6%B8%9A%E7%8E%89%E5%A3%81.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/%E8%89%AF%E6%B8%9A%E7%8E%89%E5%A3%81.jpg/500px-%E8%89%AF%E6%B8%9A%E7%8E%89%E5%A3%81.jpg",
+    "w": 500,
+    "h": 292
    },
    {
     "src": "images/04ced66e47a5.jpg",
     "caption": "良渚古城出土的范围",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/35/Model_of_Liangzhu_Ancient_City_02_2013-10.JPG/500px-Model_of_Liangzhu_Ancient_City_02_2013-10.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/35/Model_of_Liangzhu_Ancient_City_02_2013-10.JPG/500px-Model_of_Liangzhu_Ancient_City_02_2013-10.JPG",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/426b709c7e07.jpg",
     "caption": "经过复原的良渚反山墓地",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6f/Liangzhu_Archaeological_Site%2C_2019-07-20_14.jpg/500px-Liangzhu_Archaeological_Site%2C_2019-07-20_14.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6f/Liangzhu_Archaeological_Site%2C_2019-07-20_14.jpg/500px-Liangzhu_Archaeological_Site%2C_2019-07-20_14.jpg",
+    "w": 500,
+    "h": 334
    },
    {
     "src": "images/a2187944e7c8.jpg",
     "caption": "莫角山台地",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/eb/Liangzhu_Ancient_City_Site%2C_2016-06-18_02.jpg/500px-Liangzhu_Ancient_City_Site%2C_2016-06-18_02.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/eb/Liangzhu_Ancient_City_Site%2C_2016-06-18_02.jpg/500px-Liangzhu_Ancient_City_Site%2C_2016-06-18_02.jpg",
+    "w": 500,
+    "h": 333
    },
    {
     "src": "images/6b782884c59a.jpg",
     "caption": "良渚玉琮上的人面兽面纹",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/%E8%89%AF%E6%B8%9A%E7%8D%B8%E9%9D%A2%E7%B4%8B.png/500px-%E8%89%AF%E6%B8%9A%E7%8D%B8%E9%9D%A2%E7%B4%8B.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/%E8%89%AF%E6%B8%9A%E7%8D%B8%E9%9D%A2%E7%B4%8B.png/500px-%E8%89%AF%E6%B8%9A%E7%8D%B8%E9%9D%A2%E7%B4%8B.png",
+    "w": 500,
+    "h": 378
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E8%89%AF%E6%B8%9A%E6%96%87%E5%8C%96"
@@ -229,17 +287,23 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/dedb1107599e.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a9/Yellowemperor.jpg/500px-Yellowemperor.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a9/Yellowemperor.jpg/500px-Yellowemperor.jpg",
+    "w": 500,
+    "h": 674
    },
    {
     "src": "images/82324d326bb8.jpg",
     "caption": "黄帝",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/33/Yellow_Emperor.jpg/500px-Yellow_Emperor.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/33/Yellow_Emperor.jpg/500px-Yellow_Emperor.jpg",
+    "w": 500,
+    "h": 601
    },
    {
     "src": "images/0cae2ea46954.jpg",
     "caption": "中国木刻版画，著名医学人物：黄帝",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Chinese_woodcut%2C_Famous_medical_figures%3B_The_Yellow_Emperor_Wellcome_L0039314.jpg/500px-Chinese_woodcut%2C_Famous_medical_figures%3B_The_Yellow_Emperor_Wellcome_L0039314.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Chinese_woodcut%2C_Famous_medical_figures%3B_The_Yellow_Emperor_Wellcome_L0039314.jpg/500px-Chinese_woodcut%2C_Famous_medical_figures%3B_The_Yellow_Emperor_Wellcome_L0039314.jpg",
+    "w": 500,
+    "h": 750
    },
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Chi_You.gif/330px-Chi_You.gif",
@@ -272,12 +336,16 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/efe3e4314d7a.jpg",
     "caption": "龙山文化的蛋壳高柄杯，1976年山东省诸城呈子遗址出土",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Longshan_eggshell_thin_cup.jpg/500px-Longshan_eggshell_thin_cup.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Longshan_eggshell_thin_cup.jpg/500px-Longshan_eggshell_thin_cup.jpg",
+    "w": 500,
+    "h": 667
    },
    {
     "src": "images/4b4d349eac97.jpg",
     "caption": "玉器，现藏于山东博物馆",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Jadeware_produced_during_Longshan_culture_period.jpg/500px-Jadeware_produced_during_Longshan_culture_period.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Jadeware_produced_during_Longshan_culture_period.jpg/500px-Jadeware_produced_during_Longshan_culture_period.jpg",
+    "w": 500,
+    "h": 362
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E9%BE%99%E5%B1%B1%E6%96%87%E5%8C%96"
@@ -294,17 +362,23 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/ddc2725e9af9.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Nine_Provinces_of_China.png/500px-Nine_Provinces_of_China.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Nine_Provinces_of_China.png/500px-Nine_Provinces_of_China.png",
+    "w": 500,
+    "h": 354
    },
    {
     "src": "images/4629b634572d.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/King_Yu_of_Xia.jpg/500px-King_Yu_of_Xia.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/King_Yu_of_Xia.jpg/500px-King_Yu_of_Xia.jpg",
+    "w": 500,
+    "h": 1082
    },
    {
     "src": "images/5619a5dbf108.jpg",
     "caption": "大禹手持耒耜治水图",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/90/%E5%A4%A7%E7%A6%B9%E6%B2%BB%E6%B0%B4%E5%9C%96.png/500px-%E5%A4%A7%E7%A6%B9%E6%B2%BB%E6%B0%B4%E5%9C%96.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/90/%E5%A4%A7%E7%A6%B9%E6%B2%BB%E6%B0%B4%E5%9C%96.png/500px-%E5%A4%A7%E7%A6%B9%E6%B2%BB%E6%B0%B4%E5%9C%96.png",
+    "w": 500,
+    "h": 712
    },
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Portraits_of_Famous_Men_-_Da_Yu.jpg/500px-Portraits_of_Famous_Men_-_Da_Yu.jpg",
@@ -329,47 +403,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/5619a5dbf108.jpg",
     "caption": "手持耒耜之大禹治水图（山东嘉祥武梁祠拓片，汉刻）",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/90/%E5%A4%A7%E7%A6%B9%E6%B2%BB%E6%B0%B4%E5%9C%96.png/500px-%E5%A4%A7%E7%A6%B9%E6%B2%BB%E6%B0%B4%E5%9C%96.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/90/%E5%A4%A7%E7%A6%B9%E6%B2%BB%E6%B0%B4%E5%9C%96.png/500px-%E5%A4%A7%E7%A6%B9%E6%B2%BB%E6%B0%B4%E5%9C%96.png",
+    "w": 500,
+    "h": 712
    },
    {
     "src": "images/3d0aa834aa17.jpg",
     "caption": "夏王启",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2b/%E5%A4%8F%E7%8E%8B%E5%90%AF.png/330px-%E5%A4%8F%E7%8E%8B%E5%90%AF.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2b/%E5%A4%8F%E7%8E%8B%E5%90%AF.png/330px-%E5%A4%8F%E7%8E%8B%E5%90%AF.png",
+    "w": 330,
+    "h": 518
    },
    {
     "src": "images/4629b634572d.jpg",
     "caption": "大禹像（宋·马麟绘）杼全面地继承了大禹的事业",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/King_Yu_of_Xia.jpg/500px-King_Yu_of_Xia.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/King_Yu_of_Xia.jpg/500px-King_Yu_of_Xia.jpg",
+    "w": 500,
+    "h": 1082
    },
    {
     "src": "images/ce9662493c05.jpg",
     "caption": "手持戟、把女仆当椅凳坐的桀（山东嘉祥武梁祠拓片，东汉刻）",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/Xiajie.png/330px-Xiajie.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/Xiajie.png/330px-Xiajie.png",
+    "w": 330,
+    "h": 467
    },
    {
     "src": "images/131714d93684.jpg",
     "caption": "禹贡九州图（图上方指向西方）（宋·《禹贡山川地理图》）",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/%E7%A6%B9%E8%B4%A1%E4%B9%9D%E5%B7%9E%E5%9B%BE.jpg/330px-%E7%A6%B9%E8%B4%A1%E4%B9%9D%E5%B7%9E%E5%9B%BE.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/%E7%A6%B9%E8%B4%A1%E4%B9%9D%E5%B7%9E%E5%9B%BE.jpg/330px-%E7%A6%B9%E8%B4%A1%E4%B9%9D%E5%B7%9E%E5%9B%BE.jpg",
+    "w": 330,
+    "h": 240
    },
    {
     "src": "images/2a1f3b59c317.jpg",
     "caption": "善射的后羿（东汉刻）",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f4/%E5%90%8E%E7%BE%BF%E5%B0%84%E6%97%A5.png/330px-%E5%90%8E%E7%BE%BF%E5%B0%84%E6%97%A5.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f4/%E5%90%8E%E7%BE%BF%E5%B0%84%E6%97%A5.png/330px-%E5%90%8E%E7%BE%BF%E5%B0%84%E6%97%A5.png",
+    "w": 330,
+    "h": 311
    },
    {
     "src": "images/9a71ee7ec0d0.jpg",
     "caption": "商汤像（南宋·马麟绘）",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/52/King_Tang_of_Shang.jpg/500px-King_Tang_of_Shang.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/52/King_Tang_of_Shang.jpg/500px-King_Tang_of_Shang.jpg",
+    "w": 500,
+    "h": 1099
    },
    {
     "src": "images/b5e3541930e7.jpg",
     "caption": "五服示意图（清·《钦定书经图说》）",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/81/%E4%BA%94%E6%9C%8D%E5%9B%BE.png/330px-%E4%BA%94%E6%9C%8D%E5%9B%BE.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/81/%E4%BA%94%E6%9C%8D%E5%9B%BE.png/330px-%E4%BA%94%E6%9C%8D%E5%9B%BE.png",
+    "w": 330,
+    "h": 388
    },
    {
     "src": "images/a4f31e46f252.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/CMOC_Treasures_of_Ancient_China_exhibit_-_pottery_gu.jpg/120px-CMOC_Treasures_of_Ancient_China_exhibit_-_pottery_gu.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/CMOC_Treasures_of_Ancient_China_exhibit_-_pottery_gu.jpg/120px-CMOC_Treasures_of_Ancient_China_exhibit_-_pottery_gu.jpg",
+    "w": 120,
+    "h": 180
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E5%A4%8F%E6%9C%9D"
@@ -386,47 +478,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/ed7ed40b4556.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/96/Shang_dynasty_sites.png/500px-Shang_dynasty_sites.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/96/Shang_dynasty_sites.png/500px-Shang_dynasty_sites.png",
+    "w": 500,
+    "h": 312
    },
    {
     "src": "images/dd15c58f1e01.jpg",
     "caption": "山西出土的商朝贝形古钱",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a0/Bronze_cowries.jpg/500px-Bronze_cowries.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a0/Bronze_cowries.jpg/500px-Bronze_cowries.jpg",
+    "w": 500,
+    "h": 279
    },
    {
     "src": "images/5b0e4d699610.jpg",
     "caption": "牲首铜尊。商代（前1600-前1046）。现存于湖南省博物馆",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a3/Bronze_Zun_with_Cattle%2C_Shang_dynasty%2C_Hunan_Museum.jpg/500px-Bronze_Zun_with_Cattle%2C_Shang_dynasty%2C_Hunan_Museum.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a3/Bronze_Zun_with_Cattle%2C_Shang_dynasty%2C_Hunan_Museum.jpg/500px-Bronze_Zun_with_Cattle%2C_Shang_dynasty%2C_Hunan_Museum.jpg",
+    "w": 500,
+    "h": 667
    },
    {
     "src": "images/d33272d78262.jpg",
     "caption": "豖磬。小猪一样形状的磬。“磬”是古代中国一种打击乐器。商代（前1600-前1046）。2012年出土于湖南省汨罗市。现存于湖南省博物馆",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Chu_Qing%2C_Shang_dynasty%2C_Hunan_Museum.jpg/500px-Chu_Qing%2C_Shang_dynasty%2C_Hunan_Museum.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Chu_Qing%2C_Shang_dynasty%2C_Hunan_Museum.jpg/500px-Chu_Qing%2C_Shang_dynasty%2C_Hunan_Museum.jpg",
+    "w": 500,
+    "h": 667
    },
    {
     "src": "images/210d95625936.jpg",
     "caption": "“皿而全”铜方罍。商代（前1600-前1046）。1919年桃源县水田乡茅山峪出土。通高88厘米，口长26.1厘米，口宽21.6厘米。现存于湖南省博物馆",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/12/Min_Er_Quan_Bronze_Square_Lei%2C_Shang_dynasty%2C_Hunan_Museum%2C_picture2.jpg/500px-Min_Er_Quan_Bronze_Square_Lei%2C_Shang_dynasty%2C_Hunan_Museum%2C_picture2.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/12/Min_Er_Quan_Bronze_Square_Lei%2C_Shang_dynasty%2C_Hunan_Museum%2C_picture2.jpg/500px-Min_Er_Quan_Bronze_Square_Lei%2C_Shang_dynasty%2C_Hunan_Museum%2C_picture2.jpg",
+    "w": 500,
+    "h": 896
    },
    {
     "src": "images/08807afb0b5f.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/Liu_Ding.jpg/250px-Liu_Ding.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/Liu_Ding.jpg/250px-Liu_Ding.jpg",
+    "w": 250,
+    "h": 253
    },
    {
     "src": "images/75ae5ac7767e.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/Square_zun_with_four_sheep_01.jpg/250px-Square_zun_with_four_sheep_01.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/Square_zun_with_four_sheep_01.jpg/250px-Square_zun_with_four_sheep_01.jpg",
+    "w": 250,
+    "h": 288
    },
    {
     "src": "images/727a885bb362.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/52/Ring_with_coiled_dragon_design.jpg/250px-Ring_with_coiled_dragon_design.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/52/Ring_with_coiled_dragon_design.jpg/250px-Ring_with_coiled_dragon_design.jpg",
+    "w": 250,
+    "h": 187
    },
    {
     "src": "images/ff542ebf8fde.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/70/Shang_Jade_Statue_Pendant.jpg/120px-Shang_Jade_Statue_Pendant.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/70/Shang_Jade_Statue_Pendant.jpg/120px-Shang_Jade_Statue_Pendant.jpg",
+    "w": 120,
+    "h": 188
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E5%95%86%E6%9C%9D"
@@ -443,47 +553,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/2f969da6c8f1.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ce/Zhou-inscription.png/330px-Zhou-inscription.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ce/Zhou-inscription.png/330px-Zhou-inscription.png",
+    "w": 330,
+    "h": 429
    },
    {
     "src": "images/c9d4956e3b91.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/Shang_dynasty_inscribed_scapula.jpg/500px-Shang_dynasty_inscribed_scapula.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/Shang_dynasty_inscribed_scapula.jpg/500px-Shang_dynasty_inscribed_scapula.jpg",
+    "w": 500,
+    "h": 770
    },
    {
     "src": "images/58715b112c0b.jpg",
     "caption": "德国收藏的甲骨文",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/be/Shang-Orakelknochen_excerpt_adjusted_for_contrast.jpg/250px-Shang-Orakelknochen_excerpt_adjusted_for_contrast.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/be/Shang-Orakelknochen_excerpt_adjusted_for_contrast.jpg/250px-Shang-Orakelknochen_excerpt_adjusted_for_contrast.jpg",
+    "w": 250,
+    "h": 449
    },
    {
     "src": "images/de5b144376e6.jpg",
     "caption": "刻在肩胛骨上的甲骨文",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c3/OracleBone.JPG/330px-OracleBone.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c3/OracleBone.JPG/330px-OracleBone.JPG",
+    "w": 330,
+    "h": 531
    },
    {
     "src": "images/1465ba0dc021.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/CMOC_Treasures_of_Ancient_China_exhibit_-_oracle_bone_inscription.jpg/120px-CMOC_Treasures_of_Ancient_China_exhibit_-_oracle_bone_inscription.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/CMOC_Treasures_of_Ancient_China_exhibit_-_oracle_bone_inscription.jpg/120px-CMOC_Treasures_of_Ancient_China_exhibit_-_oracle_bone_inscription.jpg",
+    "w": 120,
+    "h": 180
    },
    {
     "src": "images/a413c0ba2721.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8e/Shang_dynasty_inscribed_tortoise_plastron.jpg/120px-Shang_dynasty_inscribed_tortoise_plastron.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8e/Shang_dynasty_inscribed_tortoise_plastron.jpg/120px-Shang_dynasty_inscribed_tortoise_plastron.jpg",
+    "w": 120,
+    "h": 198
    },
    {
     "src": "images/6502126d4a61.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/Heji_37986_Ganzhi_table_%28cropped%29.jpg/60px-Heji_37986_Ganzhi_table_%28cropped%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/Heji_37986_Ganzhi_table_%28cropped%29.jpg/60px-Heji_37986_Ganzhi_table_%28cropped%29.jpg",
+    "w": 60,
+    "h": 147
    },
    {
     "src": "images/d761982c91bb.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/06/OracleDivining.jpg/120px-OracleDivining.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/06/OracleDivining.jpg/120px-OracleDivining.jpg",
+    "w": 120,
+    "h": 165
    },
    {
     "src": "images/05db9786bc1d.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/OracleSun.jpg/120px-OracleSun.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/OracleSun.jpg/120px-OracleSun.jpg",
+    "w": 120,
+    "h": 179
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E7%94%B2%E9%AA%A8%E6%96%87"
@@ -500,17 +628,23 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/a14dd32949d3.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c2/HouMuWuDingFullView.jpg/500px-HouMuWuDingFullView.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c2/HouMuWuDingFullView.jpg/500px-HouMuWuDingFullView.jpg",
+    "w": 500,
+    "h": 651
    },
    {
     "src": "images/e85a274e7b7e.jpg",
     "caption": "后母戊鼎局部",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Simuwuding.JPG/500px-Simuwuding.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Simuwuding.JPG/500px-Simuwuding.JPG",
+    "w": 500,
+    "h": 314
    },
    {
     "src": "images/c1b1af7bc22e.jpg",
     "caption": "蒋介石参观司母戊大方鼎",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/36/Chiang_and_HouMuWu_Ding.jpg/500px-Chiang_and_HouMuWu_Ding.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/36/Chiang_and_HouMuWu_Ding.jpg/500px-Chiang_and_HouMuWu_Ding.jpg",
+    "w": 500,
+    "h": 590
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E5%90%8E%E6%AF%8D%E6%88%8A%E9%BC%8E"
@@ -527,7 +661,9 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/6b6048320c79.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f0/China_1.jpg/330px-China_1.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f0/China_1.jpg/330px-China_1.jpg",
+    "w": 330,
+    "h": 421
    },
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/King_Wu_of_Zhou.jpg/500px-King_Wu_of_Zhou.jpg",
@@ -600,47 +736,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/39e26dac5754.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/%E5%AD%94%E5%AD%90%E7%87%95%E5%B1%85%E5%83%8F.png/500px-%E5%AD%94%E5%AD%90%E7%87%95%E5%B1%85%E5%83%8F.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/%E5%AD%94%E5%AD%90%E7%87%95%E5%B1%85%E5%83%8F.png/500px-%E5%AD%94%E5%AD%90%E7%87%95%E5%B1%85%E5%83%8F.png",
+    "w": 500,
+    "h": 617
    },
    {
     "src": "images/0b0825d5d9a6.jpg",
     "caption": "小说《东周列国志》“会夹谷孔子却齐”插画",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/55/%E4%BC%9A%E5%A4%B9%E8%B0%B7%E5%AD%94%E5%AD%90%E5%8D%B4%E9%BD%90.png/500px-%E4%BC%9A%E5%A4%B9%E8%B0%B7%E5%AD%94%E5%AD%90%E5%8D%B4%E9%BD%90.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/55/%E4%BC%9A%E5%A4%B9%E8%B0%B7%E5%AD%94%E5%AD%90%E5%8D%B4%E9%BD%90.png/500px-%E4%BC%9A%E5%A4%B9%E8%B0%B7%E5%AD%94%E5%AD%90%E5%8D%B4%E9%BD%90.png",
+    "w": 500,
+    "h": 743
    },
    {
     "src": "images/33cde4ec1fef.jpg",
     "caption": "相传唐代吴道子所绘孔子像",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/Confucius_Tang_Dynasty.jpg/330px-Confucius_Tang_Dynasty.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/Confucius_Tang_Dynasty.jpg/330px-Confucius_Tang_Dynasty.jpg",
+    "w": 330,
+    "h": 603
    },
    {
     "src": "images/b5838b3dcb4d.jpg",
     "caption": "中华民国孔孟学会赠予新加坡南洋孔教会的孔子像",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Chinese_Garden%2C_Singapore_04-12-2024%28238%29.jpg/500px-Chinese_Garden%2C_Singapore_04-12-2024%28238%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Chinese_Garden%2C_Singapore_04-12-2024%28238%29.jpg/500px-Chinese_Garden%2C_Singapore_04-12-2024%28238%29.jpg",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/37edf6326765.jpg",
     "caption": "孔子画像",
-    "remote": "https://upload.wikimedia.org/wikipedia/commons/2/2d/Confucius_02.png"
+    "remote": "https://upload.wikimedia.org/wikipedia/commons/2/2d/Confucius_02.png",
+    "w": 192,
+    "h": 390
    },
    {
     "src": "images/57bbdf1282fc.jpg",
     "caption": "明代仇英所绘孔子像",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6c/%E5%AD%94%E5%AD%90%E8%81%96%E8%B9%9F%E5%9C%96.png/500px-%E5%AD%94%E5%AD%90%E8%81%96%E8%B9%9F%E5%9C%96.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6c/%E5%AD%94%E5%AD%90%E8%81%96%E8%B9%9F%E5%9C%96.png/500px-%E5%AD%94%E5%AD%90%E8%81%96%E8%B9%9F%E5%9C%96.png",
+    "w": 500,
+    "h": 875
    },
    {
     "src": "images/ead4b41287e8.jpg",
     "caption": "元刊覆宋本何晏《论语集解》",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4b/Analects_LunYu_Rongo2.JPG/500px-Analects_LunYu_Rongo2.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4b/Analects_LunYu_Rongo2.JPG/500px-Analects_LunYu_Rongo2.JPG",
+    "w": 500,
+    "h": 912
    },
    {
     "src": "images/6bac7893b7ee.jpg",
     "caption": "孔子弟子颜渊像",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/44/Half_Portraits_of_the_Great_Sage_and_Virtuous_Men_of_Old_-_Yan_Hui_Ziyuan_%28%E9%A1%8F%E5%9B%9E_%E5%AD%90%E6%B7%B5%29.jpg/500px-Half_Portraits_of_the_Great_Sage_and_Virtuous_Men_of_Old_-_Yan_Hui_Ziyuan_%28%E9%A1%8F%E5%9B%9E_%E5%AD%90%E6%B7%B5%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/44/Half_Portraits_of_the_Great_Sage_and_Virtuous_Men_of_Old_-_Yan_Hui_Ziyuan_%28%E9%A1%8F%E5%9B%9E_%E5%AD%90%E6%B7%B5%29.jpg/500px-Half_Portraits_of_the_Great_Sage_and_Virtuous_Men_of_Old_-_Yan_Hui_Ziyuan_%28%E9%A1%8F%E5%9B%9E_%E5%AD%90%E6%B7%B5%29.jpg",
+    "w": 500,
+    "h": 677
    },
    {
     "src": "images/a539ae3a3632.jpg",
     "caption": "嘉定孔庙",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/20130918-%E5%98%89%E5%AE%9A%E5%AD%94%E5%BA%99-2.jpg/500px-20130918-%E5%98%89%E5%AE%9A%E5%AD%94%E5%BA%99-2.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/20130918-%E5%98%89%E5%AE%9A%E5%AD%94%E5%BA%99-2.jpg/500px-20130918-%E5%98%89%E5%AE%9A%E5%AD%94%E5%BA%99-2.jpg",
+    "w": 500,
+    "h": 333
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E5%AD%94%E5%AD%90"
@@ -657,22 +811,30 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/d2f7229a9423.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Bamboo_book_-_unfolded_-_UCR.jpg/500px-Bamboo_book_-_unfolded_-_UCR.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Bamboo_book_-_unfolded_-_UCR.jpg/500px-Bamboo_book_-_unfolded_-_UCR.jpg",
+    "w": 500,
+    "h": 380
    },
    {
     "src": "images/bb3f3321d944.jpg",
     "caption": "1972年于山东省临沂市银雀山汉墓出土的《孙子兵法》竹简，现藏于山东博物馆",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/Inscribed_bamboo-slips_of_Art_of_War.jpg/500px-Inscribed_bamboo-slips_of_Art_of_War.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/Inscribed_bamboo-slips_of_Art_of_War.jpg/500px-Inscribed_bamboo-slips_of_Art_of_War.jpg",
+    "w": 500,
+    "h": 333
    },
    {
     "src": "images/2870baaf82b4.jpg",
     "caption": "《孙子兵法》译本竹简，为河滨加利福尼亚大学藏书",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/Bamboo_book_-_binding_-_UCR.jpg/500px-Bamboo_book_-_binding_-_UCR.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/Bamboo_book_-_binding_-_UCR.jpg/500px-Bamboo_book_-_binding_-_UCR.jpg",
+    "w": 500,
+    "h": 579
    },
    {
     "src": "images/b1f5af70fb27.jpg",
     "caption": "西夏文的草书《孙子兵法》局部，藏于宁夏档案馆",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3a/The_Art_of_War-Tangut_script.jpg/500px-The_Art_of_War-Tangut_script.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3a/The_Art_of_War-Tangut_script.jpg/500px-The_Art_of_War-Tangut_script.jpg",
+    "w": 500,
+    "h": 293
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E5%AD%99%E5%AD%90%E5%85%B5%E6%B3%95"
@@ -753,7 +915,9 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/539b974eb4a8.jpg",
     "caption": "战国形势图（前280年）",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7f/%E6%88%98%E5%9B%BD%E5%BD%A2%E5%8A%BF%E5%9B%BE%EF%BC%88%E5%89%8D280%E5%B9%B4%EF%BC%89%EF%BC%88%E7%AE%80%EF%BC%89.png/500px-%E6%88%98%E5%9B%BD%E5%BD%A2%E5%8A%BF%E5%9B%BE%EF%BC%88%E5%89%8D280%E5%B9%B4%EF%BC%89%EF%BC%88%E7%AE%80%EF%BC%89.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7f/%E6%88%98%E5%9B%BD%E5%BD%A2%E5%8A%BF%E5%9B%BE%EF%BC%88%E5%89%8D280%E5%B9%B4%EF%BC%89%EF%BC%88%E7%AE%80%EF%BC%89.png/500px-%E6%88%98%E5%9B%BD%E5%BD%A2%E5%8A%BF%E5%9B%BE%EF%BC%88%E5%89%8D280%E5%B9%B4%EF%BC%89%EF%BC%88%E7%AE%80%EF%BC%89.png",
+    "w": 500,
+    "h": 534
    },
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/%E5%AE%9C%E5%9F%8E%E5%8E%BF%E5%BF%97%E5%85%B3%E4%BA%8E%E7%99%BD%E8%B5%B7%E6%B8%A0%E7%9A%84%E4%BB%8B%E7%BB%8D.jpg/330px-%E5%AE%9C%E5%9F%8E%E5%8E%BF%E5%BF%97%E5%85%B3%E4%BA%8E%E7%99%BD%E8%B5%B7%E6%B8%A0%E7%9A%84%E4%BB%8B%E7%BB%8D.jpg",
@@ -782,47 +946,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/eade6a363bf2.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d2/36661-Dujiangyan_%2844634340644%29.jpg/500px-36661-Dujiangyan_%2844634340644%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d2/36661-Dujiangyan_%2844634340644%29.jpg/500px-36661-Dujiangyan_%2844634340644%29.jpg",
+    "w": 500,
+    "h": 293
    },
    {
     "src": "images/e57cadb0ebb9.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/Dujiang_Weir.jpg/500px-Dujiang_Weir.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/Dujiang_Weir.jpg/500px-Dujiang_Weir.jpg",
+    "w": 500,
+    "h": 211
    },
    {
     "src": "images/f4c46ceb37cc.jpg",
     "caption": "江水分流为二",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/55/Dujiangyan_irrigation_system%2C_Sichuan%2C_China.JPG/500px-Dujiangyan_irrigation_system%2C_Sichuan%2C_China.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/55/Dujiangyan_irrigation_system%2C_Sichuan%2C_China.JPG/500px-Dujiangyan_irrigation_system%2C_Sichuan%2C_China.JPG",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/bbf2f4fa348a.jpg",
     "caption": "鱼嘴近照",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/36676-Dujiangyan_%2831482768188%29.jpg/500px-36676-Dujiangyan_%2831482768188%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/36676-Dujiangyan_%2831482768188%29.jpg/500px-36676-Dujiangyan_%2831482768188%29.jpg",
+    "w": 500,
+    "h": 333
    },
    {
     "src": "images/64c857c09f7e.jpg",
     "caption": "宝瓶口",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b7/Baopingkou1.jpg/330px-Baopingkou1.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b7/Baopingkou1.jpg/330px-Baopingkou1.jpg",
+    "w": 330,
+    "h": 440
    },
    {
     "src": "images/af8c3080095a.jpg",
     "caption": "宝瓶口与离堆。图左水道是宝瓶口，图右山体是离堆。",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/%E9%83%BD%E6%B1%9F%E5%A0%B0%E5%AE%9D%E7%93%B6%E5%8F%A3.jpg/500px-%E9%83%BD%E6%B1%9F%E5%A0%B0%E5%AE%9D%E7%93%B6%E5%8F%A3.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/%E9%83%BD%E6%B1%9F%E5%A0%B0%E5%AE%9D%E7%93%B6%E5%8F%A3.jpg/500px-%E9%83%BD%E6%B1%9F%E5%A0%B0%E5%AE%9D%E7%93%B6%E5%8F%A3.jpg",
+    "w": 500,
+    "h": 307
    },
    {
     "src": "images/661e74cf0830.jpg",
     "caption": "二王庙三官殿，墙上镌刻的是都江堰治水口诀。摄于2007年。",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2f/Sanguan_Hall_of_Erwang_Temple.jpg/500px-Sanguan_Hall_of_Erwang_Temple.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2f/Sanguan_Hall_of_Erwang_Temple.jpg/500px-Sanguan_Hall_of_Erwang_Temple.jpg",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/d9b7084ff2f7.jpg",
     "caption": "东汉石像，上有铭文“李府君讳冰”，1974年在外江出土",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/Li_Bing_Statue_2.JPG/500px-Li_Bing_Statue_2.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/Li_Bing_Statue_2.JPG/500px-Li_Bing_Statue_2.JPG",
+    "w": 500,
+    "h": 667
    },
    {
     "src": "images/b5044590c6d4.jpg",
     "caption": "仿照传统技术制作的竹笼和杩槎",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/da/Dujiangyan_Macha.jpg/500px-Dujiangyan_Macha.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/da/Dujiangyan_Macha.jpg/500px-Dujiangyan_Macha.jpg",
+    "w": 500,
+    "h": 375
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E9%83%BD%E6%B1%9F%E5%A0%B0"
@@ -839,47 +1021,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/6d3ac7bd82bb.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/Qinshihuang.jpg/500px-Qinshihuang.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/Qinshihuang.jpg/500px-Qinshihuang.jpg",
+    "w": 500,
+    "h": 750
    },
    {
     "src": "images/8efe13079a11.jpg",
     "caption": "邯郸秦始皇雕像",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/Qin_Shi_Huang_statue.jpg/500px-Qin_Shi_Huang_statue.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/Qin_Shi_Huang_statue.jpg/500px-Qin_Shi_Huang_statue.jpg",
+    "w": 500,
+    "h": 715
    },
    {
     "src": "images/205a40d9bd7b.jpg",
     "caption": "《史记·卷六·秦始皇本纪》古籍刻本",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/Qin_first_emperor_annals.JPG/500px-Qin_first_emperor_annals.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/Qin_first_emperor_annals.JPG/500px-Qin_first_emperor_annals.JPG",
+    "w": 500,
+    "h": 333
    },
    {
     "src": "images/750a1dcb19bb.jpg",
     "caption": "秦始皇，绣像东周列国全志插图",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/%E7%A7%A6%E5%A7%8B%E7%9A%87_%E7%B9%A1%E5%83%8F%E6%9D%B1%E5%91%A8%E5%88%97%E5%9C%8B%E5%85%A8%E5%BF%97.jpg/500px-%E7%A7%A6%E5%A7%8B%E7%9A%87_%E7%B9%A1%E5%83%8F%E6%9D%B1%E5%91%A8%E5%88%97%E5%9C%8B%E5%85%A8%E5%BF%97.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/%E7%A7%A6%E5%A7%8B%E7%9A%87_%E7%B9%A1%E5%83%8F%E6%9D%B1%E5%91%A8%E5%88%97%E5%9C%8B%E5%85%A8%E5%BF%97.jpg/500px-%E7%A7%A6%E5%A7%8B%E7%9A%87_%E7%B9%A1%E5%83%8F%E6%9D%B1%E5%91%A8%E5%88%97%E5%9C%8B%E5%85%A8%E5%BF%97.jpg",
+    "w": 500,
+    "h": 682
    },
    {
     "src": "images/4dc809066d53.jpg",
     "caption": "郑国渠的现今位置",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6a/Zhengguo_Canal_Map_zh.png/330px-Zhengguo_Canal_Map_zh.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6a/Zhengguo_Canal_Map_zh.png/330px-Zhengguo_Canal_Map_zh.png",
+    "w": 330,
+    "h": 271
    },
    {
     "src": "images/b3441cf9a4ce.jpg",
     "caption": "秦灭六国形势图",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/%E7%A7%A6%E7%81%AD%E5%85%AD%E5%9B%BD%E5%BD%A2%E5%8A%BF%E5%9B%BE.png/500px-%E7%A7%A6%E7%81%AD%E5%85%AD%E5%9B%BD%E5%BD%A2%E5%8A%BF%E5%9B%BE.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/%E7%A7%A6%E7%81%AD%E5%85%AD%E5%9B%BD%E5%BD%A2%E5%8A%BF%E5%9B%BE.png/500px-%E7%A7%A6%E7%81%AD%E5%85%AD%E5%9B%BD%E5%BD%A2%E5%8A%BF%E5%9B%BE.png",
+    "w": 500,
+    "h": 447
    },
    {
     "src": "images/539b974eb4a8.jpg",
     "caption": "战国形势图（前280年）",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7f/%E6%88%98%E5%9B%BD%E5%BD%A2%E5%8A%BF%E5%9B%BE%EF%BC%88%E5%89%8D280%E5%B9%B4%EF%BC%89%EF%BC%88%E7%AE%80%EF%BC%89.png/500px-%E6%88%98%E5%9B%BD%E5%BD%A2%E5%8A%BF%E5%9B%BE%EF%BC%88%E5%89%8D280%E5%B9%B4%EF%BC%89%EF%BC%88%E7%AE%80%EF%BC%89.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7f/%E6%88%98%E5%9B%BD%E5%BD%A2%E5%8A%BF%E5%9B%BE%EF%BC%88%E5%89%8D280%E5%B9%B4%EF%BC%89%EF%BC%88%E7%AE%80%EF%BC%89.png/500px-%E6%88%98%E5%9B%BD%E5%BD%A2%E5%8A%BF%E5%9B%BE%EF%BC%88%E5%89%8D280%E5%B9%B4%EF%BC%89%EF%BC%88%E7%AE%80%EF%BC%89.png",
+    "w": 500,
+    "h": 534
    },
    {
     "src": "images/f746418b16c4.jpg",
     "caption": "秦代杜虎符，陕西历史博物馆藏，西安市南郊山门口出土，虎符是古代朝廷用于传达命令、调动军队的一种特殊凭证。通常作虎形，分为左右两半，右半符留在京师，左半符颁发给屯",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/Qin_tiger_tally%2C_Shaanxi_History_Museum.jpg/500px-Qin_tiger_tally%2C_Shaanxi_History_Museum.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/Qin_tiger_tally%2C_Shaanxi_History_Museum.jpg/500px-Qin_tiger_tally%2C_Shaanxi_History_Museum.jpg",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/8a32b383d928.jpg",
     "caption": "中国山东省武氏祠“荆轲刺秦王”石刻，左边为秦王政，右边为荆轲，中央伏在地上的是秦舞阳，下面是樊於期之首级",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/Jingkeciqinwang.png/500px-Jingkeciqinwang.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/Jingkeciqinwang.png/500px-Jingkeciqinwang.png",
+    "w": 500,
+    "h": 284
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E7%A7%A6%E5%A7%8B%E7%9A%87"
@@ -896,47 +1096,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/2f2e86c36c60.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/The_Great_Wall_of_China_at_Jinshanling-edit.jpg/500px-The_Great_Wall_of_China_at_Jinshanling-edit.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/The_Great_Wall_of_China_at_Jinshanling-edit.jpg/500px-The_Great_Wall_of_China_at_Jinshanling-edit.jpg",
+    "w": 500,
+    "h": 332
    },
    {
     "src": "images/b8904b1d7d06.jpg",
     "caption": "长城的位置",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/Map_of_the_Great_Wall_of_China.jpg/500px-Map_of_the_Great_Wall_of_China.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/Map_of_the_Great_Wall_of_China.jpg/500px-Map_of_the_Great_Wall_of_China.jpg",
+    "w": 500,
+    "h": 402
    },
    {
     "src": "images/f82ded28da8d.jpg",
     "caption": "长城的城垛",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0e/GreatWall2.jpg/500px-GreatWall2.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0e/GreatWall2.jpg/500px-GreatWall2.jpg",
+    "w": 500,
+    "h": 667
    },
    {
     "src": "images/335e80a64912.jpg",
     "caption": "1900年的南口附近的长城",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Great_Wall_near_Nankow.jpg/500px-Great_Wall_near_Nankow.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Great_Wall_near_Nankow.jpg/500px-Great_Wall_near_Nankow.jpg",
+    "w": 500,
+    "h": 373
    },
    {
     "src": "images/ba927716dbd7.jpg",
     "caption": "清朝时1907年的长城照片",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/db/Greatwall_large.jpg/500px-Greatwall_large.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/db/Greatwall_large.jpg/500px-Greatwall_large.jpg",
+    "w": 500,
+    "h": 578
    },
    {
     "src": "images/1d29d8f60825.jpg",
     "caption": "金山岭长城",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/20090529_Great_Wall_8185.jpg/500px-20090529_Great_Wall_8185.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/20090529_Great_Wall_8185.jpg/500px-20090529_Great_Wall_8185.jpg",
+    "w": 500,
+    "h": 332
    },
    {
     "src": "images/71a45f5b0e83.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/20090529_Great_Wall_8125.jpg/250px-20090529_Great_Wall_8125.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/20090529_Great_Wall_8125.jpg/250px-20090529_Great_Wall_8125.jpg",
+    "w": 250,
+    "h": 166
    },
    {
     "src": "images/e9ea9bf4d2f2.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Great_wall_of_china-mutianyu_4.JPG/250px-Great_wall_of_china-mutianyu_4.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Great_wall_of_china-mutianyu_4.JPG/250px-Great_wall_of_china-mutianyu_4.JPG",
+    "w": 250,
+    "h": 187
    },
    {
     "src": "images/f85a66559ee3.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5c/GreatWall_2004_Summer_1.jpg/250px-GreatWall_2004_Summer_1.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5c/GreatWall_2004_Summer_1.jpg/250px-GreatWall_2004_Summer_1.jpg",
+    "w": 250,
+    "h": 187
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E9%95%BF%E5%9F%8E"
@@ -953,47 +1171,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/1cfb4934d66c.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/51714-Terracota-Army.jpg/500px-51714-Terracota-Army.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/51714-Terracota-Army.jpg/500px-51714-Terracota-Army.jpg",
+    "w": 500,
+    "h": 331
    },
    {
     "src": "images/899f5e4f81dc.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/41/China_edcp_relief_location_map.jpg/500px-China_edcp_relief_location_map.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/41/China_edcp_relief_location_map.jpg/500px-China_edcp_relief_location_map.jpg",
+    "w": 500,
+    "h": 398
    },
    {
     "src": "images/d48db099bf68.jpg",
     "caption": "跪射俑",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Some_of_the_figures_are_put_in_a_showcase_for_a_closer_look_%2835557414921%29.jpg/500px-Some_of_the_figures_are_put_in_a_showcase_for_a_closer_look_%2835557414921%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Some_of_the_figures_are_put_in_a_showcase_for_a_closer_look_%2835557414921%29.jpg/500px-Some_of_the_figures_are_put_in_a_showcase_for_a_closer_look_%2835557414921%29.jpg",
+    "w": 500,
+    "h": 331
    },
    {
     "src": "images/66cfae074c07.jpg",
     "caption": "高级军吏俑",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8a/Guerrero_de_terracota_-_Xian_-_China.JPG/500px-Guerrero_de_terracota_-_Xian_-_China.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8a/Guerrero_de_terracota_-_Xian_-_China.JPG/500px-Guerrero_de_terracota_-_Xian_-_China.JPG",
+    "w": 500,
+    "h": 667
    },
    {
     "src": "images/4d4a9c00d6db.jpg",
     "caption": "马俑",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/80/51900-Terracota-Army.jpg/500px-51900-Terracota-Army.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/80/51900-Terracota-Army.jpg/500px-51900-Terracota-Army.jpg",
+    "w": 500,
+    "h": 331
    },
    {
     "src": "images/2f038441ae14.jpg",
     "caption": "兵马俑阵型",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/51832-Terracota-Army.jpg/500px-51832-Terracota-Army.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/51832-Terracota-Army.jpg/500px-51832-Terracota-Army.jpg",
+    "w": 500,
+    "h": 755
    },
    {
     "src": "images/cc3bae8b1079.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Terracotta_Army_%2854082562786%29.jpg/500px-Terracotta_Army_%2854082562786%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Terracotta_Army_%2854082562786%29.jpg/500px-Terracotta_Army_%2854082562786%29.jpg",
+    "w": 500,
+    "h": 327
    },
    {
     "src": "images/3ba04ffad24e.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/Xian_guerreros_terracota_general.JPG/330px-Xian_guerreros_terracota_general.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/Xian_guerreros_terracota_general.JPG/330px-Xian_guerreros_terracota_general.JPG",
+    "w": 330,
+    "h": 220
    },
    {
     "src": "images/1f60f719262d.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/Terracotta_army_xian.jpg/250px-Terracotta_army_xian.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/Terracotta_army_xian.jpg/250px-Terracotta_army_xian.jpg",
+    "w": 250,
+    "h": 187
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E7%A7%A6%E5%A7%8B%E7%9A%87%E5%85%B5%E9%A9%AC%E4%BF%91"
@@ -1069,12 +1305,16 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/63902a7dc729.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/Zhangqian_Statue.jpg/500px-Zhangqian_Statue.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/Zhangqian_Statue.jpg/500px-Zhangqian_Statue.jpg",
+    "w": 500,
+    "h": 667
    },
    {
     "src": "images/93eb2b0127a3.jpg",
     "caption": "在敦煌莫高窟第323窟北壁上的张骞出使西域图，唐代初期（618年到714年）绘制",
-    "remote": "https://upload.wikimedia.org/wikipedia/commons/6/6c/Zhangqianwest3.jpg"
+    "remote": "https://upload.wikimedia.org/wikipedia/commons/6/6c/Zhangqianwest3.jpg",
+    "w": 346,
+    "h": 141
    },
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Silk_route_chinese.jpg/500px-Silk_route_chinese.jpg",
@@ -1147,22 +1387,30 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/c2f01712a8a4.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/%E5%8F%B2%E8%AE%B0.jpg/330px-%E5%8F%B2%E8%AE%B0.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/%E5%8F%B2%E8%AE%B0.jpg/330px-%E5%8F%B2%E8%AE%B0.jpg",
+    "w": 330,
+    "h": 440
    },
    {
     "src": "images/684620a3820d.jpg",
     "caption": "明万历二十六年北国子监刊《史记·夏本纪》（皇明朝列大夫国子监祭酒刘应秋、承直郎国子监司业杨道宾等奉敕重校勘）",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Records_of_the_Grand_Historian.jpg/330px-Records_of_the_Grand_Historian.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Records_of_the_Grand_Historian.jpg/330px-Records_of_the_Grand_Historian.jpg",
+    "w": 330,
+    "h": 495
    },
    {
     "src": "images/852a0c89444c.jpg",
     "caption": "东京国立博物馆藏唐《史记集解·河渠书》写本残卷（重要文化财）",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/%E3%80%8E%E5%8F%B2%E8%A8%98%E3%80%8F%E5%94%90%E5%86%99%E6%9C%AC.jpg/500px-%E3%80%8E%E5%8F%B2%E8%A8%98%E3%80%8F%E5%94%90%E5%86%99%E6%9C%AC.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/%E3%80%8E%E5%8F%B2%E8%A8%98%E3%80%8F%E5%94%90%E5%86%99%E6%9C%AC.jpg/500px-%E3%80%8E%E5%8F%B2%E8%A8%98%E3%80%8F%E5%94%90%E5%86%99%E6%9C%AC.jpg",
+    "w": 500,
+    "h": 222
    },
    {
     "src": "images/bed3b406b424.jpg",
     "caption": "南宋建安黄善夫本《史记三家注》",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/%E5%8D%97%E5%AE%8B%E5%BB%BA%E5%AE%89%E9%BB%83%E5%96%84%E5%A4%AB%E6%9C%AC%E3%80%8A%E5%8F%B2%E8%A8%98%E3%80%8B.jpg/500px-%E5%8D%97%E5%AE%8B%E5%BB%BA%E5%AE%89%E9%BB%83%E5%96%84%E5%A4%AB%E6%9C%AC%E3%80%8A%E5%8F%B2%E8%A8%98%E3%80%8B.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/%E5%8D%97%E5%AE%8B%E5%BB%BA%E5%AE%89%E9%BB%83%E5%96%84%E5%A4%AB%E6%9C%AC%E3%80%8A%E5%8F%B2%E8%A8%98%E3%80%8B.jpg/500px-%E5%8D%97%E5%AE%8B%E5%BB%BA%E5%AE%89%E9%BB%83%E5%96%84%E5%A4%AB%E6%9C%AC%E3%80%8A%E5%8F%B2%E8%A8%98%E3%80%8B.jpg",
+    "w": 500,
+    "h": 282
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E5%8F%B2%E8%AE%B0"
@@ -1179,7 +1427,9 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/0c68ca854b8d.jpg",
     "caption": "东汉光武帝刘秀",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/Han_Guangwu_Di.jpg/500px-Han_Guangwu_Di.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/Han_Guangwu_Di.jpg/500px-Han_Guangwu_Di.jpg",
+    "w": 500,
+    "h": 645
    },
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8e/Guangwudi-Ming-Image2.jpg/330px-Guangwudi-Ming-Image2.jpg",
@@ -1208,47 +1458,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/28469450c33f.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/27467-Luoyang_%2849085730123%29.jpg/500px-27467-Luoyang_%2849085730123%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/27467-Luoyang_%2849085730123%29.jpg/500px-27467-Luoyang_%2849085730123%29.jpg",
+    "w": 500,
+    "h": 321
    },
    {
     "src": "images/61c521fab263.jpg",
     "caption": "白马寺门前白马",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/WhiteHorseTemple.jpg/500px-WhiteHorseTemple.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/WhiteHorseTemple.jpg/500px-WhiteHorseTemple.jpg",
+    "w": 500,
+    "h": 407
    },
    {
     "src": "images/99c555c68c81.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/%E7%99%BD%E9%A9%AC%E5%AF%BA%E5%85%A8%E6%99%AF.jpg/500px-%E7%99%BD%E9%A9%AC%E5%AF%BA%E5%85%A8%E6%99%AF.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/%E7%99%BD%E9%A9%AC%E5%AF%BA%E5%85%A8%E6%99%AF.jpg/500px-%E7%99%BD%E9%A9%AC%E5%AF%BA%E5%85%A8%E6%99%AF.jpg",
+    "w": 500,
+    "h": 135
    },
    {
     "src": "images/18511af21d20.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/27471-Luoyang%2C_White_Horse_Temple.jpg/120px-27471-Luoyang%2C_White_Horse_Temple.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/27471-Luoyang%2C_White_Horse_Temple.jpg/120px-27471-Luoyang%2C_White_Horse_Temple.jpg",
+    "w": 120,
+    "h": 97
    },
    {
     "src": "images/001c56f5b795.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/%E7%99%BD%E9%A9%AC%E5%AF%BA%E5%A4%A7%E9%9B%84%E6%AE%BF.jpg/120px-%E7%99%BD%E9%A9%AC%E5%AF%BA%E5%A4%A7%E9%9B%84%E6%AE%BF.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/%E7%99%BD%E9%A9%AC%E5%AF%BA%E5%A4%A7%E9%9B%84%E6%AE%BF.jpg/120px-%E7%99%BD%E9%A9%AC%E5%AF%BA%E5%A4%A7%E9%9B%84%E6%AE%BF.jpg",
+    "w": 120,
+    "h": 80
    },
    {
     "src": "images/1f66b938717e.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dd/27495-Luoyang%2C_White_Horse_Temple.jpg/120px-27495-Luoyang%2C_White_Horse_Temple.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dd/27495-Luoyang%2C_White_Horse_Temple.jpg/120px-27495-Luoyang%2C_White_Horse_Temple.jpg",
+    "w": 120,
+    "h": 86
    },
    {
     "src": "images/523b24df34e6.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/%E6%B4%9B%E9%98%B3%E7%99%BD%E9%A9%AC%E5%AF%BA%E9%BD%90%E4%BA%91%E5%A1%94.jpg/120px-%E6%B4%9B%E9%98%B3%E7%99%BD%E9%A9%AC%E5%AF%BA%E9%BD%90%E4%BA%91%E5%A1%94.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/%E6%B4%9B%E9%98%B3%E7%99%BD%E9%A9%AC%E5%AF%BA%E9%BD%90%E4%BA%91%E5%A1%94.jpg/120px-%E6%B4%9B%E9%98%B3%E7%99%BD%E9%A9%AC%E5%AF%BA%E9%BD%90%E4%BA%91%E5%A1%94.jpg",
+    "w": 120,
+    "h": 165
    },
    {
     "src": "images/dd2409d2dca3.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a2/%E7%99%BD%E9%A9%AC%E5%AF%BA%E6%AF%97%E5%8D%A2%E9%98%81.jpg/120px-%E7%99%BD%E9%A9%AC%E5%AF%BA%E6%AF%97%E5%8D%A2%E9%98%81.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a2/%E7%99%BD%E9%A9%AC%E5%AF%BA%E6%AF%97%E5%8D%A2%E9%98%81.jpg/120px-%E7%99%BD%E9%A9%AC%E5%AF%BA%E6%AF%97%E5%8D%A2%E9%98%81.jpg",
+    "w": 120,
+    "h": 80
    },
    {
     "src": "images/f7a951e5366d.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/%E7%99%BD%E9%A9%AC%E5%AF%BA%E6%8E%A5%E5%BC%95%E6%AE%BF.jpg/120px-%E7%99%BD%E9%A9%AC%E5%AF%BA%E6%8E%A5%E5%BC%95%E6%AE%BF.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/%E7%99%BD%E9%A9%AC%E5%AF%BA%E6%8E%A5%E5%BC%95%E6%AE%BF.jpg/120px-%E7%99%BD%E9%A9%AC%E5%AF%BA%E6%8E%A5%E5%BC%95%E6%AE%BF.jpg",
+    "w": 120,
+    "h": 80
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E7%99%BD%E9%A9%AC%E5%AF%BA"
@@ -1265,7 +1533,9 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/3778f6331cb2.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/02/Wzbwgcailun.png/500px-Wzbwgcailun.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/02/Wzbwgcailun.png/500px-Wzbwgcailun.png",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/be/Cai-lun.jpg/330px-Cai-lun.jpg",
@@ -1298,7 +1568,9 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/e2b841d72b25.jpg",
     "caption": "现代人所想像的地动仪臆造品",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/EastHanSeismograph.JPG/330px-EastHanSeismograph.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/EastHanSeismograph.JPG/330px-EastHanSeismograph.JPG",
+    "w": 330,
+    "h": 379
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E5%80%99%E9%A2%A8%E5%9C%B0%E5%8B%95%E5%84%80"
@@ -1315,12 +1587,16 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/75c52cc2eef6.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/06/Yellow_Turban_Rebellion.jpg/500px-Yellow_Turban_Rebellion.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/06/Yellow_Turban_Rebellion.jpg/500px-Yellow_Turban_Rebellion.jpg",
+    "w": 500,
+    "h": 350
    },
    {
     "src": "images/5a6b4d856ae2.jpg",
     "caption": "刘备关羽张飞参与平定黄巾之乱",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/df/Three_Brothers_during_the_Yellow_Turban_Rebellion.jpg/330px-Three_Brothers_during_the_Yellow_Turban_Rebellion.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/df/Three_Brothers_during_the_Yellow_Turban_Rebellion.jpg/330px-Three_Brothers_during_the_Yellow_Turban_Rebellion.jpg",
+    "w": 330,
+    "h": 273
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E9%BB%83%E5%B7%BE%E4%B9%8B%E4%BA%82"
@@ -1337,12 +1613,16 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/f9ff3c2b9126.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Guanduzhizhan.png/500px-Guanduzhizhan.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Guanduzhizhan.png/500px-Guanduzhizhan.png",
+    "w": 500,
+    "h": 721
    },
    {
     "src": "images/d2e667da7e3a.jpg",
     "caption": "周曰校插图版《三国志通俗演义》中的曹操破袁绍",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9e/%E6%96%B0%E5%88%8A%E6%A0%A1%E6%AD%A3%E5%8F%A4%E6%9C%AC%E5%A4%A7%E5%AD%97%E9%9F%B3%E9%87%8A%E4%B8%89%E5%9B%BD%E5%BF%97%E9%80%9A%E4%BF%97%E6%BC%94%E4%B9%89_%E6%98%8E%E4%B8%87%E5%8E%86%E5%8D%81%E4%B9%9D%E5%B9%B4%E4%B9%A6%E6%9E%97%E5%91%A8%E6%9B%B0%E6%A0%A1%E5%88%8A%E6%9C%AC_061.jpg/500px-%E6%96%B0%E5%88%8A%E6%A0%A1%E6%AD%A3%E5%8F%A4%E6%9C%AC%E5%A4%A7%E5%AD%97%E9%9F%B3%E9%87%8A%E4%B8%89%E5%9B%BD%E5%BF%97%E9%80%9A%E4%BF%97%E6%BC%94%E4%B9%89_%E6%98%8E%E4%B8%87%E5%8E%86%E5%8D%81%E4%B9%9D%E5%B9%B4%E4%B9%A6%E6%9E%97%E5%91%A8%E6%9B%B0%E6%A0%A1%E5%88%8A%E6%9C%AC_061.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9e/%E6%96%B0%E5%88%8A%E6%A0%A1%E6%AD%A3%E5%8F%A4%E6%9C%AC%E5%A4%A7%E5%AD%97%E9%9F%B3%E9%87%8A%E4%B8%89%E5%9B%BD%E5%BF%97%E9%80%9A%E4%BF%97%E6%BC%94%E4%B9%89_%E6%98%8E%E4%B8%87%E5%8E%86%E5%8D%81%E4%B9%9D%E5%B9%B4%E4%B9%A6%E6%9E%97%E5%91%A8%E6%9B%B0%E6%A0%A1%E5%88%8A%E6%9C%AC_061.jpg/500px-%E6%96%B0%E5%88%8A%E6%A0%A1%E6%AD%A3%E5%8F%A4%E6%9C%AC%E5%A4%A7%E5%AD%97%E9%9F%B3%E9%87%8A%E4%B8%89%E5%9B%BD%E5%BF%97%E9%80%9A%E4%BF%97%E6%BC%94%E4%B9%89_%E6%98%8E%E4%B8%87%E5%8E%86%E5%8D%81%E4%B9%9D%E5%B9%B4%E4%B9%A6%E6%9E%97%E5%91%A8%E6%9B%B0%E6%A0%A1%E5%88%8A%E6%9C%AC_061.jpg",
+    "w": 500,
+    "h": 464
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E5%AE%98%E6%B8%A1%E4%B9%8B%E6%88%98"
@@ -1359,32 +1639,44 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/a1a854128561.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/38/Chibizhizhan.png/500px-Chibizhizhan.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/38/Chibizhizhan.png/500px-Chibizhizhan.png",
+    "w": 500,
+    "h": 379
    },
    {
     "src": "images/98b96f23e536.jpg",
     "caption": "孙权军的将领周瑜。图自《马骀画宝》。",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/%E8%B5%A4%E5%A3%81%E7%B8%B1%E7%81%AB.jpg/500px-%E8%B5%A4%E5%A3%81%E7%B8%B1%E7%81%AB.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/%E8%B5%A4%E5%A3%81%E7%B8%B1%E7%81%AB.jpg/500px-%E8%B5%A4%E5%A3%81%E7%B8%B1%E7%81%AB.jpg",
+    "w": 500,
+    "h": 735
    },
    {
     "src": "images/2dced195c365.jpg",
     "caption": "赤壁市赤壁山上的镌字。今主流意见是赤壁在今赤壁市。",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/Chibi.jpg/330px-Chibi.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/Chibi.jpg/330px-Chibi.jpg",
+    "w": 330,
+    "h": 278
    },
    {
     "src": "images/2a384708eb43.jpg",
     "caption": "《武经总要》中的蒙冲。",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/%E6%AD%A6%E7%BB%8F%E6%80%BB%E8%A6%81%E5%85%A8-556.jpg/500px-%E6%AD%A6%E7%BB%8F%E6%80%BB%E8%A6%81%E5%85%A8-556.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/%E6%AD%A6%E7%BB%8F%E6%80%BB%E8%A6%81%E5%85%A8-556.jpg/500px-%E6%AD%A6%E7%BB%8F%E6%80%BB%E8%A6%81%E5%85%A8-556.jpg",
+    "w": 500,
+    "h": 667
    },
    {
     "src": "images/b9c3260d26f3.jpg",
     "caption": "赤壁墓葬出土的弩机。望山上刻“上大将军吕侯都尉陈文和弩一张”。",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/%E9%93%AD%E6%96%87%E5%BC%A9%E6%9C%BA08304.jpg/500px-%E9%93%AD%E6%96%87%E5%BC%A9%E6%9C%BA08304.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/%E9%93%AD%E6%96%87%E5%BC%A9%E6%9C%BA08304.jpg/500px-%E9%93%AD%E6%96%87%E5%BC%A9%E6%9C%BA08304.jpg",
+    "w": 500,
+    "h": 334
    },
    {
     "src": "images/6d821469eab6.jpg",
     "caption": "《三国演义》中，曹操在战前观南屏山横槊赋诗。月冈芳年绘。",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7e/Lev%C3%A9_de_lune_sur_le_Mont_Nanping.jpg/500px-Lev%C3%A9_de_lune_sur_le_Mont_Nanping.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7e/Lev%C3%A9_de_lune_sur_le_Mont_Nanping.jpg/500px-Lev%C3%A9_de_lune_sur_le_Mont_Nanping.jpg",
+    "w": 500,
+    "h": 720
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E8%B5%A4%E5%A3%81%E4%B9%8B%E6%88%B0"
@@ -1401,47 +1693,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/e064f3bd5051.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/07/%E4%B8%89%E5%9B%BD%E8%A1%8C%E6%94%BF%E5%8C%BA%E5%88%92%28%E7%AE%80%29.png/500px-%E4%B8%89%E5%9B%BD%E8%A1%8C%E6%94%BF%E5%8C%BA%E5%88%92%28%E7%AE%80%29.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/07/%E4%B8%89%E5%9B%BD%E8%A1%8C%E6%94%BF%E5%8C%BA%E5%88%92%28%E7%AE%80%29.png/500px-%E4%B8%89%E5%9B%BD%E8%A1%8C%E6%94%BF%E5%8C%BA%E5%88%92%28%E7%AE%80%29.png",
+    "w": 500,
+    "h": 516
    },
    {
     "src": "images/a270b368fc30.jpg",
     "caption": "198年群雄割据图",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/Eastern_Han_in_197_to_198.png/500px-Eastern_Han_in_197_to_198.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/Eastern_Han_in_197_to_198.png/500px-Eastern_Han_in_197_to_198.png",
+    "w": 500,
+    "h": 491
    },
    {
     "src": "images/f9ff3c2b9126.jpg",
     "caption": "官渡之战示意图",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Guanduzhizhan.png/500px-Guanduzhizhan.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Guanduzhizhan.png/500px-Guanduzhizhan.png",
+    "w": 500,
+    "h": 721
    },
    {
     "src": "images/2dced195c365.jpg",
     "caption": "现今赤壁古战场",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/Chibi.jpg/330px-Chibi.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/Chibi.jpg/330px-Chibi.jpg",
+    "w": 330,
+    "h": 278
    },
    {
     "src": "images/7c5fccc4a719.jpg",
     "caption": "合肥之战曹军遗址",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/82/%E5%90%88%E8%82%A5%E4%B8%89%E5%9B%BD%E6%96%B0%E5%9F%8E%E9%81%97%E5%9D%80%E5%85%AC%E5%9B%AD.jpg/500px-%E5%90%88%E8%82%A5%E4%B8%89%E5%9B%BD%E6%96%B0%E5%9F%8E%E9%81%97%E5%9D%80%E5%85%AC%E5%9B%AD.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/82/%E5%90%88%E8%82%A5%E4%B8%89%E5%9B%BD%E6%96%B0%E5%9F%8E%E9%81%97%E5%9D%80%E5%85%AC%E5%9B%AD.jpg/500px-%E5%90%88%E8%82%A5%E4%B8%89%E5%9B%BD%E6%96%B0%E5%9F%8E%E9%81%97%E5%9D%80%E5%85%AC%E5%9B%AD.jpg",
+    "w": 500,
+    "h": 281
    },
    {
     "src": "images/413ad46b08c6.jpg",
     "caption": "位于成都武侯祠的诸葛亮殿",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/44/Zhugeliang_Temple.jpg/500px-Zhugeliang_Temple.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/44/Zhugeliang_Temple.jpg/500px-Zhugeliang_Temple.jpg",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/97361d5c5879.jpg",
     "caption": "现今重建的剑阁剑门关",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/Jianmenguan.JPG/500px-Jianmenguan.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/Jianmenguan.JPG/500px-Jianmenguan.JPG",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/8b6682406d34.jpg",
     "caption": "蜀汉丞相诸葛亮像",
-    "remote": "https://upload.wikimedia.org/wikipedia/commons/e/eb/Zhuge_liang.jpg"
+    "remote": "https://upload.wikimedia.org/wikipedia/commons/e/eb/Zhuge_liang.jpg",
+    "w": 225,
+    "h": 286
    },
    {
     "src": "images/993850816cce.jpg",
     "caption": "鲜卑的皮带扣，约3至4世纪之间",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/BeltBuckleXianbei3-4thcentury.jpg/500px-BeltBuckleXianbei3-4thcentury.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/BeltBuckleXianbei3-4thcentury.jpg/500px-BeltBuckleXianbei3-4thcentury.jpg",
+    "w": 500,
+    "h": 300
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E4%B8%89%E5%9B%BD"
@@ -1458,12 +1768,16 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/1e3436f429b8.jpg",
     "caption": "兰亭集序（张金界奴本，局部）",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Lanting_rubbing1.jpg/330px-Lanting_rubbing1.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Lanting_rubbing1.jpg/330px-Lanting_rubbing1.jpg",
+    "w": 330,
+    "h": 703
    },
    {
     "src": "images/44acbe22c1d6.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f1/LantingXu.jpg/500px-LantingXu.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f1/LantingXu.jpg/500px-LantingXu.jpg",
+    "w": 500,
+    "h": 164
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E8%98%AD%E4%BA%AD%E9%9B%86%E5%BA%8F"
@@ -1480,12 +1794,16 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/9805b740c229.jpg",
     "caption": "淝水之战到北伐时期的南北形势图，图中黑线为淝水之战之前双方实际控制区域分界线，红线为北伐胜利到谢安去世时期的双方实际控制区域分界线",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/%E6%B7%9D%E6%B0%B4%E4%B9%8B%E6%88%98%E5%89%8D%E5%90%8E%E5%BD%A2%E5%8A%BF%E5%9B%BE.PNG/500px-%E6%B7%9D%E6%B0%B4%E4%B9%8B%E6%88%98%E5%89%8D%E5%90%8E%E5%BD%A2%E5%8A%BF%E5%9B%BE.PNG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/%E6%B7%9D%E6%B0%B4%E4%B9%8B%E6%88%98%E5%89%8D%E5%90%8E%E5%BD%A2%E5%8A%BF%E5%9B%BE.PNG/500px-%E6%B7%9D%E6%B0%B4%E4%B9%8B%E6%88%98%E5%89%8D%E5%90%8E%E5%BD%A2%E5%8A%BF%E5%9B%BE.PNG",
+    "w": 500,
+    "h": 418
    },
    {
     "src": "images/3f5274cb9b98.jpg",
     "caption": "淮淝奏捷图",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e8/%E6%B7%AE%E6%B7%9D%E5%A5%8F%E6%8D%B7%E5%9B%BE.jpg/500px-%E6%B7%AE%E6%B7%9D%E5%A5%8F%E6%8D%B7%E5%9B%BE.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e8/%E6%B7%AE%E6%B7%9D%E5%A5%8F%E6%8D%B7%E5%9B%BE.jpg/500px-%E6%B7%AE%E6%B7%9D%E5%A5%8F%E6%8D%B7%E5%9B%BE.jpg",
+    "w": 500,
+    "h": 851
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E6%B7%9D%E6%B0%B4%E4%B9%8B%E6%88%B0"
@@ -1502,37 +1820,51 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/9be83b337b0b.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/27427-Luoyang_%2849067744628%29.jpg/500px-27427-Luoyang_%2849067744628%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/27427-Luoyang_%2849067744628%29.jpg/500px-27427-Luoyang_%2849067744628%29.jpg",
+    "w": 500,
+    "h": 314
    },
    {
     "src": "images/899f5e4f81dc.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/41/China_edcp_relief_location_map.jpg/500px-China_edcp_relief_location_map.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/41/China_edcp_relief_location_map.jpg/500px-China_edcp_relief_location_map.jpg",
+    "w": 500,
+    "h": 398
    },
    {
     "src": "images/e806668f591d.jpg",
     "caption": "龙门石窟侧面",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b8/27407-Luoyang%2C_Longmen_Grottoes.jpg/500px-27407-Luoyang%2C_Longmen_Grottoes.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b8/27407-Luoyang%2C_Longmen_Grottoes.jpg/500px-27407-Luoyang%2C_Longmen_Grottoes.jpg",
+    "w": 500,
+    "h": 333
    },
    {
     "src": "images/627d299ff49b.jpg",
     "caption": "奉先寺卢舍那大佛。2011年10月",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5e/Lushena_Buddha_at_Longmen_Grottos_in_Luoyang.JPG/500px-Lushena_Buddha_at_Longmen_Grottos_in_Luoyang.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5e/Lushena_Buddha_at_Longmen_Grottos_in_Luoyang.JPG/500px-Lushena_Buddha_at_Longmen_Grottos_in_Luoyang.JPG",
+    "w": 500,
+    "h": 333
    },
    {
     "src": "images/6940f225bd5d.jpg",
     "caption": "龙门石窟依伊水（伊河）而建",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/20/Looking_towards_Longmen_Bridge_on_the_west_bank_of_Yihe_River%2CMar_2024.jpg/500px-Looking_towards_Longmen_Bridge_on_the_west_bank_of_Yihe_River%2CMar_2024.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/20/Looking_towards_Longmen_Bridge_on_the_west_bank_of_Yihe_River%2CMar_2024.jpg/500px-Looking_towards_Longmen_Bridge_on_the_west_bank_of_Yihe_River%2CMar_2024.jpg",
+    "w": 500,
+    "h": 334
    },
    {
     "src": "images/947a82c4ac02.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d8/Longmen_Grottoes_Pano.JPG/500px-Longmen_Grottoes_Pano.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d8/Longmen_Grottoes_Pano.JPG/500px-Longmen_Grottoes_Pano.JPG",
+    "w": 500,
+    "h": 144
    },
    {
     "src": "images/0d55c80e89ad.jpg",
     "caption": "世界文化遗产 龙门石窟",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/%E4%B8%96%E7%95%8C%E6%96%87%E5%8C%96%E9%81%97%E4%BA%A7_%E9%BE%99%E9%97%A8%E7%9F%B3%E7%AA%9F.JPG/500px-%E4%B8%96%E7%95%8C%E6%96%87%E5%8C%96%E9%81%97%E4%BA%A7_%E9%BE%99%E9%97%A8%E7%9F%B3%E7%AA%9F.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/%E4%B8%96%E7%95%8C%E6%96%87%E5%8C%96%E9%81%97%E4%BA%A7_%E9%BE%99%E9%97%A8%E7%9F%B3%E7%AA%9F.JPG/500px-%E4%B8%96%E7%95%8C%E6%96%87%E5%8C%96%E9%81%97%E4%BA%A7_%E9%BE%99%E9%97%A8%E7%9F%B3%E7%AA%9F.JPG",
+    "w": 500,
+    "h": 375
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E9%BE%99%E9%97%A8%E7%9F%B3%E7%AA%9F"
@@ -1560,47 +1892,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/74eadab59044.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/29/Cheui_Dynasty_581_CE.png/500px-Cheui_Dynasty_581_CE.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/29/Cheui_Dynasty_581_CE.png/500px-Cheui_Dynasty_581_CE.png",
+    "w": 500,
+    "h": 483
    },
    {
     "src": "images/1f9af76786a2.jpg",
     "caption": "隋灭陈形势图",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/73/%E9%9A%8B%E6%BB%85%E9%99%B3%E5%BD%A2%E5%8B%A2%E5%9C%96.png/500px-%E9%9A%8B%E6%BB%85%E9%99%B3%E5%BD%A2%E5%8B%A2%E5%9C%96.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/73/%E9%9A%8B%E6%BB%85%E9%99%B3%E5%BD%A2%E5%8B%A2%E5%9C%96.png/500px-%E9%9A%8B%E6%BB%85%E9%99%B3%E5%BD%A2%E5%8B%A2%E5%9C%96.png",
+    "w": 500,
+    "h": 277
    },
    {
     "src": "images/1bcfd58f5809.jpg",
     "caption": "隋文帝杨坚像",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Sui_Wendi_Tang.jpg/500px-Sui_Wendi_Tang.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Sui_Wendi_Tang.jpg/500px-Sui_Wendi_Tang.jpg",
+    "w": 500,
+    "h": 737
    },
    {
     "src": "images/bf8be35e068b.jpg",
     "caption": "隋炀帝像",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Sui_Yangdi_Tang.jpg/500px-Sui_Yangdi_Tang.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Sui_Yangdi_Tang.jpg/500px-Sui_Yangdi_Tang.jpg",
+    "w": 500,
+    "h": 783
    },
    {
     "src": "images/1003a50f0695.jpg",
     "caption": "隋朝时期的铜镜，背面显示出十二生肖，法国集美博物馆馆藏",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/80/Zodiaco_Chino.jpg/500px-Zodiaco_Chino.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/80/Zodiaco_Chino.jpg/500px-Zodiaco_Chino.jpg",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/ce034110759c.jpg",
     "caption": "隋朝在东亚与邻国地理关系图",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0e/China_Sui_with_around_county.png/500px-China_Sui_with_around_county.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0e/China_Sui_with_around_county.png/500px-China_Sui_with_around_county.png",
+    "w": 500,
+    "h": 483
    },
    {
     "src": "images/c9a57ad2bee0.jpg",
     "caption": "约610年的欧亚大陆主要国家，隋朝被称为桃花石（英语：Tabgach、古希腊语：Ταυγάστ）",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1f/Asia_ca_610_AD.jpg/500px-Asia_ca_610_AD.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1f/Asia_ca_610_AD.jpg/500px-Asia_ca_610_AD.jpg",
+    "w": 500,
+    "h": 439
    },
    {
     "src": "images/3489f28bc005.jpg",
     "caption": "隋朝虞弘石棺外观，虞弘墓入选1999年全国十大考古新发现。虞弘为西域粟特鱼国人，在北齐、北周、隋朝为官司职，本石棺浮雕人物均深目高鼻，代表中亚文化已进入中国",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Panels_from_Yu_Hong%27s_outer_coffin%2C_Sui_dynasty%2C_Shanxi_Museum.JPG/500px-Panels_from_Yu_Hong%27s_outer_coffin%2C_Sui_dynasty%2C_Shanxi_Museum.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Panels_from_Yu_Hong%27s_outer_coffin%2C_Sui_dynasty%2C_Shanxi_Museum.JPG/500px-Panels_from_Yu_Hong%27s_outer_coffin%2C_Sui_dynasty%2C_Shanxi_Museum.JPG",
+    "w": 500,
+    "h": 312
    },
    {
     "src": "images/43c6220cb090.jpg",
     "caption": "隋唐时期朝鲜半岛与日本各国局势图",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/Three_Kingdoms_of_Korea_Map-zh.png/500px-Three_Kingdoms_of_Korea_Map-zh.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/Three_Kingdoms_of_Korea_Map-zh.png/500px-Three_Kingdoms_of_Korea_Map-zh.png",
+    "w": 500,
+    "h": 610
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E9%9A%8B%E6%9C%9D"
@@ -1617,12 +1967,16 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/bb5097480c38.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/%E5%A4%A7%E9%81%8B%E6%B2%B3.png/500px-%E5%A4%A7%E9%81%8B%E6%B2%B3.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/%E5%A4%A7%E9%81%8B%E6%B2%B3.png/500px-%E5%A4%A7%E9%81%8B%E6%B2%B3.png",
+    "w": 500,
+    "h": 571
    },
    {
     "src": "images/47b0eda46aed.jpg",
     "caption": "隋唐大运河，以东都洛阳为中心，西沿广通渠达大兴城长安，北由永济渠达涿州、南经通济渠、山阳渎和江南运河达江都、余杭。",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4c/%E9%9A%8B%E9%81%8B%E6%B2%B3%E5%88%86%E5%B8%83%E5%9C%96.png/500px-%E9%9A%8B%E9%81%8B%E6%B2%B3%E5%88%86%E5%B8%83%E5%9C%96.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4c/%E9%9A%8B%E9%81%8B%E6%B2%B3%E5%88%86%E5%B8%83%E5%9C%96.png/500px-%E9%9A%8B%E9%81%8B%E6%B2%B3%E5%88%86%E5%B8%83%E5%9C%96.png",
+    "w": 500,
+    "h": 465
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E9%9A%8B%E5%94%90%E5%A4%A7%E8%BF%90%E6%B2%B3"
@@ -1639,32 +1993,44 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/b7b8dfe3fdc6.jpg",
     "caption": "明朝绘画：科举考试中的皇帝",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/Palastexamen-SongDynastie-Kaiser.jpg/500px-Palastexamen-SongDynastie-Kaiser.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/Palastexamen-SongDynastie-Kaiser.jpg/500px-Palastexamen-SongDynastie-Kaiser.jpg",
+    "w": 500,
+    "h": 478
    },
    {
     "src": "images/dd9557af5594.jpg",
     "caption": "武举考试",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e7/Milit%C3%A4rexamen.jpg/330px-Milit%C3%A4rexamen.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e7/Milit%C3%A4rexamen.jpg/330px-Milit%C3%A4rexamen.jpg",
+    "w": 330,
+    "h": 217
    },
    {
     "src": "images/32d77c73ac29.jpg",
     "caption": "科举放榜时的情景",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Civilserviceexam1.jpg/500px-Civilserviceexam1.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Civilserviceexam1.jpg/500px-Civilserviceexam1.jpg",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/d4ade0d3a5bc.jpg",
     "caption": "科举考试中被夹带入场的作弊材料",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Imperial_examination_cheating_material.JPG/500px-Imperial_examination_cheating_material.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Imperial_examination_cheating_material.JPG/500px-Imperial_examination_cheating_material.JPG",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/30af49016c35.jpg",
     "caption": "贡院内的号舍",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e0/Exam_cells-large.jpg/500px-Exam_cells-large.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e0/Exam_cells-large.jpg/500px-Exam_cells-large.jpg",
+    "w": 500,
+    "h": 372
    },
    {
     "src": "images/f6585e08f17f.jpg",
     "caption": "考场的座位",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fc/Pr%C3%BCfungszellen-Nanking.jpg/500px-Pr%C3%BCfungszellen-Nanking.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fc/Pr%C3%BCfungszellen-Nanking.jpg/500px-Pr%C3%BCfungszellen-Nanking.jpg",
+    "w": 500,
+    "h": 726
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E7%A7%91%E4%B8%BE"
@@ -1681,47 +2047,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/bc899c51e096.jpg",
     "caption": "唐朝建立者李渊",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/44/TangGaozu.jpg/500px-TangGaozu.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/44/TangGaozu.jpg/500px-TangGaozu.jpg",
+    "w": 500,
+    "h": 1029
    },
    {
     "src": "images/abed508967b8.jpg",
     "caption": "政变发动者李世民",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/TangTaizongP.jpg/500px-TangTaizongP.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/TangTaizongP.jpg/500px-TangTaizongP.jpg",
+    "w": 500,
+    "h": 879
    },
    {
     "src": "images/33ade5580573.jpg",
     "caption": "太极宫玄武门遗址",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/56/Relics_of_Xuanwu_Men.JPG/500px-Relics_of_Xuanwu_Men.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/56/Relics_of_Xuanwu_Men.JPG/500px-Relics_of_Xuanwu_Men.JPG",
+    "w": 500,
+    "h": 333
    },
    {
     "src": "images/9f252c5d13af.jpg",
     "caption": "魏徵半身雕像",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/WeiZheng.jpg/500px-WeiZheng.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/WeiZheng.jpg/500px-WeiZheng.jpg",
+    "w": 500,
+    "h": 678
    },
    {
     "src": "images/0e28211eddfa.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/01%E7%8E%84%E6%AD%A6%E9%97%A8%E9%81%97%E5%9D%80-%E5%AE%81%E8%A5%BF%E5%AE%BE%E9%A6%86.jpg/120px-01%E7%8E%84%E6%AD%A6%E9%97%A8%E9%81%97%E5%9D%80-%E5%AE%81%E8%A5%BF%E5%AE%BE%E9%A6%86.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/01%E7%8E%84%E6%AD%A6%E9%97%A8%E9%81%97%E5%9D%80-%E5%AE%81%E8%A5%BF%E5%AE%BE%E9%A6%86.jpg/120px-01%E7%8E%84%E6%AD%A6%E9%97%A8%E9%81%97%E5%9D%80-%E5%AE%81%E8%A5%BF%E5%AE%BE%E9%A6%86.jpg",
+    "w": 120,
+    "h": 67
    },
    {
     "src": "images/475679b893b8.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/02%E7%8E%84%E6%AD%A6%E9%97%A8%E9%81%97%E5%9D%80-%E5%AE%81%E8%A5%BF%E5%AE%BE%E9%A6%86%E5%81%9C%E8%BD%A6%E5%9C%BA.jpg/120px-02%E7%8E%84%E6%AD%A6%E9%97%A8%E9%81%97%E5%9D%80-%E5%AE%81%E8%A5%BF%E5%AE%BE%E9%A6%86%E5%81%9C%E8%BD%A6%E5%9C%BA.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/02%E7%8E%84%E6%AD%A6%E9%97%A8%E9%81%97%E5%9D%80-%E5%AE%81%E8%A5%BF%E5%AE%BE%E9%A6%86%E5%81%9C%E8%BD%A6%E5%9C%BA.jpg/120px-02%E7%8E%84%E6%AD%A6%E9%97%A8%E9%81%97%E5%9D%80-%E5%AE%81%E8%A5%BF%E5%AE%BE%E9%A6%86%E5%81%9C%E8%BD%A6%E5%9C%BA.jpg",
+    "w": 120,
+    "h": 67
    },
    {
     "src": "images/c887e88bfdb2.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ec/03%E7%8E%84%E6%AD%A6%E9%97%A8%E9%81%97%E5%9D%80-%E5%AE%81%E8%A5%BF%E5%AE%BE%E9%A6%86%E5%81%9C%E8%BD%A6%E5%9C%BA%E5%8C%97%E4%BE%A7%E5%9B%B4%E6%A0%8F.jpg/120px-03%E7%8E%84%E6%AD%A6%E9%97%A8%E9%81%97%E5%9D%80-%E5%AE%81%E8%A5%BF%E5%AE%BE%E9%A6%86%E5%81%9C%E8%BD%A6%E5%9C%BA%E5%8C%97%E4%BE%A7%E5%9B%B4%E6%A0%8F.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ec/03%E7%8E%84%E6%AD%A6%E9%97%A8%E9%81%97%E5%9D%80-%E5%AE%81%E8%A5%BF%E5%AE%BE%E9%A6%86%E5%81%9C%E8%BD%A6%E5%9C%BA%E5%8C%97%E4%BE%A7%E5%9B%B4%E6%A0%8F.jpg/120px-03%E7%8E%84%E6%AD%A6%E9%97%A8%E9%81%97%E5%9D%80-%E5%AE%81%E8%A5%BF%E5%AE%BE%E9%A6%86%E5%81%9C%E8%BD%A6%E5%9C%BA%E5%8C%97%E4%BE%A7%E5%9B%B4%E6%A0%8F.jpg",
+    "w": 120,
+    "h": 67
    },
    {
     "src": "images/ca3f21eb60d3.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/04%E7%8E%84%E6%AD%A6%E9%97%A8%E9%81%97%E5%9D%80-%E5%AE%81%E8%A5%BF%E5%AE%BE%E9%A6%86%E5%81%9C%E8%BD%A6%E5%9C%BA%E5%8C%97%E4%BE%A7%E5%9B%B4%E6%A0%8F%E8%BF%91%E6%99%AF.jpg/120px-04%E7%8E%84%E6%AD%A6%E9%97%A8%E9%81%97%E5%9D%80-%E5%AE%81%E8%A5%BF%E5%AE%BE%E9%A6%86%E5%81%9C%E8%BD%A6%E5%9C%BA%E5%8C%97%E4%BE%A7%E5%9B%B4%E6%A0%8F%E8%BF%91%E6%99%AF.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/04%E7%8E%84%E6%AD%A6%E9%97%A8%E9%81%97%E5%9D%80-%E5%AE%81%E8%A5%BF%E5%AE%BE%E9%A6%86%E5%81%9C%E8%BD%A6%E5%9C%BA%E5%8C%97%E4%BE%A7%E5%9B%B4%E6%A0%8F%E8%BF%91%E6%99%AF.jpg/120px-04%E7%8E%84%E6%AD%A6%E9%97%A8%E9%81%97%E5%9D%80-%E5%AE%81%E8%A5%BF%E5%AE%BE%E9%A6%86%E5%81%9C%E8%BD%A6%E5%9C%BA%E5%8C%97%E4%BE%A7%E5%9B%B4%E6%A0%8F%E8%BF%91%E6%99%AF.jpg",
+    "w": 120,
+    "h": 67
    },
    {
     "src": "images/c5b10d5738cb.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c2/05%E7%8E%84%E6%AD%A6%E9%97%A8%E9%81%97%E5%9D%80-%E5%AE%81%E8%A5%BF%E5%AE%BE%E9%A6%86%E5%81%9C%E8%BD%A6%E5%9C%BA%E5%8C%97%E4%BE%A7%E5%9B%B4%E6%A0%8F%E5%86%85%E5%A4%AF%E5%9C%9F%E5%8F%B0%E5%9F%BA.jpg/120px-05%E7%8E%84%E6%AD%A6%E9%97%A8%E9%81%97%E5%9D%80-%E5%AE%81%E8%A5%BF%E5%AE%BE%E9%A6%86%E5%81%9C%E8%BD%A6%E5%9C%BA%E5%8C%97%E4%BE%A7%E5%9B%B4%E6%A0%8F%E5%86%85%E5%A4%AF%E5%9C%9F%E5%8F%B0%E5%9F%BA.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c2/05%E7%8E%84%E6%AD%A6%E9%97%A8%E9%81%97%E5%9D%80-%E5%AE%81%E8%A5%BF%E5%AE%BE%E9%A6%86%E5%81%9C%E8%BD%A6%E5%9C%BA%E5%8C%97%E4%BE%A7%E5%9B%B4%E6%A0%8F%E5%86%85%E5%A4%AF%E5%9C%9F%E5%8F%B0%E5%9F%BA.jpg/120px-05%E7%8E%84%E6%AD%A6%E9%97%A8%E9%81%97%E5%9D%80-%E5%AE%81%E8%A5%BF%E5%AE%BE%E9%A6%86%E5%81%9C%E8%BD%A6%E5%9C%BA%E5%8C%97%E4%BE%A7%E5%9B%B4%E6%A0%8F%E5%86%85%E5%A4%AF%E5%9C%9F%E5%8F%B0%E5%9F%BA.jpg",
+    "w": 120,
+    "h": 67
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E7%8E%84%E6%AD%A6%E9%97%A8%E4%B9%8B%E5%8F%98"
@@ -1738,7 +2122,9 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/e723ee084208.jpg",
     "caption": "唐太宗像",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/TangTaizong.jpg/500px-TangTaizong.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/TangTaizong.jpg/500px-TangTaizong.jpg",
+    "w": 500,
+    "h": 1036
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E8%B4%9E%E8%A7%82%E4%B9%8B%E6%B2%BB"
@@ -1755,37 +2141,51 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/35a488949bb6.jpg",
     "caption": "西安兴教寺玄奘与圆测、窥基的舍利塔",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/%E5%85%B4%E6%95%99%E5%AF%BA%E5%A1%94CNSN-029-014.jpg/500px-%E5%85%B4%E6%95%99%E5%AF%BA%E5%A1%94CNSN-029-014.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/%E5%85%B4%E6%95%99%E5%AF%BA%E5%A1%94CNSN-029-014.jpg/500px-%E5%85%B4%E6%95%99%E5%AF%BA%E5%A1%94CNSN-029-014.jpg",
+    "w": 500,
+    "h": 333
    },
    {
     "src": "images/cf1ab25a3a27.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Xuanzang_w.jpg/500px-Xuanzang_w.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Xuanzang_w.jpg/500px-Xuanzang_w.jpg",
+    "w": 500,
+    "h": 1119
    },
    {
     "src": "images/f06b68461530.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/34/%E7%8E%84%E5%A5%98%E6%95%85%E5%B1%85.jpg/120px-%E7%8E%84%E5%A5%98%E6%95%85%E5%B1%85.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/34/%E7%8E%84%E5%A5%98%E6%95%85%E5%B1%85.jpg/120px-%E7%8E%84%E5%A5%98%E6%95%85%E5%B1%85.jpg",
+    "w": 120,
+    "h": 80
    },
    {
     "src": "images/5ed331fc8491.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8a/CeilingofDayanTemple.jpg/120px-CeilingofDayanTemple.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8a/CeilingofDayanTemple.jpg/120px-CeilingofDayanTemple.jpg",
+    "w": 120,
+    "h": 120
    },
    {
     "src": "images/1d2be806b226.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/36/Giant_Wild_Goose_Pagoda_0.jpg/120px-Giant_Wild_Goose_Pagoda_0.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/36/Giant_Wild_Goose_Pagoda_0.jpg/120px-Giant_Wild_Goose_Pagoda_0.jpg",
+    "w": 120,
+    "h": 160
    },
    {
     "src": "images/9b219e161d0b.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/87/%E6%85%88%E6%81%A9%E5%AF%BA%E7%8E%84%E5%A5%98%E7%81%B5%E9%AA%A8%E5%A1%94.JPG/120px-%E6%85%88%E6%81%A9%E5%AF%BA%E7%8E%84%E5%A5%98%E7%81%B5%E9%AA%A8%E5%A1%94.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/87/%E6%85%88%E6%81%A9%E5%AF%BA%E7%8E%84%E5%A5%98%E7%81%B5%E9%AA%A8%E5%A1%94.JPG/120px-%E6%85%88%E6%81%A9%E5%AF%BA%E7%8E%84%E5%A5%98%E7%81%B5%E9%AA%A8%E5%A1%94.JPG",
+    "w": 120,
+    "h": 160
    },
    {
     "src": "images/1d097df16ee6.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/Xuanzang_Memorial_Hall_Nalanda.jpg/120px-Xuanzang_Memorial_Hall_Nalanda.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/Xuanzang_Memorial_Hall_Nalanda.jpg/120px-Xuanzang_Memorial_Hall_Nalanda.jpg",
+    "w": 120,
+    "h": 90
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E7%8E%84%E5%A5%98"
@@ -1802,17 +2202,23 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/542b3a823d6b.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/Princess_Wencheng.jpg/250px-Princess_Wencheng.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/Princess_Wencheng.jpg/250px-Princess_Wencheng.jpg",
+    "w": 250,
+    "h": 367
    },
    {
     "src": "images/88da983cf721.jpg",
     "caption": "文成公主和尺尊公主的遗产——拉萨的大昭寺——为供奉佛像而建立，每位新娘都带着嫁妆来。",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Jokhang_Temple_in_Tibet.jpg/500px-Jokhang_Temple_in_Tibet.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Jokhang_Temple_in_Tibet.jpg/500px-Jokhang_Temple_in_Tibet.jpg",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/d789b1097963.jpg",
     "caption": "1962年 话剧 《文成公主》，由田汉编剧。",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/1962-06_1962%E5%B9%B4_%E8%AF%9D%E5%89%A7_%E6%96%87%E6%88%90%E5%85%AC%E4%B8%BB.jpg/500px-1962-06_1962%E5%B9%B4_%E8%AF%9D%E5%89%A7_%E6%96%87%E6%88%90%E5%85%AC%E4%B8%BB.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/1962-06_1962%E5%B9%B4_%E8%AF%9D%E5%89%A7_%E6%96%87%E6%88%90%E5%85%AC%E4%B8%BB.jpg/500px-1962-06_1962%E5%B9%B4_%E8%AF%9D%E5%89%A7_%E6%96%87%E6%88%90%E5%85%AC%E4%B8%BB.jpg",
+    "w": 500,
+    "h": 639
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E6%96%87%E6%88%90%E5%85%AC%E4%B8%BB"
@@ -1829,37 +2235,51 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/fa92e7044e33.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/%E5%94%90%E5%90%8E%E8%A1%8C%E5%BE%9E%E5%9C%96_%28%E5%B1%80%E9%83%A8%29_-_%E6%AD%A6%E5%89%87%E5%A4%A9.png/500px-%E5%94%90%E5%90%8E%E8%A1%8C%E5%BE%9E%E5%9C%96_%28%E5%B1%80%E9%83%A8%29_-_%E6%AD%A6%E5%89%87%E5%A4%A9.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/%E5%94%90%E5%90%8E%E8%A1%8C%E5%BE%9E%E5%9C%96_%28%E5%B1%80%E9%83%A8%29_-_%E6%AD%A6%E5%89%87%E5%A4%A9.png/500px-%E5%94%90%E5%90%8E%E8%A1%8C%E5%BE%9E%E5%9C%96_%28%E5%B1%80%E9%83%A8%29_-_%E6%AD%A6%E5%89%87%E5%A4%A9.png",
+    "w": 500,
+    "h": 885
    },
    {
     "src": "images/234f9eb083f7.jpg",
     "caption": "《百美新咏图传》武则天",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/%E6%AD%A6%E5%89%87%E5%A4%A9.png/500px-%E6%AD%A6%E5%89%87%E5%A4%A9.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/%E6%AD%A6%E5%89%87%E5%A4%A9.png/500px-%E6%AD%A6%E5%89%87%E5%A4%A9.png",
+    "w": 500,
+    "h": 821
    },
    {
     "src": "images/c3cb495a6b2d.jpg",
     "caption": "河南博物馆所藏武曌金简，中国唯一的皇帝金简。武氏在久视元年（700年）七月七日来嵩山祈福，谴宫廷太监胡超向诸神投简以求除罪消灾。",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/20260520_Wu_Zetian_Gold_Strip.jpg/500px-20260520_Wu_Zetian_Gold_Strip.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/20260520_Wu_Zetian_Gold_Strip.jpg/500px-20260520_Wu_Zetian_Gold_Strip.jpg",
+    "w": 500,
+    "h": 750
    },
    {
     "src": "images/6c421607262e.jpg",
     "caption": "总章二年（公元669年）的唐朝疆域",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ee/Tang_China_669AD.jpg/500px-Tang_China_669AD.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ee/Tang_China_669AD.jpg/500px-Tang_China_669AD.jpg",
+    "w": 500,
+    "h": 441
    },
    {
     "src": "images/0b2926be18fb.jpg",
     "caption": "圣历三年（公元700年）的武周疆域，当时东突厥汗国以后突厥汗国之名已经复国（此图没有表现出对云贵高原的羁縻统治，并且将云州、胜州、丰州、姚州画到了域外）",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1c/Tang_Dynasty_circa_700_CE.png/500px-Tang_Dynasty_circa_700_CE.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1c/Tang_Dynasty_circa_700_CE.png/500px-Tang_Dynasty_circa_700_CE.png",
+    "w": 500,
+    "h": 483
    },
    {
     "src": "images/c384e65ea49f.jpg",
     "caption": "则天大圣皇帝像图",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/%E5%89%87%E5%A4%A9%E5%A4%A7%E8%81%96%E7%9A%87%E5%B8%9D%E5%83%8F%E5%9C%96.jpg/500px-%E5%89%87%E5%A4%A9%E5%A4%A7%E8%81%96%E7%9A%87%E5%B8%9D%E5%83%8F%E5%9C%96.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/%E5%89%87%E5%A4%A9%E5%A4%A7%E8%81%96%E7%9A%87%E5%B8%9D%E5%83%8F%E5%9C%96.jpg/500px-%E5%89%87%E5%A4%A9%E5%A4%A7%E8%81%96%E7%9A%87%E5%B8%9D%E5%83%8F%E5%9C%96.jpg",
+    "w": 500,
+    "h": 561
    },
    {
     "src": "images/a60e14f7aa76.jpg",
     "caption": "武则天真容石刻像，四川省广元市皇泽寺",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/%E5%9B%BD%E5%86%85%E5%94%AF%E4%B8%80%E6%AD%A6%E5%88%99%E5%A4%A9%E7%9C%9F%E5%AE%B9%E7%9F%B3%E5%88%BB%E5%83%8F%EF%BC%88%E6%AD%A6%E5%88%99%E5%A4%A963%E5%B2%81%EF%BC%8C%E5%94%90%E6%9C%9D%EF%BC%89_-_panoramio.jpg/500px-%E5%9B%BD%E5%86%85%E5%94%AF%E4%B8%80%E6%AD%A6%E5%88%99%E5%A4%A9%E7%9C%9F%E5%AE%B9%E7%9F%B3%E5%88%BB%E5%83%8F%EF%BC%88%E6%AD%A6%E5%88%99%E5%A4%A963%E5%B2%81%EF%BC%8C%E5%94%90%E6%9C%9D%EF%BC%89_-_panoramio.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/%E5%9B%BD%E5%86%85%E5%94%AF%E4%B8%80%E6%AD%A6%E5%88%99%E5%A4%A9%E7%9C%9F%E5%AE%B9%E7%9F%B3%E5%88%BB%E5%83%8F%EF%BC%88%E6%AD%A6%E5%88%99%E5%A4%A963%E5%B2%81%EF%BC%8C%E5%94%90%E6%9C%9D%EF%BC%89_-_panoramio.jpg/500px-%E5%9B%BD%E5%86%85%E5%94%AF%E4%B8%80%E6%AD%A6%E5%88%99%E5%A4%A9%E7%9C%9F%E5%AE%B9%E7%9F%B3%E5%88%BB%E5%83%8F%EF%BC%88%E6%AD%A6%E5%88%99%E5%A4%A963%E5%B2%81%EF%BC%8C%E5%94%90%E6%9C%9D%EF%BC%89_-_panoramio.jpg",
+    "w": 500,
+    "h": 750
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E6%AD%A6%E5%88%99%E5%A4%A9"
@@ -1876,7 +2296,9 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/d26ad4665dea.jpg",
     "caption": "唐玄宗",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Tang_XianZong.jpg/330px-Tang_XianZong.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Tang_XianZong.jpg/330px-Tang_XianZong.jpg",
+    "w": 330,
+    "h": 419
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E5%BC%80%E5%85%83%E7%9B%9B%E4%B8%96"
@@ -1893,22 +2315,30 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/40904e1a78f8.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7b/An_Lushan_Rebellion-zh-hant.png/500px-An_Lushan_Rebellion-zh-hant.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7b/An_Lushan_Rebellion-zh-hant.png/500px-An_Lushan_Rebellion-zh-hant.png",
+    "w": 500,
+    "h": 354
    },
    {
     "src": "images/f680cf8f7be1.jpg",
     "caption": "安史之乱前的唐朝疆域",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/%E5%94%90%E6%9C%9D%E7%96%86%E5%9F%9F%EF%BC%88%E7%B9%81%EF%BC%89.png/500px-%E5%94%90%E6%9C%9D%E7%96%86%E5%9F%9F%EF%BC%88%E7%B9%81%EF%BC%89.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/%E5%94%90%E6%9C%9D%E7%96%86%E5%9F%9F%EF%BC%88%E7%B9%81%EF%BC%89.png/500px-%E5%94%90%E6%9C%9D%E7%96%86%E5%9F%9F%EF%BC%88%E7%B9%81%EF%BC%89.png",
+    "w": 500,
+    "h": 355
    },
    {
     "src": "images/14902690da37.jpg",
     "caption": "唐人 明皇幸蜀图，国立故宫博物院藏",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Li_Zhao_Dao_Tang_Ming_Huang_to_Shu.jpg/500px-Li_Zhao_Dao_Tang_Ming_Huang_to_Shu.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Li_Zhao_Dao_Tang_Ming_Huang_to_Shu.jpg/500px-Li_Zhao_Dao_Tang_Ming_Huang_to_Shu.jpg",
+    "w": 500,
+    "h": 346
    },
    {
     "src": "images/c00522a17591.jpg",
     "caption": "颜真卿 祭侄文稿，758年，国立故宫博物院藏",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/Jizhiwengao_xqf.jpg/500px-Jizhiwengao_xqf.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/Jizhiwengao_xqf.jpg/500px-Jizhiwengao_xqf.jpg",
+    "w": 500,
+    "h": 164
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E5%AE%89%E5%8F%B2%E4%B9%8B%E4%BA%82"
@@ -1925,47 +2355,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/a2211bd1fc9c.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1d/%E4%BA%94%E4%BB%A3%E5%90%8E%E6%A2%81%E5%89%8D%E6%9C%9F%E5%BD%A2%E5%8A%BF%E5%9B%BE%EF%BC%88%E7%AE%80%EF%BC%89.png/500px-%E4%BA%94%E4%BB%A3%E5%90%8E%E6%A2%81%E5%89%8D%E6%9C%9F%E5%BD%A2%E5%8A%BF%E5%9B%BE%EF%BC%88%E7%AE%80%EF%BC%89.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1d/%E4%BA%94%E4%BB%A3%E5%90%8E%E6%A2%81%E5%89%8D%E6%9C%9F%E5%BD%A2%E5%8A%BF%E5%9B%BE%EF%BC%88%E7%AE%80%EF%BC%89.png/500px-%E4%BA%94%E4%BB%A3%E5%90%8E%E6%A2%81%E5%89%8D%E6%9C%9F%E5%BD%A2%E5%8A%BF%E5%9B%BE%EF%BC%88%E7%AE%80%EF%BC%89.png",
+    "w": 500,
+    "h": 465
    },
    {
     "src": "images/b15f863aec64.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/07/%E4%BA%94%E4%BB%A3%E5%90%8E%E5%91%A8%E5%BD%A2%E5%8A%BF%E5%9B%BE%EF%BC%88%E7%AE%80%EF%BC%89.png/500px-%E4%BA%94%E4%BB%A3%E5%90%8E%E5%91%A8%E5%BD%A2%E5%8A%BF%E5%9B%BE%EF%BC%88%E7%AE%80%EF%BC%89.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/07/%E4%BA%94%E4%BB%A3%E5%90%8E%E5%91%A8%E5%BD%A2%E5%8A%BF%E5%9B%BE%EF%BC%88%E7%AE%80%EF%BC%89.png/500px-%E4%BA%94%E4%BB%A3%E5%90%8E%E5%91%A8%E5%BD%A2%E5%8A%BF%E5%9B%BE%EF%BC%88%E7%AE%80%EF%BC%89.png",
+    "w": 500,
+    "h": 465
    },
    {
     "src": "images/bd89c443f251.jpg",
     "caption": "灭唐朝篡位的后梁太祖朱温",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Zhu_Wen_%28Liang_Taizu%29.jpg/500px-Zhu_Wen_%28Liang_Taizu%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Zhu_Wen_%28Liang_Taizu%29.jpg/500px-Zhu_Wen_%28Liang_Taizu%29.jpg",
+    "w": 500,
+    "h": 560
    },
    {
     "src": "images/5d90808fc808.jpg",
     "caption": "灭亡后梁，建立后唐的唐庄宗李存勗。在位期间国力强盛，屡次扩充领地，但因管理政事不当而亡于兵变",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/Zhuangzong_of_Later_Tang.jpg/500px-Zhuangzong_of_Later_Tang.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/Zhuangzong_of_Later_Tang.jpg/500px-Zhuangzong_of_Later_Tang.jpg",
+    "w": 500,
+    "h": 1057
    },
    {
     "src": "images/d379c4102979.jpg",
     "caption": "燕云十六州分布图，十六州于后晋已经割让给契丹国，只有瀛州、莫州于后周时收复",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/Sixteen_Prefectures.png/500px-Sixteen_Prefectures.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/Sixteen_Prefectures.png/500px-Sixteen_Prefectures.png",
+    "w": 500,
+    "h": 439
    },
    {
     "src": "images/0feaf3cf6d43.jpg",
     "caption": "南唐大臣韩熙载像",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/Gu_Hongzhong_15.jpg/500px-Gu_Hongzhong_15.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/Gu_Hongzhong_15.jpg/500px-Gu_Hongzhong_15.jpg",
+    "w": 500,
+    "h": 690
    },
    {
     "src": "images/9bf28712673c.jpg",
     "caption": "闽地三分形势图（957年）",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/Map_of_Fujian%2C_957.png/500px-Map_of_Fujian%2C_957.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/Map_of_Fujian%2C_957.png/500px-Map_of_Fujian%2C_957.png",
+    "w": 500,
+    "h": 558
    },
    {
     "src": "images/3b4224fba6f7.jpg",
     "caption": "951年五代十国荆南（深紫）、楚国（紫色）、南汉（蓝色）与交趾（淡紫，即静海军）的位置图",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/01/%E4%BA%94%E4%BB%A3%E5%90%8E%E6%99%8B%E3%80%81%E5%90%8E%E6%B1%89%E6%97%B6%E5%BD%A2%E5%8A%BF%E5%9B%BE%EF%BC%88%E7%B9%81%EF%BC%89.png/500px-%E4%BA%94%E4%BB%A3%E5%90%8E%E6%99%8B%E3%80%81%E5%90%8E%E6%B1%89%E6%97%B6%E5%BD%A2%E5%8A%BF%E5%9B%BE%EF%BC%88%E7%B9%81%EF%BC%89.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/01/%E4%BA%94%E4%BB%A3%E5%90%8E%E6%99%8B%E3%80%81%E5%90%8E%E6%B1%89%E6%97%B6%E5%BD%A2%E5%8A%BF%E5%9B%BE%EF%BC%88%E7%B9%81%EF%BC%89.png/500px-%E4%BA%94%E4%BB%A3%E5%90%8E%E6%99%8B%E3%80%81%E5%90%8E%E6%B1%89%E6%97%B6%E5%BD%A2%E5%8A%BF%E5%9B%BE%EF%BC%88%E7%B9%81%EF%BC%89.png",
+    "w": 500,
+    "h": 465
    },
    {
     "src": "images/b6cbc027d353.jpg",
     "caption": "割地称儿的后晋高祖石敬塘",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/Shi_Jingtang_%28Jin_Gaozu%29.jpg/500px-Shi_Jingtang_%28Jin_Gaozu%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/Shi_Jingtang_%28Jin_Gaozu%29.jpg/500px-Shi_Jingtang_%28Jin_Gaozu%29.jpg",
+    "w": 500,
+    "h": 556
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E4%BA%94%E4%BB%A3%E5%8D%81%E5%9B%BD"
@@ -1982,12 +2430,16 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/614ef807109d.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/%E5%AE%8B%E7%A5%96%E7%99%BB%E5%9F%BA%EF%BC%88%E5%BB%BF%E4%B8%80%E5%8F%B2%E9%80%9A%E4%BF%97%E8%A1%8D%E7%BE%A9%EF%BC%89.jpg/500px-%E5%AE%8B%E7%A5%96%E7%99%BB%E5%9F%BA%EF%BC%88%E5%BB%BF%E4%B8%80%E5%8F%B2%E9%80%9A%E4%BF%97%E8%A1%8D%E7%BE%A9%EF%BC%89.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/%E5%AE%8B%E7%A5%96%E7%99%BB%E5%9F%BA%EF%BC%88%E5%BB%BF%E4%B8%80%E5%8F%B2%E9%80%9A%E4%BF%97%E8%A1%8D%E7%BE%A9%EF%BC%89.jpg/500px-%E5%AE%8B%E7%A5%96%E7%99%BB%E5%9F%BA%EF%BC%88%E5%BB%BF%E4%B8%80%E5%8F%B2%E9%80%9A%E4%BF%97%E8%A1%8D%E7%BE%A9%EF%BC%89.jpg",
+    "w": 500,
+    "h": 771
    },
    {
     "src": "images/2c534dae47c5.jpg",
     "caption": "赵匡胤",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/%E5%AE%8B%E5%A4%AA%E7%A5%96%E5%8D%8A%E8%BA%AB%E5%83%8F%EF%BC%88%E4%B8%80%EF%BC%89%E8%BD%B4-%E7%BB%A2%E6%9C%AC%E8%AE%BE%E8%89%B2-%E5%8F%B0%E5%8C%97%E6%95%85%E5%AE%AB%E5%8D%9A%E7%89%A9%E9%99%A2%E8%97%8F.jpg/500px-%E5%AE%8B%E5%A4%AA%E7%A5%96%E5%8D%8A%E8%BA%AB%E5%83%8F%EF%BC%88%E4%B8%80%EF%BC%89%E8%BD%B4-%E7%BB%A2%E6%9C%AC%E8%AE%BE%E8%89%B2-%E5%8F%B0%E5%8C%97%E6%95%85%E5%AE%AB%E5%8D%9A%E7%89%A9%E9%99%A2%E8%97%8F.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/%E5%AE%8B%E5%A4%AA%E7%A5%96%E5%8D%8A%E8%BA%AB%E5%83%8F%EF%BC%88%E4%B8%80%EF%BC%89%E8%BD%B4-%E7%BB%A2%E6%9C%AC%E8%AE%BE%E8%89%B2-%E5%8F%B0%E5%8C%97%E6%95%85%E5%AE%AB%E5%8D%9A%E7%89%A9%E9%99%A2%E8%97%8F.jpg/500px-%E5%AE%8B%E5%A4%AA%E7%A5%96%E5%8D%8A%E8%BA%AB%E5%83%8F%EF%BC%88%E4%B8%80%EF%BC%89%E8%BD%B4-%E7%BB%A2%E6%9C%AC%E8%AE%BE%E8%89%B2-%E5%8F%B0%E5%8C%97%E6%95%85%E5%AE%AB%E5%8D%9A%E7%89%A9%E9%99%A2%E8%97%8F.jpg",
+    "w": 500,
+    "h": 516
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E9%99%88%E6%A1%A5%E5%85%B5%E5%8F%98"
@@ -2004,7 +2456,9 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/9b996d4e87f9.jpg",
     "caption": "澶渊之盟示意图",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Liao_and_Song_Dynasties.png/250px-Liao_and_Song_Dynasties.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Liao_and_Song_Dynasties.png/250px-Liao_and_Song_Dynasties.png",
+    "w": 250,
+    "h": 274
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E6%BE%B6%E6%B8%8A%E4%B9%8B%E7%9B%9F"
@@ -2021,47 +2475,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/570a9d02d1bc.jpg",
     "caption": "金属活字。",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/Metal_movable_type.jpg/500px-Metal_movable_type.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/Metal_movable_type.jpg/500px-Metal_movable_type.jpg",
+    "w": 500,
+    "h": 332
    },
    {
     "src": "images/d7126fd55503.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/Die_Buchdruckerei_by_Daniel_Chodowiecki_%28150289207%29.jpg/500px-Die_Buchdruckerei_by_Daniel_Chodowiecki_%28150289207%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/Die_Buchdruckerei_by_Daniel_Chodowiecki_%28150289207%29.jpg/500px-Die_Buchdruckerei_by_Daniel_Chodowiecki_%28150289207%29.jpg",
+    "w": 500,
+    "h": 385
    },
    {
     "src": "images/b4151428c5c8.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/%E6%B4%BB%E5%AD%97%E3%80%8A%E4%BD%9B%E8%AF%B4%E8%A7%82%E6%97%A0%E9%87%8F%E5%AF%BF%E4%BD%9B%E7%BB%8F%E3%80%8B%E6%AE%8B%E5%8F%B6.jpg/500px-%E6%B4%BB%E5%AD%97%E3%80%8A%E4%BD%9B%E8%AF%B4%E8%A7%82%E6%97%A0%E9%87%8F%E5%AF%BF%E4%BD%9B%E7%BB%8F%E3%80%8B%E6%AE%8B%E5%8F%B6.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/%E6%B4%BB%E5%AD%97%E3%80%8A%E4%BD%9B%E8%AF%B4%E8%A7%82%E6%97%A0%E9%87%8F%E5%AF%BF%E4%BD%9B%E7%BB%8F%E3%80%8B%E6%AE%8B%E5%8F%B6.jpg/500px-%E6%B4%BB%E5%AD%97%E3%80%8A%E4%BD%9B%E8%AF%B4%E8%A7%82%E6%97%A0%E9%87%8F%E5%AF%BF%E4%BD%9B%E7%BB%8F%E3%80%8B%E6%AE%8B%E5%8F%B6.jpg",
+    "w": 500,
+    "h": 413
    },
    {
     "src": "images/1000c22eac07.jpg",
     "caption": "元朝王祯著作《农书》里所绘的印刷活字盘。",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Chinese_movable_type_1313-ce.png/500px-Chinese_movable_type_1313-ce.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Chinese_movable_type_1313-ce.png/500px-Chinese_movable_type_1313-ce.png",
+    "w": 500,
+    "h": 500
    },
    {
     "src": "images/b5d6eceaba6e.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/%E6%B8%85%E4%B9%BE%E9%9A%86%E5%B9%B4%E6%AD%A6%E8%8B%B1%E6%AE%BF%E8%81%9A%E7%8F%8D%E7%89%88%E4%B9%A6%E9%A1%B5.JPG/500px-%E6%B8%85%E4%B9%BE%E9%9A%86%E5%B9%B4%E6%AD%A6%E8%8B%B1%E6%AE%BF%E8%81%9A%E7%8F%8D%E7%89%88%E4%B9%A6%E9%A1%B5.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/%E6%B8%85%E4%B9%BE%E9%9A%86%E5%B9%B4%E6%AD%A6%E8%8B%B1%E6%AE%BF%E8%81%9A%E7%8F%8D%E7%89%88%E4%B9%A6%E9%A1%B5.JPG/500px-%E6%B8%85%E4%B9%BE%E9%9A%86%E5%B9%B4%E6%AD%A6%E8%8B%B1%E6%AE%BF%E8%81%9A%E7%8F%8D%E7%89%88%E4%B9%A6%E9%A1%B5.JPG",
+    "w": 500,
+    "h": 737
    },
    {
     "src": "images/458fa811a451.jpg",
     "caption": "1490年华隧铜活字印本 《宋诸臣奏议》。",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f4/Removeable_type_book.jpg/500px-Removeable_type_book.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f4/Removeable_type_book.jpg/500px-Removeable_type_book.jpg",
+    "w": 500,
+    "h": 750
    },
    {
     "src": "images/1b4d6d994cea.jpg",
     "caption": "1719年徐志定瓷活字《周易说略》",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/1719%E5%B9%B4%E7%93%B7%E6%B4%BB%E5%AD%97%E5%91%A8%E6%98%93%E8%AF%B4%E7%95%A5.JPG/500px-1719%E5%B9%B4%E7%93%B7%E6%B4%BB%E5%AD%97%E5%91%A8%E6%98%93%E8%AF%B4%E7%95%A5.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/1719%E5%B9%B4%E7%93%B7%E6%B4%BB%E5%AD%97%E5%91%A8%E6%98%93%E8%AF%B4%E7%95%A5.JPG/500px-1719%E5%B9%B4%E7%93%B7%E6%B4%BB%E5%AD%97%E5%91%A8%E6%98%93%E8%AF%B4%E7%95%A5.JPG",
+    "w": 500,
+    "h": 746
    },
    {
     "src": "images/fe2984db5503.jpg",
     "caption": "高丽《白云和尚抄录佛祖直指心体要节》，世界现存最古老的金属活字本",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9f/Korean_book-Jikji-Selected_Teachings_of_Buddhist_Sages_and_Seon_Masters-1377.jpg/330px-Korean_book-Jikji-Selected_Teachings_of_Buddhist_Sages_and_Seon_Masters-1377.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9f/Korean_book-Jikji-Selected_Teachings_of_Buddhist_Sages_and_Seon_Masters-1377.jpg/330px-Korean_book-Jikji-Selected_Teachings_of_Buddhist_Sages_and_Seon_Masters-1377.jpg",
+    "w": 330,
+    "h": 264
    },
    {
     "src": "images/3fb6a063a249.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Xunhuanribao.jpeg/330px-Xunhuanribao.jpeg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Xunhuanribao.jpeg/330px-Xunhuanribao.jpeg",
+    "w": 330,
+    "h": 241
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E6%B4%BB%E5%AD%97%E5%8D%B0%E5%88%B7%E6%9C%AF"
@@ -2089,42 +2561,58 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/ad0940dfaf2d.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d2/Bianjing_city_gate.JPG/500px-Bianjing_city_gate.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d2/Bianjing_city_gate.JPG/500px-Bianjing_city_gate.JPG",
+    "w": 500,
+    "h": 358
    },
    {
     "src": "images/6e1e7de514a7.jpg",
     "caption": "《清明上河图》描绘上的场景，呈现一位船员面正因急流而对船只失去控制，导致将撞向附近船只的危险。",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/eb/%E6%B8%85%E6%98%8E%E4%B8%8A%E6%B2%B3%E5%9B%BE.jpg/500px-%E6%B8%85%E6%98%8E%E4%B8%8A%E6%B2%B3%E5%9B%BE.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/eb/%E6%B8%85%E6%98%8E%E4%B8%8A%E6%B2%B3%E5%9B%BE.jpg/500px-%E6%B8%85%E6%98%8E%E4%B8%8A%E6%B2%B3%E5%9B%BE.jpg",
+    "w": 500,
+    "h": 206
    },
    {
     "src": "images/6fe05fc82c27.jpg",
     "caption": "电子动态版《清明上河图》于中国2010年上海世界博览会中国馆中展出",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cc/Along-the-River-During-the-Qingming-Festival-Expo-2010.JPG/500px-Along-the-River-During-the-Qingming-Festival-Expo-2010.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cc/Along-the-River-During-the-Qingming-Festival-Expo-2010.JPG/500px-Along-the-River-During-the-Qingming-Festival-Expo-2010.JPG",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/a1d9a0d9552e.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Alongtheriver_QingMing.jpg/500px-Alongtheriver_QingMing.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Alongtheriver_QingMing.jpg/500px-Alongtheriver_QingMing.jpg",
+    "w": 500,
+    "h": 23
    },
    {
     "src": "images/165e52d8006f.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b5/Along_the_River_During_the_Qingming_Festival_%28Suzhou_Imitation%29.jpg/500px-Along_the_River_During_the_Qingming_Festival_%28Suzhou_Imitation%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b5/Along_the_River_During_the_Qingming_Festival_%28Suzhou_Imitation%29.jpg/500px-Along_the_River_During_the_Qingming_Festival_%28Suzhou_Imitation%29.jpg",
+    "w": 500,
+    "h": 14
    },
    {
     "src": "images/1b919269260f.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Qingming_in_Brief.jpg/500px-Qingming_in_Brief.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Qingming_in_Brief.jpg/500px-Qingming_in_Brief.jpg",
+    "w": 500,
+    "h": 18
    },
    {
     "src": "images/020290081c82.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2b/Along_the_River_During_the_Qingming_Festival_%28by_Shen_Yuan%29.jpg/500px-Along_the_River_During_the_Qingming_Festival_%28by_Shen_Yuan%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2b/Along_the_River_During_the_Qingming_Festival_%28by_Shen_Yuan%29.jpg/500px-Along_the_River_During_the_Qingming_Festival_%28by_Shen_Yuan%29.jpg",
+    "w": 500,
+    "h": 14
    },
    {
     "src": "images/4fc99810d586.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Along_the_River_During_the_Qingming_Festival_%28Qing_Court_Version%29.jpg/500px-Along_the_River_During_the_Qingming_Festival_%28Qing_Court_Version%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Along_the_River_During_the_Qingming_Festival_%28Qing_Court_Version%29.jpg/500px-Along_the_River_During_the_Qingming_Festival_%28Qing_Court_Version%29.jpg",
+    "w": 500,
+    "h": 15
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E6%B8%85%E6%98%8E%E4%B8%8A%E6%B2%B3%E5%9C%96"
@@ -2141,12 +2629,16 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/7b5e8f38d803.jpg",
     "caption": "北宋皇帝宋钦宗赵桓",
-    "remote": "https://upload.wikimedia.org/wikipedia/commons/4/4e/Songqinzong.jpg"
+    "remote": "https://upload.wikimedia.org/wikipedia/commons/4/4e/Songqinzong.jpg",
+    "w": 130,
+    "h": 160
    },
    {
     "src": "images/d43f2ecf19c4.jpg",
     "caption": "靖康之变前的北宋东京城模型",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/Northern_Song_Capital_Model.JPG/500px-Northern_Song_Capital_Model.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/Northern_Song_Capital_Model.JPG/500px-Northern_Song_Capital_Model.JPG",
+    "w": 500,
+    "h": 280
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E9%9D%96%E5%BA%B7%E4%B9%8B%E5%8F%98"
@@ -2163,47 +2655,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/b5407bfe907d.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/%E5%B2%B3%E9%A3%9B.jpg/500px-%E5%B2%B3%E9%A3%9B.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/%E5%B2%B3%E9%A3%9B.jpg/500px-%E5%B2%B3%E9%A3%9B.jpg",
+    "w": 500,
+    "h": 1046
    },
    {
     "src": "images/492d5dbe015f.jpg",
     "caption": "杭州岳王庙",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/Yue_Fei_temple_12.jpg/500px-Yue_Fei_temple_12.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/Yue_Fei_temple_12.jpg/500px-Yue_Fei_temple_12.jpg",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/082ae58cb319.jpg",
     "caption": "明代绘，帝后祭祀历代功臣用，清代转移南薰殿藏。[29]",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/%E5%B2%B3%E9%A3%9E%E5%83%8F.jpg/500px-%E5%B2%B3%E9%A3%9E%E5%83%8F.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/%E5%B2%B3%E9%A3%9E%E5%83%8F.jpg/500px-%E5%B2%B3%E9%A3%9E%E5%83%8F.jpg",
+    "w": 500,
+    "h": 941
    },
    {
     "src": "images/4b6b60063705.jpg",
     "caption": "南宋·《八相图》中的秦桧全身立像，北京故宫博物院藏",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/%E7%A7%A6%E6%AA%9C.jpg/500px-%E7%A7%A6%E6%AA%9C.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/%E7%A7%A6%E6%AA%9C.jpg/500px-%E7%A7%A6%E6%AA%9C.jpg",
+    "w": 500,
+    "h": 819
    },
    {
     "src": "images/a4ba3e3260f1.jpg",
     "caption": "岳飞像，载于《晩笑堂竹庄画传》",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Yue_Fei_2.jpg/500px-Yue_Fei_2.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Yue_Fei_2.jpg/500px-Yue_Fei_2.jpg",
+    "w": 500,
+    "h": 934
    },
    {
     "src": "images/68ba78bfd036.jpg",
     "caption": "岳坟",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/Yuefeimu.jpg/500px-Yuefeimu.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/Yuefeimu.jpg/500px-Yuefeimu.jpg",
+    "w": 500,
+    "h": 328
    },
    {
     "src": "images/6e67c279155f.jpg",
     "caption": "位在云林虎尾持法妈祖宫内之岳飞的石雕。",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/The_statue_is_Yue_Fei.jpg/500px-The_statue_is_Yue_Fei.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/The_statue_is_Yue_Fei.jpg/500px-The_statue_is_Yue_Fei.jpg",
+    "w": 500,
+    "h": 864
    },
    {
     "src": "images/b605d833185d.jpg",
     "caption": "武汉黄鹤楼后塑像",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a3/Yue_Fei_in_HHL1.jpg/500px-Yue_Fei_in_HHL1.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a3/Yue_Fei_in_HHL1.jpg/500px-Yue_Fei_in_HHL1.jpg",
+    "w": 500,
+    "h": 367
    },
    {
     "src": "images/f60e89697964.jpg",
     "caption": "日月潭文武庙供奉的岳飞和关羽神像",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a0/Wen_Wu_Temple_07.jpg/500px-Wen_Wu_Temple_07.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a0/Wen_Wu_Temple_07.jpg/500px-Wen_Wu_Temple_07.jpg",
+    "w": 500,
+    "h": 375
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E5%B2%B3%E9%A3%9E"
@@ -2220,47 +2730,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/d304135266a5.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/35/YuanEmperorAlbumGenghisPortrait.jpg/500px-YuanEmperorAlbumGenghisPortrait.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/35/YuanEmperorAlbumGenghisPortrait.jpg/500px-YuanEmperorAlbumGenghisPortrait.jpg",
+    "w": 500,
+    "h": 635
    },
    {
     "src": "images/7970aab51b56.jpg",
     "caption": "成吉思汗在位时所立的“移相哥碑（英语：Stele of Genghis Khan）”碑文，因开头记录了其当时的蒙古语称号，也称“成吉思汗石碑”[2]",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6a/GenghisStele.png/330px-GenghisStele.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6a/GenghisStele.png/330px-GenghisStele.png",
+    "w": 330,
+    "h": 1011
    },
    {
     "src": "images/4443789b9f64.jpg",
     "caption": "拉施德丁所著《史集》的15世纪抄本",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Jame%27_al-Tavarikh_%28Compendium_of_Chronicles%29_manuscript_by_Rashid_al-Din_Fazlullah%2C_Iran%2C_early_15th_century_AD%2C_ink%2C_watercolour%2C_and_gold_on_paper_-_Aga_Khan_Museum_-_Toronto%2C_Canada_-_DSC06735.jpg/500px-thumbnail.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Jame%27_al-Tavarikh_%28Compendium_of_Chronicles%29_manuscript_by_Rashid_al-Din_Fazlullah%2C_Iran%2C_early_15th_century_AD%2C_ink%2C_watercolour%2C_and_gold_on_paper_-_Aga_Khan_Museum_-_Toronto%2C_Canada_-_DSC06735.jpg/500px-thumbnail.jpg",
+    "w": 500,
+    "h": 314
    },
    {
     "src": "images/7250168197be.jpg",
     "caption": "铁木真出生于斡难河（今译鄂嫩河）附近，图为蒙古国肯特省境内的鄂嫩河风景",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/90/OnonRiver.jpg/500px-OnonRiver.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/90/OnonRiver.jpg/500px-OnonRiver.jpg",
+    "w": 500,
+    "h": 213
    },
    {
     "src": "images/b2f3048b3502.jpg",
     "caption": "位于蒙古国乌兰巴托纳来哈区成吉思汗骑马雕像附近的诃额仑雕像",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/The_Hoelun_Monument_to_Genghis_Khan%27s_Mother_at_the_Mother_Hoelun_Memorial_Complex_in_Tsonjin_Boldog_02.jpg/500px-The_Hoelun_Monument_to_Genghis_Khan%27s_Mother_at_the_Mother_Hoelun_Memorial_Complex_in_Tsonjin_Boldog_02.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/The_Hoelun_Monument_to_Genghis_Khan%27s_Mother_at_the_Mother_Hoelun_Memorial_Complex_in_Tsonjin_Boldog_02.jpg/500px-The_Hoelun_Monument_to_Genghis_Khan%27s_Mother_at_the_Mother_Hoelun_Memorial_Complex_in_Tsonjin_Boldog_02.jpg",
+    "w": 500,
+    "h": 667
    },
    {
     "src": "images/33260156ddbd.jpg",
     "caption": "铁木真在蔑儿乞人来袭时曾藏身于不儿罕合勒敦山，后来他将此山尊为圣山。",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/58/Burkhan_Khaldun_mount3.jpg/500px-Burkhan_Khaldun_mount3.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/58/Burkhan_Khaldun_mount3.jpg/500px-Burkhan_Khaldun_mount3.jpg",
+    "w": 500,
+    "h": 332
    },
    {
     "src": "images/33696d7b4912.jpg",
     "caption": "《史集》15世纪抄本中所绘的铁木真和脱斡邻勒",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/Djengiz_Kh%C3%A2n_et_Toghril_Ong_Khan.jpeg/500px-Djengiz_Kh%C3%A2n_et_Toghril_Ong_Khan.jpeg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/Djengiz_Kh%C3%A2n_et_Toghril_Ong_Khan.jpeg/500px-Djengiz_Kh%C3%A2n_et_Toghril_Ong_Khan.jpeg",
+    "w": 500,
+    "h": 265
    },
    {
     "src": "images/a5f2aec162a2.jpg",
     "caption": "铁木真为建立大蒙古国所联合的部落政权",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/58/Mongol_Empire_c.1207.png/500px-Mongol_Empire_c.1207.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/58/Mongol_Empire_c.1207.png/500px-Mongol_Empire_c.1207.png",
+    "w": 500,
+    "h": 327
    },
    {
     "src": "images/7caaccdb535e.jpg",
     "caption": "铁木真被拥立为成吉思可汗的场景，出自15世纪《史集》抄本的插画[80]。秃克（一种用牦牛或马的尾巴制成的旗帜）置于右侧；此处图中白色的秃克代表和平，而黑色的秃克",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/Tem%C3%BCjin_proclaimed_as_Genghis_Khan_in_1206_Jami%27_al-tawarikh_manuscript.jpg/500px-Tem%C3%BCjin_proclaimed_as_Genghis_Khan_in_1206_Jami%27_al-tawarikh_manuscript.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/Tem%C3%BCjin_proclaimed_as_Genghis_Khan_in_1206_Jami%27_al-tawarikh_manuscript.jpg/500px-Tem%C3%BCjin_proclaimed_as_Genghis_Khan_in_1206_Jami%27_al-tawarikh_manuscript.jpg",
+    "w": 500,
+    "h": 597
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E6%88%90%E5%90%89%E6%80%9D%E6%B1%97"
@@ -2277,47 +2805,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/2fd3b88db667.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/Yuan_dynasty_under_Kublai_Khan.png/500px-Yuan_dynasty_under_Kublai_Khan.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/Yuan_dynasty_under_Kublai_Khan.png/500px-Yuan_dynasty_under_Kublai_Khan.png",
+    "w": 500,
+    "h": 415
    },
    {
     "src": "images/79ee9bbc4324.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/Yuan_Provinces.png/500px-Yuan_Provinces.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/Yuan_Provinces.png/500px-Yuan_Provinces.png",
+    "w": 500,
+    "h": 353
    },
    {
     "src": "images/339b35094b20.jpg",
     "caption": "蒙古历史",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/98/Chinggis_Khaan_statue_Complex.jpg/500px-Chinggis_Khaan_statue_Complex.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/98/Chinggis_Khaan_statue_Complex.jpg/500px-Chinggis_Khaan_statue_Complex.jpg",
+    "w": 500,
+    "h": 332
    },
    {
     "src": "images/d304135266a5.jpg",
     "caption": "蒙古帝国的开国大汗成吉思汗，后被追尊称元太祖",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/35/YuanEmperorAlbumGenghisPortrait.jpg/500px-YuanEmperorAlbumGenghisPortrait.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/35/YuanEmperorAlbumGenghisPortrait.jpg/500px-YuanEmperorAlbumGenghisPortrait.jpg",
+    "w": 500,
+    "h": 635
    },
    {
     "src": "images/561839884692.jpg",
     "caption": "蒙古入侵金朝形势",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/1227_Southern_Song.jpg/500px-1227_Southern_Song.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/1227_Southern_Song.jpg/500px-1227_Southern_Song.jpg",
+    "w": 500,
+    "h": 489
    },
    {
     "src": "images/9e7d1ecbfba2.jpg",
     "caption": "元朝画家刘贯道于至元十七年（1280年）二月绘制的《元世祖出猎图》，其中骑著黑马、身穿白裘的男子是忽必烈",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Liu-Kuan-Tao-Jagd.JPG/500px-Liu-Kuan-Tao-Jagd.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Liu-Kuan-Tao-Jagd.JPG/500px-Liu-Kuan-Tao-Jagd.JPG",
+    "w": 500,
+    "h": 411
    },
    {
     "src": "images/e6da4307baf5.jpg",
     "caption": "元武宗时期元朝与诸汗国关系图，其中窝阔台汗国已经被元朝与察合台汗国瓜分而亡。绿色区域：大元；灰色区域：察合台汗国；黄色区域为钦察汗国；紫色区域：伊儿汗国",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/82/MongolEmpireDivisions1300.png/500px-MongolEmpireDivisions1300.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/82/MongolEmpireDivisions1300.png/500px-MongolEmpireDivisions1300.png",
+    "w": 500,
+    "h": 292
    },
    {
     "src": "images/d23f9c80e543.jpg",
     "caption": "持续推行汉化运动的元仁宗，在位期间恢复科举，史称延祐复科",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/61/YuanEmperorAlbumAyurbarvadaBuyantuPortrait.jpg/500px-YuanEmperorAlbumAyurbarvadaBuyantuPortrait.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/61/YuanEmperorAlbumAyurbarvadaBuyantuPortrait.jpg/500px-YuanEmperorAlbumAyurbarvadaBuyantuPortrait.jpg",
+    "w": 500,
+    "h": 631
    },
    {
     "src": "images/8cb6257aa146.jpg",
     "caption": "贝尔湖（即古称捕鱼儿海）的航拍图，元天元帝于此被明军击溃",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Buir_Nuur_in_Eastern_Mongolia_and_in_China_%28Inner_Mongolia%29%2C_LandSat-7_2005-08-9.png/500px-Buir_Nuur_in_Eastern_Mongolia_and_in_China_%28Inner_Mongolia%29%2C_LandSat-7_2005-08-9.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Buir_Nuur_in_Eastern_Mongolia_and_in_China_%28Inner_Mongolia%29%2C_LandSat-7_2005-08-9.png/500px-Buir_Nuur_in_Eastern_Mongolia_and_in_China_%28Inner_Mongolia%29%2C_LandSat-7_2005-08-9.png",
+    "w": 500,
+    "h": 564
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E5%85%83%E6%9C%9D"
@@ -2334,7 +2880,9 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/411bc99032fc.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Jingmen002.jpg/500px-Jingmen002.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Jingmen002.jpg/500px-Jingmen002.jpg",
+    "w": 500,
+    "h": 375
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E5%B4%96%E9%97%A8%E6%B5%B7%E6%88%98"
@@ -2351,47 +2899,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/782c2a8f8bcb.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/%E6%B0%B8%E4%B9%90%E5%B9%B4%E9%97%B4%E7%9A%84%E6%98%8E%E6%9C%9D%EF%BC%88%E7%AE%80%EF%BC%89.png/500px-%E6%B0%B8%E4%B9%90%E5%B9%B4%E9%97%B4%E7%9A%84%E6%98%8E%E6%9C%9D%EF%BC%88%E7%AE%80%EF%BC%89.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/%E6%B0%B8%E4%B9%90%E5%B9%B4%E9%97%B4%E7%9A%84%E6%98%8E%E6%9C%9D%EF%BC%88%E7%AE%80%EF%BC%89.png/500px-%E6%B0%B8%E4%B9%90%E5%B9%B4%E9%97%B4%E7%9A%84%E6%98%8E%E6%9C%9D%EF%BC%88%E7%AE%80%EF%BC%89.png",
+    "w": 500,
+    "h": 431
    },
    {
     "src": "images/a38cfcdadf3b.jpg",
     "caption": "明朝开国皇帝朱元璋坐像。台北国立故宫博物院藏",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/A_Seated_Portrait_of_Ming_Emperor_Taizu.jpg/500px-A_Seated_Portrait_of_Ming_Emperor_Taizu.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/A_Seated_Portrait_of_Ming_Emperor_Taizu.jpg/500px-A_Seated_Portrait_of_Ming_Emperor_Taizu.jpg",
+    "w": 500,
+    "h": 814
    },
    {
     "src": "images/5e4344a73962.jpg",
     "caption": "将明朝推向鼎盛的明成祖朱棣（在位：1402年－1424年），台北国立故宫博物院藏",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/Portrait_assis_de_l%27empereur_Ming_Chengzu.jpg/500px-Portrait_assis_de_l%27empereur_Ming_Chengzu.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/Portrait_assis_de_l%27empereur_Ming_Chengzu.jpg/500px-Portrait_assis_de_l%27empereur_Ming_Chengzu.jpg",
+    "w": 500,
+    "h": 726
    },
    {
     "src": "images/7d768723c6b1.jpg",
     "caption": "印度尼西亚三宝垄三宝庙的郑和塑像",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/Zheng_He_statue.jpg/500px-Zheng_He_statue.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/Zheng_He_statue.jpg/500px-Zheng_He_statue.jpg",
+    "w": 500,
+    "h": 717
    },
    {
     "src": "images/a37c159eb371.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7f/%E6%98%8E%E5%AE%A3%E5%AE%97%E8%A1%8C%E6%A8%82%E5%9C%96.jpg/500px-%E6%98%8E%E5%AE%A3%E5%AE%97%E8%A1%8C%E6%A8%82%E5%9C%96.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7f/%E6%98%8E%E5%AE%A3%E5%AE%97%E8%A1%8C%E6%A8%82%E5%9C%96.jpg/500px-%E6%98%8E%E5%AE%A3%E5%AE%97%E8%A1%8C%E6%A8%82%E5%9C%96.jpg",
+    "w": 500,
+    "h": 27
    },
    {
     "src": "images/e0728cd7d6c5.jpg",
     "caption": "击退也先率领的瓦剌军，成功守卫北京的于谦",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Yu_Qian_by_Gu_Jianlong.jpg/500px-Yu_Qian_by_Gu_Jianlong.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Yu_Qian_by_Gu_Jianlong.jpg/500px-Yu_Qian_by_Gu_Jianlong.jpg",
+    "w": 500,
+    "h": 596
    },
    {
     "src": "images/27ffbb0e43c2.jpg",
     "caption": "朱邦《北京宫城图》",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1c/%E5%8C%97%E4%BA%AC%E5%AE%AB%E5%9F%8E%E5%9B%BE%E8%BD%B4.jpg/500px-%E5%8C%97%E4%BA%AC%E5%AE%AB%E5%9F%8E%E5%9B%BE%E8%BD%B4.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1c/%E5%8C%97%E4%BA%AC%E5%AE%AB%E5%9F%8E%E5%9B%BE%E8%BD%B4.jpg/500px-%E5%8C%97%E4%BA%AC%E5%AE%AB%E5%9F%8E%E5%9B%BE%E8%BD%B4.jpg",
+    "w": 500,
+    "h": 768
    },
    {
     "src": "images/0587fb1569cc.jpg",
     "caption": "中兴明朝的明孝宗朱祐樘，台北国立故宫博物院藏",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Hongzhi1.jpg/500px-Hongzhi1.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Hongzhi1.jpg/500px-Hongzhi1.jpg",
+    "w": 500,
+    "h": 672
    },
    {
     "src": "images/9cb19f039788.jpg",
     "caption": "侵犯明朝与朝鲜王国沿海的倭寇。倭寇主要由日本浪人与流浪海外的中国水手所组成",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c2/Wokou.jpg/330px-Wokou.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c2/Wokou.jpg/330px-Wokou.jpg",
+    "w": 330,
+    "h": 380
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E6%98%8E%E6%9C%9D"
@@ -2408,47 +2974,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/8b0057ad6809.jpg",
     "caption": "17世纪早期，郑和下西洋宝船的木刻画。",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7f/ZhengHeShips.gif/330px-ZhengHeShips.gif"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7f/ZhengHeShips.gif/330px-ZhengHeShips.gif",
+    "w": 330,
+    "h": 372
    },
    {
     "src": "images/5e4344a73962.jpg",
     "caption": "明成祖画像 (国立故宫博物院)。",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/Portrait_assis_de_l%27empereur_Ming_Chengzu.jpg/500px-Portrait_assis_de_l%27empereur_Ming_Chengzu.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/Portrait_assis_de_l%27empereur_Ming_Chengzu.jpg/500px-Portrait_assis_de_l%27empereur_Ming_Chengzu.jpg",
+    "w": 500,
+    "h": 726
    },
    {
     "src": "images/cde3a04ad49e.jpg",
     "caption": "一艘明代福船。",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Ming_dynasty_hybrid_junk.jpg/500px-Ming_dynasty_hybrid_junk.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Ming_dynasty_hybrid_junk.jpg/500px-Ming_dynasty_hybrid_junk.jpg",
+    "w": 500,
+    "h": 453
    },
    {
     "src": "images/fb0947f6ab20.jpg",
     "caption": "南京天妃宫。相传郑和出使暹罗穿过台湾海峡时，遇上狂风恶浪，天妃林默娘驾舟踏浪前往相救，得以化险为夷。郑和西航顺利返回后，将海上转危为安的事迹上奏皇帝，海神娘娘林",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/Tianfei_Palace_Nanjing.jpg/500px-Tianfei_Palace_Nanjing.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/Tianfei_Palace_Nanjing.jpg/500px-Tianfei_Palace_Nanjing.jpg",
+    "w": 500,
+    "h": 333
    },
    {
     "src": "images/f0794aa563c0.jpg",
     "caption": "15世纪初，朝鲜所制的《混一疆理历代国都之图》，显示郑和时代的明朝及其藩属国的世界观。",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/75/KangnidoMap.jpg/500px-KangnidoMap.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/75/KangnidoMap.jpg/500px-KangnidoMap.jpg",
+    "w": 500,
+    "h": 463
    },
    {
     "src": "images/649c48e6cceb.jpg",
     "caption": "郑和宝船模型，香港科学馆",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Zheng_He%27s_Treasure_Ship_3.jpg/500px-Zheng_He%27s_Treasure_Ship_3.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Zheng_He%27s_Treasure_Ship_3.jpg/500px-Zheng_He%27s_Treasure_Ship_3.jpg",
+    "w": 500,
+    "h": 333
    },
    {
     "src": "images/ba1f508cdf1c.jpg",
     "caption": "明朝沈度作《瑞应麒麟图》",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/ShenDuGiraffePainting.jpg/500px-ShenDuGiraffePainting.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/ShenDuGiraffePainting.jpg/500px-ShenDuGiraffePainting.jpg",
+    "w": 500,
+    "h": 991
    },
    {
     "src": "images/a78169b542d5.jpg",
     "caption": "郑和第四、五、六次航海航线图",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/%E9%83%91%E5%92%8C%E7%AC%AC%E5%9B%9B%E3%80%81%E4%BA%94%E3%80%81%E5%85%AD%E6%AC%A1%E4%B8%8B%E8%A5%BF%E6%B4%8B%E8%88%AA%E7%BA%BF%E5%9B%BE.jpg/500px-%E9%83%91%E5%92%8C%E7%AC%AC%E5%9B%9B%E3%80%81%E4%BA%94%E3%80%81%E5%85%AD%E6%AC%A1%E4%B8%8B%E8%A5%BF%E6%B4%8B%E8%88%AA%E7%BA%BF%E5%9B%BE.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/%E9%83%91%E5%92%8C%E7%AC%AC%E5%9B%9B%E3%80%81%E4%BA%94%E3%80%81%E5%85%AD%E6%AC%A1%E4%B8%8B%E8%A5%BF%E6%B4%8B%E8%88%AA%E7%BA%BF%E5%9B%BE.jpg/500px-%E9%83%91%E5%92%8C%E7%AC%AC%E5%9B%9B%E3%80%81%E4%BA%94%E3%80%81%E5%85%AD%E6%AC%A1%E4%B8%8B%E8%A5%BF%E6%B4%8B%E8%88%AA%E7%BA%BF%E5%9B%BE.jpg",
+    "w": 500,
+    "h": 320
    },
    {
     "src": "images/fb282e6df157.jpg",
     "caption": "郑和纪念碑，位于马六甲荷兰红屋。",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8e/Zheng_He.jpg/500px-Zheng_He.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8e/Zheng_He.jpg/500px-Zheng_He.jpg",
+    "w": 500,
+    "h": 750
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E9%83%91%E5%92%8C%E4%B8%8B%E8%A5%BF%E6%B4%8B"
@@ -2465,47 +3049,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/28476756ea78.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a0/%E6%99%AF%E5%B1%B1%E5%85%AC%E5%9B%AD_%2819687188164%29.jpg/500px-%E6%99%AF%E5%B1%B1%E5%85%AC%E5%9B%AD_%2819687188164%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a0/%E6%99%AF%E5%B1%B1%E5%85%AC%E5%9B%AD_%2819687188164%29.jpg/500px-%E6%99%AF%E5%B1%B1%E5%85%AC%E5%9B%AD_%2819687188164%29.jpg",
+    "w": 500,
+    "h": 338
    },
    {
     "src": "images/d630f64e36fc.jpg",
     "caption": "故宫（紫禁城）的全景视图",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/The_Forbidden_City_-_View_from_Coal_Hill.jpg/500px-The_Forbidden_City_-_View_from_Coal_Hill.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/The_Forbidden_City_-_View_from_Coal_Hill.jpg/500px-The_Forbidden_City_-_View_from_Coal_Hill.jpg",
+    "w": 500,
+    "h": 250
    },
    {
     "src": "images/09d0419914c0.jpg",
     "caption": "明代画作中的故宫",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/Verbotene-Stadt1500.jpg/500px-Verbotene-Stadt1500.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/Verbotene-Stadt1500.jpg/500px-Verbotene-Stadt1500.jpg",
+    "w": 500,
+    "h": 754
    },
    {
     "src": "images/2ca3045315cd.jpg",
     "caption": "清乾隆《万国来朝图》局部，前为太和门，后为太和殿",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Qianlong_Hall_of_Supreme_Harmony.jpg/500px-Qianlong_Hall_of_Supreme_Harmony.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Qianlong_Hall_of_Supreme_Harmony.jpg/500px-Qianlong_Hall_of_Supreme_Harmony.jpg",
+    "w": 500,
+    "h": 303
    },
    {
     "src": "images/e13892665ded.jpg",
     "caption": "紫禁城航拍图（1900年-1901年）",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/Vue_prise_en_ballon_du_Palais_Imp%C3%A9rial_%C3%A0_P%C3%A9kin.jpg/500px-Vue_prise_en_ballon_du_Palais_Imp%C3%A9rial_%C3%A0_P%C3%A9kin.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/Vue_prise_en_ballon_du_Palais_Imp%C3%A9rial_%C3%A0_P%C3%A9kin.jpg/500px-Vue_prise_en_ballon_du_Palais_Imp%C3%A9rial_%C3%A0_P%C3%A9kin.jpg",
+    "w": 500,
+    "h": 324
    },
    {
     "src": "images/7c874bb5ab7f.jpg",
     "caption": "美国利用日冕计划所拍摄的北京老照片（1967-09-20）",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Forbidden_City_-_satellite_image_%281967-09-20%29.jpg/500px-Forbidden_City_-_satellite_image_%281967-09-20%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Forbidden_City_-_satellite_image_%281967-09-20%29.jpg/500px-Forbidden_City_-_satellite_image_%281967-09-20%29.jpg",
+    "w": 500,
+    "h": 552
    },
    {
     "src": "images/2c6976c3abd0.jpg",
     "caption": "京师全图",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/A_large_coloured_plan_of_Peking.jpg/500px-A_large_coloured_plan_of_Peking.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/A_large_coloured_plan_of_Peking.jpg/500px-A_large_coloured_plan_of_Peking.jpg",
+    "w": 500,
+    "h": 796
    },
    {
     "src": "images/c9ae2866eec4.jpg",
     "caption": "紫禁城示意图 - - - 在内廷（北侧）与外朝（南侧）的粗略的区分境界 @media all and (max-width:720px){.mw-parser-",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/Forbidden_city_map_wp_1.png/500px-Forbidden_city_map_wp_1.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/Forbidden_city_map_wp_1.png/500px-Forbidden_city_map_wp_1.png",
+    "w": 500,
+    "h": 594
    },
    {
     "src": "images/ac7edbccc773.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dc/The_eaves_of_imperial_hall_at_the_Forbidden_City%2C_Beijing%2C_China_-_panoramio.jpg/500px-The_eaves_of_imperial_hall_at_the_Forbidden_City%2C_Beijing%2C_China_-_panoramio.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dc/The_eaves_of_imperial_hall_at_the_Forbidden_City%2C_Beijing%2C_China_-_panoramio.jpg/500px-The_eaves_of_imperial_hall_at_the_Forbidden_City%2C_Beijing%2C_China_-_panoramio.jpg",
+    "w": 500,
+    "h": 281
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E6%95%85%E5%AE%AB"
@@ -2522,12 +3124,16 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/deb5158d44ff.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/Bencao-gangmu-traite-botanique-medical-page19.jpg/500px-Bencao-gangmu-traite-botanique-medical-page19.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/Bencao-gangmu-traite-botanique-medical-page19.jpg/500px-Bencao-gangmu-traite-botanique-medical-page19.jpg",
+    "w": 500,
+    "h": 401
    },
    {
     "src": "images/cea8f0567581.jpg",
     "caption": "《本草纲目》金陵版",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Compendium_of_Materia_Medica.png/330px-Compendium_of_Materia_Medica.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Compendium_of_Materia_Medica.png/330px-Compendium_of_Materia_Medica.png",
+    "w": 330,
+    "h": 193
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E6%9C%AC%E8%8D%89%E7%BA%B2%E7%9B%AE"
@@ -2544,47 +3150,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/69038d89a401.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/%E5%88%A9%E7%8E%9B%E7%AA%A6%E5%83%8F%EF%BC%8C%E6%B8%B8%E6%96%87%E8%BE%89%E7%BB%98.jpg/500px-%E5%88%A9%E7%8E%9B%E7%AA%A6%E5%83%8F%EF%BC%8C%E6%B8%B8%E6%96%87%E8%BE%89%E7%BB%98.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/%E5%88%A9%E7%8E%9B%E7%AA%A6%E5%83%8F%EF%BC%8C%E6%B8%B8%E6%96%87%E8%BE%89%E7%BB%98.jpg/500px-%E5%88%A9%E7%8E%9B%E7%AA%A6%E5%83%8F%EF%BC%8C%E6%B8%B8%E6%96%87%E8%BE%89%E7%BB%98.jpg",
+    "w": 500,
+    "h": 645
    },
    {
     "src": "images/3d98d13c2fa9.jpg",
     "caption": "《中国图说》内利玛窦（左）和徐光启（右）的插图，[8]铜版画，贝特曼档案馆（The Bettmann Archive）藏。[9]",
-    "remote": "https://upload.wikimedia.org/wikipedia/commons/7/79/Ricci1.jpg"
+    "remote": "https://upload.wikimedia.org/wikipedia/commons/7/79/Ricci1.jpg",
+    "w": 191,
+    "h": 258
    },
    {
     "src": "images/eb54d0da29d5.jpg",
     "caption": "利玛窦在韶州时所穿的儒服，藏于意大利马切拉塔艺术学院",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/Ricciyifu.JPG/500px-Ricciyifu.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/Ricciyifu.JPG/500px-Ricciyifu.JPG",
+    "w": 500,
+    "h": 667
    },
    {
     "src": "images/b23e53543301.jpg",
     "caption": "利玛窦塑像，位于天主教南昌总教区主教座堂",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Ricciinnanchang.jpg/500px-Ricciinnanchang.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Ricciinnanchang.jpg/500px-Ricciinnanchang.jpg",
+    "w": 500,
+    "h": 333
    },
    {
     "src": "images/3e1923e8a5db.jpg",
     "caption": "利玛窦像，1915年，水彩画，土山湾画馆[12]",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/Matteo_Ricci_2.jpg/500px-Matteo_Ricci_2.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/Matteo_Ricci_2.jpg/500px-Matteo_Ricci_2.jpg",
+    "w": 500,
+    "h": 667
    },
    {
     "src": "images/41cbda4b60cf.jpg",
     "caption": "利玛窦墓碑",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/%E6%97%8B%E8%BD%AC_DSCN1806.JPG/500px-%E6%97%8B%E8%BD%AC_DSCN1806.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/%E6%97%8B%E8%BD%AC_DSCN1806.JPG/500px-%E6%97%8B%E8%BD%AC_DSCN1806.JPG",
+    "w": 500,
+    "h": 667
    },
    {
     "src": "images/f5e68dab2c99.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b8/Kunyu_Wanguo_Quantu_by_Matteo_Ricci_Plate_1-3.jpg/500px-Kunyu_Wanguo_Quantu_by_Matteo_Ricci_Plate_1-3.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b8/Kunyu_Wanguo_Quantu_by_Matteo_Ricci_Plate_1-3.jpg/500px-Kunyu_Wanguo_Quantu_by_Matteo_Ricci_Plate_1-3.jpg",
+    "w": 500,
+    "h": 453
    },
    {
     "src": "images/29ea490ba8e1.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/Kunyu_Wanguo_Quantu_by_Matteo_Ricci_Plate_4-6.jpg/500px-Kunyu_Wanguo_Quantu_by_Matteo_Ricci_Plate_4-6.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/Kunyu_Wanguo_Quantu_by_Matteo_Ricci_Plate_4-6.jpg/500px-Kunyu_Wanguo_Quantu_by_Matteo_Ricci_Plate_4-6.jpg",
+    "w": 500,
+    "h": 452
    },
    {
     "src": "images/d178dab7830d.jpg",
     "caption": "《天主实录》手稿，现藏于罗马国立中央图书馆",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Tianzhushilu.JPG/500px-Tianzhushilu.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Tianzhushilu.JPG/500px-Tianzhushilu.JPG",
+    "w": 500,
+    "h": 375
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E5%88%A9%E7%8E%9B%E7%AA%A6"
@@ -2601,7 +3225,9 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/476419e494d0.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/Fall_of_Beijing_to_Li_Zicheng_in_1644.png/500px-Fall_of_Beijing_to_Li_Zicheng_in_1644.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/Fall_of_Beijing_to_Li_Zicheng_in_1644.png/500px-Fall_of_Beijing_to_Li_Zicheng_in_1644.png",
+    "w": 500,
+    "h": 545
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E7%94%B2%E7%94%B3%E4%B9%8B%E8%AE%8A"
@@ -2618,47 +3244,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/a15cec668018.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/%E5%AE%89%E5%B9%B3%E5%8F%A4%E5%A0%A1%E4%B9%8B%E7%BE%8E.jpg/500px-%E5%AE%89%E5%B9%B3%E5%8F%A4%E5%A0%A1%E4%B9%8B%E7%BE%8E.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/%E5%AE%89%E5%B9%B3%E5%8F%A4%E5%A0%A1%E4%B9%8B%E7%BE%8E.jpg/500px-%E5%AE%89%E5%B9%B3%E5%8F%A4%E5%A0%A1%E4%B9%8B%E7%BE%8E.jpg",
+    "w": 500,
+    "h": 333
    },
    {
     "src": "images/97454e766243.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/The_Portrait_of_Koxinga.jpg/500px-The_Portrait_of_Koxinga.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/The_Portrait_of_Koxinga.jpg/500px-The_Portrait_of_Koxinga.jpg",
+    "w": 500,
+    "h": 838
    },
    {
     "src": "images/09e023642ec6.jpg",
     "caption": "刻有“国姓爷”字样的西班牙银元（贸易银）[12]。",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/Taiw%C3%A1n_Koxinga.jpg/500px-Taiw%C3%A1n_Koxinga.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/Taiw%C3%A1n_Koxinga.jpg/500px-Taiw%C3%A1n_Koxinga.jpg",
+    "w": 500,
+    "h": 561
    },
    {
     "src": "images/e5992d2c4f71.jpg",
     "caption": "郑成功的父母郑芝龙与田川氏,《国姓爷忠义传》",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/NDL881001_%E5%9B%BD%E5%A7%93%E7%88%BA%E5%BF%A0%E7%BE%A9%E4%BC%9D_part1_%28page_8_crop%29.jpg/500px-NDL881001_%E5%9B%BD%E5%A7%93%E7%88%BA%E5%BF%A0%E7%BE%A9%E4%BC%9D_part1_%28page_8_crop%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/NDL881001_%E5%9B%BD%E5%A7%93%E7%88%BA%E5%BF%A0%E7%BE%A9%E4%BC%9D_part1_%28page_8_crop%29.jpg/500px-NDL881001_%E5%9B%BD%E5%A7%93%E7%88%BA%E5%BF%A0%E7%BE%A9%E4%BC%9D_part1_%28page_8_crop%29.jpg",
+    "w": 500,
+    "h": 777
    },
    {
     "src": "images/6eb31f93b96a.jpg",
     "caption": "日本平户儿诞石",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/01/Birth_Rock_of_Zheng_Chenggong.jpg/330px-Birth_Rock_of_Zheng_Chenggong.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/01/Birth_Rock_of_Zheng_Chenggong.jpg/330px-Birth_Rock_of_Zheng_Chenggong.jpg",
+    "w": 330,
+    "h": 220
    },
    {
     "src": "images/4a213c5df43f.jpg",
     "caption": "郑成功焚青衣处",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/%E9%83%91%E6%88%90%E5%8A%9F%E7%84%9A%E9%9D%92%E8%A1%A3%E5%A4%84%EF%BC%8820200717%EF%BC%89.jpg/500px-%E9%83%91%E6%88%90%E5%8A%9F%E7%84%9A%E9%9D%92%E8%A1%A3%E5%A4%84%EF%BC%8820200717%EF%BC%89.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/%E9%83%91%E6%88%90%E5%8A%9F%E7%84%9A%E9%9D%92%E8%A1%A3%E5%A4%84%EF%BC%8820200717%EF%BC%89.jpg/500px-%E9%83%91%E6%88%90%E5%8A%9F%E7%84%9A%E9%9D%92%E8%A1%A3%E5%A4%84%EF%BC%8820200717%EF%BC%89.jpg",
+    "w": 500,
+    "h": 333
    },
    {
     "src": "images/daa175f98f23.jpg",
     "caption": "福建厦门鼓浪屿郑成功雕像",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Zheng_Chenggong.JPG/500px-Zheng_Chenggong.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Zheng_Chenggong.JPG/500px-Zheng_Chenggong.JPG",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/268da25cb6ca.jpg",
     "caption": "中国历史博物馆藏郑成功像",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Portrait_of_Zheng_Chenggong.jpg/500px-Portrait_of_Zheng_Chenggong.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Portrait_of_Zheng_Chenggong.jpg/500px-Portrait_of_Zheng_Chenggong.jpg",
+    "w": 500,
+    "h": 1010
    },
    {
     "src": "images/bc758775ff27.jpg",
     "caption": "郑成功势力范围图",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Koxinga_territory.jpg/500px-Koxinga_territory.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Koxinga_territory.jpg/500px-Koxinga_territory.jpg",
+    "w": 500,
+    "h": 373
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E9%84%AD%E6%88%90%E5%8A%9F"
@@ -2675,22 +3319,30 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/9f1f0ded4809.jpg",
     "caption": "",
-    "remote": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Treaty_of_Nerchinsk_%281689%29.jpg"
+    "remote": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Treaty_of_Nerchinsk_%281689%29.jpg",
+    "w": 417,
+    "h": 295
    },
    {
     "src": "images/86a5d801b4ef.jpg",
     "caption": "1734年让-巴蒂斯特·布吉尼翁·当维尔出版的大清帝国地图，此地图基于耶稣会1700年的实地考察绘制，边界在尼布楚（位于俄方边界内）附近",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/CEM-44-La-Chine-la-Tartarie-Chinoise-et-le-Thibet-1734-NE-2571.jpg/500px-CEM-44-La-Chine-la-Tartarie-Chinoise-et-le-Thibet-1734-NE-2571.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/CEM-44-La-Chine-la-Tartarie-Chinoise-et-le-Thibet-1734-NE-2571.jpg/500px-CEM-44-La-Chine-la-Tartarie-Chinoise-et-le-Thibet-1734-NE-2571.jpg",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/7bba5715b0d8.jpg",
     "caption": "1808年俄罗斯帝国在西伯利亚的南部边界",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/Map_irk_gub_1808.jpg/500px-Map_irk_gub_1808.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/Map_irk_gub_1808.jpg/500px-Map_irk_gub_1808.jpg",
+    "w": 500,
+    "h": 388
    },
    {
     "src": "images/7e98291a3f67.jpg",
     "caption": "清朝康熙帝为测绘东北地区，特详谕大学士哪些属于“中国地方”，以及以什么为界线",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/%E6%B8%85%E8%81%96%E7%A5%96%E5%AF%A6%E9%8C%84%28%E9%83%A8%E5%88%86%E6%88%AA%E5%9C%96%29.png/330px-%E6%B8%85%E8%81%96%E7%A5%96%E5%AF%A6%E9%8C%84%28%E9%83%A8%E5%88%86%E6%88%AA%E5%9C%96%29.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/%E6%B8%85%E8%81%96%E7%A5%96%E5%AF%A6%E9%8C%84%28%E9%83%A8%E5%88%86%E6%88%AA%E5%9C%96%29.png/330px-%E6%B8%85%E8%81%96%E7%A5%96%E5%AF%A6%E9%8C%84%28%E9%83%A8%E5%88%86%E6%88%AA%E5%9C%96%29.png",
+    "w": 330,
+    "h": 464
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E5%B0%BC%E5%B8%83%E6%A5%9A%E6%A2%9D%E7%B4%84"
@@ -2707,42 +3359,58 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/73a36c755b56.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/The_Complete_Library_in_Four_Sections_%28Siku_Quanshu%29_WDL3020.jpg/500px-The_Complete_Library_in_Four_Sections_%28Siku_Quanshu%29_WDL3020.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/The_Complete_Library_in_Four_Sections_%28Siku_Quanshu%29_WDL3020.jpg/500px-The_Complete_Library_in_Four_Sections_%28Siku_Quanshu%29_WDL3020.jpg",
+    "w": 500,
+    "h": 778
    },
    {
     "src": "images/a8ced21f8649.jpg",
     "caption": "紫禁城文渊阁",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/Wen_Yuan_Chamber.JPG/500px-Wen_Yuan_Chamber.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/Wen_Yuan_Chamber.JPG/500px-Wen_Yuan_Chamber.JPG",
+    "w": 500,
+    "h": 385
    },
    {
     "src": "images/1ead94b057bb.jpg",
     "caption": "英法联军火烧圆明园后的《四库全书》残本",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/%E8%8B%B1%E6%B3%95%E8%81%94%E5%86%9B%E7%81%AB%E7%83%A7%E5%9C%86%E6%98%8E%E5%9B%AD%E5%90%8E%E5%9B%9B%E5%BA%93%E5%85%A8%E4%B9%A6%E6%AE%8B%E6%9C%AC.png/250px-%E8%8B%B1%E6%B3%95%E8%81%94%E5%86%9B%E7%81%AB%E7%83%A7%E5%9C%86%E6%98%8E%E5%9B%AD%E5%90%8E%E5%9B%9B%E5%BA%93%E5%85%A8%E4%B9%A6%E6%AE%8B%E6%9C%AC.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/%E8%8B%B1%E6%B3%95%E8%81%94%E5%86%9B%E7%81%AB%E7%83%A7%E5%9C%86%E6%98%8E%E5%9B%AD%E5%90%8E%E5%9B%9B%E5%BA%93%E5%85%A8%E4%B9%A6%E6%AE%8B%E6%9C%AC.png/250px-%E8%8B%B1%E6%B3%95%E8%81%94%E5%86%9B%E7%81%AB%E7%83%A7%E5%9C%86%E6%98%8E%E5%9B%AD%E5%90%8E%E5%9B%9B%E5%BA%93%E5%85%A8%E4%B9%A6%E6%AE%8B%E6%9C%AC.png",
+    "w": 250,
+    "h": 391
    },
    {
     "src": "images/711c5aaef7c5.jpg",
     "caption": "承德避暑山庄文津阁",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/32/Wenjin_Imperial_Library.JPG/500px-Wenjin_Imperial_Library.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/32/Wenjin_Imperial_Library.JPG/500px-Wenjin_Imperial_Library.JPG",
+    "w": 500,
+    "h": 333
    },
    {
     "src": "images/215d463116e6.jpg",
     "caption": "《书影》《四库全书》本十卷，清周亮工著，香港中文大学图书馆藏。中文大学着录为文澜阁抄本，童正伦认为此书应为文宗、文汇阁抄本[15]: 65",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/CUHK2278477_%E6%9B%B8%E5%BD%B1%E5%8D%81%E5%8D%B7_%E6%B8%85%E4%B9%BE%E9%9A%86%E9%96%93%E5%AF%AB%E6%96%87%E7%80%BE%E9%96%A3%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8%E6%9C%AC.pdf/page1-500px-CUHK2278477_%E6%9B%B8%E5%BD%B1%E5%8D%81%E5%8D%B7_%E6%B8%85%E4%B9%BE%E9%9A%86%E9%96%93%E5%AF%AB%E6%96%87%E7%80%BE%E9%96%A3%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8%E6%9C%AC.pdf.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/CUHK2278477_%E6%9B%B8%E5%BD%B1%E5%8D%81%E5%8D%B7_%E6%B8%85%E4%B9%BE%E9%9A%86%E9%96%93%E5%AF%AB%E6%96%87%E7%80%BE%E9%96%A3%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8%E6%9C%AC.pdf/page1-500px-CUHK2278477_%E6%9B%B8%E5%BD%B1%E5%8D%81%E5%8D%B7_%E6%B8%85%E4%B9%BE%E9%9A%86%E9%96%93%E5%AF%AB%E6%96%87%E7%80%BE%E9%96%A3%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8%E6%9C%AC.pdf.jpg",
+    "w": 500,
+    "h": 821
    },
    {
     "src": "images/4b2025b43093.jpg",
     "caption": "四库全书杭州文澜阁本（复制品）",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/The_Complete_Library_of_the_Four_Treasuries_Collected_in_Wenlan_Pavilion_2015-03.JPG/500px-The_Complete_Library_of_the_Four_Treasuries_Collected_in_Wenlan_Pavilion_2015-03.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/The_Complete_Library_of_the_Four_Treasuries_Collected_in_Wenlan_Pavilion_2015-03.JPG/500px-The_Complete_Library_of_the_Four_Treasuries_Collected_in_Wenlan_Pavilion_2015-03.JPG",
+    "w": 500,
+    "h": 332
    },
    {
     "src": "images/49e5ebc2d680.jpg",
     "caption": "藏书地之一杭州文澜阁模型，面阔六间二层",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Model_of_Wenlan_Pavilion_04_2015-03.JPG/500px-Model_of_Wenlan_Pavilion_04_2015-03.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Model_of_Wenlan_Pavilion_04_2015-03.JPG/500px-Model_of_Wenlan_Pavilion_04_2015-03.JPG",
+    "w": 500,
+    "h": 332
    },
    {
     "src": "images/8378a9a1de5a.jpg",
     "caption": "台湾版第一册封面",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/80/%E6%96%87%E6%B7%B5%E9%96%A3%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8_0001%E5%86%8A.djvu/page1-500px-%E6%96%87%E6%B7%B5%E9%96%A3%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8_0001%E5%86%8A.djvu.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/80/%E6%96%87%E6%B7%B5%E9%96%A3%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8_0001%E5%86%8A.djvu/page1-500px-%E6%96%87%E6%B7%B5%E9%96%A3%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8_0001%E5%86%8A.djvu.jpg",
+    "w": 500,
+    "h": 734
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8"
@@ -2759,47 +3427,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/b0fdf525cb01.jpg",
     "caption": "虎门销烟想像图",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Destruction_of_opium_in_1839.jpg/500px-Destruction_of_opium_in_1839.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Destruction_of_opium_in_1839.jpg/500px-Destruction_of_opium_in_1839.jpg",
+    "w": 500,
+    "h": 306
    },
    {
     "src": "images/2cbafa339cfe.jpg",
     "caption": "18世纪的广东十三行",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/da/View_of_Canton_factories.jpg/500px-View_of_Canton_factories.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/da/View_of_Canton_factories.jpg/500px-View_of_Canton_factories.jpg",
+    "w": 500,
+    "h": 356
    },
    {
     "src": "images/e0a218ddee6d.jpg",
     "caption": "威廉·约翰·律劳卑",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/William_Napier%2C_9th_Lord_Napier.png/500px-William_Napier%2C_9th_Lord_Napier.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/William_Napier%2C_9th_Lord_Napier.png/500px-William_Napier%2C_9th_Lord_Napier.png",
+    "w": 500,
+    "h": 645
    },
    {
     "src": "images/b09bbd7d3b91.jpg",
     "caption": "查理·义律",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Charles_Elliot.png/330px-Charles_Elliot.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Charles_Elliot.png/330px-Charles_Elliot.png",
+    "w": 330,
+    "h": 424
    },
    {
     "src": "images/477faa7b6f44.jpg",
     "caption": "1822年，广州十三行发生大火，大量白银熔为银水",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ee/Canton_Fire_of_1822.jpg/500px-Canton_Fire_of_1822.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ee/Canton_Fire_of_1822.jpg/500px-Canton_Fire_of_1822.jpg",
+    "w": 500,
+    "h": 370
    },
    {
     "src": "images/bc293ac599ea.jpg",
     "caption": "吸食鸦片者",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/19/The_smoked_opium_Chinese.jpg/330px-The_smoked_opium_Chinese.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/19/The_smoked_opium_Chinese.jpg/330px-The_smoked_opium_Chinese.jpg",
+    "w": 330,
+    "h": 220
    },
    {
     "src": "images/28d8a188190b.jpg",
     "caption": "贩卖鸦片的趸船，比中国渔船大得多",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d4/William_John_Huggins_-_The_opium_ships_at_Lintin%2C_China%2C_1824.jpg/500px-William_John_Huggins_-_The_opium_ships_at_Lintin%2C_China%2C_1824.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d4/William_John_Huggins_-_The_opium_ships_at_Lintin%2C_China%2C_1824.jpg/500px-William_John_Huggins_-_The_opium_ships_at_Lintin%2C_China%2C_1824.jpg",
+    "w": 500,
+    "h": 346
    },
    {
     "src": "images/182c92943de5.jpg",
     "caption": "18世纪的中国鸦片吸食者",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/%E4%B8%AD%E5%9C%8B%E4%BA%BA%E6%9C%8D%E9%A3%9F%E9%B4%89%E7%89%87%E5%9C%96.PNG/500px-%E4%B8%AD%E5%9C%8B%E4%BA%BA%E6%9C%8D%E9%A3%9F%E9%B4%89%E7%89%87%E5%9C%96.PNG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/%E4%B8%AD%E5%9C%8B%E4%BA%BA%E6%9C%8D%E9%A3%9F%E9%B4%89%E7%89%87%E5%9C%96.PNG/500px-%E4%B8%AD%E5%9C%8B%E4%BA%BA%E6%9C%8D%E9%A3%9F%E9%B4%89%E7%89%87%E5%9C%96.PNG",
+    "w": 500,
+    "h": 323
    },
    {
     "src": "images/7f82c349921f.jpg",
     "caption": "林则徐致维多利亚女王的信。",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5e/Letter_by_Lin_Zexu_to_Queen_Victoria_of_the_United_Kingdom.jpg/330px-Letter_by_Lin_Zexu_to_Queen_Victoria_of_the_United_Kingdom.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5e/Letter_by_Lin_Zexu_to_Queen_Victoria_of_the_United_Kingdom.jpg/330px-Letter_by_Lin_Zexu_to_Queen_Victoria_of_the_United_Kingdom.jpg",
+    "w": 330,
+    "h": 487
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E8%99%8E%E9%97%A8%E9%94%80%E7%83%9F"
@@ -2816,47 +3502,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/7e92efa43c96.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/%E9%B8%A6%E7%89%87%E6%88%98%E4%BA%89.png/500px-%E9%B8%A6%E7%89%87%E6%88%98%E4%BA%89.png"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/%E9%B8%A6%E7%89%87%E6%88%98%E4%BA%89.png/500px-%E9%B8%A6%E7%89%87%E6%88%98%E4%BA%89.png",
+    "w": 500,
+    "h": 690
    },
    {
     "src": "images/623318e433fa.jpg",
     "caption": "1665年 来自荷兰东印度公司的商船行驶在广州城外",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7e/AMH-6145-NA_View_of_Canton.jpg/500px-AMH-6145-NA_View_of_Canton.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7e/AMH-6145-NA_View_of_Canton.jpg/500px-AMH-6145-NA_View_of_Canton.jpg",
+    "w": 500,
+    "h": 341
    },
    {
     "src": "images/2cbafa339cfe.jpg",
     "caption": "18世纪的广东十三行",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/da/View_of_Canton_factories.jpg/500px-View_of_Canton_factories.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/da/View_of_Canton_factories.jpg/500px-View_of_Canton_factories.jpg",
+    "w": 500,
+    "h": 356
    },
    {
     "src": "images/8c04b021d363.jpg",
     "caption": "描绘乾隆帝接见英使马戛尔尼的西方漫画（1792年出版）",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/The_Reception.JPG/500px-The_Reception.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/The_Reception.JPG/500px-The_Reception.JPG",
+    "w": 500,
+    "h": 385
    },
    {
     "src": "images/533d10994c70.jpg",
     "caption": "乔治·马戛尔尼",
-    "remote": "https://upload.wikimedia.org/wikipedia/commons/7/73/George_Earl_Macartney.jpg"
+    "remote": "https://upload.wikimedia.org/wikipedia/commons/7/73/George_Earl_Macartney.jpg",
+    "w": 200,
+    "h": 253
    },
    {
     "src": "images/477faa7b6f44.jpg",
     "caption": "1822年，富可敌国的广州十三行发生大火，4000万两白银熔为银水[32]",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ee/Canton_Fire_of_1822.jpg/500px-Canton_Fire_of_1822.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ee/Canton_Fire_of_1822.jpg/500px-Canton_Fire_of_1822.jpg",
+    "w": 500,
+    "h": 370
    },
    {
     "src": "images/03d7c99087c7.jpg",
     "caption": "罂粟花 (Papaver somniferum) 与未成熟的果实",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/Papaver_somniferum_2021_G4.jpg/500px-Papaver_somniferum_2021_G4.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/Papaver_somniferum_2021_G4.jpg/500px-Papaver_somniferum_2021_G4.jpg",
+    "w": 500,
+    "h": 592
    },
    {
     "src": "images/0e9ec4c203f6.jpg",
     "caption": "18世纪英国在印度的鸦片储存库",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/%E8%8B%B1%E5%9C%8B%E5%9C%A8%E5%8D%B0%E5%BA%A6%E7%9A%84%E9%B4%89%E7%89%87%E5%84%B2%E5%AD%98%E5%BA%AB.PNG/500px-%E8%8B%B1%E5%9C%8B%E5%9C%A8%E5%8D%B0%E5%BA%A6%E7%9A%84%E9%B4%89%E7%89%87%E5%84%B2%E5%AD%98%E5%BA%AB.PNG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/%E8%8B%B1%E5%9C%8B%E5%9C%A8%E5%8D%B0%E5%BA%A6%E7%9A%84%E9%B4%89%E7%89%87%E5%84%B2%E5%AD%98%E5%BA%AB.PNG/500px-%E8%8B%B1%E5%9C%8B%E5%9C%A8%E5%8D%B0%E5%BA%A6%E7%9A%84%E9%B4%89%E7%89%87%E5%84%B2%E5%AD%98%E5%BA%AB.PNG",
+    "w": 500,
+    "h": 291
    },
    {
     "src": "images/1c68216fbe32.jpg",
     "caption": "一艘英国海军护卫舰（1797年绘）",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e3/Nicholas_Pocock_-_The_Frigate_%27Triton%27.jpg/500px-Nicholas_Pocock_-_The_Frigate_%27Triton%27.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e3/Nicholas_Pocock_-_The_Frigate_%27Triton%27.jpg/500px-Nicholas_Pocock_-_The_Frigate_%27Triton%27.jpg",
+    "w": 500,
+    "h": 352
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E7%AC%AC%E4%B8%80%E6%AC%A1%E9%B8%A6%E7%89%87%E6%88%98%E4%BA%89"
@@ -2873,47 +3577,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/77287e4ee613.jpg",
     "caption": "洪秀全像",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cc/Hong_Xiuquan.jpg/330px-Hong_Xiuquan.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cc/Hong_Xiuquan.jpg/330px-Hong_Xiuquan.jpg",
+    "w": 330,
+    "h": 374
    },
    {
     "src": "images/f9458d0b3ee1.jpg",
     "caption": "金田起义领袖雕像",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/02/Jintian_Uprising_Museum_%285%29.jpg/500px-Jintian_Uprising_Museum_%285%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/02/Jintian_Uprising_Museum_%285%29.jpg/500px-Jintian_Uprising_Museum_%285%29.jpg",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/da2c6ca15f4e.jpg",
     "caption": "南京太平天国纪念馆天王宝座",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/Throne_of_the_Heavenly_King.jpg/500px-Throne_of_the_Heavenly_King.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/Throne_of_the_Heavenly_King.jpg/500px-Throne_of_the_Heavenly_King.jpg",
+    "w": 500,
+    "h": 332
    },
    {
     "src": "images/e476ac2dd23f.jpg",
     "caption": "天京宫殿模型",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/%E5%A4%AA%E5%B9%B3%E5%A4%A9%E5%9B%BD%E5%A4%A9%E6%9C%9D%E5%AE%AB%E6%AE%BF%E6%A8%A1%E5%9E%8B_%284132349371%29.jpg/500px-%E5%A4%AA%E5%B9%B3%E5%A4%A9%E5%9B%BD%E5%A4%A9%E6%9C%9D%E5%AE%AB%E6%AE%BF%E6%A8%A1%E5%9E%8B_%284132349371%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/%E5%A4%AA%E5%B9%B3%E5%A4%A9%E5%9B%BD%E5%A4%A9%E6%9C%9D%E5%AE%AB%E6%AE%BF%E6%A8%A1%E5%9E%8B_%284132349371%29.jpg/500px-%E5%A4%AA%E5%B9%B3%E5%A4%A9%E5%9B%BD%E5%A4%A9%E6%9C%9D%E5%AE%AB%E6%AE%BF%E6%A8%A1%E5%9E%8B_%284132349371%29.jpg",
+    "w": 500,
+    "h": 333
    },
    {
     "src": "images/00a4d14e52ab.jpg",
     "caption": "南京附近的太平军海战",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/Naval_battle_between_Taiping-Qing_on_Yangtze.jpg/500px-Naval_battle_between_Taiping-Qing_on_Yangtze.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/Naval_battle_between_Taiping-Qing_on_Yangtze.jpg/500px-Naval_battle_between_Taiping-Qing_on_Yangtze.jpg",
+    "w": 500,
+    "h": 319
    },
    {
     "src": "images/db6830f6f0e9.jpg",
     "caption": "1935年王锺麒《太平天国革命史》中的太平天国战争地图",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/NTNULIB-9900008669_%E5%A4%AA%E5%B9%B3%E5%A4%A9%E5%9C%8B%E9%9D%A9%E5%91%BD%E5%8F%B2_%28page_6_crop%29.jpg/500px-NTNULIB-9900008669_%E5%A4%AA%E5%B9%B3%E5%A4%A9%E5%9C%8B%E9%9D%A9%E5%91%BD%E5%8F%B2_%28page_6_crop%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/NTNULIB-9900008669_%E5%A4%AA%E5%B9%B3%E5%A4%A9%E5%9C%8B%E9%9D%A9%E5%91%BD%E5%8F%B2_%28page_6_crop%29.jpg/500px-NTNULIB-9900008669_%E5%A4%AA%E5%B9%B3%E5%A4%A9%E5%9C%8B%E9%9D%A9%E5%91%BD%E5%8F%B2_%28page_6_crop%29.jpg",
+    "w": 500,
+    "h": 574
    },
    {
     "src": "images/77bd1b3767cf.jpg",
     "caption": "太平军的炮台防御工事",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/West_Battery_Park_%2811%29.jpg/500px-West_Battery_Park_%2811%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/West_Battery_Park_%2811%29.jpg/500px-West_Battery_Park_%2811%29.jpg",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/5c7796012870.jpg",
     "caption": "天王洪秀全雕像",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/Hong_Xiuquan_%2810151894475%29.jpg/500px-Hong_Xiuquan_%2810151894475%29.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/Hong_Xiuquan_%2810151894475%29.jpg/500px-Hong_Xiuquan_%2810151894475%29.jpg",
+    "w": 500,
+    "h": 333
    },
    {
     "src": "images/5bd4756d44a4.jpg",
     "caption": "堂子街太平天国壁画",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Nanjing_Tangzijie_Taiping_Tianguo_Bihua_2017.11.12_14-25-09.jpg/500px-Nanjing_Tangzijie_Taiping_Tianguo_Bihua_2017.11.12_14-25-09.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Nanjing_Tangzijie_Taiping_Tianguo_Bihua_2017.11.12_14-25-09.jpg/500px-Nanjing_Tangzijie_Taiping_Tianguo_Bihua_2017.11.12_14-25-09.jpg",
+    "w": 500,
+    "h": 333
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E5%A4%AA%E5%B9%B3%E5%A4%A9%E5%9B%BD"
@@ -2930,47 +3652,65 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/e9a81021e722.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/73/Yuanmingyuan_Ruins_of_Dashuifa_20120715.JPG/500px-Yuanmingyuan_Ruins_of_Dashuifa_20120715.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/73/Yuanmingyuan_Ruins_of_Dashuifa_20120715.JPG/500px-Yuanmingyuan_Ruins_of_Dashuifa_20120715.JPG",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/5238dfa451ce.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/%E8%BF%9C%E7%80%9B%E8%A7%82%E9%81%97%E5%9D%80_-_Ruins_of_Yuanyingguan_Hall_-_2013.03_-_panoramio.jpg/500px-%E8%BF%9C%E7%80%9B%E8%A7%82%E9%81%97%E5%9D%80_-_Ruins_of_Yuanyingguan_Hall_-_2013.03_-_panoramio.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/%E8%BF%9C%E7%80%9B%E8%A7%82%E9%81%97%E5%9D%80_-_Ruins_of_Yuanyingguan_Hall_-_2013.03_-_panoramio.jpg/500px-%E8%BF%9C%E7%80%9B%E8%A7%82%E9%81%97%E5%9D%80_-_Ruins_of_Yuanyingguan_Hall_-_2013.03_-_panoramio.jpg",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/03ee52f9f070.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Yuanmingyuan_Haiyantang_20130126.JPG/500px-Yuanmingyuan_Haiyantang_20130126.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Yuanmingyuan_Haiyantang_20130126.JPG/500px-Yuanmingyuan_Haiyantang_20130126.JPG",
+    "w": 500,
+    "h": 331
    },
    {
     "src": "images/4e382285e1d0.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Ruins_of_Yuanyingguan02_20130126.JPG/500px-Ruins_of_Yuanyingguan02_20130126.JPG"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Ruins_of_Yuanyingguan02_20130126.JPG/500px-Ruins_of_Yuanyingguan02_20130126.JPG",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/b5090e26db9d.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b7/%E5%86%AC%E6%9F%B3_-_Willows_in_Winter_-_2012.12_-_panoramio.jpg/500px-%E5%86%AC%E6%9F%B3_-_Willows_in_Winter_-_2012.12_-_panoramio.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b7/%E5%86%AC%E6%9F%B3_-_Willows_in_Winter_-_2012.12_-_panoramio.jpg/500px-%E5%86%AC%E6%9F%B3_-_Willows_in_Winter_-_2012.12_-_panoramio.jpg",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/42f6a3538e15.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/%E9%95%BF%E6%98%A5%E5%9B%AD_-_Changchun_Garden_-_2012.12_-_panoramio.jpg/500px-%E9%95%BF%E6%98%A5%E5%9B%AD_-_Changchun_Garden_-_2012.12_-_panoramio.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/%E9%95%BF%E6%98%A5%E5%9B%AD_-_Changchun_Garden_-_2012.12_-_panoramio.jpg/500px-%E9%95%BF%E6%98%A5%E5%9B%AD_-_Changchun_Garden_-_2012.12_-_panoramio.jpg",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/fe79766ae736.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/Xieqiqu.jpg/500px-Xieqiqu.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/Xieqiqu.jpg/500px-Xieqiqu.jpg",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/c672a9f25ab5.jpg",
     "caption": "",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/60/Stone_Arch_Bridge_in_Yuanmingyuan.jpg/500px-Stone_Arch_Bridge_in_Yuanmingyuan.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/60/Stone_Arch_Bridge_in_Yuanmingyuan.jpg/500px-Stone_Arch_Bridge_in_Yuanmingyuan.jpg",
+    "w": 500,
+    "h": 375
    },
    {
     "src": "images/9c9d8db6c95c.jpg",
     "caption": "北京西北的皇家园林区",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9b/Qing_dynasty_imperial_gardens_in_Peking.jpg/500px-Qing_dynasty_imperial_gardens_in_Peking.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9b/Qing_dynasty_imperial_gardens_in_Peking.jpg/500px-Qing_dynasty_imperial_gardens_in_Peking.jpg",
+    "w": 500,
+    "h": 358
    }
   ],
   "source": "https://zh.wikipedia.org/wiki/%E5%9C%86%E6%98%8E%E5%9B%AD"
@@ -2987,7 +3727,9 @@ window.DEFAULT_EVENTS = [
    {
     "src": "images/9a04e26d25d1.jpg",
     "caption": "发动洋务运动的恭亲王奕䜣",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/Felice_Beato_%28British%2C_born_Italy_-_Portrait_of_Prince_Kung%2C_Brother_of_the_Emperor_of_China%2C_Who_Signed_the_Treaty_-_Google_Art_Project.jpg/500px-Felice_Beato_%28British%2C_born_Italy_-_Portrait_of_Prince_Kung%2C_Brother_of_the_Emperor_of_China%2C_Who_Signed_the_Treaty_-_Google_Art_Project.jpg"
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/Felice_Beato_%28British%2C_born_Italy_-_Portrait_of_Prince_Kung%2C_Brother_of_the_Emperor_of_China%2C_Who_Signed_the_Treaty_-_Google_Art_Project.jpg/500px-Felice_Beato_%28British%2C_born_Italy_-_Portrait_of_Prince_Kung%2C_Brother_of_the_Emperor_of_China%2C_Who_Signed_the_Treaty_-_Google_Art_Project.jpg",
+    "w": 500,
+    "h": 653
    },
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d7/Li_Hung_Chang_in_1896.jpg/500px-Li_Hung_Chang_in_1896.jpg",
@@ -3035,7 +3777,9 @@ window.DEFAULT_EVENTS = [
   "images": [
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/First_Sino-Japanese_War_-_Chinese_version.jpg/500px-First_Sino-Japanese_War_-_Chinese_version.jpg",
-    "caption": ""
+    "caption": "",
+    "w": 330,
+    "h": 431
    },
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6f/Battle_of_Songhwan_improved.jpg/500px-Battle_of_Songhwan_improved.jpg",
@@ -3131,7 +3875,9 @@ window.DEFAULT_EVENTS = [
   "images": [
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6c/Eight-Nation_Alliance01.jpg/330px-Eight-Nation_Alliance01.jpg",
-    "caption": ""
+    "caption": "",
+    "w": 330,
+    "h": 411
    },
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/Boxer_tianjing.jpg/500px-Boxer_tianjing.jpg",
@@ -3179,7 +3925,9 @@ window.DEFAULT_EVENTS = [
   "images": [
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/1912Jimingxiaoling.jpg/500px-1912Jimingxiaoling.jpg",
-    "caption": ""
+    "caption": "",
+    "w": 330,
+    "h": 247
    },
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Huangcenba_of_Chengdu.jpg/500px-Huangcenba_of_Chengdu.jpg",
@@ -3259,7 +4007,9 @@ window.DEFAULT_EVENTS = [
   "images": [
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c3/La_jeunesse.jpg/330px-La_jeunesse.jpg",
-    "caption": "《青年杂志》第一期（1915年9月15日）。后改名《新青年》"
+    "caption": "《青年杂志》第一期（1915年9月15日）。后改名《新青年》",
+    "w": 330,
+    "h": 472
    },
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/CADAL02087089_%E6%B5%B7%E5%9C%8B%E5%9C%96%E5%BF%97%EF%BC%88%E4%B8%80%EF%BC%89.djvu/page1-500px-CADAL02087089_%E6%B5%B7%E5%9C%8B%E5%9C%96%E5%BF%97%EF%BC%88%E4%B8%80%EF%BC%89.djvu.jpg",
@@ -3339,7 +4089,9 @@ window.DEFAULT_EVENTS = [
   "images": [
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3b/The_First_National_Congress_of_CPC.jpg/500px-The_First_National_Congress_of_CPC.jpg",
-    "caption": ""
+    "caption": "",
+    "w": 330,
+    "h": 248
    },
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/%E5%98%89%E5%85%B4%E5%8D%97%E6%B9%96%E7%BA%A2%E8%88%B92021_%281%29.jpg/500px-%E5%98%89%E5%85%B4%E5%8D%97%E6%B9%96%E7%BA%A2%E8%88%B92021_%281%29.jpg",
@@ -3359,7 +4111,9 @@ window.DEFAULT_EVENTS = [
   "images": [
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/Mukden_1931_japan_shenyang.jpg/330px-Mukden_1931_japan_shenyang.jpg",
-    "caption": ""
+    "caption": "",
+    "w": 330,
+    "h": 264
    },
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/%E6%89%80%E8%B0%93%E7%89%A9%E8%AF%81.jpg/500px-%E6%89%80%E8%B0%93%E7%89%A9%E8%AF%81.jpg",
@@ -3503,7 +4257,9 @@ window.DEFAULT_EVENTS = [
   "images": [
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/36/77shibian.png/500px-77shibian.png",
-    "caption": ""
+    "caption": "",
+    "w": 330,
+    "h": 218
    },
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/%E4%BA%9C%E7%B4%B0%E4%BA%9C%E5%A4%A7%E8%A6%B3_15_006_%22%E8%98%86%E5%8F%A3%E6%A9%8B_%EF%BC%88%E5%8C%97%E6%94%AF%EF%BC%89%22.jpg/500px-%E4%BA%9C%E7%B4%B0%E4%BA%9C%E5%A4%A7%E8%A6%B3_15_006_%22%E8%98%86%E5%8F%A3%E6%A9%8B_%EF%BC%88%E5%8C%97%E6%94%AF%EF%BC%89%22.jpg",
@@ -3599,7 +4355,9 @@ window.DEFAULT_EVENTS = [
   "images": [
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/85/Mao_Proclaiming_New_China.JPG/500px-Mao_Proclaiming_New_China.JPG",
-    "caption": ""
+    "caption": "",
+    "w": 330,
+    "h": 242
    },
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Kaiguodadian.jpg/500px-Kaiguodadian.jpg",
@@ -3639,7 +4397,9 @@ window.DEFAULT_EVENTS = [
   "images": [
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/Korean_War_Montage_2.png/500px-Korean_War_Montage_2.png",
-    "caption": ""
+    "caption": "",
+    "w": 330,
+    "h": 490
    },
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/80/Syngman_Rhee-cropped.jpg/120px-Syngman_Rhee-cropped.jpg",
@@ -3687,7 +4447,9 @@ window.DEFAULT_EVENTS = [
   "images": [
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/1965-01_1964%E5%B9%B4_%E9%A6%96%E6%AC%A1%E5%8E%9F%E5%AD%90%E5%BC%B9%E7%88%86%E7%82%B82.jpg/500px-1965-01_1964%E5%B9%B4_%E9%A6%96%E6%AC%A1%E5%8E%9F%E5%AD%90%E5%BC%B9%E7%88%86%E7%82%B82.jpg",
-    "caption": "596原子弹于1964年10月16日爆炸成功[1]。"
+    "caption": "596原子弹于1964年10月16日爆炸成功[1]。",
+    "w": 330,
+    "h": 225
    },
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Dongfeng_2_%28CSS-1%29.jpg/500px-Dongfeng_2_%28CSS-1%29.jpg",
@@ -3735,7 +4497,9 @@ window.DEFAULT_EVENTS = [
   "images": [
    {
     "src": "https://upload.wikimedia.org/wikipedia/commons/8/85/Political_slogan_by_Red_Guards_on_the_campus_of_Fudan_University_1976.jpg",
-    "caption": ""
+    "caption": "",
+    "w": 323,
+    "h": 203
    },
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/1957_Mao_Zedong_on_airplane.jpg/500px-1957_Mao_Zedong_on_airplane.jpg",
@@ -3783,7 +4547,9 @@ window.DEFAULT_EVENTS = [
   "images": [
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/UN2758_zh.JPG/500px-UN2758_zh.JPG",
-    "caption": ""
+    "caption": "",
+    "w": 330,
+    "h": 231
    },
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Wu_Xiuquan_in_NewYork.jpg/330px-Wu_Xiuquan_in_NewYork.jpg",
@@ -3835,7 +4601,9 @@ window.DEFAULT_EVENTS = [
   "images": [
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/Tangshan_earthquake.jpg/500px-Tangshan_earthquake.jpg",
-    "caption": ""
+    "caption": "",
+    "w": 330,
+    "h": 218
    },
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/1976_Tangshan.png/500px-1976_Tangshan.png",
@@ -3875,7 +4643,9 @@ window.DEFAULT_EVENTS = [
   "images": [
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/2011_%E6%B7%B1%E5%9C%B3_%E8%8E%B2%E8%8A%B1%E5%B1%B1%E9%A1%B6%EF%BC%8D%E9%82%93%E5%B0%8F%E5%B9%B3%E5%A4%B4%E5%83%8F_-_panoramio.jpg/500px-2011_%E6%B7%B1%E5%9C%B3_%E8%8E%B2%E8%8A%B1%E5%B1%B1%E9%A1%B6%EF%BC%8D%E9%82%93%E5%B0%8F%E5%B9%B3%E5%A4%B4%E5%83%8F_-_panoramio.jpg",
-    "caption": "被称为“改革开放总设计师”的邓小平是拨乱反正、改革开放中的核心人物（图为位于经济特区深圳的莲花山顶的邓小平像）"
+    "caption": "被称为“改革开放总设计师”的邓小平是拨乱反正、改革开放中的核心人物（图为位于经济特区深圳的莲花山顶的邓小平像）",
+    "w": 330,
+    "h": 495
    },
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/%E5%BA%86%E7%A5%9D%E4%B8%AD%E5%9B%BD%E5%85%B1%E4%BA%A7%E5%85%9A%E6%88%90%E7%AB%8B100%E5%91%A8%E5%B9%B4%E5%8C%97%E4%BA%AC%E9%95%BF%E5%AE%89%E8%A1%97%E6%B2%BF%E7%BA%BF%E7%AB%8B%E4%BD%93%E8%8A%B1%E5%9D%9B_%E6%94%B9%E9%9D%A9%E5%BC%80%E6%94%BE.jpg/500px-%E5%BA%86%E7%A5%9D%E4%B8%AD%E5%9B%BD%E5%85%B1%E4%BA%A7%E5%85%9A%E6%88%90%E7%AB%8B100%E5%91%A8%E5%B9%B4%E5%8C%97%E4%BA%AC%E9%95%BF%E5%AE%89%E8%A1%97%E6%B2%BF%E7%BA%BF%E7%AB%8B%E4%BD%93%E8%8A%B1%E5%9D%9B_%E6%94%B9%E9%9D%A9%E5%BC%80%E6%94%BE.jpg",
@@ -3943,7 +4713,9 @@ window.DEFAULT_EVENTS = [
   "images": [
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Electronics_factory_in_Shenzhen.jpg/500px-Electronics_factory_in_Shenzhen.jpg",
-    "caption": ""
+    "caption": "",
+    "w": 330,
+    "h": 181
    },
    {
     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Shenzhen_huizhanzhongxin.jpg/500px-Shenzhen_huizhanzhongxin.jpg",

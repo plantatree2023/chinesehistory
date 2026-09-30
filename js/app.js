@@ -102,8 +102,13 @@
       img.draggable = false;
       img.addEventListener('error', function onErr() {
         img.removeEventListener('error', onErr);
-        if (image.remote && img.src.indexOf(image.remote) === -1) { img.src = image.remote; img.addEventListener('error', function () { img.replaceWith(placeholder(cls, fallbackChar)); }); }
-        else img.replaceWith(placeholder(cls, fallbackChar));
+        var swap = function () {
+          var ph = placeholder(cls, fallbackChar);
+          ph.style.cssText = img.style.cssText;
+          img.replaceWith(ph);
+        };
+        if (image.remote && img.src.indexOf(image.remote) === -1) { img.src = image.remote; img.addEventListener('error', swap); }
+        else swap();
       });
       return img;
     }
@@ -157,20 +162,86 @@
     return -Math.log10(-y / 3000) * 380;
   }
 
-  // 卡片样式：尺寸不同，图文关系不同
-  var VARIANTS = {
-    tall:    { w: 204, h: 262 },   // 上图下文，图占约三分之二
-    wide:    { w: 330, h: 152, keep: true },   // 左图右文，图占约六成（文字栏窄，不随屏幕高度缩小）
-    mirror:  { w: 330, h: 152, keep: true },   // 右图左文
-    mini:    { w: 196, h: 176 },   // 小图，文字压在图上
-    overlay: { w: 262, h: 196 },   // 整图 + 文字压在图片下缘
-    feature: { w: 310, h: 300 }    // 重大事件：大图
-  };
-  var PATTERN = ['tall', 'mini', 'wide', 'overlay', 'mini', 'mirror', 'tall', 'overlay', 'wide', 'mini', 'mirror', 'tall', 'mini', 'overlay'];
+  // 卡片形状：图文关系有三种（上图下文 / 左图右文 / 右图左文），
+  // 代表图按原始比例完整显示，大小由剩余空间决定
+  var KINDS = ['stack', 'left', 'right'];
+  var SIZES = [46000, 36000, 27000, 19000];         // 图片面积候选（px²），优先用大的
+  var MAJOR_SIZES = [66000, 52000, 40000, 28000];   // 重大事件用更大的图
+  var SIDE_TEXT_W = 150, MIN_STACK_W = 172, MAX_IMG_W = 420, MIN_IMG_SIDE = 56;
 
-  function variantFor(ev, i) {
-    return ev.major ? 'feature' : PATTERN[i % PATTERN.length];
+  var ratioCache = {};
+  function coverRatio(ev) {
+    var im = ev.images && ev.images[0];
+    if (!im) return 4 / 3;
+    if (im.w && im.h) return im.w / im.h;
+    return ratioCache[im.src] || 4 / 3;
   }
+  // 数据中没有记录尺寸的图片，加载后测量比例并重新排版
+  function ensureRatios() {
+    events.forEach(function (ev) {
+      var im = ev.images && ev.images[0];
+      if (!im || (im.w && im.h) || ratioCache[im.src] !== undefined) return;
+      ratioCache[im.src] = 4 / 3;
+      var probe = new Image();
+      probe.onload = function () {
+        if (probe.naturalWidth && probe.naturalHeight) {
+          ratioCache[im.src] = probe.naturalWidth / probe.naturalHeight;
+          scheduleRelayout();
+        }
+      };
+      probe.src = im.src;
+    });
+  }
+
+  function cardBody(ev) {
+    var body = el('div', 'card-body');
+    body.appendChild(el('div', 'card-date', ev.date || formatYear(ev.year)));
+    body.appendChild(el('div', 'card-title', ev.title));
+    var summary = summaryOf(ev);
+    if (summary) body.appendChild(el('p', 'card-short', summary));
+    return body;
+  }
+  // 在隐藏元素中实际排版，测量文字区高度
+  var measurer = null, textCache = {};
+  function textHeight(ev, width, kind) {
+    width = Math.round(width);
+    var key = [ev.id, width, kind, ev.major ? 1 : 0, ev.date, ev.title, summaryOf(ev)].join('|');
+    if (textCache[key]) return textCache[key];
+    if (!measurer) {
+      measurer = el('div');
+      measurer.style.cssText = 'position:absolute;left:-10000px;top:0;visibility:hidden;display:flex;flex-direction:column;border:1px solid transparent;';
+      document.body.appendChild(measurer);
+    }
+    measurer.className = 'measure k-' + kind + (ev.major ? ' major' : '');
+    measurer.style.width = (width + 2) + 'px';
+    measurer.innerHTML = '';
+    var body = cardBody(ev);
+    measurer.appendChild(body);
+    textCache[key] = Math.ceil(body.getBoundingClientRect().height);
+    measurer.innerHTML = '';
+    return textCache[key];
+  }
+
+  // 按图片比例、面积和最大高度计算卡片尺寸，放不下返回 null
+  function shapeFor(ev, r, area, kind, maxH) {
+    var iw = Math.sqrt(area * r), ih = Math.sqrt(area / r), th, cw;
+    if (iw > MAX_IMG_W) { iw = MAX_IMG_W; ih = iw / r; }
+    if (kind === 'stack') {
+      for (var k = 0; k < 2; k++) {
+        cw = Math.max(iw, MIN_STACK_W);
+        th = textHeight(ev, cw, 'stack');
+        if (ih + th + 2 <= maxH) break;
+        ih = maxH - th - 2; iw = ih * r;
+      }
+      if (Math.min(iw, ih) < MIN_IMG_SIDE || ih + th + 2 > maxH) return null;
+      return { kind: kind, iw: iw, ih: ih, w: Math.round(Math.max(iw, MIN_STACK_W) + 2), h: Math.round(ih + th + 2) };
+    }
+    th = textHeight(ev, SIDE_TEXT_W, 'side');
+    if (ih + 2 > maxH) { ih = maxH - 2; iw = ih * r; }
+    if (Math.min(iw, ih) < MIN_IMG_SIDE || th + 2 > maxH) return null;
+    return { kind: kind, iw: iw, ih: ih, w: Math.round(iw + SIDE_TEXT_W + 2), h: Math.round(Math.max(ih, th) + 2) };
+  }
+
   // 稳定的伪随机数，让同一数据每次排版一致
   function jitter(i, k) {
     var x = Math.sin(i * 12.9898 + k * 78.233) * 43758.5453;
@@ -222,75 +293,89 @@
       return true;
     }
 
+    var prevKind = null;
     list.forEach(function (ev, i) {
-      var vname = variantFor(ev, i), v = VARIANTS[vname];
-      var vs = v.keep ? Math.max(s, 1) : s;
-      var w = Math.min(maxW, Math.round(v.w * vs)), h = Math.round(v.h * vs);
-      if (h > half - band - 12) h = Math.floor(half - band - 12);   // 留出折线所需的空间
+      var r = coverRatio(ev);
+      var maxH = Math.floor(half - band);
+      var shapes = [];
+      (ev.major ? MAJOR_SIZES : SIZES).forEach(function (area, si) {
+        KINDS.forEach(function (kind) {
+          var sh = shapeFor(ev, r, area * s * s, kind, maxH);
+          if (!sh || sh.w > maxW) return;
+          // 越大越好；与上一个事件换一种图文关系；竖图适合左右排，横图适合上下排
+          sh.cost = si * 16 + (kind === prevKind ? 14 : 0)
+            + (kind === 'stack' ? (r < 0.85 ? 18 : 0) : (r > 1.7 ? 18 : 0))
+            + (kind === 'right' ? 4 : 0);
+          shapes.push(sh);
+        });
+      });
+      if (!shapes.length) shapes.push({ kind: 'stack', iw: 120, ih: 90, w: MIN_STACK_W + 2, h: Math.min(maxH, 90 + textHeight(ev, MIN_STACK_W, 'stack') + 2), cost: 0 });
       var x0 = Math.max(PAD + (rawPos(ev.year) - base) * 1, prevX + minGap, PAD);
       var best = null;
 
       for (var tries = 0; tries < 2000 && !best; tries++) {
-        [-1, 1].forEach(function (side) {
-          for (var d = band; d + h <= half; d += Math.round(20 * s)) {
-            var top = side < 0 ? axisY - d - h : axisY + d;
-            var edgeY = side < 0 ? top + h : top;           // 卡片靠近轴线的一边
-            var cy = top + h / 2;
-            var opts = [];
-            // 直线：锚点落在卡片水平范围内
-            [0.5, 0.3, 0.7, 0.15, 0.85].forEach(function (f) {
-              opts.push({ left: x0 - w * f, kind: 'straight', cost: Math.abs(f - 0.5) * 30 });
-            });
-            // 折线（只折一次）：竖直出发，再水平连到卡片侧边
-            [22, 56].forEach(function (e) {
-              opts.push({ left: x0 + e, kind: 'side', cost: 30 + e * 0.3 });        // 竖直后折入卡片左侧
-              opts.push({ left: x0 - w - e, kind: 'side', cost: 40 + e * 0.3 });    // 折入卡片右侧
-            });
-            opts.forEach(function (o) {
-              var L = Math.round(o.left);
-              if (L < 10) return;
-              var rect = { l: L, r: L + w, t: top, b: top + h };
-              var segs, pts, ay = axisY + side * 8;
-              if (o.kind === 'straight') {
-                pts = [[x0, ay], [x0, edgeY]];
-              } else if (o.kind === 'side') {
-                if (d < band + 12) return;
-                var yy = side < 0 ? Math.max(cy, top + 14) : Math.min(cy, top + h - 14);
-                var ex = L > x0 ? L : L + w;
-                pts = [[x0, ay], [x0, yy], [ex, yy]];
-              }
-              if (!densityOk(L + w / 2)) return;
-              if (!free(rect, true)) return;
-              segs = [];
-              for (var k = 1; k < pts.length; k++) {
-                var sr = segRect(pts[k - 1][0], pts[k - 1][1], pts[k][0], pts[k][1]);
-                // 最后一段贴着卡片本身，不与自身比较
-                if (!free(sr, false)) return;
-                segs.push(sr);
-              }
-              var cost = (d - band) * 0.55 + o.cost
-                + Math.max(0, L + w - x0) * 0.05
-                + (side === prevSide ? 14 + prevSame * 26 : 0)
-                + jitter(i, d + o.left) * 16;
-              if (!best || cost < best.cost) best = { cost: cost, rect: rect, segs: segs, pts: pts, side: side };
-            });
-          }
+        shapes.forEach(function (sh) {
+          var w = sh.w, h = sh.h;
+          [-1, 1].forEach(function (side) {
+            for (var d = band; d + h <= half; d += Math.round(20 * s)) {
+              var top = side < 0 ? axisY - d - h : axisY + d;
+              var edgeY = side < 0 ? top + h : top;           // 卡片靠近轴线的一边
+              var cy = top + h / 2;
+              var opts = [];
+              // 直线：锚点落在卡片水平范围内
+              [0.5, 0.3, 0.7, 0.15, 0.85].forEach(function (f) {
+                opts.push({ left: x0 - w * f, kind: 'straight', cost: Math.abs(f - 0.5) * 30 });
+              });
+              // 折线（只折一次）：竖直出发，再水平连到卡片侧边
+              [22, 56].forEach(function (e) {
+                opts.push({ left: x0 + e, kind: 'side', cost: 30 + e * 0.3 });
+                opts.push({ left: x0 - w - e, kind: 'side', cost: 40 + e * 0.3 });
+              });
+              opts.forEach(function (o) {
+                var L = Math.round(o.left);
+                if (L < 10) return;
+                var rect = { l: L, r: L + w, t: top, b: top + h };
+                var segs, pts, ay = axisY + side * 8;
+                if (o.kind === 'straight') {
+                  pts = [[x0, ay], [x0, edgeY]];
+                } else {
+                  if (d < band + 12) return;
+                  var ex = L > x0 ? L : L + w;
+                  pts = [[x0, ay], [x0, cy], [ex, cy]];
+                }
+                if (!densityOk(L + w / 2)) return;
+                if (!free(rect, true)) return;
+                segs = [];
+                for (var k = 1; k < pts.length; k++) {
+                  var sr = segRect(pts[k - 1][0], pts[k - 1][1], pts[k][0], pts[k][1]);
+                  if (!free(sr, false)) return;
+                  segs.push(sr);
+                }
+                var cost = sh.cost + (d - band) * 0.55 + o.cost
+                  + Math.max(0, L + w - x0) * 0.05
+                  + (side === prevSide ? 14 + prevSame * 26 : 0)
+                  + jitter(i, d + o.left) * 16;
+                if (!best || cost < best.cost) best = { cost: cost, rect: rect, segs: segs, pts: pts, side: side, shape: sh };
+              });
+            }
+          });
         });
         if (!best) x0 += 14;
       }
       if (!best) {                       // 理论上不会发生：兜底放在轴上方
-        var tp = axisY - band - h;
-        best = { rect: { l: x0 - w / 2, r: x0 + w / 2, t: tp, b: tp + h }, segs: [], pts: [[x0, axisY], [x0, tp + h]], side: -1 };
+        var fs = shapes[shapes.length - 1], tp = axisY - band - fs.h;
+        best = { rect: { l: x0 - fs.w / 2, r: x0 + fs.w / 2, t: tp, b: tp + fs.h }, segs: [], pts: [[x0, axisY], [x0, tp + fs.h]], side: -1, shape: fs };
       }
       cards.push(best.rect);
       centers.push((best.rect.l + best.rect.r) / 2);
       Array.prototype.push.apply(links, best.segs);
       prevSame = best.side === prevSide ? prevSame + 1 : 0;
       prevSide = best.side;
+      prevKind = best.shape.kind;
       prevX = x0;
       xs.push(x0);
       anchors.push({ r: rawPos(ev.year), x: x0 });
-      placed.push({ variant: vname, rect: best.rect, pts: best.pts, side: best.side });
+      placed.push({ shape: best.shape, rect: best.rect, pts: best.pts, side: best.side });
     });
 
     var right = xs.length ? xs[xs.length - 1] : 0;
@@ -331,6 +416,7 @@
   }
 
   function renderTimeline() {
+    ensureRatios();
     computeLayout();
     var W = layout.width;
     track.style.width = W + 'px';
@@ -386,7 +472,8 @@
       dot.style.left = layout.xs[i] + 'px';
       box.appendChild(dot);
 
-      var card = el('button', 'card v-' + pl.variant + (pl.side < 0 ? ' up' : ' down'));
+      var sh = pl.shape;
+      var card = el('button', 'card k-' + sh.kind + (ev.major ? ' major' : '') + (pl.side < 0 ? ' up' : ' down'));
       card.type = 'button';
       card.dataset.id = ev.id;
       card.style.left = r.l + 'px';
@@ -394,13 +481,15 @@
       card.style.width = (r.r - r.l) + 'px';
       card.style.height = (r.b - r.t) + 'px';
       card.setAttribute('aria-label', (ev.date || formatYear(ev.year)) + ' ' + ev.title);
-      card.appendChild(imageEl(ev.images && ev.images[0], 'card-img', ev.title));
-      var body = el('div', 'card-body');
-      body.appendChild(el('div', 'card-date', ev.date || formatYear(ev.year)));
-      body.appendChild(el('div', 'card-title', ev.title));
-      var summary = summaryOf(ev);
-      if (summary) body.appendChild(el('p', 'card-short', summary));
-      card.appendChild(body);
+      var media = el('div', 'card-media');
+      if (sh.kind === 'stack') media.style.height = Math.round(sh.ih) + 'px';
+      else media.style.width = Math.round(sh.iw) + 'px';
+      var pic = imageEl(ev.images && ev.images[0], 'card-img', ev.title);
+      pic.style.width = Math.round(sh.iw) + 'px';
+      pic.style.height = Math.round(sh.ih) + 'px';
+      media.appendChild(pic);
+      card.appendChild(media);
+      card.appendChild(cardBody(ev));
       card.addEventListener('click', function () {
         if (drag.moved) return;
         openDetail(ev.id);
@@ -550,15 +639,27 @@
   minimap.addEventListener('pointerup', function () { mmDown = false; });
   minimap.addEventListener('pointercancel', function () { mmDown = false; });
 
-  var resizeT;
-  window.addEventListener('resize', function () {
-    clearTimeout(resizeT);
-    resizeT = setTimeout(function () {
+  // 重新排版并保持当前屏幕中心的年代不变
+  var relayoutT;
+  function scheduleRelayout() {
+    clearTimeout(relayoutT);
+    relayoutT = setTimeout(function () {
       var centerYear = yearAtX(-offset + viewW() / 2);
       renderTimeline();
       if (centerYear != null) setOffset(viewW() / 2 - xOfYear(centerYear));
-    }, 120);
-  });
+    }, 150);
+  }
+  // 舞台尺寸变化（窗口缩放、字体加载后顶栏高度变化等）都会重新排版
+  var lastSize = '';
+  function onStageResize() {
+    var size = stage.clientWidth + 'x' + stage.clientHeight;
+    if (size === lastSize) return;
+    lastSize = size;
+    scheduleRelayout();
+  }
+  if (window.ResizeObserver) new ResizeObserver(onStageResize).observe(stage);
+  else window.addEventListener('resize', onStageResize);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { textCache = {}; scheduleRelayout(); });
 
   // ---------- 弹窗通用 ----------
   var openStack = [];
@@ -784,7 +885,7 @@
         c.width = Math.round(img.width * s);
         c.height = Math.round(img.height * s);
         c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-        cb(c.toDataURL('image/jpeg', 0.8));
+        cb(c.toDataURL('image/jpeg', 0.8), c.width, c.height);
       };
       img.onerror = function () { cb(null); };
       img.src = reader.result;
@@ -799,9 +900,9 @@
     if (files.length > room) $('formError').textContent = '最多只能添加 9 张图片，多余的已忽略';
     files.slice(0, room).forEach(function (f) {
       if (!/^image\//.test(f.type)) return;
-      resizeFile(f, 900, function (data) {
+      resizeFile(f, 900, function (data, w, h) {
         if (!data || draftImages.length >= MAX_IMAGES) return;
-        draftImages.push({ src: data, caption: f.name.replace(/\.[^.]+$/, '') });
+        draftImages.push({ src: data, w: w, h: h, caption: f.name.replace(/\.[^.]+$/, '') });
         renderImageEditor();
       });
     });
@@ -930,6 +1031,7 @@
 
   // ---------- 启动 ----------
   renderTimeline();
+  lastSize = stage.clientWidth + 'x' + stage.clientHeight;
   setOffset(0);
   stage.focus({ preventScroll: true });
 })();
