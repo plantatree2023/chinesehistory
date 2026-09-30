@@ -70,6 +70,8 @@
     return text.length > 60 ? text.slice(0, 58) + '…' : text;
   }
 
+  function transitionText(t) { return t.from + ' → ' + t.to; }
+
   function toast(msg) {
     var t = $('toast');
     t.textContent = msg;
@@ -904,6 +906,8 @@
     if (imgs[0]) h.addEventListener('click', function () { openLightbox(imgs, 0); });
     hero.appendChild(h);
     $('detailDate').textContent = ev.date || formatYear(ev.year);
+    $('detailTransition').hidden = !ev.transition;
+    $('detailTransition').textContent = ev.transition ? '时期更迭：' + transitionText(ev.transition) : '';
     $('detailTitle').textContent = ev.title;
     $('detailText').textContent = ev.detail || ev.short || '';
     var g = $('detailGallery');
@@ -997,6 +1001,13 @@
     form.detail.value = ev ? (ev.detail || '') : '';
     form.source.value = ev ? (ev.source || '') : '';
     form.major.checked = !!(ev && ev.major);
+    ['transitionFrom', 'transitionTo'].forEach(function (name, i) {
+      var sel = form[name];
+      sel.innerHTML = '';
+      sel.appendChild(new Option('无', ''));
+      ERAS.forEach(function (era) { sel.appendChild(new Option(era.name, era.name)); });
+      sel.value = ev && ev.transition ? (i ? ev.transition.to : ev.transition.from) : '';
+    });
     draftImages = ev ? clone(ev.images || []) : [];
     $('imageUrlInput').value = '';
     $('formError').textContent = '';
@@ -1144,6 +1155,11 @@
     else if (!yAbs || yAbs < 1) err = '请填写有效的年份（正整数）';
     else if (form.detail.value.length > MAX_DETAIL) err = '详细说明不能超过 350 字';
     else if (charCount(form.short.value) < MIN_SUMMARY && charCount(form.detail.value) < MIN_SUMMARY) err = '请至少填写 20 字的说明（简要说明或详细说明），时间轴上会显示这段文字';
+    var tFrom = form.transitionFrom.value, tTo = form.transitionTo.value;
+    if (!err && (tFrom || tTo)) {
+      if (!tFrom || !tTo) err = '时期更迭需要同时选择“从”和“到”';
+      else if (tFrom === tTo) err = '时期更迭的“从”和“到”不能相同';
+    }
     if (err) { $('formError').textContent = err; return; }
     var year = form.era.value === 'bce' ? -yAbs : yAbs;
     var data = {
@@ -1156,10 +1172,12 @@
       source: form.source.value.trim(),
       major: form.major.checked
     };
+    if (tFrom) data.transition = { from: tFrom, to: tTo };
     var id;
     if (editingId) {
       var ev = findEvent(editingId);
       Object.keys(data).forEach(function (k) { ev[k] = data[k]; });
+      if (!tFrom) delete ev.transition;
       id = ev.id;
     } else {
       data.id = id = uid();
@@ -1199,6 +1217,106 @@
   $('sidebarScrim').addEventListener('click', closeSidebar);
   $('searchInput').addEventListener('input', renderList);
 
+  // ---------- 通用多选下拉列表 ----------
+  // options: [{ value, label, color, count }]；selected: 已选 value 数组；onChange(新数组)。
+  // 每个选项带颜色色条；已选项以彩色小标签显示在按钮上。Esc、点击列表外或再次点击按钮收起。
+  function multiSelect(name, options, selected, onChange, placeholder) {
+    var wrap = el('div', 'ms');
+    wrap.dataset.name = name;
+    var trigger = el('button', 'ms-trigger');
+    trigger.type = 'button';
+    trigger.setAttribute('aria-haspopup', 'listbox');
+    trigger.setAttribute('aria-expanded', 'false');
+    var menu = el('div', 'ms-menu');
+    menu.setAttribute('role', 'listbox');
+    menu.setAttribute('aria-multiselectable', 'true');
+    menu.hidden = true;
+    var byValue = {};
+    options.forEach(function (o) { byValue[o.value] = o; });
+
+    function renderTrigger() {
+      trigger.innerHTML = '';
+      var tags = el('span', 'ms-tags');
+      if (!selected.length) tags.appendChild(el('span', 'ms-placeholder', placeholder));
+      selected.forEach(function (v) {
+        var o = byValue[v];
+        if (!o) return;
+        var tag = el('span', 'ms-tag', o.label);
+        tag.style.setProperty('--chip-color', o.color);
+        tags.appendChild(tag);
+      });
+      trigger.appendChild(tags);
+      trigger.appendChild(el('span', 'ms-caret', '▾'));
+    }
+    function setOpen(open) {
+      menu.hidden = !open;
+      trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      wrap.classList.toggle('open', open);
+    }
+    var items = options.map(function (o) {
+      var item = el('button', 'ms-option');
+      item.type = 'button';
+      item.setAttribute('role', 'option');
+      item.dataset.value = o.value;
+      item.style.setProperty('--chip-color', o.color);
+      item.appendChild(el('span', 'ms-check'));
+      item.appendChild(el('span', 'ms-swatch'));
+      item.appendChild(el('span', 'ms-label', o.label));
+      if (o.count != null) item.appendChild(el('span', 'ms-count', String(o.count)));
+      item.addEventListener('click', function () {
+        var i = selected.indexOf(o.value);
+        selected = i > -1 ? selected.slice(0, i).concat(selected.slice(i + 1)) : selected.concat([o.value]);
+        sync();
+        onChange(selected);
+      });
+      menu.appendChild(item);
+      return item;
+    });
+    function sync() {
+      items.forEach(function (item) {
+        var on = selected.indexOf(item.dataset.value) > -1;
+        item.classList.toggle('on', on);
+        item.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      renderTrigger();
+    }
+    trigger.addEventListener('click', function () { setOpen(menu.hidden); });
+    wrap.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !menu.hidden) {
+        e.stopPropagation();   // 只收起列表，不关闭侧栏
+        setOpen(false);
+        trigger.focus();
+      }
+    });
+    wrap.closeMenu = function () { setOpen(false); };
+    sync();
+    wrap.appendChild(trigger);
+    wrap.appendChild(menu);
+    return wrap;
+  }
+  // 点击下拉列表以外的地方时收起所有已展开的列表。
+  // 用 click 而不是 pointerdown：等这次点击完成后再收起，避免列表收起引起的布局移动让点击落到别处
+  document.addEventListener('click', function (e) {
+    Array.prototype.forEach.call(document.querySelectorAll('.ms.open'), function (w) {
+      if (!w.contains(e.target)) w.closeMenu();
+    });
+  });
+
+  // 通用开关型筛选（勾选框）
+  function toggleFilterUI(id, text) {
+    return function (box, v, set) {
+      var label = el('label', 'filter-check');
+      var cb = el('input');
+      cb.type = 'checkbox';
+      cb.checked = v;
+      cb.dataset.filter = id;
+      cb.addEventListener('change', function () { set(cb.checked); });
+      label.appendChild(cb);
+      label.appendChild(document.createTextNode(' ' + text));
+      box.appendChild(label);
+    };
+  }
+
   // ---------- 侧栏筛选 ----------
   // 通用筛选框架：每个筛选维度是 FILTERS 中的一条定义，可选项在运行时由数据计算
   // （时期来自数据集的 eras，年份范围来自事件）。新增维度只需添加一条定义：
@@ -1216,17 +1334,16 @@
       initial: function () { return false; },
       isActive: function (v) { return v; },
       test: function (ev, v) { return !v || !!ev.major; },
-      render: function (box, v, set, ctx) {
-        var label = el('label', 'filter-check');
-        var cb = el('input');
-        cb.type = 'checkbox';
-        cb.checked = v;
-        cb.dataset.filter = 'major';
-        cb.addEventListener('change', function () { set(cb.checked); });
-        label.appendChild(cb);
-        label.appendChild(document.createTextNode(' 只看重大事件（' + ctx.majorCount + '）'));
-        box.appendChild(label);
-      }
+      render: function (box, v, set, ctx) { toggleFilterUI('major', '只看重大事件（' + ctx.majorCount + '）')(box, v, set); }
+    },
+    {
+      id: 'transition',
+      label: '时期更迭',
+      available: function (ctx) { return ctx.transitionCount > 0; },
+      initial: function () { return false; },
+      isActive: function (v) { return v; },
+      test: function (ev, v) { return !v || !!ev.transition; },
+      render: function (box, v, set, ctx) { toggleFilterUI('transition', '只看时期更迭的事件（' + ctx.transitionCount + '）')(box, v, set); }
     },
     {
       id: 'era',
@@ -1236,29 +1353,9 @@
       isActive: function (v) { return v.length > 0; },
       test: function (ev, v) { return !v.length || v.indexOf(eraOf(ev.year).name) > -1; },
       render: function (box, v, set, ctx) {
-        var wrap = el('div', 'filter-chips');
-        ctx.erasWithEvents.forEach(function (era) {
-          var chip = el('button', 'filter-chip');
-          chip.type = 'button';
-          chip.dataset.era = era.name;
-          chip.style.setProperty('--chip-color', era.color);
-          chip.appendChild(document.createTextNode(era.name));
-          chip.appendChild(el('span', 'filter-chip-count', String(ctx.eraCounts[era.name])));
-          var sync = function () {
-            var on = v.indexOf(era.name) > -1;
-            chip.classList.toggle('on', on);
-            chip.setAttribute('aria-pressed', on ? 'true' : 'false');
-          };
-          sync();
-          chip.addEventListener('click', function () {
-            var i = v.indexOf(era.name);
-            v = i > -1 ? v.slice(0, i).concat(v.slice(i + 1)) : v.concat([era.name]);
-            set(v);
-            sync();
-          });
-          wrap.appendChild(chip);
-        });
-        box.appendChild(wrap);
+        box.appendChild(multiSelect('era', ctx.erasWithEvents.map(function (era) {
+          return { value: era.name, label: era.name, color: era.color, count: ctx.eraCounts[era.name] };
+        }), v, set, '全部朝代 / 时期'));
       }
     },
     {
@@ -1329,6 +1426,7 @@
       eraCounts: eraCounts,
       erasWithEvents: ERAS.filter(function (era) { return eraCounts[era.name] > 0; }),
       majorCount: events.filter(function (ev) { return ev.major; }).length,
+      transitionCount: events.filter(function (ev) { return ev.transition; }).length,
       minYear: years.length ? Math.min.apply(null, years) : 0,
       maxYear: years.length ? Math.max.apply(null, years) : 0
     };
@@ -1341,7 +1439,7 @@
   // 输入筛选条件时只刷新列表，避免输入框失去焦点
   var filterPanelKey = null;
   function renderFilterPanel(ctx) {
-    var key = events.map(function (ev) { return ev.year + (ev.major ? '*' : ''); }).join(',');
+    var key = events.map(function (ev) { return ev.year + (ev.major ? '*' : '') + (ev.transition ? '>' : ''); }).join(',');
     if (key === filterPanelKey) return;
     filterPanelKey = key;
     var panel = $('filterPanel');
@@ -1402,6 +1500,7 @@
       var meta = el('div', 'list-meta');
       meta.appendChild(el('div', 'list-date', ev.date || formatYear(ev.year)));
       meta.appendChild(el('div', 'list-title', ev.title));
+      if (ev.transition) meta.appendChild(el('div', 'list-transition', transitionText(ev.transition)));
       row.appendChild(meta);
       row.addEventListener('click', function () {
         activeListId = activeListId === ev.id ? null : ev.id;

@@ -76,6 +76,7 @@
       <div class="detail-hero" id="detailHero"></div>
       <div class="detail-body">
         <div class="detail-date" id="detailDate"></div>
+        <div class="detail-transition" id="detailTransition" hidden></div>
         <h2 id="detailTitle"></h2>
         <p class="detail-text" id="detailText"></p>
         <div class="gallery" id="detailGallery"></div>
@@ -113,6 +114,16 @@
         <label class="field grow">
           <span>时间显示（可选）</span>
           <input type="text" name="date" maxlength="20" placeholder="如：约前2070年">
+        </label>
+      </div>
+      <div class="field-row transition-row">
+        <label class="field">
+          <span>时期更迭（可选）：从</span>
+          <select name="transitionFrom"></select>
+        </label>
+        <label class="field">
+          <span>到</span>
+          <select name="transitionTo"></select>
         </label>
       </div>
       <label class="check">

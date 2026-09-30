@@ -76,6 +76,7 @@ function validateDataset(id, data) {
   if (!Array.isArray(data.eras)) fail('eras 必须是数组');
   if (!Array.isArray(data.events)) fail('events 必须是数组');
   const ids = new Set();
+  const eraNames = new Set(data.eras.map((e) => e && e.name));
   data.events.forEach((ev, i) => {
     const where = `events[${i}]`;
     if (!ev || typeof ev !== 'object') fail(`${where} 必须是对象`);
@@ -84,6 +85,12 @@ function validateDataset(id, data) {
     ids.add(ev.id);
     if (typeof ev.title !== 'string' || !ev.title.trim()) fail(`${where}.title 无效`);
     if (!Number.isFinite(ev.year)) fail(`${where}.year 必须是数字`);
+    // 时期更迭（可选）：from / to 必须是本数据集 eras 中的时期名，且不能相同
+    if (ev.transition != null) {
+      const t = ev.transition;
+      if (typeof t !== 'object' || !eraNames.has(t.from) || !eraNames.has(t.to)) fail(`${where}.transition 的 from / to 必须是 eras 中的时期名`);
+      if (t.from === t.to) fail(`${where}.transition 的 from 与 to 不能相同`);
+    }
     if (!Array.isArray(ev.images) || ev.images.length > 9) fail(`${where}.images 必须是最多 9 项的数组`);
     ev.images.forEach((im) => {
       if (!im || typeof im.src !== 'string') fail(`${where}.images 中的图片缺少 src`);

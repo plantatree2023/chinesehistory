@@ -183,6 +183,8 @@ test.describe('写入接口', () => {
     const inline = { ...data, events: [{ ...data.events[0], images: [{ src: 'data:image/png;base64,AAAA' }] }] };
     expect((await put(request, DATASET, inline)).status(), '内嵌图片').toBe(422);
     expect((await put(request, DATASET, { ...data, id: 'jp_ja' })).status(), 'id 不一致').toBe(422);
+    const badTransition = { ...data, events: [{ ...data.events[0], transition: { from: '唐', to: '不存在的时期' } }] };
+    expect((await put(request, DATASET, badTransition)).status(), '时期更迭引用不存在的时期').toBe(422);
     const external = { ...data, events: [{ ...data.events[0], images: [{ src: 'https://upload.wikimedia.org/a.jpg', caption: '' }] }] };
     expect((await put(request, DATASET, external)).status(), '外部图片地址').toBe(422);
     expect(fs.readFileSync(tmpData, 'utf8')).toBe(before);

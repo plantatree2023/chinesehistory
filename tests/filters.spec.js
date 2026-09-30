@@ -1,22 +1,35 @@
-// 侧栏筛选：重大事件、朝代 / 时期（多选）、时间范围；可选项由数据决定，与搜索组合使用。
+// 侧栏筛选：重大事件、时期更迭、朝代 / 时期（下拉多选）、时间范围；可选项由数据决定，与搜索组合使用。
+// 以及时期更迭字段（transition）的显示、编辑和数据一致性。
 const { test, expect, openApp, loadDataset, DATA_URL } = require('./helpers');
 
 test.use({ viewport: { width: 1440, height: 860 } });
 
 // 与网站相同的规则：事件属于起始年份不晚于它的最后一个时期
 const eraOf = (eras, year) => eras.filter((e) => year >= e.start).pop() || eras[0];
+// '#c0892f' -> 'rgb(192, 137, 47)'
+const rgb = (hex) => `rgb(${[1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)).join(', ')})`;
+
+const eraMenu = (page) => page.locator('.ms[data-name="era"] .ms-menu');
+const eraTrigger = (page) => page.locator('.ms[data-name="era"] .ms-trigger');
+const eraOption = (page, name) => page.locator(`.ms[data-name="era"] .ms-option[data-value="${name}"]`);
 
 async function openFilters(page) {
   await page.click('#browseBtn');
   await page.click('#filterToggle');
   await expect(page.locator('#filterPanel')).toBeVisible();
 }
+// 在朝代下拉列表中切换选项（需要时先展开）
+async function pickEras(page, ...names) {
+  if (await eraMenu(page).isHidden()) await eraTrigger(page).click();
+  for (const name of names) await eraOption(page, name).click();
+}
 const listTitles = (page) => page.locator('.list-title').allTextContents();
-const expectTitles = async (page, events) => {
+async function expectTitles(page, events) {
   const want = events.slice().sort((a, b) => a.year - b.year).map((e) => e.title);
   await expect.poll(() => listTitles(page)).toEqual(want);
-  await expect(page.locator('#eventCount')).toHaveText(`（${want.length} / ${(await page.evaluate(() => document.querySelectorAll('.card').length))}）`);
-};
+  const total = await page.locator('.card').count();
+  await expect(page.locator('#eventCount')).toHaveText(`（${want.length} / ${total}）`);
+}
 async function setYear(page, which, year) {
   await page.selectOption(`#filterPanel select[data-range="${which}-era"]`, year < 0 ? 'bce' : 'ce');
   await page.fill(`#filterPanel input[data-range="${which}"]`, String(Math.abs(year)));
@@ -30,15 +43,71 @@ test('筛选面板默认收起，可选项由数据生成', async ({ page }) => 
   await page.click('#filterToggle');
   await expect(page.locator('#filterToggle')).toHaveAttribute('aria-expanded', 'true');
 
-  // 朝代标签：数据中有事件的时期，按时期顺序排列，带事件数
+  // 朝代选项：数据中有事件的时期，按时期顺序排列，带事件数和该时期的颜色
   const counts = {};
   for (const ev of events) counts[eraOf(eras, ev.year).name] = (counts[eraOf(eras, ev.year).name] || 0) + 1;
-  const expected = eras.filter((e) => counts[e.name]).map((e) => `${e.name}${counts[e.name]}`);
-  expect(await page.locator('.filter-chip').allTextContents()).toEqual(expected);
-  // 重大事件数量、时间范围提示来自数据
-  const majors = events.filter((e) => e.major).length;
-  await expect(page.locator('.filter-check')).toContainText(`只看重大事件（${majors}）`);
+  const withEvents = eras.filter((e) => counts[e.name]);
+  await eraTrigger(page).click();
+  expect(await page.locator('.ms[data-name="era"] .ms-option').allTextContents()).toEqual(withEvents.map((e) => `${e.name}${counts[e.name]}`));
+  for (const era of withEvents) {
+    const color = await eraOption(page, era.name).locator('.ms-swatch').evaluate((n) => getComputedStyle(n).backgroundColor);
+    expect(color, `${era.name} 的颜色`).toBe(rgb(era.color));
+  }
+  // 重大事件、时期更迭数量与时间范围提示来自数据
+  await expect(page.locator('.filter-section[data-filter="major"]')).toContainText(`只看重大事件（${events.filter((e) => e.major).length}）`);
+  await expect(page.locator('.filter-section[data-filter="transition"]')).toContainText(`只看时期更迭的事件（${events.filter((e) => e.transition).length}）`);
   await expect(page.locator('.filter-hint')).toContainText('约170万年前 — 公元1980年');
+});
+
+test.describe('朝代下拉列表', () => {
+  test('默认收起；点击展开，已选项以该时期颜色的标签显示在按钮上', async ({ page }) => {
+    await openApp(page);
+    const { eras } = await loadDataset(page);
+    const color = (name) => rgb(eras.find((e) => e.name === name).color);
+    await openFilters(page);
+    await expect(eraMenu(page)).toBeHidden();
+    await expect(eraTrigger(page)).toContainText('全部朝代 / 时期');
+
+    await pickEras(page, '唐', '明');
+    await expect(eraOption(page, '唐')).toHaveAttribute('aria-selected', 'true');
+    await expect(eraOption(page, '宋')).toHaveCount(0);
+    const tags = eraTrigger(page).locator('.ms-tag');
+    await expect(tags).toHaveText(['唐', '明']);
+    expect(await tags.evaluateAll((ns) => ns.map((n) => getComputedStyle(n).backgroundColor))).toEqual([color('唐'), color('明')]);
+    await expect(eraMenu(page), '多选时列表保持展开').toBeVisible();
+  });
+
+  test('Esc、点击列表外或再次点击按钮时收起；Esc 不会关闭侧栏', async ({ page }) => {
+    await openApp(page);
+    await openFilters(page);
+    await eraTrigger(page).click();
+    await expect(eraMenu(page)).toBeVisible();
+    await eraOption(page, '秦').press('Escape');
+    await expect(eraMenu(page)).toBeHidden();
+    await expect(page.locator('#sidebar')).toHaveClass(/open/);
+
+    await eraTrigger(page).click();
+    await page.locator('.filter-title').first().click();   // 列表以外
+    await expect(eraMenu(page)).toBeHidden();
+
+    await eraTrigger(page).click();
+    await eraTrigger(page).click();
+    await expect(eraMenu(page)).toBeHidden();
+    await expect(eraTrigger(page)).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  test('按朝代筛选，可同时选多个，再点一次取消', async ({ page }) => {
+    await openApp(page);
+    const { eras, events } = await loadDataset(page);
+    await openFilters(page);
+    await pickEras(page, '唐');
+    await expectTitles(page, events.filter((e) => eraOf(eras, e.year).name === '唐'));
+    await pickEras(page, '明');
+    await expectTitles(page, events.filter((e) => ['唐', '明'].includes(eraOf(eras, e.year).name)));
+    await pickEras(page, '唐');
+    await expectTitles(page, events.filter((e) => eraOf(eras, e.year).name === '明'));
+    await expect(eraOption(page, '唐')).toHaveAttribute('aria-selected', 'false');
+  });
 });
 
 test('只看重大事件', async ({ page }) => {
@@ -53,20 +122,90 @@ test('只看重大事件', async ({ page }) => {
   await expect(page.locator('#filterBadge')).toBeHidden();
 });
 
-test('按朝代筛选，可同时选多个', async ({ page }) => {
-  await openApp(page);
-  const { eras, events } = await loadDataset(page);
-  await openFilters(page);
-  await page.click('.filter-chip[data-era="唐"]');
-  await expectTitles(page, events.filter((e) => eraOf(eras, e.year).name === '唐'));
-  await expect(page.locator('.filter-chip[data-era="唐"]')).toHaveAttribute('aria-pressed', 'true');
+test.describe('时期更迭', () => {
+  test('只看时期更迭的事件，列表中显示“从 → 到”', async ({ page }) => {
+    await openApp(page);
+    const { events } = await loadDataset(page);
+    const changes = events.filter((e) => e.transition);
+    await openFilters(page);
+    await page.check('#filterPanel input[data-filter="transition"]');
+    await expectTitles(page, changes);
+    const sorted = changes.slice().sort((a, b) => a.year - b.year);
+    await expect(page.locator('.list-transition')).toHaveText(sorted.map((e) => `${e.transition.from} → ${e.transition.to}`));
+  });
 
-  await page.click('.filter-chip[data-era="明"]');
-  await expectTitles(page, events.filter((e) => ['唐', '明'].includes(eraOf(eras, e.year).name)));
+  test('与朝代筛选组合：进入“秦”的更迭事件', async ({ page }) => {
+    await openApp(page);
+    const { eras, events } = await loadDataset(page);
+    await openFilters(page);
+    await page.check('#filterPanel input[data-filter="transition"]');
+    await pickEras(page, '秦');
+    await expectTitles(page, events.filter((e) => e.transition && eraOf(eras, e.year).name === '秦'));
+    await expect(page.locator('.list-transition')).toHaveText(['战国 → 秦']);
+  });
 
-  await page.click('.filter-chip[data-era="唐"]');   // 再点一次取消
-  await expectTitles(page, events.filter((e) => eraOf(eras, e.year).name === '明'));
-  await expect(page.locator('.filter-chip[data-era="唐"]')).toHaveAttribute('aria-pressed', 'false');
+  test('详情中显示时期更迭，普通事件不显示', async ({ page }) => {
+    await openApp(page);
+    await page.click('#browseBtn');
+    await page.fill('#searchInput', '秦统一六国');
+    await page.locator('.list-row').first().click();
+    await page.click('.list-actions .btn-ghost');
+    await expect(page.locator('#detailTransition')).toHaveText('时期更迭：战国 → 秦');
+    await page.keyboard.press('Escape');
+    await page.fill('#searchInput', '孔子诞生');
+    await page.locator('.list-row').first().click();
+    await page.click('.list-actions .btn-ghost');
+    await expect(page.locator('#detailTransition')).toBeHidden();
+  });
+
+  test('在编辑页设置和清除时期更迭，筛选随之更新', async ({ page }) => {
+    await openApp(page);
+    const { events } = await loadDataset(page);
+    const count = events.filter((e) => e.transition).length;
+    await page.click('#browseBtn');
+    await page.fill('#searchInput', '贞观之治');
+    await page.locator('.list-row').first().click();
+    await page.click('.list-actions .btn-primary');
+    // 下拉选项来自数据集的时期
+    const { eras } = await loadDataset(page);
+    await expect(page.locator('#editForm [name=transitionFrom] option')).toHaveText(['无', ...eras.map((e) => e.name)]);
+
+    await page.selectOption('#editForm [name=transitionFrom]', '隋');
+    await page.click('#editForm button[type=submit]');
+    await expect(page.locator('#formError')).toContainText('同时选择');
+    await page.selectOption('#editForm [name=transitionTo]', '隋');
+    await page.click('#editForm button[type=submit]');
+    await expect(page.locator('#formError')).toContainText('不能相同');
+    await page.selectOption('#editForm [name=transitionTo]', '唐');
+    await page.click('#editForm button[type=submit]');
+    await expect(page.locator('#editModal')).toBeHidden();
+    await expect(page.locator('.list-transition')).toHaveText(['隋 → 唐']);
+
+    await page.fill('#searchInput', '');
+    await page.click('#filterToggle');
+    await expect(page.locator('.filter-section[data-filter="transition"]')).toContainText(`（${count + 1}）`);
+
+    // 清除（保存后该行仍处于展开状态，只有收起时才需要点开）
+    await page.fill('#searchInput', '贞观之治');
+    if (!(await page.locator('.list-actions').isVisible())) await page.locator('.list-row').first().click();
+    await page.click('.list-actions .btn-primary');
+    await expect(page.locator('#editForm [name=transitionFrom]')).toHaveValue('隋');
+    await page.selectOption('#editForm [name=transitionFrom]', '');
+    await page.selectOption('#editForm [name=transitionTo]', '');
+    await page.click('#editForm button[type=submit]');
+    await expect(page.locator('.list-transition')).toHaveCount(0);
+    await expect(page.locator('.filter-section[data-filter="transition"]')).toContainText(`（${count}）`);
+  });
+
+  test('数据中的时期更迭：from / to 都是已有时期、互不相同，且事件年份落在 to 时期内', async ({ page }) => {
+    const { eras, events } = await loadDataset(page);
+    const names = new Set(eras.map((e) => e.name));
+    const changes = events.filter((e) => e.transition);
+    expect(changes.length).toBeGreaterThan(0);
+    const problems = changes.filter((e) => !names.has(e.transition.from) || !names.has(e.transition.to)
+      || e.transition.from === e.transition.to || eraOf(eras, e.year).name !== e.transition.to).map((e) => e.title);
+    expect(problems).toEqual([]);
+  });
 });
 
 test('按时间范围筛选：可只填一端，公元前用下拉选择', async ({ page }) => {
@@ -76,12 +215,10 @@ test('按时间范围筛选：可只填一端，公元前用下拉选择', async
   await setYear(page, 'from', -221);
   await setYear(page, 'to', 220);
   await expectTitles(page, events.filter((e) => e.year >= -221 && e.year <= 220));
-
-  await page.fill('#filterPanel input[data-range="from"]', '');   // 只保留结束年份
+  await page.fill('#filterPanel input[data-range="from"]', '');
   await expectTitles(page, events.filter((e) => e.year <= 220));
-
   await page.fill('#filterPanel input[data-range="to"]', '');
-  await setYear(page, 'from', 1900);                              // 只保留起始年份
+  await setYear(page, 'from', 1900);
   await expectTitles(page, events.filter((e) => e.year >= 1900));
 });
 
@@ -101,8 +238,7 @@ test('多个筛选条件与搜索同时生效，清除筛选恢复全部', async
   const { eras, events } = await loadDataset(page);
   await openFilters(page);
   await page.check('#filterPanel input[data-filter="major"]');
-  await page.click('.filter-chip[data-era="秦"]');
-  await page.click('.filter-chip[data-era="唐"]');
+  await pickEras(page, '秦', '唐');
   await setYear(page, 'to', 900);
   const match = (e) => e.major && ['秦', '唐'].includes(eraOf(eras, e.year).name) && e.year <= 900;
   await expectTitles(page, events.filter(match));
@@ -116,7 +252,8 @@ test('多个筛选条件与搜索同时生效，清除筛选恢复全部', async
   await expect(page.locator('.list-item')).toHaveCount(events.length);
   await expect(page.locator('#filterBadge')).toBeHidden();
   await expect(page.locator('#filterPanel input[data-filter="major"]')).not.toBeChecked();
-  await expect(page.locator('.filter-chip.on')).toHaveCount(0);
+  await expect(page.locator('.ms[data-name="era"] .ms-option.on')).toHaveCount(0);
+  await expect(eraTrigger(page)).toContainText('全部朝代 / 时期');
   await expect(page.locator('#filterPanel input[data-range="to"]')).toHaveValue('');
 });
 
@@ -125,19 +262,20 @@ test('筛选时列表中的编辑和删除仍可用，删除后可选项随数�
   const { eras, events } = await loadDataset(page);
   const qin = events.filter((e) => eraOf(eras, e.year).name === '秦');
   await openFilters(page);
-  await page.click('.filter-chip[data-era="秦"]');
+  await pickEras(page, '秦');
   await expect(page.locator('.list-item')).toHaveCount(qin.length);
   await page.locator('.list-row').first().click();
   await page.click('.list-actions .btn-danger');
   await page.click('#confirmOk');
   await expect(page.locator('.list-item')).toHaveCount(qin.length - 1);
   // 时期的事件数随之减少，已选中的条件保留
-  await expect(page.locator('.filter-chip[data-era="秦"] .filter-chip-count')).toHaveText(String(qin.length - 1));
-  await expect(page.locator('.filter-chip[data-era="秦"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(eraOption(page, '秦').locator('.ms-count')).toHaveText(String(qin.length - 1));
+  await expect(eraOption(page, '秦')).toHaveAttribute('aria-selected', 'true');
+  await expect(eraTrigger(page).locator('.ms-tag')).toHaveText(['秦']);
 });
 
 test('可选项完全由数据集决定（使用另一份数据）', async ({ page }) => {
-  // 用一份只有两个时期、没有重大事件的数据替换默认数据集
+  // 用一份只有两个有事件的时期、没有重大事件和时期更迭的数据替换默认数据集
   const custom = {
     id: 'cn_zh', country: 'cn', language: 'zh',
     eras: [
@@ -153,26 +291,30 @@ test('可选项完全由数据集决定（使用另一份数据）', async ({ pa
   await page.route(`**${DATA_URL}`, (r) => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(custom) }));
   await openApp(page);
   await openFilters(page);
-  expect(await page.locator('.filter-chip').allTextContents()).toEqual(['甲时期2', '乙时期1']);
+  await eraTrigger(page).click();
+  expect(await page.locator('.ms[data-name="era"] .ms-option').allTextContents()).toEqual(['甲时期2', '乙时期1']);
   await expect(page.locator('.filter-section[data-filter="major"]'), '没有重大事件时不显示该维度').toHaveCount(0);
+  await expect(page.locator('.filter-section[data-filter="transition"]'), '没有时期更迭时不显示该维度').toHaveCount(0);
   await expect(page.locator('.filter-hint')).toContainText('公元120年 — 公元250年');
   await expect(page.locator('#filterPanel input[data-range="from"]')).toHaveAttribute('placeholder', '120');
   await expect(page.locator('#filterPanel select[data-range="from-era"]')).toHaveValue('ce');
-  await page.click('.filter-chip[data-era="甲时期"]');
+  await eraOption(page, '甲时期').click();
   await expect(page.locator('.list-title')).toHaveText(['测试事件0', '测试事件1']);
 });
 
 test.describe('手机', () => {
   test.use({ viewport: { width: 390, height: 780 } });
 
-  test('筛选面板在窄屏下完整可用，不产生横向滚动', async ({ page }) => {
+  test('筛选面板和下拉列表在窄屏下完整可用，不产生横向滚动', async ({ page }) => {
     await openApp(page);
     await openFilters(page);
-    await page.click('.filter-chip[data-era="清"]');
+    await pickEras(page, '清');
     await expect(page.locator('#filterBadge')).toHaveText('1');
-    const panel = await page.locator('#filterPanel').boundingBox();
-    expect(panel.x).toBeGreaterThanOrEqual(0);
-    expect(panel.x + panel.width).toBeLessThanOrEqual(390);
+    for (const sel of ['#filterPanel', '.ms[data-name="era"] .ms-menu']) {
+      const box = await page.locator(sel).boundingBox();
+      expect(box.x, sel).toBeGreaterThanOrEqual(0);
+      expect(box.x + box.width, sel).toBeLessThanOrEqual(390);
+    }
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
   });
 });
