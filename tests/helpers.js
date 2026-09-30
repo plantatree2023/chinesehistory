@@ -6,7 +6,9 @@ const { expect } = base;
 // 与 js/app.js 中的规则保持一致
 const MAX_PER_SCREEN = 6;
 const MIN_SUMMARY = 20;
-const STORAGE_KEY = 'zh-history-timeline:v1';
+const DATASET = 'cn_zh';
+const DATA_URL = `/data/${DATASET}.json`;
+const STORAGE_KEY = `zh-history-timeline:v1:${DATASET}`;
 const DEFAULT_EVENT_COUNT = 100;
 const PUNCT = /[\s，。、；：“”‘’《》〈〉（）【】！？·—…,.;:()[\]!?"'-]/;
 
@@ -14,7 +16,12 @@ const PUNCT = /[\s，。、；：“”‘’《》〈〉（）【】！？·—
 // - 屏蔽所有非本机请求（维基媒体图片等），测试完全离线、结果稳定；
 // - 收集页面脚本错误，测试结束时断言没有任何错误。
 const test = base.test.extend({
-  page: async ({ page }, use) => {
+  page: async ({ page, baseURL }, use) => {
+    // 安全检查：默认测试服务器必须是只读的，否则浏览器模式的测试会把测试数据写进真实数据文件
+    if (baseURL) {
+      const status = await page.request.get('/api/status');
+      expect(status.status(), '测试服务器必须以 --readonly 启动').toBe(404);
+    }
     const errors = [];
     page.on('pageerror', (e) => errors.push(e.message));
     await page.route(/^https?:\/\/(?!127\.0\.0\.1[:/])/, (route) => route.abort());
@@ -45,14 +52,19 @@ async function openApp(page) {
   await waitForStableLayout(page);
 }
 
-// 在打开前写入自定义事件数据（模拟用户已添加、修改过的状态）
+// 读取默认数据集（data/cn_zh.json）
+async function loadDataset(page) {
+  const res = await page.request.get(DATA_URL);
+  expect(res.ok(), `无法读取 ${DATA_URL}`).toBeTruthy();
+  return res.json();
+}
+
+// 在打开前写入自定义事件数据（模拟用户在浏览器模式下已添加、修改过的状态）
 async function seedEvents(page, mutate) {
+  const { events } = await loadDataset(page);
+  const mutated = mutate(JSON.parse(JSON.stringify(events)));
   await page.goto('/');
-  await page.evaluate(({ key, fnSrc }) => {
-    const events = JSON.parse(JSON.stringify(window.DEFAULT_EVENTS));
-    const mutated = new Function('events', `return (${fnSrc})(events);`)(events);
-    localStorage.setItem(key, JSON.stringify(mutated));
-  }, { key: STORAGE_KEY, fnSrc: mutate.toString() });
+  await page.evaluate(({ key, value }) => localStorage.setItem(key, value), { key: STORAGE_KEY, value: JSON.stringify(mutated) });
   await page.reload();
   await expect(page.locator('.card').first()).toBeVisible();
   await waitForStableLayout(page);
@@ -138,6 +150,6 @@ function layoutMetrics(page) {
 
 module.exports = {
   test, expect,
-  MAX_PER_SCREEN, MIN_SUMMARY, STORAGE_KEY, DEFAULT_EVENT_COUNT,
-  openApp, seedEvents, waitForStableLayout, trackOffset, centerOnTrackX, centerOnCard, layoutMetrics,
+  MAX_PER_SCREEN, MIN_SUMMARY, DATASET, DATA_URL, STORAGE_KEY, DEFAULT_EVENT_COUNT,
+  openApp, loadDataset, seedEvents, waitForStableLayout, trackOffset, centerOnTrackX, centerOnCard, layoutMetrics,
 };

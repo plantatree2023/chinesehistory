@@ -4,7 +4,7 @@
   "private": true,
   "description": "一个可拖拽浏览的中国历史时间轴网页应用，收录从古人类时期（约170万年前）到 1980 年的 100 个重大历史事件。",
   "scripts": {
-    "start": "node tests/static-server.js",
+    "start": "node server.js",
     "test": "playwright test",
     "test:report": "playwright show-report"
   },

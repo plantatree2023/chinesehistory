@@ -1,5 +1,5 @@
 // 核心功能：时间轴浏览、事件详情、编辑 / 新增 / 删除、侧栏、数据持久化。
-const { test, expect, openApp, trackOffset, waitForStableLayout, DEFAULT_EVENT_COUNT } = require('./helpers');
+const { test, expect, openApp, loadDataset, trackOffset, waitForStableLayout, DEFAULT_EVENT_COUNT, STORAGE_KEY } = require('./helpers');
 
 test.use({ viewport: { width: 1440, height: 860 } });
 
@@ -18,7 +18,7 @@ test.describe('时间轴浏览', () => {
   test('默认显示 100 个按时间排序的事件', async ({ page }) => {
     await openApp(page);
     await expect(page.locator('.card')).toHaveCount(DEFAULT_EVENT_COUNT);
-    const years = await page.evaluate(() => window.DEFAULT_EVENTS.map((e) => e.year));
+    const years = (await loadDataset(page)).events.map((e) => e.year);
     expect(years).toEqual([...years].sort((a, b) => a - b));
   });
 
@@ -145,6 +145,32 @@ test.describe('侧栏', () => {
     await expect(page.locator('.card')).toHaveCount(DEFAULT_EVENT_COUNT - 1);
     await page.click('#resetBtn');
     await page.click('#confirmOk');
+    await expect(page.locator('.card')).toHaveCount(DEFAULT_EVENT_COUNT);
+  });
+});
+
+test.describe('数据集', () => {
+  test('迁移旧版本保存在浏览器中的修改', async ({ page }) => {
+    const { events } = await loadDataset(page);
+    const legacy = events.slice(0, 10).map((e) => ({ ...e }));
+    legacy[0].title = '旧版本保存的标题';
+    await page.goto('/');
+    await page.evaluate((v) => localStorage.setItem('zh-history-timeline:v1', v), JSON.stringify(legacy));
+    await page.reload();
+    await expect(page.locator('.card')).toHaveCount(10);
+    await expect(page.locator('.card-title', { hasText: '旧版本保存的标题' })).toHaveCount(1);
+    const keys = await page.evaluate(() => Object.keys(localStorage));
+    expect(keys).toEqual([STORAGE_KEY]);
+  });
+
+  test('不存在的数据集显示错误提示', async ({ page }) => {
+    await page.goto('/?data=jp_ja');
+    await expect(page.locator('.load-error')).toContainText('data/jp_ja.json');
+    await expect(page.locator('.card')).toHaveCount(0);
+  });
+
+  test('非法的数据集名称回退到默认数据集', async ({ page }) => {
+    await page.goto('/?data=../server');
     await expect(page.locator('.card')).toHaveCount(DEFAULT_EVENT_COUNT);
   });
 });

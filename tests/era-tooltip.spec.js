@@ -1,5 +1,5 @@
 // 时间轴时期提示：悬浮显示所处时期，点击固定，点别处 / 拖动取消；朝代交界处判断准确。
-const { test, expect, openApp, centerOnTrackX } = require('./helpers');
+const { test, expect, openApp, loadDataset, centerOnTrackX } = require('./helpers');
 
 test.use({ viewport: { width: 1440, height: 860 } });
 
@@ -33,8 +33,7 @@ async function hoverAxis(page, x, y) {
 test('悬浮在事件位置显示正确的时期（含朝代交界的事件）', async ({ page }) => {
   await openApp(page);
   const y = await axisY(page);
-  const events = await page.evaluate(() => window.DEFAULT_EVENTS.slice().sort((a, b) => a.year - b.year)
-    .map((e) => ({ title: e.title, year: e.year })));
+  const events = (await loadDataset(page)).events.slice().sort((a, b) => a.year - b.year);
   const dots = await page.evaluate(() => [...document.querySelectorAll('.dot')].map((d) => parseFloat(d.style.left)));
 
   // 抽样各年代，并包含正好落在朝代交界的事件（商汤灭夏、东汉建立、中华人民共和国成立）

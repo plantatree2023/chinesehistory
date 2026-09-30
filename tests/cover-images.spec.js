@@ -1,6 +1,6 @@
 // 代表图完整显示：图片框按原图比例绘制、不被裁切、不会过小。
 // 比例取自事件数据中记录的图片尺寸，本地图片再用实际加载后的像素尺寸复核，全程离线。
-const { test, expect, openApp } = require('./helpers');
+const { test, expect, openApp, loadDataset } = require('./helpers');
 
 const MIN_SIDE = 50;          // 代表图最短边下限（px）
 const RATIO_TOLERANCE = 0.04; // 显示比例与原图比例的允许误差
@@ -14,8 +14,9 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 1280, height: 640
       .filter((img) => !/^https?:/.test(img.getAttribute('src')))
       .map((img) => { img.loading = 'eager'; return img.decode().catch(() => {}); })));
 
-    const report = await page.evaluate(({ tol, minSide }) => {
-      const byId = Object.fromEntries(window.DEFAULT_EVENTS.map((e) => [e.id, e]));
+    const { events } = await loadDataset(page);
+    const report = await page.evaluate(({ tol, minSide, events }) => {
+      const byId = Object.fromEntries(events.map((e) => [e.id, e]));
       const out = { checked: 0, loadedLocal: 0, problems: [] };
       for (const card of document.querySelectorAll('.card')) {
         const ev = byId[card.dataset.id];
@@ -43,7 +44,7 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 1280, height: 640
         if (Math.min(box.width, box.height) < minSide) out.problems.push(`${title}：图片过小 ${Math.round(box.width)}×${Math.round(box.height)}`);
       }
       return out;
-    }, { tol: RATIO_TOLERANCE, minSide: MIN_SIDE });
+    }, { tol: RATIO_TOLERANCE, minSide: MIN_SIDE, events });
 
     expect(report.checked, '应检查到带尺寸信息的代表图').toBeGreaterThan(50);
     expect(report.loadedLocal, '应有本地代表图成功加载').toBeGreaterThan(30);
@@ -52,10 +53,10 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 1280, height: 640
 }
 
 test('数据中的本地图片文件都存在且可访问', async ({ page, request }) => {
-  await page.goto('/');
-  const paths = await page.evaluate(() => [...new Set(window.DEFAULT_EVENTS
+  const { events } = await loadDataset(page);
+  const paths = [...new Set(events
     .flatMap((e) => e.images.map((i) => i.src))
-    .filter((src) => !/^https?:/.test(src)))]);
+    .filter((src) => !/^https?:/.test(src)))];
   expect(paths.length).toBeGreaterThan(0);
   const missing = [];
   for (const p of paths) {

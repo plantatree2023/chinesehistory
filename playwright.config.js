@@ -1,7 +1,8 @@
-// Playwright 测试配置：自动启动本地静态服务，只用 Chromium 运行 tests/ 下的用例。
+// Playwright 测试配置：自动启动只读模式的本地服务（测试不会改动仓库中的数据文件），只用 Chromium 运行 tests/ 下的用例。
 const { defineConfig, devices } = require('@playwright/test');
 
-const PORT = Number(process.env.PORT) || 4173;
+// 与 npm start 的默认端口（4173）不同，且从不复用已运行的服务，避免测试连到可写服务器改动真实数据
+const PORT = Number(process.env.TEST_PORT) || 4183;
 
 module.exports = defineConfig({
   testDir: './tests',
@@ -20,9 +21,9 @@ module.exports = defineConfig({
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
   ],
   webServer: {
-    command: `node tests/static-server.js ${PORT}`,
+    command: `node server.js --readonly --port ${PORT}`,
     url: `http://127.0.0.1:${PORT}/`,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: false,
     timeout: 30_000,
   },
 });

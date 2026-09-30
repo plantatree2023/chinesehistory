@@ -1,39 +1,22 @@
 (function () {
   'use strict';
 
-  var STORAGE_KEY = 'zh-history-timeline:v1';
+  // 数据集：data/<国家>_<语言>.json（国家为 ISO 3166 代码，语言为 ISO 639 代码），
+  // 可通过网址参数 ?data=jp_ja 切换，默认 cn_zh（中国 · 中文）
+  var DATASET_ID = /^[a-z]{2}_[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})?$/;
+  var dataset = (function () {
+    var id = new URLSearchParams(location.search).get('data');
+    return id && DATASET_ID.test(id) ? id : 'cn_zh';
+  })();
+  var STORAGE_KEY = 'zh-history-timeline:v1:' + dataset;
+  var LEGACY_STORAGE_KEY = 'zh-history-timeline:v1';   // 旧版本（仅中国数据）使用的键
   var MAX_IMAGES = 9;
   var MAX_DETAIL = 350;
   var MAX_PER_SCREEN = 6;   // 任意一屏宽度内最多显示的事件数
   var MIN_SUMMARY = 20;     // 卡片说明文字至少的字数（不计标点）
 
-  // 朝代 / 时期色带（用于时间轴着色与“当前时代”提示）
-  var ERAS = [
-    { name: '旧石器时代', start: -2000000, end: -10000, color: '#8d8373', range: '约200万年前—约1万年前', desc: '人类使用打制石器，以采集和狩猎为生' },
-    { name: '新石器时代', start: -10000, end: -2070, color: '#a39170', range: '约1万年前—前2070年', desc: '出现磨制石器、陶器、农业与定居村落' },
-    { name: '夏', start: -2070, end: -1600, color: '#7d6b4f', range: '约前2070年—前1600年', desc: '史书记载的第一个世袭制王朝' },
-    { name: '商', start: -1600, end: -1046, color: '#8a5a3b', range: '约前1600年—前1046年', desc: '青铜文明鼎盛，甲骨文成熟' },
-    { name: '西周', start: -1046, end: -771, color: '#6f7a45', range: '前1046年—前771年', desc: '推行分封制与宗法制，定都镐京' },
-    { name: '春秋', start: -770, end: -476, color: '#58804f', range: '前770年—前476年', desc: '周室衰微，诸侯争霸，孔子、老子出现' },
-    { name: '战国', start: -475, end: -221, color: '#3f7160', range: '前475年—前221年', desc: '七雄并立，变法图强，百家争鸣' },
-    { name: '秦', start: -221, end: -207, color: '#2b2b2b', range: '前221年—前207年', desc: '第一个大一统王朝，统一文字与度量衡' },
-    { name: '西汉', start: -206, end: 8, color: '#a8322a', range: '前202年—8年', desc: '定都长安，开通丝绸之路，独尊儒术' },
-    { name: '新', start: 9, end: 23, color: '#7a5a8a', range: '9年—23年', desc: '王莽代汉建立的短暂王朝' },
-    { name: '东汉', start: 25, end: 220, color: '#b8503c', range: '25年—220年', desc: '定都洛阳，造纸术改进，佛教传入' },
-    { name: '三国', start: 220, end: 280, color: '#5d6b8a', range: '220年—280年', desc: '魏、蜀、吴三国鼎立' },
-    { name: '晋', start: 280, end: 420, color: '#4f7f8f', range: '266年—420年', desc: '西晋短暂统一，东晋偏安江南' },
-    { name: '南北朝', start: 420, end: 589, color: '#6c8a7a', range: '420年—589年', desc: '南北对峙，民族大融合' },
-    { name: '隋', start: 589, end: 618, color: '#9a7a3a', range: '581年—618年', desc: '重归统一，开凿大运河，创立科举' },
-    { name: '唐', start: 618, end: 907, color: '#c0892f', range: '618年—907年', desc: '国力强盛、文化繁荣的开放王朝' },
-    { name: '五代十国', start: 907, end: 960, color: '#8c7a6b', range: '907年—979年', desc: '中原五代更替，南方十国并立' },
-    { name: '北宋', start: 960, end: 1127, color: '#3f7f86', range: '960年—1127年', desc: '重文轻武，经济文化高度发达' },
-    { name: '南宋', start: 1127, end: 1279, color: '#5b9098', range: '1127年—1279年', desc: '偏安江南，经济重心南移' },
-    { name: '元', start: 1279, end: 1368, color: '#4a5d8c', range: '1271年—1368年', desc: '蒙古族建立的大一统王朝，疆域辽阔' },
-    { name: '明', start: 1368, end: 1644, color: '#b0302a', range: '1368年—1644年', desc: '郑和下西洋，修筑长城与紫禁城' },
-    { name: '清', start: 1644, end: 1912, color: '#c9a13a', range: '1644年—1912年', desc: '最后一个封建王朝，晚期遭列强侵略' },
-    { name: '中华民国', start: 1912, end: 1949, color: '#3b5b92', range: '1912年—1949年', desc: '推翻帝制，历经军阀混战与抗日战争' },
-    { name: '中华人民共和国', start: 1949, end: 1990, color: '#c23a2e', range: '1949年至今', desc: '1949年10月1日成立' }
-  ];
+  // 朝代 / 时期色带（用于时间轴着色与“当前时代”提示），从数据集加载
+  var ERAS = [];
 
   var TICK_YEARS = [-1500000, -1000000, -500000, -200000, -100000, -50000, -20000, -10000, -5000, -4000, -3000];
   for (var ty = -2500; ty <= 1900; ty += 100) TICK_YEARS.push(ty);
@@ -121,19 +104,39 @@
   }
 
   // ---------- 数据 ----------
-  var events = load();
+  // 两种保存方式：
+  // - 本地文件模式：页面由本地服务器（npm start）提供且可写时，修改直接写回 data/<数据集>.json，
+  //   上传的图片保存为 images/ 下的文件；
+  // - 浏览器模式：其他情况（如 GitHub Pages），修改保存在当前浏览器的 localStorage 中。
+  var meta = null;          // 数据集中除事件外的信息（id、国家、语言、时期）
+  var defaultEvents = [];   // 数据文件中的事件
+  var events = [];
+  var fileMode = false;
+  var ready = false;
 
   function load() {
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
+      // 迁移旧版本保存的修改（旧版本只有中国数据）
+      if (!raw && dataset === 'cn_zh') {
+        raw = localStorage.getItem(LEGACY_STORAGE_KEY);
+        if (raw) {
+          localStorage.setItem(STORAGE_KEY, raw);
+          localStorage.removeItem(LEGACY_STORAGE_KEY);
+        }
+      }
       if (raw) {
         var data = JSON.parse(raw);
         if (Array.isArray(data)) return data;
       }
     } catch (e) { /* 忽略，使用默认数据 */ }
-    return clone(window.DEFAULT_EVENTS || []);
+    return clone(defaultEvents);
   }
   function save() {
+    if (fileMode) {
+      saveToFile();
+      return true;
+    }
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
       return true;
@@ -141,6 +144,46 @@
       toast('浏览器存储空间不足，修改仅在本次访问中有效');
       return false;
     }
+  }
+
+  function requestJson(url, method, body) {
+    return fetch(url, {
+      method: method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    }).then(function (res) {
+      return res.json().catch(function () { return {}; }).then(function (json) {
+        if (!res.ok) throw new Error(json.error || ('HTTP ' + res.status));
+        return json;
+      });
+    });
+  }
+  // 把内嵌（上传）的图片存为 images/ 下的文件，事件中只保留路径
+  function uploadInlineImages() {
+    var jobs = [];
+    events.forEach(function (ev) {
+      (ev.images || []).forEach(function (im) {
+        if (/^data:/.test(im.src)) jobs.push(im);
+      });
+    });
+    return jobs.reduce(function (p, im) {
+      return p.then(function () {
+        return requestJson('api/images', 'POST', { dataUrl: im.src }).then(function (r) { im.src = r.path; });
+      });
+    }, Promise.resolve());
+  }
+  // 依次写入，避免连续修改时后发的请求被先发的覆盖
+  var saveQueue = Promise.resolve();
+  function saveToFile() {
+    saveQueue = saveQueue.then(function () {
+      return uploadInlineImages().then(function () {
+        var payload = Object.assign({}, meta, { events: sorted() });
+        return requestJson('api/data/' + dataset, 'PUT', payload);
+      });
+    }).catch(function (e) {
+      toast('写入数据文件失败：' + e.message);
+    });
+    return saveQueue;
   }
   function sorted() {
     return events.slice().sort(function (a, b) { return a.year - b.year; });
@@ -390,6 +433,7 @@
     layout.placed = placed;
     layout.height = H;
     layout.width = right + PAD;
+    layout.sizeKey = viewW() + 'x' + H;   // 排版所依据的舞台尺寸
   }
 
   // 任意年份 -> 横坐标（在事件锚点间插值，保证刻度与事件位置一致）
@@ -768,6 +812,7 @@
   // 重新排版并保持当前屏幕中心的年代不变
   var relayoutT;
   function scheduleRelayout() {
+    if (!ready) return;
     clearTimeout(relayoutT);
     relayoutT = setTimeout(function () {
       var centerYear = yearAtX(-offset + viewW() / 2);
@@ -775,12 +820,11 @@
       if (centerYear != null) setOffset(viewW() / 2 - xOfYear(centerYear));
     }, 150);
   }
-  // 舞台尺寸变化（窗口缩放、字体加载后顶栏高度变化等）都会重新排版
-  var lastSize = '';
+  // 舞台尺寸变化（窗口缩放、字体加载后顶栏高度变化等）都会重新排版。
+  // 与“排版时实际使用的尺寸”比较，而不是排版之后再读取的尺寸：
+  // 否则尺寸恰好在排版过程中变化时，会被误认为已经排过，导致卡片超出显示区域。
   function onStageResize() {
-    var size = stage.clientWidth + 'x' + stage.clientHeight;
-    if (size === lastSize) return;
-    lastSize = size;
+    if (stage.clientWidth + 'x' + stage.clientHeight === layout.sizeKey) return;
     scheduleRelayout();
   }
   if (window.ResizeObserver) new ResizeObserver(onStageResize).observe(stage);
@@ -1147,7 +1191,7 @@
   $('resetBtn').addEventListener('click', function () {
     confirmDialog('恢复默认数据将清除你做的所有添加、修改和删除，确定吗？', function () {
       try { localStorage.removeItem(STORAGE_KEY); } catch (e) { /* noop */ }
-      events = clone(window.DEFAULT_EVENTS || []);
+      events = clone(defaultEvents);
       activeListId = null;
       renderTimeline();
       renderList();
@@ -1177,8 +1221,51 @@
   });
 
   // ---------- 启动 ----------
-  renderTimeline();
-  lastSize = stage.clientWidth + 'x' + stage.clientHeight;
-  setOffset(0);
-  stage.focus({ preventScroll: true });
+  function showLoadError(message) {
+    var box = el('div', 'load-error');
+    box.appendChild(el('strong', null, '无法加载历史数据'));
+    box.appendChild(el('p', null, message));
+    stage.appendChild(box);
+  }
+
+  function loadDataset() {
+    return fetch('data/' + dataset + '.json', { cache: 'no-cache' }).then(function (res) {
+      if (!res.ok) throw new Error('找不到数据文件 data/' + dataset + '.json（HTTP ' + res.status + '）');
+      return res.json();
+    }).then(function (data) {
+      if (!data || !Array.isArray(data.events) || !Array.isArray(data.eras)) throw new Error('数据文件格式不正确');
+      return data;
+    });
+  }
+  // 本地服务器会在 /api/status 声明可写；GitHub Pages 等静态托管没有该接口
+  function detectWritable() {
+    return fetch('api/status', { cache: 'no-store' })
+      .then(function (res) { return res.ok ? res.json() : null; })
+      .then(function (s) { return !!(s && s.writable); })
+      .catch(function () { return false; });
+  }
+
+  Promise.all([loadDataset(), detectWritable()]).then(function (results) {
+    var data = results[0];
+    fileMode = results[1];
+    meta = {};
+    Object.keys(data).forEach(function (k) { if (k !== 'events') meta[k] = data[k]; });
+    ERAS = data.eras;
+    defaultEvents = data.events;
+    events = fileMode ? clone(defaultEvents) : load();
+
+    $('resetBtn').hidden = fileMode;
+    $('storageNote').textContent = fileMode
+      ? '本地文件模式：修改会直接写入 data/' + dataset + '.json'
+      : '修改保存在当前浏览器中';
+
+    ready = true;
+    renderTimeline();
+    setOffset(0);
+    stage.focus({ preventScroll: true });
+  }).catch(function (e) {
+    showLoadError(location.protocol === 'file:'
+      ? '请在项目目录运行 npm start，然后通过 http://127.0.0.1:4173/ 访问。'
+      : e.message);
+  });
 })();

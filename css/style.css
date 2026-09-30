@@ -528,6 +528,21 @@ body.bars-hidden .bars-toggle { transform: rotate(180deg); }
 }
 .list-empty { padding: 30px; text-align: center; color: var(--muted); }
 .sidebar-foot { padding: 10px 20px 16px; border-top: 1px solid var(--line); }
+.storage-note { margin: 0 0 8px; font-size: 12px; color: var(--muted); }
+.load-error {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  max-width: min(420px, calc(100% - 32px));
+  padding: 18px 22px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  color: var(--ink-2);
+}
+.load-error p { margin: 8px 0 0; font-size: 14px; line-height: 1.6; }
 
 /* ---------- 弹窗 ---------- */
 .modal {
