@@ -18,6 +18,7 @@ const path = require('path');
 const crypto = require('crypto');
 
 const DATASET_ID = /^[a-z]{2}_[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})?$/;   // 例：cn_zh、jp_ja、cn_zh-Hant
+const LOCAL_IMAGE = /^images\/[A-Za-z0-9._-]+$/;             // 数据中图片路径的唯一合法形式
 const MAX_JSON_BYTES = 10 * 1024 * 1024;
 const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
 const IMAGE_TYPES = { 'image/jpeg': '.jpg', 'image/png': '.png', 'image/webp': '.webp', 'image/gif': '.gif' };
@@ -96,6 +97,8 @@ function validateDataset(id, data) {
     ev.images.forEach((im) => {
       if (!im || typeof im.src !== 'string') fail(`${where}.images 中的图片缺少 src`);
       if (im.src.startsWith('data:')) fail(`${where} 含未上传的内嵌图片`);
+      // 图片一律保存在本地 images/ 目录，网站不从外部地址加载图片
+      if (!LOCAL_IMAGE.test(im.src)) fail(`${where} 的图片必须是 images/ 下的本地文件：${im.src}`);
     });
   });
 }

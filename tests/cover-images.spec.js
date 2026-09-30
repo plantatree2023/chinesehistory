@@ -1,6 +1,12 @@
 // 代表图完整显示：图片框按原图比例绘制、不被裁切、不会过小。
-// 比例取自事件数据中记录的图片尺寸，本地图片再用实际加载后的像素尺寸复核，全程离线。
+// 所有图片都从本地加载：数据中只有 images/ 下的本地路径，文件齐全且尺寸与记录一致。
+// 比例取自事件数据中记录的图片尺寸，并用实际加载后的像素尺寸复核，全程离线。
+const fs = require('fs');
+const path = require('path');
 const { test, expect, openApp, loadDataset } = require('./helpers');
+const { imageSize } = require('../tools/wiki-import');
+
+const ROOT = path.resolve(__dirname, '..');
 
 const MIN_SIDE = 50;          // 代表图最短边下限（px）
 const RATIO_TOLERANCE = 0.04; // 显示比例与原图比例的允许误差
@@ -9,9 +15,8 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 1280, height: 640
   test(`${viewport.width}×${viewport.height}：代表图按原比例完整显示`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await openApp(page);
-    // 等待所有本地代表图加载完成（外部图片已被屏蔽，会显示为占位图）
+    // 等待所有代表图加载完成
     await page.evaluate(() => Promise.all([...document.querySelectorAll('img.card-img')]
-      .filter((img) => !/^https?:/.test(img.getAttribute('src')))
       .map((img) => { img.loading = 'eager'; return img.decode().catch(() => {}); })));
 
     const { events } = await loadDataset(page);
@@ -46,22 +51,41 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 1280, height: 640
       return out;
     }, { tol: RATIO_TOLERANCE, minSide: MIN_SIDE, events });
 
-    expect(report.checked, '应检查到带尺寸信息的代表图').toBeGreaterThan(50);
-    expect(report.loadedLocal, '应有本地代表图成功加载').toBeGreaterThan(30);
+    const covers = events.filter((e) => e.images.length).length;
+    expect(report.checked, '每张代表图都应带尺寸信息').toBe(covers);
+    expect(report.loadedLocal, '每张代表图都应从本地加载成功').toBe(covers);
+    expect(await page.locator('.card .img-placeholder').count(), '只有没有图片的事件显示占位图').toBe(events.length - covers);
     expect(report.problems).toEqual([]);
   });
 }
 
-test('数据中的本地图片文件都存在且可访问', async ({ page, request }) => {
+test('数据中的图片都是 images/ 下的本地文件：文件存在、可访问、尺寸与记录一致，没有外部地址', async ({ page, request }) => {
   const { events } = await loadDataset(page);
-  const paths = [...new Set(events
-    .flatMap((e) => e.images.map((i) => i.src))
-    .filter((src) => !/^https?:/.test(src)))];
-  expect(paths.length).toBeGreaterThan(0);
-  const missing = [];
-  for (const p of paths) {
-    const res = await request.get('/' + p);
-    if (!res.ok()) missing.push(`${p} (${res.status()})`);
+  const images = events.flatMap((e) => e.images.map((img) => ({ ...img, title: e.title })));
+  expect(images.length).toBeGreaterThan(0);
+  const problems = [];
+  for (const img of images) {
+    if (!/^images\/[A-Za-z0-9._-]+$/.test(img.src)) { problems.push(`${img.title}：不是本地图片 ${img.src}`); continue; }
+    const extra = Object.keys(img).filter((k) => !['src', 'w', 'h', 'caption', 'title'].includes(k));
+    if (extra.length) problems.push(`${img.title}：多余字段 ${extra.join(',')}`);
+    const file = path.join(ROOT, img.src);
+    if (!fs.existsSync(file)) { problems.push(`${img.title}：文件不存在 ${img.src}`); continue; }
+    const size = imageSize(fs.readFileSync(file));
+    if (!size || size.w !== img.w || size.h !== img.h) problems.push(`${img.title}：尺寸与记录不符 ${img.src}`);
   }
-  expect(missing).toEqual([]);
+  expect(problems).toEqual([]);
+  // 抽查通过网站服务访问
+  for (const src of [...new Set(images.map((i) => i.src))].slice(0, 20)) {
+    expect((await request.get('/' + src)).ok(), src).toBeTruthy();
+  }
+});
+
+test('页面不请求任何外部图片', async ({ page }) => {
+  const external = [];
+  page.on('request', (req) => { if (req.resourceType() === 'image' && !req.url().startsWith('http://127.0.0.1')) external.push(req.url()); });
+  await openApp(page);
+  await page.locator('#stage').focus();
+  await page.keyboard.press('End');
+  await page.waitForTimeout(500);
+  expect(external).toEqual([]);
 });

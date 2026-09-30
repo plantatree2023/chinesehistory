@@ -5,21 +5,21 @@
 //   node tools/wiki-import.js --file data/cn_zh.json 淝水之战 甲午战争
 //   node tools/wiki-import.js --file data/cn_zh.json --list topics.txt
 //   node tools/wiki-import.js --file data/cn_zh.json --dry-run 淝水之战
-//   node tools/wiki-import.js --file data/cn_zh.json --download-images 淝水之战
+//   node tools/wiki-import.js --file data/cn_zh.json --refresh-images 淝水之战
 //
 // 条目表（--list）每行一个关键词，可用“关键词|年份”指定年份（公元前写负数），# 开头为注释。
 //
 // 规则：
 // - 关键词先按条目名查询，查不到再用维基搜索；语言由文件名 <国家>_<语言>.json 决定。
-// - 已存在的条目（事件名与关键词相同，或对应同一维基条目）：只更新来自维基的内容
-//   （详细说明、图片、来源），保留事件名、年份、简要说明、重大事件标记等人工内容；
-//   若指定了年份，则同时更新年份。已下载到本地的图片保留本地副本。
+// - 图片一律下载到本地：维基图片（维基生成的缩略图）下载到数据文件上一级目录的 images/
+//   （data/cn_zh.json → images/），按内容哈希命名、同一张图只存一份，并记录宽高；网站只从本地加载图片。
+//   单张图片下载失败时跳过该图片并给出提示。
+// - 已存在的条目（事件名与关键词相同，或对应同一维基条目）：更新详细说明、来源等来自维基的内容，
+//   保留事件名、年份、简要说明、重大事件标记等人工内容；若指定了年份，则同时更新年份。
+//   已有图片默认保留（没有图片的条目会从维基补上）；加 --refresh-images 则用维基的图片整组替换。
 // - 新条目：事件名使用关键词；年份依次取自：指定的年份 → Wikidata（时间点 / 开始时间 / 成立时间 / 出生日期等）
 //   → 简介文字中的第一个年份（会提示核对）；都无法确定时不新增并报错。
-// - 写入前用网站服务器的同一套规则校验数据，并原子写入；--dry-run 只输出将做的修改。
-// - --download-images：把所处理条目的维基图片（维基生成的缩略图）下载到数据文件上一级目录的 images/
-//   （data/cn_zh.json → images/），按内容哈希命名、同图只存一份，并记录宽高；原地址保留在 remote 中。
-//   单张图片下载失败时保留维基地址并给出提示。
+// - 写入前用网站服务器的同一套规则校验数据，并原子写入；--dry-run 只输出将做的修改，不下载图片、不写文件。
 //
 // 退出码：0 全部成功；1 有关键词失败（其余成功的仍会写入）；2 参数或文件错误。
 //
@@ -46,7 +46,7 @@ class UsageError extends Error {}
 
 // ---------- 参数 ----------
 function parseArgs(argv) {
-  const opts = { keywords: [], dryRun: false, downloadImages: false, delay: 1000 };
+  const opts = { keywords: [], dryRun: false, refreshImages: false, delay: 1000 };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     const value = () => {
@@ -58,7 +58,7 @@ function parseArgs(argv) {
     else if (a === '--year') opts.year = parseYear(value());
     else if (a === '--delay') opts.delay = Number(value());
     else if (a === '--dry-run' || a === '-n') opts.dryRun = true;
-    else if (a === '--download-images' || a === '-d') opts.downloadImages = true;
+    else if (a === '--refresh-images') opts.refreshImages = true;
     else if (a === '--help' || a === '-h') opts.help = true;
     else if (a.startsWith('-')) throw new UsageError(`未知参数：${a}`);
     else opts.keywords.push(a);
@@ -342,28 +342,29 @@ function imageSize(buf) {
   return null;
 }
 
-// 把事件中仍引用维基地址的图片下载到本地，返回 { downloaded, planned, failed }
-async function downloadImages(client, event, imagesDir, dryRun) {
-  const stats = { downloaded: 0, planned: 0, failed: [] };
-  const images = [];
-  for (const img of event.images || []) {
-    if (!/^https?:/i.test(img.src)) { images.push(img); continue; }
-    if (dryRun) { stats.planned++; images.push(img); continue; }
+// 下载一张图片到 imagesDir，返回数据中使用的 { src: 'images/<哈希>.<扩展名>', w, h }
+async function downloadImage(client, url, imagesDir) {
+  const buf = await client.getBinary(url, MAX_IMAGE_BYTES);
+  const size = imageSize(buf);
+  if (!size || !size.w || !size.h) throw new Error('不是 JPEG / PNG / GIF / WebP 图片');
+  const name = crypto.createHash('sha256').update(buf).digest('hex').slice(0, 16) + IMAGE_EXT[size.type];
+  const file = path.join(imagesDir, name);
+  if (!fs.existsSync(file)) writeAtomic(file, buf);
+  return { src: `images/${name}`, w: size.w, h: size.h };
+}
+
+// 下载维基图片列表（candidates 中的 src 为维基地址），返回本地图片与统计；dry run 时只计数
+async function downloadAll(client, candidates, imagesDir, dryRun) {
+  const stats = { images: [], downloaded: 0, planned: 0, failed: [] };
+  for (const c of candidates) {
+    if (dryRun) { stats.planned++; continue; }
     try {
-      const buf = await client.getBinary(img.src, MAX_IMAGE_BYTES);
-      const size = imageSize(buf);
-      if (!size || !size.w || !size.h) throw new Error('不是 JPEG / PNG / GIF / WebP 图片');
-      const name = crypto.createHash('sha256').update(buf).digest('hex').slice(0, 16) + IMAGE_EXT[size.type];
-      const file = path.join(imagesDir, name);
-      if (!fs.existsSync(file)) writeAtomic(file, buf);
-      images.push({ ...img, src: `images/${name}`, remote: img.src, w: size.w, h: size.h });
+      stats.images.push({ ...(await downloadImage(client, c.src, imagesDir)), caption: c.caption || '' });
       stats.downloaded++;
     } catch (e) {
-      stats.failed.push(`${img.src}：${e.message}`);
-      images.push(img);
+      stats.failed.push(`${c.src}：${e.message}`);
     }
   }
-  event.images = images;
   return stats;
 }
 
@@ -383,15 +384,6 @@ function nextId(events) {
   return `e${String(n).padStart(3, '0')}`;
 }
 
-// 更新图片时保留已下载到本地的副本（本地图片的 remote 与维基地址一致）
-function mergeImages(existing, fresh) {
-  if (!fresh.length) return existing;
-  return fresh.map((img) => {
-    const local = (existing || []).find((e) => e.remote === img.src || e.src === img.src);
-    return local ? { ...local, caption: local.caption || img.caption } : img;
-  });
-}
-
 const FIELD_NAMES = { title: '事件名', year: '年份', date: '时间', short: '简要说明', detail: '详细说明', images: '图片', source: '来源', wiki: '维基条目' };
 
 function changedFields(before, after) {
@@ -406,9 +398,9 @@ async function importOne(client, data, info, { keyword, year }, opts = {}) {
   const wikiTitle = (summary.titles && summary.titles.canonical ? summary.titles.canonical.replace(/_/g, ' ') : summary.title);
   const text = cleanExtract(summary.extract);
   const media = await client.mediaList(wikiTitle);
+  const candidates = makeImages(summary, media);   // 维基图片地址，下载后才写入数据
   const fromWiki = {
     detail: makeDetail(text),
-    images: makeImages(summary, media),
     source: pageUrl(client.wikiBase, wikiTitle),
     wiki: wikiTitle,
   };
@@ -418,13 +410,22 @@ async function importOne(client, data, info, { keyword, year }, opts = {}) {
   let when = year != null ? { year, precision: 9, from: '指定' } : null;
 
   if (existing) {
-    const updated = { ...existing, ...fromWiki, images: mergeImages(existing.images, fromWiki.images) };
+    const updated = { ...existing, ...fromWiki };
     if (when) Object.assign(updated, { year: when.year, date: dateLabel(when.year, when.precision, info.lang) });
     if (charCount(existing.short) < MIN_SUMMARY) updated.short = makeShort(text);
-    if (opts.downloadImages) notes.push(...imageNotes(await downloadImages(client, updated, opts.imagesDir, opts.dryRun)));
+    let imageCount = (existing.images || []).length;
+    if (opts.refreshImages || !imageCount) {
+      const dl = await downloadAll(client, candidates, opts.imagesDir, opts.dryRun);
+      notes.push(...imageNotes(dl));
+      // dry run 不下载，保持原有图片；下载全部失败时也不清空原有图片
+      if (!opts.dryRun && dl.images.length) updated.images = dl.images;
+      imageCount = opts.dryRun ? dl.planned : updated.images.length;
+    }
     const fields = changedFields(existing, updated);
     data.events[data.events.indexOf(existing)] = updated;
-    return { ok: true, keyword, action: fields.length ? 'update' : 'same', event: updated, fields, wikiTitle, notes };
+    const planned = opts.dryRun && (opts.refreshImages || !(existing.images || []).length) && candidates.length;
+    const action = fields.length || planned ? 'update' : 'same';
+    return { ok: true, keyword, action, event: updated, fields: planned && !fields.includes('images') ? [...fields, 'images'] : fields, wikiTitle, notes, imageCount };
   }
 
   if (!when && summary.wikibase_item) when = yearFromEntity(await client.entity(summary.wikibase_item), summary.wikibase_item);
@@ -441,18 +442,21 @@ async function importOne(client, data, info, { keyword, year }, opts = {}) {
     title: keyword,
     short: makeShort(text),
     ...fromWiki,
+    images: [],
     major: false,
   };
-  if (opts.downloadImages) notes.push(...imageNotes(await downloadImages(client, event, opts.imagesDir, opts.dryRun)));
+  const dl = await downloadAll(client, candidates, opts.imagesDir, opts.dryRun);
+  event.images = dl.images;
+  notes.push(...imageNotes(dl));
   data.events.push(event);
-  return { ok: true, keyword, action: 'add', event, fields: Object.keys(FIELD_NAMES), wikiTitle, notes, yearFrom: when.from };
+  return { ok: true, keyword, action: 'add', event, fields: Object.keys(FIELD_NAMES), wikiTitle, notes, yearFrom: when.from, imageCount: opts.dryRun ? dl.planned : dl.images.length };
 }
 
 function imageNotes(stats) {
   const notes = [];
   if (stats.downloaded) notes.push(`已下载 ${stats.downloaded} 张图片到本地`);
   if (stats.planned) notes.push(`将下载 ${stats.planned} 张图片到本地`);
-  for (const f of stats.failed) notes.push(`图片下载失败，保留维基地址：${f}`);
+  for (const f of stats.failed) notes.push(`图片下载失败，已跳过：${f}`);
   return notes;
 }
 
@@ -460,7 +464,7 @@ function describe(r) {
   if (!r.ok) return `✗ ${r.keyword}：${r.message}`;
   const where = r.wikiTitle && r.wikiTitle !== r.keyword ? `（维基条目：${r.wikiTitle}）` : '';
   const head = {
-    add: `+ 新增 ${r.event.title}${where}：${r.event.date}，${r.event.images.length} 张图片，年份来自${r.yearFrom}`,
+    add: `+ 新增 ${r.event.title}${where}：${r.event.date}，${r.imageCount} 张图片，年份来自${r.yearFrom}`,
     update: `~ 更新 ${r.event.title}${where}：${r.fields.map((f) => FIELD_NAMES[f]).join('、')}`,
     same: `= 无变化 ${r.event.title}${where}`,
   }[r.action];
@@ -524,4 +528,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { main, parseArgs, readList, datasetInfo, cleanExtract, makeDetail, makeShort, makeImages, parseWikidataTime, dateLabel, imageSize };
+module.exports = { main, parseArgs, readList, datasetInfo, cleanExtract, makeDetail, makeShort, makeImages, parseWikidataTime, dateLabel, imageSize, downloadImage, WikiClient };

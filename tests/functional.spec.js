@@ -1,4 +1,6 @@
 // 核心功能：时间轴浏览、事件详情、编辑 / 新增 / 删除、侧栏、数据持久化。
+const fs = require('fs');
+const path = require('path');
 const { test, expect, openApp, loadDataset, trackOffset, waitForStableLayout, DEFAULT_EVENT_COUNT, STORAGE_KEY } = require('./helpers');
 
 test.use({ viewport: { width: 1440, height: 860 } });
@@ -96,12 +98,14 @@ test.describe('新增事件', () => {
     await page.fill('#editForm [name=detail]', '详细'.repeat(200));
     expect((await page.inputValue('#editForm [name=detail]')).length).toBe(350);
 
-    for (let i = 0; i < 9; i++) {
-      await page.fill('#imageUrlInput', `https://example.com/${i}.jpg`);
-      await page.click('#imageUrlAdd');
-    }
+    // 编辑器只能上传图片（没有输入网址的方式）；一次选 10 张，只保留 9 张
+    await expect(page.locator('#imageUrlInput')).toHaveCount(0);
+    const dir = path.join(__dirname, '..', 'images');
+    const files = fs.readdirSync(dir).filter((f) => f.endsWith('.jpg')).slice(0, 10).map((f) => path.join(dir, f));
+    await page.setInputFiles('#imageFileInput', files);
     await expect(page.locator('#imageEditor .img-slot')).toHaveCount(9);
-    await expect(page.locator('#imageUrlAdd')).toBeDisabled();
+    await expect(page.locator('#formError')).toContainText('最多只能添加 9 张图片');
+    await expect(page.locator('#imageFileInput')).toBeDisabled();
 
     await page.click('#editForm button[type=submit]');
     await expect(page.locator('.card')).toHaveCount(DEFAULT_EVENT_COUNT + 1);

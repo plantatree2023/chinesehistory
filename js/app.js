@@ -87,16 +87,12 @@
       img.loading = 'lazy';
       img.decoding = 'async';
       img.draggable = false;
-      img.addEventListener('error', function onErr() {
-        img.removeEventListener('error', onErr);
-        var swap = function () {
-          var ph = placeholder(cls, fallbackChar);
-          ph.style.cssText = img.style.cssText;
-          img.replaceWith(ph);
-        };
-        if (image.remote && img.src.indexOf(image.remote) === -1) { img.src = image.remote; img.addEventListener('error', swap); }
-        else swap();
-      });
+      // 图片都从本地加载；加载失败（文件缺失等）时显示同尺寸的占位图
+      img.addEventListener('error', function () {
+        var ph = placeholder(cls, fallbackChar);
+        ph.style.cssText = img.style.cssText;
+        img.replaceWith(ph);
+      }, { once: true });
       return img;
     }
     return placeholder(cls, fallbackChar);
@@ -963,7 +959,7 @@
   function showLightbox() {
     var im = lb.imgs[lb.i];
     var img = $('lightboxImg');
-    img.src = im.full || im.src;
+    img.src = im.src;
     img.alt = im.caption || '';
     $('lightboxCaption').textContent = (im.caption || '') + (lb.imgs.length > 1 ? '  (' + (lb.i + 1) + '/' + lb.imgs.length + ')' : '');
     var many = lb.imgs.length > 1;
@@ -971,10 +967,6 @@
     document.querySelector('.lb-next').hidden = !many;
   }
   function closeLightbox() { $('lightbox').hidden = true; }
-  $('lightboxImg').addEventListener('error', function () {
-    var im = lb.imgs[lb.i];
-    if (im && im.full && this.src.indexOf(im.src) === -1) this.src = im.src;
-  });
   $('lightbox').addEventListener('click', function (e) {
     if (e.target.closest('.lb-prev')) { lb.i = (lb.i - 1 + lb.imgs.length) % lb.imgs.length; showLightbox(); }
     else if (e.target.closest('.lb-next')) { lb.i = (lb.i + 1) % lb.imgs.length; showLightbox(); }
@@ -1006,7 +998,6 @@
     form.source.value = ev ? (ev.source || '') : '';
     form.major.checked = !!(ev && ev.major);
     draftImages = ev ? clone(ev.images || []) : [];
-    $('imageUrlInput').value = '';
     $('formError').textContent = '';
     renderImageEditor();
     updateCounters();
@@ -1051,26 +1042,9 @@
       box.appendChild(slot);
     });
     var full = draftImages.length >= MAX_IMAGES;
-    $('imageUrlInput').disabled = full;
-    $('imageUrlAdd').disabled = full;
     $('imageFileInput').disabled = full;
   }
 
-  function addImageUrl() {
-    var inp = $('imageUrlInput');
-    var url = inp.value.trim();
-    if (!url) return;
-    if (!/^(https?:|data:image\/)/i.test(url)) { $('formError').textContent = '请输入以 http(s) 开头的图片网址'; return; }
-    if (draftImages.length >= MAX_IMAGES) { $('formError').textContent = '最多只能添加 9 张图片'; return; }
-    draftImages.push({ src: url, caption: '' });
-    inp.value = '';
-    $('formError').textContent = '';
-    renderImageEditor();
-  }
-  $('imageUrlAdd').addEventListener('click', addImageUrl);
-  $('imageUrlInput').addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') { e.preventDefault(); addImageUrl(); }
-  });
 
   // 上传的图片压缩后以 dataURL 保存在本地
   function resizeFile(file, maxSide, cb) {

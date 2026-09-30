@@ -31,7 +31,7 @@ function page(title, extract, { qid, images = [], thumbnail } = {}) {
 }
 const time = (t, precision = 9) => ({ claims: { P585: [{ mainsnak: { datavalue: { value: { time: t, precision } } } }] } });
 
-function mockWiki(pages, entities, { searchMap = {}, rateLimitOnce = [], files = {} } = {}) {
+function mockWiki(pages, entities, { searchMap = {}, rateLimitOnce = [], files = IMAGE_FILES } = {}) {
   const hits = [];
   const limited = new Set(rateLimitOnce);
   const server = http.createServer((req, res) => {
@@ -126,22 +126,36 @@ function run(args, base) {
   });
 }
 
+// 测试图片：仓库中一张已知尺寸的 JPEG，以及生成的 PNG；由模拟服务的 /img/ 提供
+const jpegRef = JSON.parse(fs.readFileSync(REPO_DATA, 'utf8')).events.flatMap((e) => e.images).find((i) => /\.jpg$/.test(i.src) && i.w);
+const jpeg = fs.readFileSync(path.join(ROOT, jpegRef.src));
+const red = png(40, 30, 200);
+const IMAGE_FILES = {
+  'a.png': { body: red, type: 'image/png' },
+  'same-bytes.png': { body: red, type: 'image/png' },
+  'b.jpg': { body: jpeg, type: 'image/jpeg' },
+  'Flag_of_X.svg': { body: Buffer.from('<svg/>'), type: 'image/svg+xml' },
+  'page.html': { body: Buffer.from('<html>not an image</html>'), type: 'text/html' },
+};
+const LOCAL_SRC = /^images\/[0-9a-f]{16}\.(png|jpg)$/;
+
+const imagesDir = () => path.join(tmp, 'images');
 const readData = () => JSON.parse(fs.readFileSync(dataFile, 'utf8'));
 const find = (title) => readData().events.find((e) => e.title === title);
 const charCount = (t) => t.replace(/[\s，。、；：“”‘’《》（）！？·—…,.;:()!?"'-]/g, '').length;
 
 test.describe('单个关键词', () => {
-  test('新增条目：年份来自 Wikidata，生成说明、图片和来源，并按年份排序写入', async () => {
-    const base = await startWiki({
+  test('新增条目：年份来自 Wikidata，生成说明和来源，图片下载到本地，并按年份排序写入', async () => {
+    const base = await startWiki((b) => ({
       '测试战役': page('测试战役', `测试战役是一场用于自动化测试的虚构战役（英语：Test Battle），发生于战国时代。${LONG_TEXT}`, {
-        qid: 'Q1', images: ['https://img.example/a.jpg', 'https://img.example/Flag_of_X.svg', 'https://img.example/b.jpg'],
-        thumbnail: { source: 'https://img.example/a.jpg', width: 400, height: 300 },
+        qid: 'Q1', images: [`${b}/img/a.png`, `${b}/img/Flag_of_X.svg`, `${b}/img/b.jpg`],
       }),
-    }, { Q1: time('-0260-00-00T00:00:00Z') });
+    }), { Q1: time('-0260-00-00T00:00:00Z') });
 
     const r = await run(['--file', dataFile, '测试战役'], base);
     expect(r.code, r.stdout + r.stderr).toBe(0);
     expect(r.stdout).toContain('+ 新增 测试战役');
+    expect(r.stdout).toContain('已下载 2 张图片到本地');
 
     const data = readData();
     expect(data.events).toHaveLength(101);
@@ -152,25 +166,31 @@ test.describe('单个关键词', () => {
     expect(ev.detail).not.toContain('英语');
     expect(charCount(ev.short)).toBeGreaterThanOrEqual(20);
     expect(ev.short.length).toBeLessThanOrEqual(60);
-    // 旗帜 / SVG 被过滤；首图带尺寸
-    expect(ev.images.map((i) => i.src)).toEqual(['https://img.example/a.jpg', 'https://img.example/b.jpg']);
-    expect(ev.images[0]).toMatchObject({ w: 400, h: 300 });
+    // 旗帜 / SVG 被过滤；图片只保存本地路径与宽高，没有外部地址
+    expect(ev.images).toHaveLength(2);
+    expect(ev.images[0]).toMatchObject({ w: 40, h: 30, caption: '图注1' });
+    expect(ev.images[1]).toMatchObject({ w: jpegRef.w, h: jpegRef.h });
+    for (const img of ev.images) {
+      expect(img.src).toMatch(LOCAL_SRC);
+      expect(Object.keys(img).sort()).toEqual(['caption', 'h', 'src', 'w']);
+      expect(fs.existsSync(path.join(tmp, img.src))).toBe(true);
+    }
     // 仍按年份排序，且能通过网站服务器的数据校验
     const years = data.events.map((e) => e.year);
     expect(years).toEqual([...years].sort((a, b) => a - b));
     expect(() => validateDataset('cn_zh', data)).not.toThrow();
   });
 
-  test('更新已存在的条目：只更新来自维基的内容，保留人工内容和本地图片', async () => {
+  test('更新已存在的条目：只更新来自维基的内容，保留人工内容和已有图片', async () => {
     const before = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
-    const target = before.events.find((e) => e.images[0] && e.images[0].remote && !/^https?:/.test(e.images[0].src));
+    const target = before.events.find((e) => e.images.length >= 2);
     target.major = true;
     fs.writeFileSync(dataFile, JSON.stringify(before, null, 2));
-    const base = await startWiki({
+    const base = await startWiki((b) => ({
       [target.title]: page(target.title, `更新后的简介：${target.title}是一个重要的历史事件，这段文字来自模拟的维基百科。`, {
-        images: [target.images[0].remote, 'https://img.example/new.jpg'],
+        images: [`${b}/img/a.png`],
       }),
-    });
+    }));
 
     const r = await run(['--file', dataFile, target.title], base);
     expect(r.code, r.stdout + r.stderr).toBe(0);
@@ -179,8 +199,33 @@ test.describe('单个关键词', () => {
     expect(readData().events).toHaveLength(100);
     expect(ev.detail).toContain('更新后的简介');
     expect(ev).toMatchObject({ id: target.id, year: target.year, date: target.date, short: target.short, major: true });
-    expect(ev.images[0].src, '已下载的本地图片应保留').toBe(target.images[0].src);
-    expect(ev.images[1].src).toBe('https://img.example/new.jpg');
+    expect(ev.images, '已有图片保持不变').toEqual(target.images);
+    expect(wiki.hits.some((h) => h.startsWith('/img/')), '不应下载图片').toBe(false);
+  });
+
+  test('--refresh-images 用维基图片整组替换已有图片', async () => {
+    const target = readData().events.find((e) => e.images.length >= 2);
+    const base = await startWiki((b) => ({
+      [target.title]: page(target.title, `${target.title}的简介文字，用于测试整组替换图片。`, { images: [`${b}/img/b.jpg`, `${b}/img/a.png`] }),
+    }));
+    const r = await run(['--file', dataFile, '--refresh-images', target.title], base);
+    expect(r.code, r.stdout + r.stderr).toBe(0);
+    expect(r.stdout).toContain('已下载 2 张图片到本地');
+    const imgs = find(target.title).images;
+    expect(imgs.map((i) => [i.w, i.h])).toEqual([[jpegRef.w, jpegRef.h], [40, 30]]);
+    imgs.forEach((i) => expect(i.src).toMatch(LOCAL_SRC));
+  });
+
+  test('已存在但没有图片的条目会从维基补上图片', async () => {
+    const target = readData().events.find((e) => e.images.length === 0);
+    const base = await startWiki((b) => ({
+      [target.title]: page(target.title, `${target.title}的简介文字，用于测试给没有图片的条目补图。`, { images: [`${b}/img/a.png`] }),
+    }));
+    const r = await run(['--file', dataFile, target.title], base);
+    expect(r.code, r.stdout + r.stderr).toBe(0);
+    expect(r.stdout).toContain(`~ 更新 ${target.title}`);
+    expect(r.stdout).toContain('已下载 1 张图片到本地');
+    expect(find(target.title).images).toEqual([expect.objectContaining({ w: 40, h: 30, src: expect.stringMatching(LOCAL_SRC) })]);
   });
 
   test('--year 指定年份时同时更新已存在条目的年份', async () => {
@@ -304,34 +349,23 @@ test.describe('参数与文件', () => {
   });
 });
 
-test.describe('下载图片（--download-images）', () => {
-  // 仓库中一张已知尺寸的 JPEG 作为测试图片
-  const jpegRef = JSON.parse(fs.readFileSync(REPO_DATA, 'utf8')).events.flatMap((e) => e.images).find((i) => /^images\/.+\.jpg$/.test(i.src) && i.w);
-  const jpeg = fs.readFileSync(path.join(ROOT, jpegRef.src));
-  const red = png(40, 30, 200);
-  const files = {
-    'a.png': { body: red, type: 'image/png' },
-    'same-bytes.png': { body: red, type: 'image/png' },
-    'b.jpg': { body: jpeg, type: 'image/jpeg' },
-    'page.html': { body: Buffer.from('<html>not an image</html>'), type: 'text/html' },
-  };
-  const imagesDir = () => path.join(tmp, 'images');
+test.describe('图片下载', () => {
 
-  test('下载到 images/，按内容命名去重，记录宽高并保留原地址', async () => {
+  test('下载到 images/，按内容命名去重并记录宽高', async () => {
     const base = await startWiki((b) => ({
       '下载图片条目': page('下载图片条目', '下载图片条目是一个用于测试把维基图片下载到本地的虚构历史事件。', {
         qid: 'Q9', images: [`${b}/img/a.png`, `${b}/img/b.jpg`, `${b}/img/same-bytes.png`],
       }),
-    }), { Q9: time('+1700-00-00T00:00:00Z') }, { files });
+    }), { Q9: time('+1700-00-00T00:00:00Z') });
 
-    const r = await run(['--file', dataFile, '--download-images', '下载图片条目'], base);
+    const r = await run(['--file', dataFile, '下载图片条目'], base);
     expect(r.code, r.stdout + r.stderr).toBe(0);
     expect(r.stdout).toContain('已下载 3 张图片到本地');
 
     const imgs = find('下载图片条目').images;
-    expect(imgs.map((i) => i.remote)).toEqual([`${base}/img/a.png`, `${base}/img/b.jpg`, `${base}/img/same-bytes.png`]);
+    expect(imgs).toHaveLength(3);
     for (const img of imgs) {
-      expect(img.src).toMatch(/^images\/[0-9a-f]{16}\.(png|jpg)$/);
+      expect(img.src).toMatch(LOCAL_SRC);
       expect(fs.existsSync(path.join(tmp, img.src)), img.src).toBe(true);
     }
     expect(imgs[0]).toMatchObject({ w: 40, h: 30 });
@@ -343,27 +377,26 @@ test.describe('下载图片（--download-images）', () => {
     expect(() => validateDataset('cn_zh', readData())).not.toThrow();
 
     // 再次运行：图片已在本地，不重复下载，条目无变化
-    const again = await run(['--file', dataFile, '--download-images', '下载图片条目'], base);
+    const again = await run(['--file', dataFile, '下载图片条目'], base);
     expect(again.stdout).toContain('= 无变化 下载图片条目');
     expect(fs.readdirSync(imagesDir())).toHaveLength(2);
   });
 
-  test('单张图片下载失败或不是图片时保留维基地址，其余照常', async () => {
+  test('单张图片下载失败或不是图片时跳过该图，其余照常', async () => {
     const base = await startWiki((b) => ({
       '部分失败条目': page('部分失败条目', '部分失败条目是一个用于测试图片下载失败时如何处理的虚构历史事件。', {
         qid: 'Q10', images: [`${b}/img/a.png`, `${b}/img/missing.jpg`, `${b}/img/page.html`],
       }),
-    }), { Q10: time('+1701-00-00T00:00:00Z') }, { files });
+    }), { Q10: time('+1701-00-00T00:00:00Z') });
 
-    const r = await run(['--file', dataFile, '--download-images', '部分失败条目'], base);
+    const r = await run(['--file', dataFile, '部分失败条目'], base);
     expect(r.code, r.stdout + r.stderr).toBe(0);
     expect(r.stdout).toContain('已下载 1 张图片到本地');
-    expect(r.stdout).toContain(`图片下载失败，保留维基地址：${base}/img/missing.jpg`);
-    expect(r.stdout).toContain(`图片下载失败，保留维基地址：${base}/img/page.html：不是 JPEG / PNG / GIF / WebP 图片`);
+    expect(r.stdout).toContain(`图片下载失败，已跳过：${base}/img/missing.jpg`);
+    expect(r.stdout).toContain(`图片下载失败，已跳过：${base}/img/page.html：不是 JPEG / PNG / GIF / WebP 图片`);
     const imgs = find('部分失败条目').images;
-    expect(imgs[0].src).toMatch(/^images\//);
-    expect(imgs[1].src).toBe(`${base}/img/missing.jpg`);
-    expect(imgs[2].src).toBe(`${base}/img/page.html`);
+    expect(imgs).toHaveLength(1);
+    expect(imgs[0].src).toMatch(LOCAL_SRC);
   });
 
   test('dry run 只显示将下载的数量，不下载也不写入', async () => {
@@ -371,31 +404,14 @@ test.describe('下载图片（--download-images）', () => {
       '预演下载条目': page('预演下载条目', '预演下载条目是一个用于测试 dry run 时不下载图片的虚构历史事件。', {
         qid: 'Q11', images: [`${b}/img/a.png`, `${b}/img/b.jpg`],
       }),
-    }), { Q11: time('+1702-00-00T00:00:00Z') }, { files });
+    }), { Q11: time('+1702-00-00T00:00:00Z') });
     const before = sha256(dataFile);
-    const r = await run(['--file', dataFile, '--download-images', '--dry-run', '预演下载条目'], base);
+    const r = await run(['--file', dataFile, '--dry-run', '预演下载条目'], base);
     expect(r.code, r.stdout + r.stderr).toBe(0);
     expect(r.stdout).toContain('将下载 2 张图片到本地');
     expect(wiki.hits.some((h) => h.startsWith('/img/')), '不应请求图片').toBe(false);
     expect(fs.existsSync(imagesDir())).toBe(false);
     expect(sha256(dataFile)).toBe(before);
-  });
-
-  test('更新已存在的条目时保留已有本地图片，只下载新图片', async () => {
-    const data = readData();
-    const target = data.events.find((e) => e.images[0] && e.images[0].remote && !/^https?:/.test(e.images[0].src));
-    const base = await startWiki((b) => ({
-      [target.title]: page(target.title, `${target.title}是一个历史事件，这段更新后的简介来自模拟维基百科。`, {
-        images: [target.images[0].remote, `${b}/img/a.png`],
-      }),
-    }), {}, { files });
-    const r = await run(['--file', dataFile, '--download-images', target.title], base);
-    expect(r.code, r.stdout + r.stderr).toBe(0);
-    expect(r.stdout).toContain('已下载 1 张图片到本地');
-    const imgs = find(target.title).images;
-    expect(imgs[0].src, '已有的本地图片不变').toBe(target.images[0].src);
-    expect(imgs[1]).toMatchObject({ remote: `${base}/img/a.png`, w: 40, h: 30 });
-    expect(wiki.hits.filter((h) => h.startsWith('/img/'))).toEqual(['/img/a.png']);
   });
 
   test('识别 JPEG / PNG / GIF / WebP 的尺寸，其他内容返回空', () => {
