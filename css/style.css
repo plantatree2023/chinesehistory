@@ -90,6 +90,8 @@ body.bars-hidden .bars-toggle { transform: rotate(180deg); }
 }
 /* 当前时期：跟在标题后，用该时期的颜色（略加深以保证可读性） */
 .brand-era {
+  font-size: .72em;           /* 比标题小一号，按标题字号等比缩放 */
+  letter-spacing: .06em;
   color: color-mix(in srgb, var(--era-color, var(--red)) 82%, #000);
   transition: color .4s ease;
 }

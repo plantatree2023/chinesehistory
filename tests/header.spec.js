@@ -43,6 +43,14 @@ test.describe('1440×860', () => {
     expect(seen.size).toBe(5);
   });
 
+  test('时期名比标题小一号', async ({ page }) => {
+    await openApp(page);
+    const [title, era] = await page.evaluate(() => ['.brand-name', '#currentEra']
+      .map((sel) => parseFloat(getComputedStyle(document.querySelector(sel)).fontSize)));
+    expect(era / title).toBeGreaterThanOrEqual(0.65);
+    expect(era / title).toBeLessThanOrEqual(0.8);
+  });
+
   test('右上角不再有单独的时期标签', async ({ page }) => {
     await openApp(page);
     await expect(page.locator('.current-era')).toHaveCount(0);
