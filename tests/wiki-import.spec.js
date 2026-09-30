@@ -30,6 +30,11 @@ function page(title, extract, { qid, images = [], thumbnail } = {}) {
   };
 }
 const time = (t, precision = 9) => ({ claims: { P585: [{ mainsnak: { datavalue: { value: { time: t, precision } } } }] } });
+// Wikidata 条目：时间、性质（P31）与语言版本数（sitelinks）
+const entity = (t, { p31 = [], links = 0 } = {}) => ({
+  claims: { ...(t ? time(t).claims : {}), P31: p31.map((id) => ({ mainsnak: { datavalue: { value: { id } } } })) },
+  sitelinks: Object.fromEntries([...Array(links)].map((_, i) => [`l${i}wiki`, { title: 'x' }])),
+});
 
 function mockWiki(pages, entities, { searchMap = {}, rateLimitOnce = [], files = IMAGE_FILES } = {}) {
   const hits = [];
@@ -130,7 +135,7 @@ test.describe('单个关键词', () => {
       '测试战役': page('测试战役', `测试战役是一场用于自动化测试的虚构战役（英语：Test Battle），发生于战国时代。${LONG_TEXT}`, {
         qid: 'Q1', images: [`${b}/img/a.png`, `${b}/img/Flag_of_X.svg`, `${b}/img/b.jpg`],
       }),
-    }), { Q1: time('-0260-00-00T00:00:00Z') });
+    }), { Q1: entity('-0260-00-00T00:00:00Z', { p31: ['Q178561'], links: 50 }) });
 
     const r = await run(['--file', dataFile, '测试战役'], base);
     expect(r.code, r.stdout + r.stderr).toBe(0);
@@ -140,7 +145,12 @@ test.describe('单个关键词', () => {
     const data = readData();
     expect(data.events).toHaveLength(101);
     const ev = find('测试战役');
-    expect(ev).toMatchObject({ id: 'e101', year: -260, date: '前260年', major: false, wiki: '测试战役' });
+    expect(ev).toMatchObject({ id: 'e101', year: -260, date: '前260年', wiki: '测试战役', type: '战争', majorScore: 6 });
+    expect(ev).not.toHaveProperty('major');
+    // Wikidata 性质为“战役”（Q178561）→ 战争；50 个语言版本 → 重要程度 6；都提示核对
+    expect(r.stdout).toContain('类型 战争，重要程度 6');
+    expect(r.stdout).toContain('类型“战争”由 Wikidata 性质推断，请核对');
+    expect(r.stdout).toContain('重要程度 6 根据 Wikidata 语言版本数（50 个）估算，请核对');
     expect(ev.source).toBe(`${base}/wiki/${encodeURIComponent('测试战役')}`);
     expect(ev.detail.length).toBeLessThanOrEqual(350);
     expect(ev.detail).not.toContain('英语');
@@ -164,7 +174,8 @@ test.describe('单个关键词', () => {
   test('更新已存在的条目：只更新来自维基的内容，保留人工内容和已有图片', async () => {
     const before = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
     const target = before.events.find((e) => e.images.length >= 2);
-    target.major = true;
+    target.majorScore = 9;
+    target.type = '社会';
     fs.writeFileSync(dataFile, JSON.stringify(before, null, 2));
     const base = await startWiki((b) => ({
       [target.title]: page(target.title, `更新后的简介：${target.title}是一个重要的历史事件，这段文字来自模拟的维基百科。`, {
@@ -178,7 +189,9 @@ test.describe('单个关键词', () => {
     const ev = find(target.title);
     expect(readData().events).toHaveLength(100);
     expect(ev.detail).toContain('更新后的简介');
-    expect(ev).toMatchObject({ id: target.id, year: target.year, date: target.date, short: target.short, major: true });
+    // 人工设定的类型和重要程度保留，不查询 Wikidata
+    expect(ev).toMatchObject({ id: target.id, year: target.year, date: target.date, short: target.short, majorScore: 9, type: '社会' });
+    expect(wiki.hits.some((h) => h.includes('EntityData'))).toBe(false);
     expect(ev.images, '已有图片保持不变').toEqual(target.images);
     expect(wiki.hits.some((h) => h.startsWith('/img/')), '不应下载图片').toBe(false);
   });
@@ -264,6 +277,102 @@ test.describe('单个关键词', () => {
   });
 });
 
+test.describe('类型与重要程度', () => {
+  test('类型来源：Wikidata 性质 → 事件名关键词 → 年代（前 2000 年以前为史前）→ 简介关键词；无法判断时不填写', async () => {
+    const base = await startWiki({
+      // 事件名和简介中都没有线索，只能靠 Wikidata 性质（Q131569 条约）判断
+      '某份文书': page('某份文书', '某份文书是两方签署的一项虚构文书，用于测试类型推断。', { qid: 'Q21' }),
+      '测试之战': page('测试之战', '测试之战是一个没有 Wikidata 性质的虚构事件，用于测试类型推断。', { qid: 'Q22' }),
+      '远古遗存': page('远古遗存', '远古遗存是一处虚构的远古人类遗存，用于测试史前类型。', { qid: 'Q23' }),
+      '某某事物': page('某某事物', '某某事物是一次重要的发明，用于测试从简介首句推断类型。', { qid: 'Q24' }),
+      '无从判断': page('无从判断', '无从判断是一个用于测试的虚构条目，简介中没有任何线索。', { qid: 'Q25' }),
+    }, {
+      Q21: entity('+1600-00-00T00:00:00Z', { p31: ['Q131569'], links: 3 }),
+      Q22: entity('+1601-00-00T00:00:00Z', { links: 20 }),
+      Q23: entity('-5000-00-00T00:00:00Z', { links: 120 }),
+      Q24: entity('+1602-00-00T00:00:00Z', { links: 200 }),
+      Q25: entity('+1603-00-00T00:00:00Z', { links: 1 }),
+    });
+    const r = await run(['--file', dataFile, '某份文书', '测试之战', '远古遗存', '某某事物', '无从判断'], base);
+    expect(r.code, r.stdout + r.stderr).toBe(0);
+    expect(find('某份文书')).toMatchObject({ type: '对外交流', majorScore: 3 });
+    expect(r.stdout).toContain('类型“对外交流”由 Wikidata 性质推断');
+    expect(find('测试之战')).toMatchObject({ type: '战争', majorScore: 5 });
+    expect(find('远古遗存')).toMatchObject({ type: '史前', majorScore: 8 });
+    expect(find('某某事物')).toMatchObject({ type: '科技', majorScore: 9 });
+    expect(find('无从判断')).toMatchObject({ majorScore: 2 });
+    expect(find('无从判断')).not.toHaveProperty('type');
+    expect(r.stdout).toContain('类型“战争”由事件名 / 简介中的关键词推断');
+    expect(r.stdout).toContain('类型“史前”由年代（前 2000 年以前）推断');
+    expect(r.stdout).toContain('无法判断类型，未填写');
+    expect(() => validateDataset('cn_zh', readData())).not.toThrow();
+  });
+
+  test('--type / --score 指定的值优先；类型也可以写 key；已有条目用指定值覆盖', async () => {
+    const existing = readData().events.find((e) => e.title === '淝水之战');
+    const base = await startWiki({
+      '指定类型条目': page('指定类型条目', '指定类型条目是一个用于测试命令行指定类型的虚构事件。', { qid: 'Q31' }),
+      '淝水之战': page('淝水之战', '淝水之战的简介，来自模拟的维基百科。'),
+    }, { Q31: entity('+1650-00-00T00:00:00Z', { p31: ['Q178561'], links: 200 }) });
+    let r = await run(['--file', dataFile, '--type', 'culture', '--score', '3', '指定类型条目'], base);
+    expect(r.code, r.stdout + r.stderr).toBe(0);
+    expect(find('指定类型条目')).toMatchObject({ type: '文化', majorScore: 3 });
+    expect(r.stdout).not.toContain('请核对');
+
+    r = await run(['--file', dataFile, '--score', '9', '淝水之战'], base);
+    expect(r.code, r.stdout + r.stderr).toBe(0);
+    expect(r.stdout).toMatch(/~ 更新 淝水之战：.*重要程度/);
+    expect(find('淝水之战')).toMatchObject({ type: existing.type, majorScore: 9 });
+
+    r = await run(['--file', dataFile, '--type', '不存在的类型', '淝水之战'], base);
+    expect(r.code).toBe(1);
+    expect(r.stdout).toContain('类型“不存在的类型”不在数据集的类型列表中（可用：史前、政治、战争');
+    for (const bad of [['--score', '0'], ['--score', '11'], ['--score', '5.5']]) {
+      r = await run(['--file', dataFile, ...bad, '淝水之战'], base);
+      expect(r.code, bad.join(' ')).toBe(2);
+      expect(r.stderr).toContain('重要程度无效');
+    }
+    r = await run(['--file', dataFile, '--type', '战争', '淝水之战', '赤壁之战'], base);
+    expect(r.code).toBe(2);
+    expect(r.stderr).toContain('只能配合单个关键词');
+  });
+
+  test('已有条目缺少类型或重要程度时补上；没有 Wikidata 时重要程度默认为 5', async () => {
+    const data = readData();
+    const target = data.events.find((e) => e.title === '官渡之战');
+    delete target.type;
+    delete target.majorScore;
+    target.major = true;   // 旧版本字段，更新时去掉
+    fs.writeFileSync(dataFile, JSON.stringify(data, null, 2));
+    const base = await startWiki({ '官渡之战': page('官渡之战', '官渡之战的简介文字，来自模拟的维基百科，没有 Wikidata。') });
+    const r = await run(['--file', dataFile, '官渡之战'], base);
+    expect(r.code, r.stdout + r.stderr).toBe(0);
+    expect(r.stdout).toContain('没有 Wikidata 信息，重要程度默认为 5');
+    const ev = find('官渡之战');
+    expect(ev).toMatchObject({ type: '战争', majorScore: 5 });
+    expect(ev).not.toHaveProperty('major');
+  });
+
+  test('数据集没有 types 列表时使用该语言的默认类型名', async () => {
+    const data = readData();
+    delete data.types;
+    fs.writeFileSync(dataFile, JSON.stringify(data, null, 2));
+    const base = await startWiki({ '无列表条目': page('无列表条目', '无列表条目是一次虚构的地震灾害，用于测试默认类型名。', { qid: 'Q41' }) },
+      { Q41: entity('+1700-00-00T00:00:00Z', { p31: ['Q7944'], links: 10 }) });
+    const r = await run(['--file', dataFile, '无列表条目'], base);
+    expect(r.code, r.stdout + r.stderr).toBe(0);
+    expect(find('无列表条目')).toMatchObject({ type: '社会', majorScore: 4 });
+  });
+
+  test('重要程度估算：语言版本数越多分数越高，范围 2–9', () => {
+    const { scoreFromSitelinks } = require('../tools/wiki-import');
+    const scores = [0, 1, 2, 5, 10, 20, 50, 80, 100, 150, 400].map(scoreFromSitelinks);
+    expect(scores).toEqual([...scores].sort((a, b) => a - b));
+    expect(Math.min(...scores)).toBe(2);
+    expect(Math.max(...scores)).toBe(9);
+  });
+});
+
 test.describe('条目表', () => {
   test('逐条查询：新增、更新、指定年份与失败条目互不影响', async () => {
     const existing = readData().events[10];
@@ -273,7 +382,7 @@ test.describe('条目表', () => {
       '表中指定年份': page('表中指定年份', '表中指定年份是一个在条目表中直接写明年份的虚构事件条目。'),
     }, { Q7: time('+1500-00-00T00:00:00Z') });
     const list = path.join(tmp, 'topics.txt');
-    fs.writeFileSync(list, ['# 注释行', '', '表中新条目', existing.title, '表中指定年份 | -500', '不存在的条目'].join('\n'));
+    fs.writeFileSync(list, ['# 注释行', '', '表中新条目', existing.title, '表中指定年份 | -500 | 文化 | 7', '不存在的条目'].join('\n'));
 
     const r = await run(['--file', dataFile, '--list', list], base);
     expect(r.code, '有失败条目时退出码为 1').toBe(1);
@@ -282,7 +391,7 @@ test.describe('条目表', () => {
     expect(r.stdout).toContain('+ 新增 表中指定年份');
     expect(r.stdout).toContain('✗ 不存在的条目');
     expect(find('表中新条目').year).toBe(1500);
-    expect(find('表中指定年份')).toMatchObject({ year: -500, date: '前500年' });
+    expect(find('表中指定年份')).toMatchObject({ year: -500, date: '前500年', type: '文化', majorScore: 7 });
     expect(find(existing.title).detail).toContain('条目表中更新的简介');
     expect(readData().events).toHaveLength(102);
   });

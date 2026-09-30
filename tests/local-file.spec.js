@@ -145,6 +145,21 @@ test.describe('界面', () => {
     expect(after.images[0].caption).toBe(before.images[0].caption);
   });
 
+  test('修改类型和重要程度写入数据文件', async ({ page }) => {
+    await openLocal(page);
+    await page.click('#browseBtn');
+    await page.fill('#searchInput', '贞观之治');
+    await page.locator('.list-row').first().click();
+    await page.click('.list-actions .btn-primary');
+    await page.selectOption('#editForm [name=type]', '文化');
+    await page.selectOption('#editForm [name=majorScore]', '4');
+    await page.click('#editForm button[type=submit]');
+    await expect.poll(() => findEvent('贞观之治').majorScore).toBe(4);
+    const ev = findEvent('贞观之治');
+    expect(ev.type).toBe('文化');
+    expect(ev).not.toHaveProperty('major');
+  });
+
   test('编辑和删除同样写入数据文件', async ({ page }) => {
     await openLocal(page);
     await page.click('#browseBtn');

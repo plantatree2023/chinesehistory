@@ -73,6 +73,22 @@
 
   function transitionText(t) { return t.from + ' → ' + t.to; }
 
+  // 事件类型：顺序和颜色来自数据集的 types；数据中出现但不在列表里的类型排在后面（灰色），没有类型的归为“未分类”
+  var TYPES = [];
+  var UNTYPED_COLOR = '#8a8178';
+  function typeInfo(name) {
+    for (var i = 0; i < TYPES.length; i++) if (TYPES[i].name === name) return TYPES[i];
+    return { name: name, color: UNTYPED_COLOR };
+  }
+  function typesWithEvents(counts) {
+    var out = TYPES.filter(function (t) { return counts[t.name] > 0; });
+    Object.keys(counts).forEach(function (name) {
+      if (name && !TYPES.some(function (t) { return t.name === name; })) out.push({ name: name, color: UNTYPED_COLOR });
+    });
+    if (counts['']) out.push({ name: '', label: '未分类', color: UNTYPED_COLOR });
+    return out;
+  }
+
   function toast(msg) {
     var t = $('toast');
     t.textContent = msg;
@@ -300,9 +316,26 @@
   // 卡片形状：图文关系有三种（上图下文 / 左图右文 / 右图左文），
   // 代表图按原始比例完整显示，大小由剩余空间决定
   var KINDS = ['stack', 'left', 'right'];
-  var SIZES = [46000, 36000, 27000, 19000];         // 图片面积候选（px²），优先用大的
-  var MAJOR_SIZES = [150000, 120000, 96000, 76000, 58000, 42000];   // 重大事件用更大的图（约为普通事件的 1.5–3 倍）
-  var SIDE_TEXT_W = 150, MIN_STACK_W = 172, MAX_IMG_W = 420, MAJOR_MAX_IMG_W = 560, MIN_IMG_SIDE = 56;
+  // 图片按事件的重要程度（majorScore，1–10）分三个等级显示：
+  // 1–5 小、6–7 中、8–10 大（重大事件）。sizes 为图片面积候选（px²，优先用大的），
+  // maxImgW 为图片最大宽度，heightFrac 为图片最大高度占可用高度（轴线一侧）的比例，weight 越大越坚持用大图。
+  // 窄屏上小、中两级的面积按屏幕宽度缩小（系数的 shrink 次方），让三个等级在任何屏幕上都有明显差别
+  var DEFAULT_SCORE = 5;
+  var TIERS = {
+    1: { sizes: [40000, 31000, 23000, 16000, 11000], maxImgW: 380, heightFrac: 0.52, shrink: 1, weight: 80 },
+    2: { sizes: [66000, 52000, 40000, 29000, 20000], maxImgW: 460, heightFrac: 0.72, shrink: 1.4, weight: 110 },
+    3: { sizes: [210000, 170000, 136000, 108000, 84000, 62000], maxImgW: 700, heightFrac: 1, shrink: 0, weight: 300 }
+  };
+  var SIDE_TEXT_W = 150, MIN_STACK_W = 172, MIN_IMG_SIDE = 56;
+  function scoreOf(ev) {
+    var n = ev && ev.majorScore;
+    return typeof n === 'number' && n >= 1 && n <= 10 ? Math.round(n) : DEFAULT_SCORE;
+  }
+  function tierOf(ev) {
+    var n = scoreOf(ev);
+    return n >= 8 ? 3 : n >= 6 ? 2 : 1;
+  }
+  function isMajor(ev) { return tierOf(ev) === 3; }
 
   var ratioCache = {};
   function coverRatio(ev) {
@@ -340,14 +373,14 @@
   var measurer = null, textCache = {};
   function textHeight(ev, width, kind) {
     width = Math.round(width);
-    var key = [ev.id, width, kind, ev.major ? 1 : 0, ev.date, ev.title, summaryOf(ev)].join('|');
+    var key = [ev.id, width, kind, tierOf(ev), ev.date, ev.title, summaryOf(ev)].join('|');
     if (textCache[key]) return textCache[key];
     if (!measurer) {
       measurer = el('div');
       measurer.style.cssText = 'position:absolute;left:-10000px;top:0;visibility:hidden;display:flex;flex-direction:column;border:1px solid transparent;';
       document.body.appendChild(measurer);
     }
-    measurer.className = 'measure k-' + kind + (ev.major ? ' major' : '');
+    measurer.className = 'measure k-' + kind + ' tier-' + tierOf(ev) + (isMajor(ev) ? ' major' : '');
     measurer.style.width = (width + 2) + 'px';
     measurer.innerHTML = '';
     var body = cardBody(ev);
@@ -360,8 +393,10 @@
   // 按图片比例、面积和最大高度计算卡片尺寸，放不下返回 null
   function shapeFor(ev, r, area, kind, maxH) {
     var iw = Math.sqrt(area * r), ih = Math.sqrt(area / r), th, cw;
-    var maxIw = ev.major ? MAJOR_MAX_IMG_W : MAX_IMG_W;
-    if (iw > maxIw) { iw = maxIw; ih = iw / r; }
+    var tier = TIERS[tierOf(ev)];
+    var maxIh = maxH * tier.heightFrac;
+    if (iw > tier.maxImgW) { iw = tier.maxImgW; ih = iw / r; }
+    if (ih > maxIh) { ih = maxIh; iw = ih * r; }
     if (kind === 'stack') {
       for (var k = 0; k < 2; k++) {
         cw = Math.max(iw, MIN_STACK_W);
@@ -400,6 +435,7 @@
     var band = Math.round(30 * s);          // 轴线附近留给刻度和朝代名的空间
     var half = axisY - 12;                  // 卡片离舞台边缘至少 12px
     var maxW = Math.max(150, viewW() - 48);
+    var narrow = clamp(viewW() / 1100, 0.5, 1);   // 窄屏上小、中两级图片的面积系数
     var minGap = Math.round(40 * s);
     var cards = [], links = [];             // 已放置的卡片与连线（用于碰撞检测）
     var xs = [], anchors = [], placed = [];
@@ -434,14 +470,15 @@
       var r = coverRatio(ev);
       var maxH = Math.floor(half - band);
       var shapes = [];
-      var tiers = ev.major ? MAJOR_SIZES : SIZES;
+      var tier = TIERS[tierOf(ev)], tiers = tier.sizes;
+      var k2 = s * s * Math.pow(narrow, tier.shrink);
       tiers.forEach(function (area) {
         KINDS.forEach(function (kind) {
-          var sh = shapeFor(ev, r, area * s * s, kind, maxH);
+          var sh = shapeFor(ev, r, area * k2, kind, maxH);
           if (!sh || sh.w > maxW) return;
           // 按实际显示的图片面积计分，越大越好（重大事件更坚持用大图）；
           // 与上一个事件换一种图文关系；竖图适合左右排，横图适合上下排
-          sh.cost = (1 - sh.iw * sh.ih / (tiers[0] * s * s)) * (ev.major ? 150 : 80) + (kind === prevKind ? 14 : 0)
+          sh.cost = (1 - sh.iw * sh.ih / (tiers[0] * k2)) * tier.weight + (kind === prevKind ? 14 : 0)
             + (kind === 'stack' ? (r < 0.85 ? 18 : 0) : (r > 1.7 ? 18 : 0))
             + (kind === 'right' ? 4 : 0);
           shapes.push(sh);
@@ -669,7 +706,7 @@
       box.appendChild(dot);
 
       var sh = pl.shape;
-      var card = el('button', 'card k-' + sh.kind + (ev.major ? ' major' : '') + (pl.side < 0 ? ' up' : ' down'));
+      var card = el('button', 'card k-' + sh.kind + ' tier-' + tierOf(ev) + (isMajor(ev) ? ' major' : '') + (pl.side < 0 ? ' up' : ' down'));
       card.type = 'button';
       card.dataset.id = ev.id;
       card.style.left = r.l + 'px';
@@ -1018,6 +1055,14 @@
     if (imgs[0]) h.addEventListener('click', function () { openLightbox(imgs, 0); });
     hero.appendChild(h);
     $('detailDate').textContent = ev.date || formatYear(ev.year);
+    var tagBox = $('detailTags');
+    tagBox.innerHTML = '';
+    if (ev.type) {
+      var tag = el('span', 'type-tag', ev.type);
+      tag.style.setProperty('--chip-color', typeInfo(ev.type).color);
+      tagBox.appendChild(tag);
+    }
+    tagBox.appendChild(el('span', 'score-tag', '重要程度 ' + scoreOf(ev) + ' / 10'));
     $('detailTransition').hidden = !ev.transition;
     $('detailTransition').textContent = ev.transition ? '时期更迭：' + transitionText(ev.transition) : '';
     $('detailTitle').textContent = ev.title;
@@ -1114,7 +1159,14 @@
     form.short.value = ev ? (ev.short || '') : '';
     form.detail.value = ev ? (ev.detail || '') : '';
     form.source.value = ev ? (ev.source || '') : '';
-    form.major.checked = !!(ev && ev.major);
+    form.majorScore.value = String(ev ? scoreOf(ev) : DEFAULT_SCORE);
+    var typeSel = form.type;
+    typeSel.innerHTML = '';
+    typeSel.appendChild(new Option('未分类', ''));
+    TYPES.forEach(function (t) { typeSel.appendChild(new Option(t.name, t.name)); });
+    // 数据中出现、但不在类型列表里的类型也保留为选项，避免编辑时丢失
+    if (ev && ev.type && !TYPES.some(function (t) { return t.name === ev.type; })) typeSel.appendChild(new Option(ev.type, ev.type));
+    typeSel.value = ev && ev.type ? ev.type : '';
     ['transitionFrom', 'transitionTo'].forEach(function (name, i) {
       var sel = form[name];
       sel.innerHTML = '';
@@ -1295,14 +1347,17 @@
         return Object.assign({}, im, { caption: (im.caption || '').trim() });
       }),
       source: form.source.value.trim(),
-      major: form.major.checked
+      majorScore: parseInt(form.majorScore.value, 10) || DEFAULT_SCORE
     };
     if (tFrom) data.transition = { from: tFrom, to: tTo };
+    if (form.type.value) data.type = form.type.value;
     var id;
     if (editingId) {
       var ev = findEvent(editingId);
       Object.keys(data).forEach(function (k) { ev[k] = data[k]; });
       if (!tFrom) delete ev.transition;
+      if (!form.type.value) delete ev.type;
+      delete ev.major;   // 旧版本的重大事件标记，已由 majorScore 代替
       id = ev.id;
     } else {
       data.id = id = uid();
@@ -1458,8 +1513,21 @@
       available: function (ctx) { return ctx.majorCount > 0; },
       initial: function () { return false; },
       isActive: function (v) { return v; },
-      test: function (ev, v) { return !v || !!ev.major; },
+      test: function (ev, v) { return !v || isMajor(ev); },
       render: function (box, v, set, ctx) { toggleFilterUI('major', '只看重大事件（' + ctx.majorCount + '）')(box, v, set); }
+    },
+    {
+      id: 'type',
+      label: '事件类型（可多选）',
+      available: function (ctx) { return ctx.typesWithEvents.some(function (t) { return t.name; }); },   // 至少有一个事件有类型
+      initial: function () { return []; },
+      isActive: function (v) { return v.length > 0; },
+      test: function (ev, v) { return !v.length || v.indexOf(ev.type || '') > -1; },
+      render: function (box, v, set, ctx) {
+        box.appendChild(multiSelect('type', ctx.typesWithEvents.map(function (t) {
+          return { value: t.name, label: t.label || t.name, color: t.color, count: ctx.typeCounts[t.name] };
+        }), v, set, '全部类型'));
+      }
     },
     {
       id: 'transition',
@@ -1544,13 +1612,17 @@
       var name = eraOf(ev.year).name;
       eraCounts[name] = (eraCounts[name] || 0) + 1;
     });
+    var typeCounts = {};
+    events.forEach(function (ev) { typeCounts[ev.type || ''] = (typeCounts[ev.type || ''] || 0) + 1; });
     var years = events.map(function (ev) { return ev.year; });
     return {
       events: events,
       eras: ERAS,
       eraCounts: eraCounts,
       erasWithEvents: ERAS.filter(function (era) { return eraCounts[era.name] > 0; }),
-      majorCount: events.filter(function (ev) { return ev.major; }).length,
+      majorCount: events.filter(isMajor).length,
+      typeCounts: typeCounts,
+      typesWithEvents: typesWithEvents(typeCounts),
       transitionCount: events.filter(function (ev) { return ev.transition; }).length,
       minYear: years.length ? Math.min.apply(null, years) : 0,
       maxYear: years.length ? Math.max.apply(null, years) : 0
@@ -1564,7 +1636,7 @@
   // 输入筛选条件时只刷新列表，避免输入框失去焦点
   var filterPanelKey = null;
   function renderFilterPanel(ctx) {
-    var key = events.map(function (ev) { return ev.year + (ev.major ? '*' : '') + (ev.transition ? '>' : ''); }).join(',');
+    var key = events.map(function (ev) { return ev.year + (isMajor(ev) ? '*' : '') + (ev.transition ? '>' : '') + '#' + (ev.type || ''); }).join(',');
     if (key === filterPanelKey) return;
     filterPanelKey = key;
     var panel = $('filterPanel');
@@ -1623,7 +1695,13 @@
       row.type = 'button';
       row.appendChild(imageEl(ev.images && ev.images[0], 'list-thumb', ev.title));
       var meta = el('div', 'list-meta');
-      meta.appendChild(el('div', 'list-date', ev.date || formatYear(ev.year)));
+      var dateLine = el('div', 'list-date', ev.date || formatYear(ev.year));
+      if (ev.type) {
+        var lt = el('span', 'list-type', ev.type);
+        lt.style.setProperty('--chip-color', typeInfo(ev.type).color);
+        dateLine.appendChild(lt);
+      }
+      meta.appendChild(dateLine);
       meta.appendChild(el('div', 'list-title', ev.title));
       if (ev.transition) meta.appendChild(el('div', 'list-transition', transitionText(ev.transition)));
       row.appendChild(meta);
@@ -1794,6 +1872,7 @@
     meta = {};
     Object.keys(data).forEach(function (k) { if (k !== 'events') meta[k] = data[k]; });
     ERAS = data.eras;
+    TYPES = Array.isArray(data.types) ? data.types.filter(function (t) { return t && t.name; }) : [];
     defaultEvents = data.events;
     events = fileMode ? clone(defaultEvents) : load();
 

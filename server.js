@@ -80,6 +80,18 @@ function validateDataset(id, data) {
   if (!Array.isArray(data.events)) fail('events 必须是数组');
   const ids = new Set();
   const eraNames = new Set(data.eras.map((e) => e && e.name));
+  // 事件类型（可选）：[{ key, name, color }]，名称不能重复；有此列表时事件的 type 必须是其中的名称
+  let typeNames = null;
+  if (data.types != null) {
+    if (!Array.isArray(data.types)) fail('types 必须是数组');
+    typeNames = new Set();
+    data.types.forEach((t, i) => {
+      if (!t || typeof t.name !== 'string' || !t.name.trim()) fail(`types[${i}].name 无效`);
+      if (typeNames.has(t.name)) fail(`types[${i}].name 重复：${t.name}`);
+      if (t.color != null && !/^#[0-9a-fA-F]{6}$/.test(t.color)) fail(`types[${i}].color 必须是 #rrggbb 形式的颜色`);
+      typeNames.add(t.name);
+    });
+  }
   data.events.forEach((ev, i) => {
     const where = `events[${i}]`;
     if (!ev || typeof ev !== 'object') fail(`${where} 必须是对象`);
@@ -93,6 +105,12 @@ function validateDataset(id, data) {
       const t = ev.transition;
       if (typeof t !== 'object' || !eraNames.has(t.from) || !eraNames.has(t.to)) fail(`${where}.transition 的 from / to 必须是 eras 中的时期名`);
       if (t.from === t.to) fail(`${where}.transition 的 from 与 to 不能相同`);
+    }
+    // 重要程度（可选，缺省视为 5）：1–10 的整数
+    if (ev.majorScore != null && !(Number.isInteger(ev.majorScore) && ev.majorScore >= 1 && ev.majorScore <= 10)) fail(`${where}.majorScore 必须是 1–10 的整数`);
+    if (ev.type != null) {
+      if (typeof ev.type !== 'string' || !ev.type.trim()) fail(`${where}.type 无效`);
+      if (typeNames && !typeNames.has(ev.type)) fail(`${where}.type 必须是 types 中的类型名：${ev.type}`);
     }
     if (!Array.isArray(ev.images) || ev.images.length > 9) fail(`${where}.images 必须是最多 9 项的数组`);
     ev.images.forEach((im) => {

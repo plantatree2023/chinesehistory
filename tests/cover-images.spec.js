@@ -59,25 +59,35 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 1280, height: 640
   });
 }
 
-test('重大事件的代表图明显大于普通事件', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 860 });
-  await openApp(page);
-  const areas = await page.evaluate(() => {
-    const out = { major: [], normal: [] };
-    for (const card of document.querySelectorAll('.card')) {
-      const pic = card.querySelector('.card-img');
-      if (!pic || pic.tagName !== 'IMG') continue;
-      const b = pic.getBoundingClientRect();
-      out[card.classList.contains('major') ? 'major' : 'normal'].push(b.width * b.height);
+// 图片按重要程度（majorScore）分三级：1–5 小、6–7 中、8–10 大；每种屏幕上三级都应明显不同
+const tierOf = (score) => (score >= 8 ? 3 : score >= 6 ? 2 : 1);
+for (const [viewport, minLarge] of [[{ width: 1440, height: 860 }, 88000], [{ width: 1280, height: 640 }, 40000], [{ width: 390, height: 780 }, 30000]]) {
+  test(`${viewport.width}×${viewport.height}：代表图大小按重要程度分三级`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await openApp(page);
+    const { events } = await loadDataset(page);
+    const byId = Object.fromEntries(events.map((e) => [e.id, e]));
+    const cards = await page.evaluate(() => [...document.querySelectorAll('.card')].map((card) => {
+      const pic = card.querySelector('img.card-img');
+      const b = pic && pic.getBoundingClientRect();
+      return { id: card.dataset.id, cls: card.className, area: b ? b.width * b.height : null };
+    }));
+    const areas = { 1: [], 2: [], 3: [] };
+    for (const c of cards) {
+      const tier = tierOf(byId[c.id].majorScore);
+      expect(c.cls, byId[c.id].title).toContain(`tier-${tier}`);
+      expect(c.cls.includes('major'), byId[c.id].title).toBe(tier === 3);
+      if (c.area) areas[tier].push(c.area);
     }
-    return out;
+    const avg = (a) => a.reduce((s, v) => s + v, 0) / a.length;
+    const [small, medium, large] = [avg(areas[1]), avg(areas[2]), avg(areas[3])];
+    expect(medium / small).toBeGreaterThan(1.25);
+    expect(large / medium).toBeGreaterThan(1.3);
+    expect(large / small).toBeGreaterThan(1.8);
+    // 大图（重大事件）比之前（桌面平均约 83000px²）进一步放大
+    expect(large).toBeGreaterThan(minLarge);
   });
-  const avg = (a) => a.reduce((s, v) => s + v, 0) / a.length;
-  expect(areas.major.length).toBeGreaterThan(5);
-  // 调整前重大事件平均约 63000px²、普通事件约 52000px²（约 1.2 倍）
-  expect(avg(areas.major)).toBeGreaterThan(75000);
-  expect(avg(areas.major) / avg(areas.normal)).toBeGreaterThan(1.35);
-});
+}
 
 test('数据中的图片都是 images/ 下的本地文件：文件存在、可访问、尺寸与记录一致，没有外部地址', async ({ page, request }) => {
   const { events } = await loadDataset(page);

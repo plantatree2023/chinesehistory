@@ -134,6 +134,50 @@ test.describe('事件详情', () => {
     await expect(captions.nth(0)).toHaveValue('');
   });
 
+  test('详情显示类型和重要程度；在编辑页修改后卡片大小等级随之变化', async ({ page }) => {
+    const { events, types } = await loadDataset(page);
+    const target = events.find((e) => e.title === '贞观之治');
+    await openApp(page);
+    await page.click('#browseBtn');
+    await page.fill('#searchInput', '贞观之治');
+    await page.locator('.list-row').first().click();
+    await page.click('.list-actions .btn-ghost');
+    await expect(page.locator('#detailTags .type-tag')).toHaveText(target.type);
+    await expect(page.locator('#detailTags .score-tag')).toHaveText(`重要程度 ${target.majorScore} / 10`);
+    await expect(page.locator(`.card[data-id="${target.id}"]`)).toHaveClass(/tier-3/);
+
+    await page.click('#detailEdit');
+    // 类型选项来自数据集的 types，另有“未分类”
+    await expect(page.locator('#editForm [name=type] option')).toHaveText(['未分类', ...types.map((t) => t.name)]);
+    await expect(page.locator('#editForm [name=type]')).toHaveValue(target.type);
+    await expect(page.locator('#editForm [name=majorScore]')).toHaveValue(String(target.majorScore));
+    await page.selectOption('#editForm [name=type]', '文化');
+    await page.selectOption('#editForm [name=majorScore]', '6');
+    await page.click('#editForm button[type=submit]');
+    await expect(page.locator(`.card[data-id="${target.id}"]`)).toHaveClass(/tier-2/);
+    await expect(page.locator(`.card[data-id="${target.id}"]`)).not.toHaveClass(/major/);
+    if (await page.locator('.list-actions').isHidden()) await page.locator('.list-row').first().click();
+    await page.click('.list-actions .btn-ghost');
+    await expect(page.locator('#detailTags')).toHaveText('文化重要程度 6 / 10');
+
+    // 清除类型、降为 3 分，刷新后保留
+    await page.click('#detailEdit');
+    await page.selectOption('#editForm [name=type]', '');
+    await page.selectOption('#editForm [name=majorScore]', '3');
+    await page.click('#editForm button[type=submit]');
+    await page.reload();
+    await expect(page.locator(`.card[data-id="${target.id}"]`)).toHaveClass(/tier-1/);
+    const stored = await page.evaluate((k) => JSON.parse(localStorage.getItem(k)), STORAGE_KEY);
+    expect(stored.changed[target.id]).toEqual({ type: null, majorScore: 3 });
+  });
+
+  test('新增事件默认重要程度 5（小图）、未分类', async ({ page }) => {
+    await openApp(page);
+    await page.click('#addBtn');
+    await expect(page.locator('#editForm [name=majorScore]')).toHaveValue('5');
+    await expect(page.locator('#editForm [name=type]')).toHaveValue('');
+  });
+
   test('在详情中删除事件', async ({ page }) => {
     await openApp(page);
     await (await visibleCard(page)).click();

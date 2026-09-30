@@ -1,4 +1,5 @@
-// 侧栏筛选：重大事件、时期更迭、朝代 / 时期（下拉多选）、时间范围；可选项由数据决定，与搜索组合使用。
+// 侧栏筛选：重大事件（重要程度 8–10）、事件类型（下拉多选）、时期更迭、朝代 / 时期（下拉多选）、时间范围；
+// 可选项由数据决定，与搜索组合使用。
 // 以及时期更迭字段（transition）的显示、编辑和数据一致性。
 const { test, expect, openApp, loadDataset, DATA_URL } = require('./helpers');
 
@@ -7,6 +8,8 @@ test.use({ viewport: { width: 1440, height: 860 } });
 // 与网站相同的规则：事件属于起始年份不晚于它的最后一个时期
 const eraOf = (eras, year) => eras.filter((e) => year >= e.start).pop() || eras[0];
 // '#c0892f' -> 'rgb(192, 137, 47)'
+// 重大事件：重要程度 majorScore 为 8–10（与网站的三级图片大小一致）
+const isMajor = (e) => e.majorScore >= 8;
 const rgb = (hex) => `rgb(${[1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)).join(', ')})`;
 
 const eraMenu = (page) => page.locator('.ms[data-name="era"] .ms-menu');
@@ -54,9 +57,71 @@ test('筛选面板默认收起，可选项由数据生成', async ({ page }) => 
     expect(color, `${era.name} 的颜色`).toBe(rgb(era.color));
   }
   // 重大事件、时期更迭数量与时间范围提示来自数据
-  await expect(page.locator('.filter-section[data-filter="major"]')).toContainText(`只看重大事件（${events.filter((e) => e.major).length}）`);
+  await expect(page.locator('.filter-section[data-filter="major"]')).toContainText(`只看重大事件（${events.filter(isMajor).length}）`);
   await expect(page.locator('.filter-section[data-filter="transition"]')).toContainText(`只看时期更迭的事件（${events.filter((e) => e.transition).length}）`);
   await expect(page.locator('.filter-hint')).toContainText('约170万年前 — 公元1980年');
+});
+
+test.describe('事件类型下拉列表', () => {
+  const typeTrigger = (page) => page.locator('.ms[data-name="type"] .ms-trigger');
+  const typeOption = (page, name) => page.locator(`.ms[data-name="type"] .ms-option[data-value="${name}"]`);
+
+  test('选项按数据集 types 的顺序排列，带事件数和类型颜色；可多选', async ({ page }) => {
+    await openApp(page);
+    const { types, events } = await loadDataset(page);
+    await openFilters(page);
+    const counts = {};
+    for (const ev of events) counts[ev.type] = (counts[ev.type] || 0) + 1;
+    await typeTrigger(page).click();
+    const shown = types.filter((t) => counts[t.name]);
+    expect(await page.locator('.ms[data-name="type"] .ms-option').allTextContents()).toEqual(shown.map((t) => `${t.name}${counts[t.name]}`));
+    for (const t of shown) {
+      const color = await typeOption(page, t.name).locator('.ms-swatch').evaluate((n) => getComputedStyle(n).backgroundColor);
+      expect(color, `${t.name} 的颜色`).toBe(rgb(t.color));
+    }
+    await typeOption(page, '科技').click();
+    await expectTitles(page, events.filter((e) => e.type === '科技'));
+    await typeOption(page, '经济').click();
+    await expectTitles(page, events.filter((e) => ['科技', '经济'].includes(e.type)));
+    await expect(typeTrigger(page).locator('.ms-tag')).toHaveText(['科技', '经济']);
+    // 列表中每项都显示类型标签
+    await expect(page.locator('.list-type')).toHaveText(events.filter((e) => ['科技', '经济'].includes(e.type)).sort((a, b) => a.year - b.year).map((e) => e.type));
+    await expect(page.locator('#filterBadge')).toHaveText('1');
+  });
+
+  test('与朝代、重大事件筛选组合', async ({ page }) => {
+    await openApp(page);
+    const { eras, events } = await loadDataset(page);
+    await openFilters(page);
+    await typeTrigger(page).click();
+    await typeOption(page, '战争').click();
+    await typeTrigger(page).click();
+    await pickEras(page, '清', '中华民国');
+    await expectTitles(page, events.filter((e) => e.type === '战争' && ['清', '中华民国'].includes(eraOf(eras, e.year).name)));
+    await page.check('#filterPanel input[data-filter="major"]');
+    await expectTitles(page, events.filter((e) => e.type === '战争' && isMajor(e) && ['清', '中华民国'].includes(eraOf(eras, e.year).name)));
+    await expect(page.locator('#filterBadge')).toHaveText('3');
+  });
+
+  test('没有类型的事件归为“未分类”，不在类型列表中的类型也能筛选', async ({ page }) => {
+    await page.route(`**${DATA_URL}`, async (route) => {
+      const data = await (await route.fetch()).json();
+      delete data.events[0].type;
+      data.types = data.types.filter((t) => t.name !== '社会');   // “社会”不在列表中
+      await route.fulfill({ json: data });
+    });
+    await openApp(page);
+    const { events } = await loadDataset(page);
+    await openFilters(page);
+    await typeTrigger(page).click();
+    const labels = await page.locator('.ms[data-name="type"] .ms-option .ms-label').allTextContents();
+    expect(labels.slice(-2)).toEqual(['社会', '未分类']);
+    await typeOption(page, '').click();
+    await expect(page.locator('.list-title')).toHaveText([events[0].title]);
+    await typeOption(page, '').click();
+    await typeOption(page, '社会').click();
+    await expect(page.locator('.list-item')).toHaveCount(events.filter((e) => e.type === '社会').length);
+  });
 });
 
 test.describe('朝代下拉列表', () => {
@@ -115,7 +180,7 @@ test('只看重大事件', async ({ page }) => {
   const { events } = await loadDataset(page);
   await openFilters(page);
   await page.check('#filterPanel input[data-filter="major"]');
-  await expectTitles(page, events.filter((e) => e.major));
+  await expectTitles(page, events.filter(isMajor));
   await expect(page.locator('#filterBadge')).toHaveText('1');
   await page.uncheck('#filterPanel input[data-filter="major"]');
   await expect(page.locator('.list-item')).toHaveCount(events.length);
@@ -244,7 +309,7 @@ test('多个筛选条件与搜索同时生效，清除筛选恢复全部', async
   await page.check('#filterPanel input[data-filter="major"]');
   await pickEras(page, '秦', '唐');
   await setYear(page, 'to', 900);
-  const match = (e) => e.major && ['秦', '唐'].includes(eraOf(eras, e.year).name) && e.year <= 900;
+  const match = (e) => isMajor(e) && ['秦', '唐'].includes(eraOf(eras, e.year).name) && e.year <= 900;
   await expectTitles(page, events.filter(match));
   await expect(page.locator('#filterBadge')).toHaveText('3');
 
@@ -293,7 +358,7 @@ test('可选项完全由数据集决定（使用另一份数据）', async ({ pa
     ],
     events: [120, 150, 250].map((year, i) => ({
       id: `t${i}`, year, date: `${year}年`, title: `测试事件${i}`, short: '这是一个用于筛选测试的虚构历史事件，简要说明超过二十个字。',
-      detail: '测试用详细说明。', images: [], source: '', major: false,
+      detail: '测试用详细说明。', images: [], source: '', majorScore: 4,
     })),
   };
   await page.route(`**${DATA_URL}`, (r) => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(custom) }));
@@ -303,6 +368,7 @@ test('可选项完全由数据集决定（使用另一份数据）', async ({ pa
   expect(await page.locator('.ms[data-name="era"] .ms-option').allTextContents()).toEqual(['甲时期2', '乙时期1']);
   await expect(page.locator('.filter-section[data-filter="major"]'), '没有重大事件时不显示该维度').toHaveCount(0);
   await expect(page.locator('.filter-section[data-filter="transition"]'), '没有时期更迭时不显示该维度').toHaveCount(0);
+  await expect(page.locator('.filter-section[data-filter="type"]'), '没有类型时不显示该维度').toHaveCount(0);
   await expect(page.locator('.filter-hint')).toContainText('公元120年 — 公元250年');
   await expect(page.locator('#filterPanel input[data-range="from"]')).toHaveAttribute('placeholder', '120');
   await expect(page.locator('#filterPanel select[data-range="from-era"]')).toHaveValue('ce');

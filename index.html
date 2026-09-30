@@ -108,6 +108,7 @@
       <div class="detail-hero" id="detailHero"></div>
       <div class="detail-body">
         <div class="detail-date" id="detailDate"></div>
+        <div class="detail-tags" id="detailTags"></div>
         <div class="detail-transition" id="detailTransition" hidden></div>
         <h2 id="detailTitle"></h2>
         <p class="detail-text" id="detailText"></p>
@@ -158,9 +159,20 @@
           <select name="transitionTo"></select>
         </label>
       </div>
-      <label class="check">
-        <input type="checkbox" name="major"> 重大事件（在时间轴上以大卡片突出显示）
-      </label>
+      <div class="field-row">
+        <label class="field">
+          <span>事件类型</span>
+          <select name="type"></select>
+        </label>
+        <label class="field">
+          <span>重要程度（1–10，决定时间轴上的图片大小）</span>
+          <select name="majorScore">
+            <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5（小图）</option>
+            <option value="6">6</option><option value="7">7（中图）</option>
+            <option value="8">8（大图 · 重大事件）</option><option value="9">9</option><option value="10">10</option>
+          </select>
+        </label>
+      </div>
       <label class="field">
         <span>简要说明 <small class="counter" data-for="short"></small></span>
         <textarea name="short" rows="2" maxlength="60" placeholder="显示在时间轴卡片上，至少 20 字（留空则自动截取详细说明）"></textarea>
