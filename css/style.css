@@ -16,7 +16,7 @@
   --font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
 }
 
-* { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; }
 body {
   background: var(--paper);
@@ -170,11 +170,13 @@ body.bars-hidden .bars-toggle { transform: rotate(180deg); }
   background: var(--ink);
   border-radius: 1px;
 }
+/* 圆点以竖线中点（即轴线中心）为圆心 */
 .era-tip-line::after {
   content: "";
   position: absolute;
-  left: -4px; top: 17px;
-  width: 10px; height: 10px;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px; height: 12px;
   border-radius: 50%;
   background: var(--card);
   border: 2px solid var(--ink);
@@ -206,6 +208,8 @@ body.bars-hidden .bars-toggle { transform: rotate(180deg); }
   height: 8px;
   background: var(--muted);
 }
+.tick-today { background: var(--red); height: 10px; top: -16px; }
+.tick-today span { color: var(--red); font-weight: 600; }
 .tick span {
   position: absolute;
   bottom: 10px;

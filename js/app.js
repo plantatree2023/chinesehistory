@@ -18,9 +18,13 @@
   // 朝代 / 时期色带（用于时间轴着色与“当前时代”提示），从数据集加载
   var ERAS = [];
 
+  var CURRENT_YEAR = new Date().getFullYear();
+  // 时期的结束年份；数据中 end 为 null 表示延续至今
+  function eraEnd(era) { return era.end == null ? CURRENT_YEAR : era.end; }
+
   var TICK_YEARS = [-1500000, -1000000, -500000, -200000, -100000, -50000, -20000, -10000, -5000, -4000, -3000];
   for (var ty = -2500; ty <= 1900; ty += 100) TICK_YEARS.push(ty);
-  for (ty = 1910; ty <= 1980; ty += 10) TICK_YEARS.push(ty);
+  for (ty = 1910; ty < CURRENT_YEAR; ty += 10) TICK_YEARS.push(ty);
 
   // ---------- 工具 ----------
   var $ = function (id) { return document.getElementById(id); };
@@ -434,6 +438,13 @@
     layout.height = H;
     layout.width = right + PAD;
     layout.sizeKey = viewW() + 'x' + H;   // 排版所依据的舞台尺寸
+    // 最后一个事件之后的轴线对应到今天：在轴线末端附近加一个“今天”的锚点
+    var lastA = anchors[anchors.length - 1];
+    layout.todayX = null;
+    if (lastA && rawPos(CURRENT_YEAR) > lastA.r && layout.width - PAD / 2 > lastA.x + 40) {
+      layout.todayX = layout.width - PAD / 2;
+      anchors.push({ r: rawPos(CURRENT_YEAR), x: layout.todayX });
+    }
   }
 
   // 任意年份 -> 横坐标（在事件锚点间插值，保证刻度与事件位置一致）
@@ -492,7 +503,8 @@
     eras.innerHTML = '';
     var minX = 0, maxX = W;
     ERAS.forEach(function (era) {
-      var x1 = clamp(xOfYear(era.start), minX, maxX), x2 = clamp(xOfYear(era.end), minX, maxX);
+      var x1 = clamp(xOfYear(era.start), minX, maxX);
+      var x2 = era.end == null ? maxX : clamp(xOfYear(era.end), minX, maxX);   // 延续至今的时期画到轴线末端
       if (x2 - x1 < 2) return;
       var d = el('div', 'era');
       d.dataset.era = era.name;
@@ -508,9 +520,11 @@
     var ticks = $('ticks');
     ticks.innerHTML = '';
     var lastX = -Infinity;
+    var todayX = layout.todayX;
     TICK_YEARS.forEach(function (y) {
       var x = xOfYear(y);
       if (x < 20 || x > W - 20 || x - lastX < 96) return;
+      if (todayX != null && todayX - x < 96) return;   // 给“今天”刻度让位
       if (layout.xs.some(function (ex) { return Math.abs(ex - x) < 22; })) return;   // 避开事件连线
       lastX = x;
       var t = el('div', 'tick');
@@ -518,6 +532,12 @@
       t.appendChild(el('span', null, tickLabel(y)));
       ticks.appendChild(t);
     });
+    if (todayX != null) {
+      var today = el('div', 'tick tick-today');
+      today.style.left = todayX + 'px';
+      today.appendChild(el('span', null, '今天'));
+      ticks.appendChild(today);
+    }
 
     // 事件卡片 + 连线
     var box = $('events');
@@ -684,7 +704,7 @@
     }
     if (y < -3000) return '约公元前' + Math.round(-y / 100) * 100 + '年';
     if (y < 0.5) return '约公元前' + Math.max(1, Math.round(-y)) + '年';
-    return '约公元' + Math.min(1980, Math.round(y)) + '年';
+    return '约公元' + Math.min(CURRENT_YEAR, Math.round(y)) + '年';
   }
 
   function showEraTip(clientX, pinned) {
@@ -697,7 +717,7 @@
     for (var i = 0; i < layout.xs.length; i++) {
       if (Math.abs(layout.xs[i] - tx) <= 7) { y = layout.list[i].year; break; }
     }
-    y = clamp(y, ERAS[0].start, 1980);
+    y = clamp(y, ERAS[0].start, CURRENT_YEAR);
     var era = eraOf(y);
     tipBox.innerHTML = '';
     tipBox.style.borderLeftColor = era.color;
@@ -753,7 +773,8 @@
     var W = layout.width || 1;
     mmEras = el('div', 'mm-eras');
     ERAS.forEach(function (era) {
-      var x1 = clamp(xOfYear(era.start), 0, W), x2 = clamp(xOfYear(era.end), 0, W);
+      var x1 = clamp(xOfYear(era.start), 0, W);
+      var x2 = era.end == null ? W : clamp(xOfYear(era.end), 0, W);
       if (x2 - x1 < 1) return;
       var seg = el('div', 'mm-era');
       seg.dataset.era = era.name;

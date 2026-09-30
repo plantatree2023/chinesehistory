@@ -46,6 +46,65 @@ test('悬浮在事件位置显示正确的时期（含朝代交界的事件）',
   }
 });
 
+test('提示圆点位于轴线正中', async ({ page }) => {
+  await openApp(page);
+  await hoverAxis(page, 700, await axisY(page));
+  const { circle, axis, band } = await page.evaluate(() => {
+    const mid = (r) => r.top + r.height / 2;
+    const line = document.querySelector('.era-tip-line');
+    const cs = getComputedStyle(line, '::after');
+    const lr = line.getBoundingClientRect();
+    // 伪元素没有 DOM 节点，用计算样式还原其渲染位置：
+    // 外框高度要按 box-sizing 计入边框（content-box 下边框在 height 之外，正是此前圆点偏下的原因）
+    const border = parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
+    const outerHeight = parseFloat(cs.height) + (cs.boxSizing === 'content-box' ? border : 0);
+    const translateY = cs.transform === 'none' ? 0 : new DOMMatrixReadOnly(cs.transform).m42;
+    const circleCenter = lr.top + parseFloat(cs.top) + translateY + outerHeight / 2;
+    return { circle: circleCenter, axis: mid(document.getElementById('axis').getBoundingClientRect()), band: mid(document.querySelector('.era.hot').getBoundingClientRect()) };
+  });
+  expect(Math.abs(circle - axis), `圆心 ${circle} 与轴线中心 ${axis}`).toBeLessThanOrEqual(0.5);
+  expect(Math.abs(circle - band), `圆心 ${circle} 与朝代色带中心 ${band}`).toBeLessThanOrEqual(0.5);
+});
+
+test.describe('延续至今的时期', () => {
+  test('中华人民共和国色带延伸到轴线末端，末端有“今天”刻度', async ({ page }) => {
+    await openApp(page);
+    const r = await page.evaluate(() => {
+      const band = document.querySelector('.era[data-era="中华人民共和国"]');
+      const axis = document.getElementById('axis');
+      const lastDot = Math.max(...[...document.querySelectorAll('.dot')].map((d) => parseFloat(d.style.left)));
+      const ticks = [...document.querySelectorAll('.tick')].map((t) => ({ x: parseFloat(t.style.left), label: t.textContent }));
+      return { bandRight: band.offsetLeft + band.offsetWidth, axisRight: axis.offsetWidth, lastDot, ticks };
+    });
+    expect(r.axisRight - r.bandRight, '色带右端与轴线右端的距离').toBeLessThanOrEqual(2);
+    const today = r.ticks.find((t) => t.label === '今天');
+    expect(today, '应有“今天”刻度').toBeTruthy();
+    expect(today.x).toBeGreaterThan(r.lastDot);
+    // 1980 年之后按比例排开的年代刻度
+    const later = r.ticks.filter((t) => /^\d+$/.test(t.label) && Number(t.label) > 1980);
+    expect(later.length, '1980 年之后的年代刻度').toBeGreaterThan(0);
+    expect(later.every((t) => t.x > r.lastDot && t.x < today.x)).toBe(true);
+  });
+
+  test('悬浮在最后一个事件之后显示中华人民共和国，年份不超过今年', async ({ page }) => {
+    await openApp(page);
+    await page.locator('#stage').focus();
+    await page.keyboard.press('End');
+    await expect.poll(() => page.evaluate(() => {
+      const st = document.getElementById('stage');
+      const m = new DOMMatrixReadOnly(getComputedStyle(document.getElementById('track')).transform).m41;
+      return Math.round(st.clientWidth - m);
+    })).toBe(await page.evaluate(() => document.getElementById('track').offsetWidth));
+    const stageBox = await page.locator('#stage').boundingBox();
+    const y = await axisY(page);
+    await hoverAxis(page, stageBox.x + stageBox.width - 60, y);
+    await expect(tipName(page)).toHaveText('中华人民共和国');
+    const year = Number((await page.locator('#eraTip .era-tip-year').textContent()).match(/(\d+)年/)[1]);
+    expect(year).toBeGreaterThan(1980);
+    expect(year).toBeLessThanOrEqual(new Date().getFullYear());
+  });
+});
+
 test('移开鼠标后提示消失', async ({ page }) => {
   await openApp(page);
   await hoverAxis(page, 700, await axisY(page));

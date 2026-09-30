@@ -51,6 +51,16 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 1024, height: 700
       expect(seen.size).toBeGreaterThanOrEqual(9);
     });
 
+    test('中华人民共和国色段延续到进度条末端', async ({ page }) => {
+      await openApp(page);
+      const gap = await page.evaluate(() => {
+        const seg = document.querySelector('.mm-era[data-era="中华人民共和国"]').getBoundingClientRect();
+        const bar = document.querySelector('.mm-eras').getBoundingClientRect();
+        return bar.right - seg.right;
+      });
+      expect(gap).toBeLessThanOrEqual(1);
+    });
+
     test('点击进度条跳转并更新标签', async ({ page }) => {
       await openApp(page);
       await centerOnCard(page, '改革开放');
