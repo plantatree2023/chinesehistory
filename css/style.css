@@ -490,8 +490,63 @@ body.bars-hidden .bars-toggle { transform: rotate(180deg); }
 }
 .sidebar-head h2 { margin: 0; font-family: var(--font-serif); font-size: 19px; }
 .count { font-size: 13px; color: var(--muted); font-family: var(--font-sans); font-weight: normal; }
-.sidebar-search { padding: 4px 16px 10px 20px; }
+.sidebar-search { display: flex; gap: 8px; align-items: center; padding: 4px 16px 10px 20px; }
+.filter-toggle { flex: none; gap: 4px; }
+.filter-toggle.on { border-color: var(--red); color: var(--red); }
+.filter-badge {
+  min-width: 18px; height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: var(--red);
+  color: #fff;
+  font-size: 11px;
+  line-height: 18px;
+  text-align: center;
+}
+/* 筛选面板 */
+.filter-panel {
+  margin: 0 16px 10px 20px;
+  padding: 10px 12px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper);
+  max-height: 46vh;
+  overflow-y: auto;
+}
+.filter-section + .filter-section { margin-top: 12px; }
+.filter-title { margin: 0 0 6px; font-size: 12px; font-weight: 600; color: var(--muted); }
+.filter-check { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink-2); cursor: pointer; }
+.filter-check input { width: 16px; height: 16px; accent-color: var(--red); }
+.filter-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.filter-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 9px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--chip-color, var(--line));
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--ink-2);
+  font-family: var(--font-serif);
+  font-size: 12.5px;
+}
+.filter-chip-count { font-family: var(--font-sans); font-size: 10.5px; color: var(--muted); }
+.filter-chip.on { background: var(--chip-color); border-color: var(--chip-color); color: #fff; }
+.filter-chip.on .filter-chip-count { color: rgba(255,255,255,.85); }
+.filter-year { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; font-size: 13px; color: var(--ink-2); }
+.filter-year select, .filter-year input {
+  padding: 4px 6px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  font: inherit;
+}
+.filter-year input { width: 110px; }
+.filter-hint { margin: 2px 0 0; font-size: 11.5px; color: var(--muted); }
+.filter-warn { margin: 4px 0 0; font-size: 12px; color: var(--red); }
+.filter-clear { margin-top: 12px; }
 .sidebar-search input {
+  flex: 1;
+  min-width: 0;
   width: 100%;
   padding: 9px 12px;
   border: 1px solid var(--line);

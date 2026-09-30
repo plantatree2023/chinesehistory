@@ -56,7 +56,11 @@
     </div>
     <div class="sidebar-search">
       <input type="search" id="searchInput" placeholder="搜索事件、年代…" autocomplete="off">
+      <button type="button" class="btn btn-ghost btn-small filter-toggle" id="filterToggle" aria-expanded="false" aria-controls="filterPanel">
+        筛选<span class="filter-badge" id="filterBadge" hidden></span>
+      </button>
     </div>
+    <div class="filter-panel" id="filterPanel" hidden></div>
     <ol class="event-list" id="eventList"></ol>
     <div class="sidebar-foot">
       <p class="storage-note" id="storageNote"></p>

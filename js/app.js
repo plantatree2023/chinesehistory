@@ -1199,17 +1199,199 @@
   $('sidebarScrim').addEventListener('click', closeSidebar);
   $('searchInput').addEventListener('input', renderList);
 
+  // ---------- 侧栏筛选 ----------
+  // 通用筛选框架：每个筛选维度是 FILTERS 中的一条定义，可选项在运行时由数据计算
+  // （时期来自数据集的 eras，年份范围来自事件）。新增维度只需添加一条定义：
+  //   available(ctx)          数据中是否有可筛选的内容，没有则不显示该维度
+  //   initial()               初始（不筛选）的值
+  //   isActive(v)             该值是否正在筛选
+  //   test(ev, v, ctx)        事件是否符合
+  //   render(box, v, set, ctx) 生成界面；调用 set(新值) 更新筛选
+  // ctx 为 filterContext() 的结果：事件、时期、各时期的事件数、年份范围等。
+  var FILTERS = [
+    {
+      id: 'major',
+      label: '重大事件',
+      available: function (ctx) { return ctx.majorCount > 0; },
+      initial: function () { return false; },
+      isActive: function (v) { return v; },
+      test: function (ev, v) { return !v || !!ev.major; },
+      render: function (box, v, set, ctx) {
+        var label = el('label', 'filter-check');
+        var cb = el('input');
+        cb.type = 'checkbox';
+        cb.checked = v;
+        cb.dataset.filter = 'major';
+        cb.addEventListener('change', function () { set(cb.checked); });
+        label.appendChild(cb);
+        label.appendChild(document.createTextNode(' 只看重大事件（' + ctx.majorCount + '）'));
+        box.appendChild(label);
+      }
+    },
+    {
+      id: 'era',
+      label: '朝代 / 时期（可多选）',
+      available: function (ctx) { return ctx.erasWithEvents.length > 0; },
+      initial: function () { return []; },
+      isActive: function (v) { return v.length > 0; },
+      test: function (ev, v) { return !v.length || v.indexOf(eraOf(ev.year).name) > -1; },
+      render: function (box, v, set, ctx) {
+        var wrap = el('div', 'filter-chips');
+        ctx.erasWithEvents.forEach(function (era) {
+          var chip = el('button', 'filter-chip');
+          chip.type = 'button';
+          chip.dataset.era = era.name;
+          chip.style.setProperty('--chip-color', era.color);
+          chip.appendChild(document.createTextNode(era.name));
+          chip.appendChild(el('span', 'filter-chip-count', String(ctx.eraCounts[era.name])));
+          var sync = function () {
+            var on = v.indexOf(era.name) > -1;
+            chip.classList.toggle('on', on);
+            chip.setAttribute('aria-pressed', on ? 'true' : 'false');
+          };
+          sync();
+          chip.addEventListener('click', function () {
+            var i = v.indexOf(era.name);
+            v = i > -1 ? v.slice(0, i).concat(v.slice(i + 1)) : v.concat([era.name]);
+            set(v);
+            sync();
+          });
+          wrap.appendChild(chip);
+        });
+        box.appendChild(wrap);
+      }
+    },
+    {
+      id: 'range',
+      label: '时间范围',
+      available: function (ctx) { return ctx.events.length > 1; },
+      initial: function () { return { from: null, to: null }; },
+      isActive: function (v) { return v.from != null || v.to != null; },
+      test: function (ev, v) {
+        return (v.from == null || ev.year >= v.from) && (v.to == null || ev.year <= v.to);
+      },
+      render: function (box, v, set, ctx) {
+        var warn = el('p', 'filter-warn');
+        warn.hidden = true;
+        // 一个年份输入：纪年（公元前 / 公元）+ 年数，留空表示不限
+        var yearInput = function (key, prefix, bound) {
+          var row = el('div', 'filter-year');
+          row.appendChild(el('span', 'filter-year-label', prefix));
+          var era = el('select');
+          era.dataset.range = key + '-era';
+          era.innerHTML = '<option value="bce">公元前</option><option value="ce">公元</option>';
+          var num = el('input');
+          num.type = 'number';
+          num.min = '1';
+          num.step = '1';
+          num.dataset.range = key;
+          num.placeholder = String(Math.abs(bound));
+          var cur = v[key];
+          era.value = (cur != null ? cur : bound) < 0 ? 'bce' : 'ce';
+          if (cur != null) num.value = String(Math.abs(cur));
+          var update = function () {
+            var n = parseInt(num.value, 10);
+            var next = {};
+            next[key] = n > 0 ? (era.value === 'bce' ? -n : n) : null;
+            v = Object.assign({}, v, next);
+            warn.hidden = !(v.from != null && v.to != null && v.from > v.to);
+            warn.textContent = '起始年份晚于结束年份，没有符合的事件';
+            set(v);
+          };
+          num.addEventListener('input', update);
+          era.addEventListener('change', update);
+          row.appendChild(era);
+          row.appendChild(num);
+          row.appendChild(el('span', 'filter-year-label', '年'));
+          return row;
+        };
+        box.appendChild(yearInput('from', '从', ctx.minYear));
+        box.appendChild(yearInput('to', '到', ctx.maxYear));
+        box.appendChild(el('p', 'filter-hint', '数据范围：' + formatYear(ctx.minYear) + ' — ' + formatYear(ctx.maxYear) + '；留空表示不限'));
+        box.appendChild(warn);
+      }
+    }
+  ];
+  var filterState = {};
+  FILTERS.forEach(function (f) { filterState[f.id] = f.initial(); });
+
+  // 由当前数据计算各筛选维度的可选项
+  function filterContext() {
+    var eraCounts = {};
+    events.forEach(function (ev) {
+      var name = eraOf(ev.year).name;
+      eraCounts[name] = (eraCounts[name] || 0) + 1;
+    });
+    var years = events.map(function (ev) { return ev.year; });
+    return {
+      events: events,
+      eras: ERAS,
+      eraCounts: eraCounts,
+      erasWithEvents: ERAS.filter(function (era) { return eraCounts[era.name] > 0; }),
+      majorCount: events.filter(function (ev) { return ev.major; }).length,
+      minYear: years.length ? Math.min.apply(null, years) : 0,
+      maxYear: years.length ? Math.max.apply(null, years) : 0
+    };
+  }
+  function activeFilters(ctx) {
+    return FILTERS.filter(function (f) { return f.available(ctx) && f.isActive(filterState[f.id]); });
+  }
+
+  // 数据变化（新增、删除、修改年份或重大事件标记、恢复默认）时才重建筛选面板，
+  // 输入筛选条件时只刷新列表，避免输入框失去焦点
+  var filterPanelKey = null;
+  function renderFilterPanel(ctx) {
+    var key = events.map(function (ev) { return ev.year + (ev.major ? '*' : ''); }).join(',');
+    if (key === filterPanelKey) return;
+    filterPanelKey = key;
+    var panel = $('filterPanel');
+    panel.innerHTML = '';
+    FILTERS.forEach(function (f) {
+      if (!f.available(ctx)) return;
+      var section = el('section', 'filter-section');
+      section.dataset.filter = f.id;
+      section.appendChild(el('h3', 'filter-title', f.label));
+      f.render(section, filterState[f.id], function (value) {
+        filterState[f.id] = value;
+        renderList();
+      }, ctx);
+      panel.appendChild(section);
+    });
+    var clear = el('button', 'btn btn-ghost btn-small filter-clear', '清除筛选');
+    clear.type = 'button';
+    clear.id = 'filterClear';
+    clear.addEventListener('click', function () {
+      FILTERS.forEach(function (f) { filterState[f.id] = f.initial(); });
+      filterPanelKey = null;   // 重建面板，使输入框恢复初始状态
+      renderList();
+    });
+    panel.appendChild(clear);
+  }
+  $('filterToggle').addEventListener('click', function () {
+    var panel = $('filterPanel');
+    panel.hidden = !panel.hidden;
+    this.setAttribute('aria-expanded', panel.hidden ? 'false' : 'true');
+  });
+
   function renderList() {
     var q = $('searchInput').value.trim().toLowerCase();
+    var ctx = filterContext();
+    renderFilterPanel(ctx);
+    var active = activeFilters(ctx);
     var list = sorted().filter(function (ev) {
-      if (!q) return true;
-      return [ev.title, ev.short, ev.detail, ev.date, formatYear(ev.year)].join(' ').toLowerCase().indexOf(q) > -1;
+      if (q && [ev.title, ev.short, ev.detail, ev.date, formatYear(ev.year)].join(' ').toLowerCase().indexOf(q) === -1) return false;
+      return active.every(function (f) { return f.test(ev, filterState[f.id], ctx); });
     });
-    $('eventCount').textContent = q ? '（' + list.length + ' / ' + events.length + '）' : '（' + events.length + '）';
+    var narrowed = q || active.length;
+    $('eventCount').textContent = narrowed ? '（' + list.length + ' / ' + events.length + '）' : '（' + events.length + '）';
+    $('filterBadge').hidden = !active.length;
+    $('filterBadge').textContent = active.length ? String(active.length) : '';
+    $('filterToggle').classList.toggle('on', active.length > 0);
+    if ($('filterClear')) $('filterClear').disabled = !active.length;
     var ol = $('eventList');
     ol.innerHTML = '';
     if (!list.length) {
-      ol.appendChild(el('li', 'list-empty', q ? '没有找到匹配的事件' : '暂无事件，点击右下角“+”添加'));
+      ol.appendChild(el('li', 'list-empty', narrowed ? '没有符合条件的事件' : '暂无事件，点击右下角“+”添加'));
       return;
     }
     list.forEach(function (ev) {
