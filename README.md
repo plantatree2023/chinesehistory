@@ -49,6 +49,7 @@ npm run wiki -- --file data/cn_zh.json 淝水之战 北京奥运会      # 一�
 npm run wiki -- --file data/cn_zh.json --list topics.txt         # 条目表，逐条查询
 npm run wiki -- --file data/cn_zh.json --dry-run 北京奥运会      # 只显示将做的修改，不写文件
 npm run wiki -- --file data/cn_zh.json --year 1997 香港回归      # 指定年份
+npm run wiki -- --file data/cn_zh.json --download-images 北京奥运会  # 同时把图片下载到本地
 ```
 
 - 条目表每行一个关键词，可写成 `关键词|年份`（公元前写负数），`#` 开头为注释。
@@ -59,7 +60,9 @@ npm run wiki -- --file data/cn_zh.json --year 1997 香港回归      # 指定年
 - **新条目**：事件名使用关键词；年份取自 Wikidata，取不到时从简介文字中查找（会提示核对），
   仍无法确定则报错，需要用 `关键词|年份` 或 `--year` 指定。
 - 写入前按网站服务器的同一套规则校验数据；遇到维基限流会自动等待重试。
-- 新图片直接引用维基共享资源的地址，没有下载到 `images/`。
+- 默认直接引用维基共享资源的图片地址。加 `--download-images` 会把所处理条目的图片（维基生成的缩略图，通常几十 KB）
+  下载到数据文件上一级目录的 `images/`（`data/cn_zh.json` → `images/`），按内容哈希命名、同一张图只存一份，
+  记录宽高，原地址保留在 `remote` 字段；单张下载失败时保留维基地址并提示。在无法访问维基的网络中也能显示这些图片。
 
 ## 数据格式与多语言
 
@@ -98,7 +101,7 @@ npm run test:report              # 查看上次的 HTML 报告（失败时含截
 | `tests/era-tooltip.spec.js` | 悬浮 / 点击时间轴显示所处时期，含朝代交界 |
 | `tests/progress-bar.spec.js` | 底部进度条的时期高亮与标签 |
 | `tests/header.spec.js` | 顶栏：标题中的当前时期、时期色条、标题字体、窄屏显示 |
-| `tests/wiki-import.spec.js` | 维基导入脚本：新增 / 更新、条目表、dry run、搜索与年份来源、限流重试（使用模拟的维基接口，不访问外网） |
+| `tests/wiki-import.spec.js` | 维基导入脚本：新增 / 更新、条目表、dry run、搜索与年份来源、限流重试、下载图片（使用模拟的维基接口，不访问外网） |
 | `tests/local-file.spec.js` | 本地文件模式：修改写回 JSON、图片上传、写入接口的安全校验（使用临时数据副本） |
 
 ## 目录结构

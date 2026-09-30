@@ -5,6 +5,7 @@
 //   node tools/wiki-import.js --file data/cn_zh.json 淝水之战 甲午战争
 //   node tools/wiki-import.js --file data/cn_zh.json --list topics.txt
 //   node tools/wiki-import.js --file data/cn_zh.json --dry-run 淝水之战
+//   node tools/wiki-import.js --file data/cn_zh.json --download-images 淝水之战
 //
 // 条目表（--list）每行一个关键词，可用“关键词|年份”指定年份（公元前写负数），# 开头为注释。
 //
@@ -16,6 +17,9 @@
 // - 新条目：事件名使用关键词；年份依次取自：指定的年份 → Wikidata（时间点 / 开始时间 / 成立时间 / 出生日期等）
 //   → 简介文字中的第一个年份（会提示核对）；都无法确定时不新增并报错。
 // - 写入前用网站服务器的同一套规则校验数据，并原子写入；--dry-run 只输出将做的修改。
+// - --download-images：把所处理条目的维基图片（维基生成的缩略图）下载到数据文件上一级目录的 images/
+//   （data/cn_zh.json → images/），按内容哈希命名、同图只存一份，并记录宽高；原地址保留在 remote 中。
+//   单张图片下载失败时保留维基地址并给出提示。
 //
 // 退出码：0 全部成功；1 有关键词失败（其余成功的仍会写入）；2 参数或文件错误。
 //
@@ -24,6 +28,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const { validateDataset, writeAtomic, DATASET_ID } = require('../server');
 
 const USER_AGENT = 'ChineseHistoryTimeline/1.0 (https://github.com/plantatree2023/chinesehistory)';
@@ -41,7 +46,7 @@ class UsageError extends Error {}
 
 // ---------- 参数 ----------
 function parseArgs(argv) {
-  const opts = { keywords: [], dryRun: false, delay: 1000 };
+  const opts = { keywords: [], dryRun: false, downloadImages: false, delay: 1000 };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     const value = () => {
@@ -53,6 +58,7 @@ function parseArgs(argv) {
     else if (a === '--year') opts.year = parseYear(value());
     else if (a === '--delay') opts.delay = Number(value());
     else if (a === '--dry-run' || a === '-n') opts.dryRun = true;
+    else if (a === '--download-images' || a === '-d') opts.downloadImages = true;
     else if (a === '--help' || a === '-h') opts.help = true;
     else if (a.startsWith('-')) throw new UsageError(`未知参数：${a}`);
     else opts.keywords.push(a);
@@ -101,13 +107,13 @@ class WikiClient {
     this.retryBase = Number(process.env.WIKI_RETRY_BASE_MS) || 2000;
   }
 
-  // GET JSON；404 返回 null；限流（429）、服务器错误和网络错误时按指数退避重试
-  async getJson(url) {
+  // GET 请求；404 返回 null；限流（429）、服务器错误和网络错误时按指数退避重试
+  async request(url, accept) {
     const attempts = 6;
     for (let i = 0; i < attempts; i++) {
       let res;
       try {
-        res = await fetch(url, { headers: { 'User-Agent': USER_AGENT, 'Accept-Language': this.acceptLanguage, Accept: 'application/json' } });
+        res = await fetch(url, { headers: { 'User-Agent': USER_AGENT, 'Accept-Language': this.acceptLanguage, Accept: accept } });
       } catch (e) {
         if (i === attempts - 1) throw new Error(`网络错误：${e.message}`);
         await sleep(this.retryBase * 2 ** i);
@@ -121,9 +127,26 @@ class WikiClient {
         continue;
       }
       if (!res.ok) throw new Error(`请求失败（HTTP ${res.status}）：${url}`);
-      try { return await res.json(); } catch { throw new Error(`返回内容不是 JSON：${url}`); }
+      return res;
     }
     return null;
+  }
+
+  async getJson(url) {
+    const res = await this.request(url, 'application/json');
+    if (!res) return null;
+    try { return await res.json(); } catch { throw new Error(`返回内容不是 JSON：${url}`); }
+  }
+
+  // 下载二进制文件（图片），超过大小上限时报错
+  async getBinary(url, maxBytes) {
+    const res = await this.request(url, 'image/*');
+    if (!res) throw new Error('图片不存在（HTTP 404）');
+    const length = Number(res.headers.get('content-length'));
+    if (length > maxBytes) throw new Error('图片过大');
+    const buf = Buffer.from(await res.arrayBuffer());
+    if (buf.length > maxBytes) throw new Error('图片过大');
+    return buf;
   }
 
   summary(title) {
@@ -280,6 +303,70 @@ function titleFromSource(source) {
   try { return decodeURIComponent(m[1]).replace(/_/g, ' '); } catch { return null; }
 }
 
+// ---------- 下载图片 ----------
+const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
+const IMAGE_EXT = { jpeg: '.jpg', png: '.png', gif: '.gif', webp: '.webp' };
+
+// 从文件头读取图片类型和宽高（JPEG / PNG / GIF / WebP），不是这些格式时返回 null
+function imageSize(buf) {
+  if (buf.length >= 24 && buf.readUInt32BE(0) === 0x89504e47 && buf.toString('ascii', 12, 16) === 'IHDR') {
+    return { type: 'png', w: buf.readUInt32BE(16), h: buf.readUInt32BE(20) };
+  }
+  if (buf.length >= 10 && buf.toString('ascii', 0, 4) === 'GIF8') {
+    return { type: 'gif', w: buf.readUInt16LE(6), h: buf.readUInt16LE(8) };
+  }
+  if (buf.length >= 30 && buf.toString('ascii', 0, 4) === 'RIFF' && buf.toString('ascii', 8, 12) === 'WEBP') {
+    const chunk = buf.toString('ascii', 12, 16);
+    if (chunk === 'VP8X') return { type: 'webp', w: 1 + buf.readUIntLE(24, 3), h: 1 + buf.readUIntLE(27, 3) };
+    if (chunk === 'VP8 ') return { type: 'webp', w: buf.readUInt16LE(26) & 0x3fff, h: buf.readUInt16LE(28) & 0x3fff };
+    if (chunk === 'VP8L') {
+      const b = buf.readUInt32LE(21);
+      return { type: 'webp', w: 1 + (b & 0x3fff), h: 1 + ((b >>> 14) & 0x3fff) };
+    }
+    return null;
+  }
+  if (buf.length >= 4 && buf[0] === 0xff && buf[1] === 0xd8) {
+    // 逐个跳过 JPEG 段，找到记录尺寸的 SOF 段
+    let i = 2;
+    while (i + 9 < buf.length) {
+      if (buf[i] !== 0xff) { i++; continue; }
+      const marker = buf[i + 1];
+      if (marker === 0xff) { i++; continue; }
+      if (marker === 0x01 || (marker >= 0xd0 && marker <= 0xd8)) { i += 2; continue; }
+      if (marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker)) {
+        return { type: 'jpeg', h: buf.readUInt16BE(i + 5), w: buf.readUInt16BE(i + 7) };
+      }
+      i += 2 + buf.readUInt16BE(i + 2);
+    }
+  }
+  return null;
+}
+
+// 把事件中仍引用维基地址的图片下载到本地，返回 { downloaded, planned, failed }
+async function downloadImages(client, event, imagesDir, dryRun) {
+  const stats = { downloaded: 0, planned: 0, failed: [] };
+  const images = [];
+  for (const img of event.images || []) {
+    if (!/^https?:/i.test(img.src)) { images.push(img); continue; }
+    if (dryRun) { stats.planned++; images.push(img); continue; }
+    try {
+      const buf = await client.getBinary(img.src, MAX_IMAGE_BYTES);
+      const size = imageSize(buf);
+      if (!size || !size.w || !size.h) throw new Error('不是 JPEG / PNG / GIF / WebP 图片');
+      const name = crypto.createHash('sha256').update(buf).digest('hex').slice(0, 16) + IMAGE_EXT[size.type];
+      const file = path.join(imagesDir, name);
+      if (!fs.existsSync(file)) writeAtomic(file, buf);
+      images.push({ ...img, src: `images/${name}`, remote: img.src, w: size.w, h: size.h });
+      stats.downloaded++;
+    } catch (e) {
+      stats.failed.push(`${img.src}：${e.message}`);
+      images.push(img);
+    }
+  }
+  event.images = images;
+  return stats;
+}
+
 // ---------- 合并到数据集 ----------
 function findExisting(events, keyword, wikiTitle) {
   const norm = (t) => (t || '').replace(/_/g, ' ');
@@ -312,7 +399,7 @@ function changedFields(before, after) {
 }
 
 // 处理一个关键词：查询维基并新增 / 更新 data.events 中的条目，返回结果说明
-async function importOne(client, data, info, { keyword, year }) {
+async function importOne(client, data, info, { keyword, year }, opts = {}) {
   const summary = await client.resolve(keyword);
   if (!summary) return { ok: false, keyword, message: '维基百科中找不到对应条目' };
 
@@ -334,6 +421,7 @@ async function importOne(client, data, info, { keyword, year }) {
     const updated = { ...existing, ...fromWiki, images: mergeImages(existing.images, fromWiki.images) };
     if (when) Object.assign(updated, { year: when.year, date: dateLabel(when.year, when.precision, info.lang) });
     if (charCount(existing.short) < MIN_SUMMARY) updated.short = makeShort(text);
+    if (opts.downloadImages) notes.push(...imageNotes(await downloadImages(client, updated, opts.imagesDir, opts.dryRun)));
     const fields = changedFields(existing, updated);
     data.events[data.events.indexOf(existing)] = updated;
     return { ok: true, keyword, action: fields.length ? 'update' : 'same', event: updated, fields, wikiTitle, notes };
@@ -355,8 +443,17 @@ async function importOne(client, data, info, { keyword, year }) {
     ...fromWiki,
     major: false,
   };
+  if (opts.downloadImages) notes.push(...imageNotes(await downloadImages(client, event, opts.imagesDir, opts.dryRun)));
   data.events.push(event);
   return { ok: true, keyword, action: 'add', event, fields: Object.keys(FIELD_NAMES), wikiTitle, notes, yearFrom: when.from };
+}
+
+function imageNotes(stats) {
+  const notes = [];
+  if (stats.downloaded) notes.push(`已下载 ${stats.downloaded} 张图片到本地`);
+  if (stats.planned) notes.push(`将下载 ${stats.planned} 张图片到本地`);
+  for (const f of stats.failed) notes.push(`图片下载失败，保留维基地址：${f}`);
+  return notes;
 }
 
 function describe(r) {
@@ -387,12 +484,14 @@ async function main(argv) {
 
   const items = opts.list ? readList(opts.list) : opts.keywords.map((keyword) => ({ keyword, year: opts.year }));
   const client = new WikiClient(info);
+  // 网站根目录 = 数据文件所在目录的上一级（data/cn_zh.json → 根目录），图片存到根目录下的 images/
+  opts.imagesDir = path.resolve(path.dirname(opts.file), '..', 'images');
   const results = [];
   for (let i = 0; i < items.length; i++) {
     if (i > 0 && opts.delay) await sleep(opts.delay);   // 两次查询之间稍作间隔，避免触发维基限流
     let r;
     try {
-      r = await importOne(client, data, info, items[i]);
+      r = await importOne(client, data, info, items[i], opts);
     } catch (e) {
       r = { ok: false, keyword: items[i].keyword, message: e.message };
     }
@@ -425,4 +524,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { main, parseArgs, readList, datasetInfo, cleanExtract, makeDetail, makeShort, makeImages, parseWikidataTime, dateLabel };
+module.exports = { main, parseArgs, readList, datasetInfo, cleanExtract, makeDetail, makeShort, makeImages, parseWikidataTime, dateLabel, imageSize };
