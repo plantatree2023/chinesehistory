@@ -701,14 +701,31 @@
 
   // ---------- 小地图 & 当前时代 ----------
   var minimap = $('minimap'), minimapView = $('minimapView');
+  // 进度条：按时期分段着色，只有当前时期满色显示，上方标出时期名
+  var mmEras = null, mmLabel = null, mmCurrent = null;
   function renderMinimap() {
-    Array.prototype.slice.call(minimap.querySelectorAll('i')).forEach(function (n) { n.remove(); });
+    Array.prototype.slice.call(minimap.querySelectorAll('i, .mm-eras, .mm-current')).forEach(function (n) { n.remove(); });
     var W = layout.width || 1;
+    mmEras = el('div', 'mm-eras');
+    ERAS.forEach(function (era) {
+      var x1 = clamp(xOfYear(era.start), 0, W), x2 = clamp(xOfYear(era.end), 0, W);
+      if (x2 - x1 < 1) return;
+      var seg = el('div', 'mm-era');
+      seg.dataset.era = era.name;
+      seg.style.left = (x1 / W * 100) + '%';
+      seg.style.width = ((x2 - x1) / W * 100) + '%';
+      seg.style.background = era.color;
+      mmEras.appendChild(seg);
+    });
+    minimap.insertBefore(mmEras, minimapView);
     layout.xs.forEach(function (x) {
       var m = el('i');
       m.style.left = (x / W * 100) + '%';
-      minimap.appendChild(m);
+      minimap.insertBefore(m, minimapView);
     });
+    mmLabel = el('div', 'mm-current');
+    minimap.appendChild(mmLabel);
+    mmCurrent = null;
   }
   function updateViewIndicators() {
     var W = layout.width || 1;
@@ -716,7 +733,22 @@
     minimapView.style.left = (left * 100) + '%';
     minimapView.style.width = (width * 100) + '%';
     var y = yearAtX(-offset + viewW() / 2);
-    $('currentEra').textContent = y == null ? '' : eraOf(y).name;
+    var era = y == null ? null : eraOf(y);
+    $('currentEra').textContent = era ? era.name : '';
+    if (!mmEras) return;
+    if (era && era.name !== mmCurrent) {
+      mmCurrent = era.name;
+      Array.prototype.forEach.call(mmEras.children, function (seg) {
+        seg.classList.toggle('on', seg.dataset.era === era.name);
+      });
+      mmLabel.textContent = '▼ ' + era.name;
+    }
+    if (!era) { mmLabel.textContent = ''; mmCurrent = null; return; }
+    // 标签放在当前时期色段的正上方，不超出进度条两端
+    var seg = mmEras.querySelector('.mm-era.on');
+    var mw = minimap.clientWidth, lw = mmLabel.offsetWidth;
+    var cx = seg ? seg.offsetLeft + seg.offsetWidth / 2 : (left + width / 2) * mw;
+    mmLabel.style.left = clamp(cx - lw / 2, 0, Math.max(0, mw - lw)) + 'px';
   }
   var mmDown = false;
   function minimapJump(e) {

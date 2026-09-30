@@ -343,7 +343,7 @@ body.bars-hidden .bars-toggle { transform: rotate(180deg); }
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 10px 96px 14px 20px;
+  padding: 24px 96px 14px 20px;
   border-top: 1px solid var(--line);
   background: rgba(255, 252, 246, .6);
   z-index: 5;
@@ -352,26 +352,53 @@ body.bars-hidden .bars-toggle { transform: rotate(180deg); }
   flex: 1;
   position: relative;
   height: 26px;
-  border-radius: 6px;
-  background: var(--paper-2);
   cursor: pointer;
-  overflow: hidden;
 }
+/* 时期分段：其余时期淡化，当前时期满色 */
+.mm-eras {
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--paper-2);
+}
+.mm-era {
+  position: absolute;
+  top: 0; bottom: 0;
+  opacity: .22;
+  border-right: 1px solid rgba(255, 255, 255, .6);
+  transition: opacity .25s;
+}
+.mm-era.on { opacity: 1; }
 .minimap i {
   position: absolute;
   top: 6px;
   width: 2px;
   height: 14px;
-  background: rgba(168, 50, 42, .55);
+  background: rgba(42, 37, 33, .5);
   pointer-events: none;
 }
 .minimap-view {
   position: absolute;
-  top: 0; bottom: 0;
-  border: 2px solid var(--red);
+  top: -2px; bottom: -2px;
+  border: 2px solid var(--ink);
   border-radius: 6px;
-  background: rgba(168, 50, 42, .08);
+  background: rgba(255, 255, 255, .18);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, .7);
   pointer-events: none;
+}
+.mm-current {
+  position: absolute;
+  top: -20px;
+  left: 0;
+  font-family: var(--font-serif);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  color: var(--ink);
+  white-space: nowrap;
+  pointer-events: none;
+  transition: left .2s ease;
 }
 .btn {
   display: inline-flex;
