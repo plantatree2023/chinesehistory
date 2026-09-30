@@ -137,33 +137,135 @@
 
   // 非线性刻度：史前压缩（对数），有文字记载后线性
   function rawPos(y) {
-    if (y >= -3000) return (y + 3000) * 1.2;
-    return -Math.log10(-y / 3000) * 450;
+    if (y >= -3000) return (y + 3000) * 0.9;
+    return -Math.log10(-y / 3000) * 380;
   }
 
-  function cssPx(name, fallback) {
-    var v = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
-    return isNaN(v) ? fallback : v;
+  // 卡片样式：尺寸不同，图文关系不同
+  var VARIANTS = {
+    tall:    { w: 196, h: 248 },   // 上图下文，图占约三分之二
+    wide:    { w: 330, h: 150 },   // 左图右文，图占约六成
+    mirror:  { w: 330, h: 150 },   // 右图左文
+    mini:    { w: 176, h: 150 },   // 小图，标题压在图上
+    overlay: { w: 256, h: 186 },   // 整图 + 文字压在图片下缘
+    feature: { w: 304, h: 290 }    // 重大事件：大图
+  };
+  var PATTERN = ['tall', 'mini', 'wide', 'overlay', 'mini', 'mirror', 'tall', 'overlay', 'wide', 'mini', 'mirror', 'tall', 'mini', 'overlay'];
+
+  function variantFor(ev, i) {
+    return ev.major ? 'feature' : PATTERN[i % PATTERN.length];
   }
+  // 稳定的伪随机数，让同一数据每次排版一致
+  function jitter(i, k) {
+    var x = Math.sin(i * 12.9898 + k * 78.233) * 43758.5453;
+    return x - Math.floor(x);
+  }
+  function hit(a, b, g) {
+    return a.l < b.r + g && a.r + g > b.l && a.t < b.b + g && a.b + g > b.t;
+  }
+  function segRect(x1, y1, x2, y2) {
+    return { l: Math.min(x1, x2) - 1, r: Math.max(x1, x2) + 1, t: Math.min(y1, y2), b: Math.max(y1, y2) };
+  }
+
+  var CARD_GAP = 16, LINK_GAP = 7;
 
   function computeLayout() {
     var list = sorted();
-    var cardW = cssPx('--card-w', 208);
-    var gap = cardW / 2 + 18;       // 相邻事件在上下交错，同侧间距 = 2*gap
-    var xs = [], anchors = [];
+    var H = stage.clientHeight || 600;
+    var axisY = H / 2;
+    var s = clamp(H / 680, 0.7, 1.12);
+    var band = Math.round(30 * s);          // 轴线附近留给刻度和朝代名的空间
+    var half = axisY - 12;                  // 卡片离舞台边缘至少 12px
+    var maxW = Math.max(150, viewW() - 48);
+    var minGap = Math.round(40 * s);
+    var cards = [], links = [];             // 已放置的卡片与连线（用于碰撞检测）
+    var xs = [], anchors = [], placed = [];
     var base = list.length ? rawPos(list[0].year) : 0;
-    var prev = -Infinity;
-    for (var i = 0; i < list.length; i++) {
-      var r = rawPos(list[i].year);
-      var x = Math.max(PAD + cardW / 2 + (r - base), prev + gap);
-      xs.push(x);
-      anchors.push({ r: r, x: x });
-      prev = x;
+    var prevX = -Infinity, prevSide = 0, prevSame = 0;
+
+    function free(rect, isCard) {
+      var i, g = isCard ? CARD_GAP : LINK_GAP;
+      for (i = cards.length - 1; i >= 0 && i >= cards.length - 30; i--) if (hit(rect, cards[i], g)) return false;
+      for (i = links.length - 1; i >= 0 && i >= links.length - 90; i--) if (hit(rect, links[i], isCard ? LINK_GAP : 3)) return false;
+      return true;
     }
+
+    list.forEach(function (ev, i) {
+      var vname = variantFor(ev, i), v = VARIANTS[vname];
+      var w = Math.min(maxW, Math.round(v.w * s)), h = Math.round(v.h * s);
+      if (h > half - band) h = Math.round(half - band);
+      var x0 = Math.max(PAD + (rawPos(ev.year) - base) * 1, prevX + minGap, PAD);
+      var best = null;
+
+      for (var tries = 0; tries < 400 && !best; tries++) {
+        [-1, 1].forEach(function (side) {
+          for (var d = band; d + h <= half; d += Math.round(20 * s)) {
+            var top = side < 0 ? axisY - d - h : axisY + d;
+            var edgeY = side < 0 ? top + h : top;           // 卡片靠近轴线的一边
+            var cy = top + h / 2;
+            var opts = [];
+            // 直线：锚点落在卡片水平范围内
+            [0.5, 0.3, 0.7, 0.15, 0.85].forEach(function (f) {
+              opts.push({ left: x0 - w * f, kind: 'straight', cost: Math.abs(f - 0.5) * 30 });
+            });
+            // 折线（只折一次）：竖直出发，再水平连到卡片侧边
+            [22, 56].forEach(function (e) {
+              opts.push({ left: x0 + e, kind: 'side', cost: 30 + e * 0.3 });        // 竖直后折入卡片左侧
+              opts.push({ left: x0 - w - e, kind: 'side', cost: 40 + e * 0.3 });    // 折入卡片右侧
+            });
+            opts.forEach(function (o) {
+              var L = Math.round(o.left);
+              if (L < 10) return;
+              var rect = { l: L, r: L + w, t: top, b: top + h };
+              var segs, pts, ay = axisY + side * 8;
+              if (o.kind === 'straight') {
+                pts = [[x0, ay], [x0, edgeY]];
+              } else if (o.kind === 'side') {
+                if (d < band + 12) return;
+                var yy = side < 0 ? Math.max(cy, top + 14) : Math.min(cy, top + h - 14);
+                var ex = L > x0 ? L : L + w;
+                pts = [[x0, ay], [x0, yy], [ex, yy]];
+              }
+              if (!free(rect, true)) return;
+              segs = [];
+              for (var k = 1; k < pts.length; k++) {
+                var sr = segRect(pts[k - 1][0], pts[k - 1][1], pts[k][0], pts[k][1]);
+                // 最后一段贴着卡片本身，不与自身比较
+                if (!free(sr, false)) return;
+                segs.push(sr);
+              }
+              var cost = (d - band) * 0.55 + o.cost
+                + Math.max(0, L + w - x0) * 0.05
+                + (side === prevSide ? 14 + prevSame * 26 : 0)
+                + jitter(i, d + o.left) * 16;
+              if (!best || cost < best.cost) best = { cost: cost, rect: rect, segs: segs, pts: pts, side: side };
+            });
+          }
+        });
+        if (!best) x0 += 14;
+      }
+      if (!best) {                       // 理论上不会发生：兜底放在轴上方
+        var tp = axisY - band - h;
+        best = { rect: { l: x0 - w / 2, r: x0 + w / 2, t: tp, b: tp + h }, segs: [], pts: [[x0, axisY], [x0, tp + h]], side: -1 };
+      }
+      cards.push(best.rect);
+      Array.prototype.push.apply(links, best.segs);
+      prevSame = best.side === prevSide ? prevSame + 1 : 0;
+      prevSide = best.side;
+      prevX = x0;
+      xs.push(x0);
+      anchors.push({ r: rawPos(ev.year), x: x0 });
+      placed.push({ variant: vname, rect: best.rect, pts: best.pts, side: best.side });
+    });
+
+    var right = xs.length ? xs[xs.length - 1] : 0;
+    cards.forEach(function (c) { right = Math.max(right, c.r); });
     layout.list = list;
     layout.xs = xs;
     layout.anchors = anchors;
-    layout.width = (xs.length ? xs[xs.length - 1] : 0) + cardW / 2 + PAD;
+    layout.placed = placed;
+    layout.height = H;
+    layout.width = right + PAD;
   }
 
   // 任意年份 -> 横坐标（在事件锚点间插值，保证刻度与事件位置一致）
@@ -222,6 +324,7 @@
     TICK_YEARS.forEach(function (y) {
       var x = xOfYear(y);
       if (x < 20 || x > W - 20 || x - lastX < 96) return;
+      if (layout.xs.some(function (ex) { return Math.abs(ex - x) < 22; })) return;   // 避开事件连线
       lastX = x;
       var t = el('div', 'tick');
       t.style.left = x + 'px';
@@ -229,17 +332,32 @@
       ticks.appendChild(t);
     });
 
-    // 事件卡片
+    // 事件卡片 + 连线
     var box = $('events');
     box.innerHTML = '';
+    var NS = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('class', 'links');
+    svg.setAttribute('width', W);
+    svg.setAttribute('height', layout.height);
+    box.appendChild(svg);
     layout.list.forEach(function (ev, i) {
-      var node = el('div', 'event ' + (i % 2 ? 'down' : 'up'));
-      node.style.left = layout.xs[i] + 'px';
-      node.dataset.id = ev.id;
-      node.appendChild(el('div', 'dot'));
-      node.appendChild(el('div', 'stem'));
-      var card = el('button', 'card');
+      var pl = layout.placed[i], r = pl.rect;
+      var path = document.createElementNS(NS, 'polyline');
+      path.setAttribute('points', pl.pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' '));
+      svg.appendChild(path);
+
+      var dot = el('div', 'dot');
+      dot.style.left = layout.xs[i] + 'px';
+      box.appendChild(dot);
+
+      var card = el('button', 'card v-' + pl.variant + (pl.side < 0 ? ' up' : ' down'));
       card.type = 'button';
+      card.dataset.id = ev.id;
+      card.style.left = r.l + 'px';
+      card.style.top = r.t + 'px';
+      card.style.width = (r.r - r.l) + 'px';
+      card.style.height = (r.b - r.t) + 'px';
       card.setAttribute('aria-label', (ev.date || formatYear(ev.year)) + ' ' + ev.title);
       card.appendChild(imageEl(ev.images && ev.images[0], 'card-img', ev.title));
       var body = el('div', 'card-body');
@@ -251,8 +369,9 @@
         if (drag.moved) return;
         openDetail(ev.id);
       });
-      node.appendChild(card);
-      box.appendChild(node);
+      card.addEventListener('mouseenter', function () { path.classList.add('hot'); dot.classList.add('hot'); });
+      card.addEventListener('mouseleave', function () { path.classList.remove('hot'); dot.classList.remove('hot'); });
+      box.appendChild(card);
     });
 
     renderMinimap();
@@ -289,7 +408,7 @@
     var i = layout.list.findIndex(function (e) { return e.id === id; });
     if (i < 0) return;
     centerOnX(layout.xs[i], true);
-    var node = track.querySelector('.event[data-id="' + id + '"]');
+    var node = track.querySelector('.card[data-id="' + id + '"]');
     if (node) {
       node.classList.remove('flash');
       void node.offsetWidth;
@@ -550,6 +669,7 @@
     form.short.value = ev ? (ev.short || '') : '';
     form.detail.value = ev ? (ev.detail || '') : '';
     form.source.value = ev ? (ev.source || '') : '';
+    form.major.checked = !!(ev && ev.major);
     draftImages = ev ? clone(ev.images || []) : [];
     $('imageUrlInput').value = '';
     $('formError').textContent = '';
@@ -668,7 +788,8 @@
       short: form.short.value.trim(),
       detail: form.detail.value.trim(),
       images: draftImages.slice(0, MAX_IMAGES),
-      source: form.source.value.trim()
+      source: form.source.value.trim(),
+      major: form.major.checked
     };
     var id;
     if (editingId) {

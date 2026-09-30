@@ -15,8 +15,8 @@
 
 ## 数据来源
 
-事件文字摘自[中文维基百科](https://zh.wikipedia.org/)（CC BY-SA 4.0），图片来自[维基共享资源](https://commons.wikimedia.org/)，
-已下载压缩保存在 `images/` 目录中，版权及许可以各文件在维基共享资源上的说明为准。
+事件文字摘自[中文维基百科](https://zh.wikipedia.org/)（CC BY-SA 4.0），图片直接引用自[维基共享资源](https://commons.wikimedia.org/)
+（在无法访问维基媒体的网络环境下图片会显示为占位图），版权及许可以各文件在维基共享资源上的说明为准。
 
 ## 本地运行
 
@@ -32,4 +32,3 @@ npx http-server .   # 或 python3 -m http.server
 - `css/style.css` 样式
 - `js/app.js` 交互逻辑
 - `data/events.js` 默认事件数据
-- `images/` 事件图片
