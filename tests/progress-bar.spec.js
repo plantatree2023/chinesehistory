@@ -30,6 +30,21 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 1024, height: 700
   test.describe(`${viewport.width}×${viewport.height}`, () => {
     test.use({ viewport });
 
+    test('表示事件的竖条在进度条中垂直居中，上下留白相同', async ({ page }) => {
+      await openApp(page);
+      const r = await page.evaluate(() => {
+        const bar = document.getElementById('minimap').getBoundingClientRect();
+        const ticks = [...document.querySelectorAll('#minimap i')].map((t) => t.getBoundingClientRect());
+        return { n: ticks.length, gaps: ticks.map((t) => [t.top - bar.top, bar.bottom - t.bottom, t.height]) };
+      });
+      expect(r.n).toBeGreaterThan(50);
+      for (const [above, below, h] of r.gaps) {
+        expect(Math.abs(above - below)).toBeLessThanOrEqual(0.5);
+        expect(h).toBeGreaterThan(8);
+        expect(above).toBeGreaterThan(2);
+      }
+    });
+
     test('浏览到不同时期时，高亮与标签随之切换', async ({ page }) => {
       await openApp(page);
       const seen = new Set();

@@ -417,9 +417,8 @@ body.bars-hidden .bars-toggle { transform: rotate(180deg); }
 .mm-era.on { opacity: 1; }
 .minimap i {
   position: absolute;
-  top: 6px;
+  top: 4px; bottom: 4px;    /* 上下留白相同，竖条在进度条中垂直居中（与进度条高度无关） */
   width: 2px;
-  height: 14px;
   background: rgba(42, 37, 33, .5);
   pointer-events: none;
 }
