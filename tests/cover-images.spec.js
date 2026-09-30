@@ -59,6 +59,26 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 1280, height: 640
   });
 }
 
+test('重大事件的代表图明显大于普通事件', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 860 });
+  await openApp(page);
+  const areas = await page.evaluate(() => {
+    const out = { major: [], normal: [] };
+    for (const card of document.querySelectorAll('.card')) {
+      const pic = card.querySelector('.card-img');
+      if (!pic || pic.tagName !== 'IMG') continue;
+      const b = pic.getBoundingClientRect();
+      out[card.classList.contains('major') ? 'major' : 'normal'].push(b.width * b.height);
+    }
+    return out;
+  });
+  const avg = (a) => a.reduce((s, v) => s + v, 0) / a.length;
+  expect(areas.major.length).toBeGreaterThan(5);
+  // 调整前重大事件平均约 63000px²、普通事件约 52000px²（约 1.2 倍）
+  expect(avg(areas.major)).toBeGreaterThan(75000);
+  expect(avg(areas.major) / avg(areas.normal)).toBeGreaterThan(1.35);
+});
+
 test('数据中的图片都是 images/ 下的本地文件：文件存在、可访问、尺寸与记录一致，没有外部地址', async ({ page, request }) => {
   const { events } = await loadDataset(page);
   const images = events.flatMap((e) => e.images.map((img) => ({ ...img, title: e.title })));

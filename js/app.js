@@ -12,7 +12,8 @@
   var LEGACY_STORAGE_KEY = 'zh-history-timeline:v1';   // 旧版本（仅中国数据）使用的键
   var MAX_IMAGES = 9;
   var MAX_DETAIL = 350;
-  var MAX_PER_SCREEN = 6;   // 任意一屏宽度内最多显示的事件数
+  var MAX_PER_SCREEN = 6;
+  var MAX_CAPTION = 60;     // 图片标题最多字数   // 任意一屏宽度内最多显示的事件数
   var MIN_SUMMARY = 20;     // 卡片说明文字至少的字数（不计标点）
 
   // 朝代 / 时期色带（用于时间轴着色与“当前时代”提示），从数据集加载
@@ -116,20 +117,105 @@
   var fileMode = false;
   var ready = false;
 
+  // 浏览器模式只保存访问者自己的改动（相对数据文件的差异），数据文件以后的更新（新增字段、新事件等）仍会生效：
+  // { version: 2, changed: { id: 修改后或新增的事件 }, deleted: [被删除的默认事件 id] }
+  // 修改过的默认事件只记录与数据文件不同的字段（值为 null 表示该字段被删除），其余字段始终取数据文件中的值；
+  // 新增的事件记录完整内容。
+  function canonical(v) {
+    if (Array.isArray(v)) return '[' + v.map(canonical).join(',') + ']';
+    if (v && typeof v === 'object') {
+      return '{' + Object.keys(v).sort().filter(function (k) { return v[k] !== undefined; })
+        .map(function (k) { return JSON.stringify(k) + ':' + canonical(v[k]); }).join(',') + '}';
+    }
+    return JSON.stringify(v);
+  }
+  function defaultsById() {
+    var map = {};
+    defaultEvents.forEach(function (ev) { map[ev.id] = ev; });
+    return map;
+  }
+  // 事件相对数据文件中同一事件的差异，没有差异时返回 null
+  function eventDiff(ev, def) {
+    var ch = {}, any = false;
+    Object.keys(ev).forEach(function (k) {
+      if (k !== 'id' && canonical(ev[k]) !== canonical(def[k])) { ch[k] = ev[k]; any = true; }
+    });
+    Object.keys(def).forEach(function (k) {
+      if (!(k in ev)) { ch[k] = null; any = true; }
+    });
+    return any ? ch : null;
+  }
+  function applyChanges(changed, deleted) {
+    var defs = defaultsById(), gone = {}, out = [];
+    (deleted || []).forEach(function (id) { gone[id] = true; });
+    defaultEvents.forEach(function (def) {
+      if (gone[def.id]) return;
+      var ch = changed[def.id];
+      if (!ch) { out.push(clone(def)); return; }
+      var ev = clone(def);
+      Object.keys(ch).forEach(function (k) {
+        if (ch[k] === null) delete ev[k]; else ev[k] = clone(ch[k]);
+      });
+      out.push(ev);
+    });
+    Object.keys(changed).forEach(function (id) {
+      if (!defs[id] && !gone[id] && changed[id] && changed[id].title) out.push(clone(changed[id]));
+    });
+    return out;
+  }
+  // 旧格式（整个事件数组的快照）：与数据文件相同的事件不再算作改动；
+  // 仍引用外部图片的旧快照事件改用数据文件中的本地图片
+  function migrateSnapshot(list) {
+    var defs = defaultsById(), changed = {}, seen = {};
+    list.forEach(function (ev) {
+      if (!ev || !ev.id) return;
+      seen[ev.id] = true;
+      var def = defs[ev.id];
+      if (!def) { changed[ev.id] = ev; return; }
+      var copy = clone(ev);
+      var external = (copy.images || []).some(function (im) { return !/^(images\/|data:)/.test(im.src || ''); });
+      if (external) copy.images = clone(def.images || []);
+      Object.keys(def).forEach(function (k) { if (!(k in copy)) copy[k] = def[k]; });
+      var ch = eventDiff(copy, def);
+      if (ch) changed[ev.id] = ch;
+    });
+    var deleted = defaultEvents.filter(function (d) { return !seen[d.id]; }).map(function (d) { return d.id; });
+    return { changed: changed, deleted: deleted };
+  }
+  function diffFromDefaults() {
+    var defs = defaultsById(), changed = {}, present = {};
+    events.forEach(function (ev) {
+      present[ev.id] = true;
+      var def = defs[ev.id];
+      var ch = def ? eventDiff(ev, def) : ev;
+      if (ch) changed[ev.id] = ch;
+    });
+    return {
+      version: 2,
+      changed: changed,
+      deleted: defaultEvents.filter(function (d) { return !present[d.id]; }).map(function (d) { return d.id; })
+    };
+  }
+
   function load() {
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
       // 迁移旧版本保存的修改（旧版本只有中国数据）
       if (!raw && dataset === 'cn_zh') {
         raw = localStorage.getItem(LEGACY_STORAGE_KEY);
-        if (raw) {
-          localStorage.setItem(STORAGE_KEY, raw);
-          localStorage.removeItem(LEGACY_STORAGE_KEY);
-        }
+        if (raw) localStorage.removeItem(LEGACY_STORAGE_KEY);
       }
       if (raw) {
         var data = JSON.parse(raw);
-        if (Array.isArray(data)) return data;
+        if (Array.isArray(data)) {
+          var m = migrateSnapshot(data);
+          var list = applyChanges(m.changed, m.deleted);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 2, changed: m.changed, deleted: m.deleted }));
+          return list;
+        }
+        if (data && data.version === 2 && data.changed && typeof data.changed === 'object') {
+          return applyChanges(data.changed, data.deleted);
+        }
       }
     } catch (e) { /* 忽略，使用默认数据 */ }
     return clone(defaultEvents);
@@ -140,7 +226,7 @@
       return true;
     }
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(diffFromDefaults()));
       return true;
     } catch (e) {
       toast('浏览器存储空间不足，修改仅在本次访问中有效');
@@ -215,8 +301,8 @@
   // 代表图按原始比例完整显示，大小由剩余空间决定
   var KINDS = ['stack', 'left', 'right'];
   var SIZES = [46000, 36000, 27000, 19000];         // 图片面积候选（px²），优先用大的
-  var MAJOR_SIZES = [66000, 52000, 40000, 28000];   // 重大事件用更大的图
-  var SIDE_TEXT_W = 150, MIN_STACK_W = 172, MAX_IMG_W = 420, MIN_IMG_SIDE = 56;
+  var MAJOR_SIZES = [150000, 120000, 96000, 76000, 58000, 42000];   // 重大事件用更大的图（约为普通事件的 1.5–3 倍）
+  var SIDE_TEXT_W = 150, MIN_STACK_W = 172, MAX_IMG_W = 420, MAJOR_MAX_IMG_W = 560, MIN_IMG_SIDE = 56;
 
   var ratioCache = {};
   function coverRatio(ev) {
@@ -274,7 +360,8 @@
   // 按图片比例、面积和最大高度计算卡片尺寸，放不下返回 null
   function shapeFor(ev, r, area, kind, maxH) {
     var iw = Math.sqrt(area * r), ih = Math.sqrt(area / r), th, cw;
-    if (iw > MAX_IMG_W) { iw = MAX_IMG_W; ih = iw / r; }
+    var maxIw = ev.major ? MAJOR_MAX_IMG_W : MAX_IMG_W;
+    if (iw > maxIw) { iw = maxIw; ih = iw / r; }
     if (kind === 'stack') {
       for (var k = 0; k < 2; k++) {
         cw = Math.max(iw, MIN_STACK_W);
@@ -347,12 +434,14 @@
       var r = coverRatio(ev);
       var maxH = Math.floor(half - band);
       var shapes = [];
-      (ev.major ? MAJOR_SIZES : SIZES).forEach(function (area, si) {
+      var tiers = ev.major ? MAJOR_SIZES : SIZES;
+      tiers.forEach(function (area) {
         KINDS.forEach(function (kind) {
           var sh = shapeFor(ev, r, area * s * s, kind, maxH);
           if (!sh || sh.w > maxW) return;
-          // 越大越好；与上一个事件换一种图文关系；竖图适合左右排，横图适合上下排
-          sh.cost = si * 16 + (kind === prevKind ? 14 : 0)
+          // 按实际显示的图片面积计分，越大越好（重大事件更坚持用大图）；
+          // 与上一个事件换一种图文关系；竖图适合左右排，横图适合上下排
+          sh.cost = (1 - sh.iw * sh.ih / (tiers[0] * s * s)) * (ev.major ? 150 : 80) + (kind === prevKind ? 14 : 0)
             + (kind === 'stack' ? (r < 0.85 ? 18 : 0) : (r > 1.7 ? 18 : 0))
             + (kind === 'right' ? 4 : 0);
           shapes.push(sh);
@@ -487,6 +576,28 @@
     return list[best].year;
   }
 
+  // 背景色随时期渐变：每个时期的颜色以很低的不透明度铺在该时期的范围内，相邻时期之间平滑过渡，
+  // 整体仍是纸色主调。随时间轴一起拖动。
+  var WASH_ALPHA = 0.24;
+  function hexToRgba(hex, a) {
+    var m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(hex || '');
+    if (!m) return null;
+    return 'rgba(' + parseInt(m[1], 16) + ', ' + parseInt(m[2], 16) + ', ' + parseInt(m[3], 16) + ', ' + a + ')';
+  }
+  function renderEraWash(W) {
+    var wash = $('eraWash');
+    var stops = [];
+    ERAS.forEach(function (era) {
+      var c = hexToRgba(era.color, WASH_ALPHA);
+      var x1 = clamp(xOfYear(era.start), 0, W);
+      var x2 = era.end == null ? W : clamp(xOfYear(era.end), 0, W);
+      if (!c || x2 - x1 < 2) return;
+      var fade = Math.min(160, (x2 - x1) / 3);   // 时期两端留出过渡区，与相邻时期的颜色渐变衔接
+      stops.push(c + ' ' + Math.round(x1 + fade) + 'px', c + ' ' + Math.round(x2 - fade) + 'px');
+    });
+    wash.style.backgroundImage = stops.length ? 'linear-gradient(to right, ' + stops.join(', ') + ')' : '';
+  }
+
   function renderTimeline() {
     ensureRatios();
     computeLayout();
@@ -497,6 +608,7 @@
     $('axisHit').style.width = W + 'px';
 
     // 朝代色带
+    renderEraWash(W);
     var eras = $('eras');
     eras.innerHTML = '';
     var minX = 0, maxX = W;
@@ -1053,6 +1165,15 @@
       });
       acts.appendChild(rm);
       slot.appendChild(acts);
+      // 图片标题：显示在图片查看器中，保存时随事件写入数据
+      var cap = el('input', 'slot-caption');
+      cap.type = 'text';
+      cap.maxLength = MAX_CAPTION;
+      cap.placeholder = '图片标题';
+      cap.value = im.caption || '';
+      cap.setAttribute('aria-label', '第 ' + (i + 1) + ' 张图片的标题');
+      cap.addEventListener('input', function () { im.caption = cap.value; });
+      slot.appendChild(cap);
       box.appendChild(slot);
     });
     var full = draftImages.length >= MAX_IMAGES;
@@ -1170,7 +1291,9 @@
       date: form.date.value.trim() || formatYear(year),
       short: form.short.value.trim(),
       detail: form.detail.value.trim(),
-      images: draftImages.slice(0, MAX_IMAGES),
+      images: draftImages.slice(0, MAX_IMAGES).map(function (im) {
+        return Object.assign({}, im, { caption: (im.caption || '').trim() });
+      }),
       source: form.source.value.trim(),
       major: form.major.checked
     };

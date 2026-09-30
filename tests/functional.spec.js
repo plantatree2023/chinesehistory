@@ -100,6 +100,40 @@ test.describe('事件详情', () => {
     await expect(page.locator('.card-title', { hasText: '测试编辑标题' })).toHaveCount(1);
   });
 
+  test('在编辑页修改图片标题，图片查看器中显示，刷新后保留', async ({ page }) => {
+    await openApp(page);
+    await page.click('#browseBtn');
+    await page.fill('#searchInput', '安史之乱');
+    await page.locator('.list-row').first().click();
+    await page.click('.list-actions .btn-primary');
+    const captions = page.locator('#imageEditor .slot-caption');
+    expect(await captions.count()).toBeGreaterThan(1);
+    await captions.nth(1).fill('  新的图片标题  ');
+    await captions.nth(0).fill('');
+    await page.click('#editForm button[type=submit]');
+    await expect(page.locator('#editModal')).toBeHidden();
+
+    const check = async () => {
+      await page.click('.list-actions .btn-ghost');
+      await page.locator('#detailGallery img').first().click();
+      // 首尾空格在保存时去掉；后面是查看器的序号
+      await expect(page.locator('#lightboxCaption')).toHaveText(/^新的图片标题 {2}\(2\/\d+\)$/);
+      await page.locator('#lightbox').click({ position: { x: 5, y: 5 } });
+      await expect(page.locator('#lightbox')).toBeHidden();
+    };
+    await check();
+    await page.reload();
+    await page.click('#browseBtn');
+    await page.fill('#searchInput', '安史之乱');
+    await page.locator('.list-row').first().click();
+    await check();
+    // 编辑页中显示保存后的标题
+    await page.keyboard.press('Escape');
+    await page.click('.list-actions .btn-primary');
+    await expect(captions.nth(1)).toHaveValue('新的图片标题');
+    await expect(captions.nth(0)).toHaveValue('');
+  });
+
   test('在详情中删除事件', async ({ page }) => {
     await openApp(page);
     await (await visibleCard(page)).click();
@@ -168,7 +202,8 @@ test.describe('新增事件', () => {
       await page.click('#editForm button[type=submit]');
       await expect(page.locator('.card-title', { hasText: '浏览器网址图片' })).toHaveCount(1);
 
-      const saved = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)).find((e) => e.title === '浏览器网址图片'), STORAGE_KEY);
+      const stored = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)), STORAGE_KEY);
+      const saved = Object.values(stored.changed).find((e) => e.title === '浏览器网址图片');
       expect(saved.images).toHaveLength(1);
       expect(saved.images[0]).toMatchObject({ src: expect.stringMatching(/^data:image\/jpeg;base64,/), w: 80, h: 60 });
     } finally {

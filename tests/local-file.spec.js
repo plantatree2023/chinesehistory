@@ -130,6 +130,21 @@ test.describe('界面', () => {
     }
   });
 
+  test('修改图片标题写入数据文件，只改动标题', async ({ page }) => {
+    const before = findEvent('安史之乱');
+    await openLocal(page);
+    await page.click('#browseBtn');
+    await page.fill('#searchInput', '安史之乱');
+    await page.locator('.list-row').first().click();
+    await page.click('.list-actions .btn-primary');
+    await page.locator('#imageEditor .slot-caption').nth(1).fill('写入文件的图片标题');
+    await page.click('#editForm button[type=submit]');
+    await expect.poll(() => findEvent('安史之乱').images[1].caption).toBe('写入文件的图片标题');
+    const after = findEvent('安史之乱');
+    expect(after.images.map((im) => ({ ...im, caption: null }))).toEqual(before.images.map((im) => ({ ...im, caption: null })));
+    expect(after.images[0].caption).toBe(before.images[0].caption);
+  });
+
   test('编辑和删除同样写入数据文件', async ({ page }) => {
     await openLocal(page);
     await page.click('#browseBtn');

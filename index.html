@@ -19,6 +19,7 @@
 
   <main class="stage" id="stage" tabindex="0" aria-label="历史时间轴，可左右拖动或使用方向键浏览">
     <div class="track" id="track">
+      <div class="era-wash" id="eraWash" aria-hidden="true"></div>
       <div class="axis" id="axis"></div>
       <div class="axis-hit" id="axisHit" title=""></div>
       <div class="eras" id="eras"></div>
@@ -153,7 +154,7 @@
         <textarea name="detail" rows="6" maxlength="350"></textarea>
       </label>
       <div class="field">
-        <span>图片（最多 9 张，第一张为代表图；上传后保存在本地）</span>
+        <span>图片（最多 9 张，第一张为代表图；上传后保存在本地；可在每张图下方填写标题）</span>
         <div class="image-editor" id="imageEditor"></div>
         <div class="image-add">
           <input type="url" id="imageUrlInput" placeholder="粘贴图片网址，自动下载到本地">

@@ -20,6 +20,7 @@
   --shadow: 0 6px 18px rgba(60, 40, 20, .14), 0 1px 3px rgba(60, 40, 20, .12);
   --shadow-lg: 0 24px 60px rgba(40, 25, 10, .28);
   --radius: 10px;
+  --bottombar-h: 54px;      /* 底栏高度；添加按钮悬浮在底栏上方 */
   --font-serif: "Noto Serif SC", "Songti SC", "STSong", "SimSun", "Source Han Serif SC", serif;
   --font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
 }
@@ -132,6 +133,14 @@ body.bars-hidden .bars-toggle { transform: rotate(180deg); }
   outline: none;
 }
 .stage.dragging { cursor: grabbing; }
+/* 时期色背景：颜色由脚本按时期生成，上下边缘渐淡 */
+.era-wash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .35), #000 38%, #000 62%, rgba(0, 0, 0, .35));
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .35), #000 38%, #000 62%, rgba(0, 0, 0, .35));
+}
 .track {
   position: absolute;
   top: 0; left: 0;
@@ -378,7 +387,8 @@ body.bars-hidden .bars-toggle { transform: rotate(180deg); }
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 24px 96px 14px 20px;
+  height: var(--bottombar-h);
+  padding: 16px 20px 4px;     /* 上方留出进度条标签（▼ 唐）的位置 */
   border-top: 1px solid var(--line);
   background: rgba(255, 252, 246, .6);
   z-index: 5;
@@ -386,7 +396,7 @@ body.bars-hidden .bars-toggle { transform: rotate(180deg); }
 .minimap {
   flex: 1;
   position: relative;
-  height: 26px;
+  height: 22px;
   cursor: pointer;
 }
 /* 时期分段：其余时期淡化，当前时期满色 */
@@ -454,13 +464,13 @@ body.bars-hidden .bars-toggle { transform: rotate(180deg); }
 .btn-ghost { background: transparent; color: var(--ink-2); border-color: var(--line); }
 .btn-ghost:hover { border-color: var(--ink-2); }
 .btn-small { padding: 5px 10px; font-size: 12px; }
-.browse-btn { flex: none; box-shadow: var(--shadow); }
+.browse-btn { flex: none; padding: 6px 14px; font-size: 13px; box-shadow: var(--shadow); }
 
 .fab {
   position: fixed;
   right: 22px;
-  bottom: 18px;
-  width: 58px; height: 58px;
+  bottom: calc(var(--bottombar-h) + 16px);   /* 悬浮在底栏上方，不占用底栏 */
+  width: 56px; height: 56px;
   border-radius: 50%;
   border: none;
   background: var(--red);
@@ -472,6 +482,7 @@ body.bars-hidden .bars-toggle { transform: rotate(180deg); }
   transition: transform .2s, background .2s;
 }
 .fab:hover { transform: rotate(90deg) scale(1.05); background: var(--red-dark); }
+body.bars-hidden .fab { bottom: 18px; }
 
 .icon-btn {
   width: 34px; height: 34px;
@@ -814,6 +825,20 @@ body.bars-hidden .bars-toggle { transform: rotate(180deg); }
 .image-editor:empty::before { content: "暂无图片"; color: var(--muted); font-size: 12px; }
 .img-slot { position: relative; border-radius: 6px; overflow: hidden; background: var(--paper-2); }
 .img-slot img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+.img-slot .slot-caption {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 4px 6px;
+  border: none;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  background: var(--card);
+  font: inherit;
+  font-size: 12px;
+  color: var(--ink);
+}
+.img-slot .slot-caption:focus { outline: 2px solid var(--gold); outline-offset: -2px; }
 .img-slot .badge {
   position: absolute; left: 4px; top: 4px;
   font-size: 10px; background: var(--red); color: #fff; padding: 1px 5px; border-radius: 4px;
@@ -880,11 +905,15 @@ body.bars-hidden .bars-toggle { transform: rotate(180deg); }
   .topbar { padding: 8px 56px 8px 16px; }   /* 按钮占右侧 48px，留 8px 间距 */
   .bars-toggle { right: 12px; }
   .brand { font-size: clamp(15px, 5vw, 21px); letter-spacing: .04em; }   /* 窄屏按宽度缩小，最长的时期名也能完整显示 */
-  .bottombar { padding: 8px 84px 10px 16px; }
+  :root { --bottombar-h: 50px; }
+  .bottombar { padding: 7px 16px; }
   .minimap { display: none; }
   .browse-btn { flex: 1; }
-  .fab { right: 16px; bottom: 10px; width: 52px; height: 52px; }
+  .fab { right: 16px; bottom: calc(var(--bottombar-h) + 12px); width: 52px; height: 52px; }
+  body.bars-hidden .fab { bottom: 14px; }
   .nav-arrow { display: none; }
+  .major .card-title { font-size: 16px; }   /* 窄屏上重大事件的文字不放大，把高度留给图片 */
+  .major .card-short { font-size: 12px; }
   .detail-body, .edit-card { padding-left: 18px; padding-right: 18px; }
   .field-row { flex-wrap: wrap; }
   .field-row .field.grow { flex-basis: 100%; }

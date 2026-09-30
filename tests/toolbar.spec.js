@@ -36,6 +36,24 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 390, height: 780 
     test.describe('调试模式', () => {
       test.use({ debugMode: true });
 
+      test('添加按钮悬浮在底栏上方，不占用底栏；隐藏工具栏后移到右下角', async ({ page }) => {
+        await openApp(page);
+        const bar = await page.locator('.bottombar').boundingBox();
+        const fab = await page.locator('#addBtn').boundingBox();
+        expect(bar.height).toBeLessThanOrEqual(56);                    // 底栏比原来（约 66px）矮
+        expect(fab.y + fab.height).toBeLessThanOrEqual(bar.y - 8);      // 完全在底栏上方
+        expect(fab.x + fab.width).toBeLessThanOrEqual(viewport.width - 12);
+        // 底栏右侧不再为添加按钮留空：浏览按钮靠近右边缘
+        const browse = await page.locator('#browseBtn').boundingBox();
+        expect(viewport.width - (browse.x + browse.width)).toBeLessThanOrEqual(24);
+
+        await page.click('#barsToggle');
+        await expect(page.locator('.bottombar')).toBeHidden();
+        const low = await page.locator('#addBtn').boundingBox();
+        expect(low.y + low.height).toBeLessThanOrEqual(viewport.height - 10);
+        expect(viewport.height - (low.y + low.height)).toBeLessThanOrEqual(24);
+      });
+
       test('H 键切换工具栏，在输入框中输入 h 不触发', async ({ page }) => {
         await openApp(page);
         await page.locator('#stage').focus();
