@@ -189,7 +189,7 @@ function createServer({ root = __dirname, writeDir = root, readonly = false } = 
   return server;
 }
 
-module.exports = { createServer, DATASET_ID };
+module.exports = { createServer, validateDataset, writeAtomic, HttpError, DATASET_ID };
 
 if (require.main === module) {
   const args = process.argv.slice(2);

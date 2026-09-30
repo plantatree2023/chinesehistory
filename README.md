@@ -40,6 +40,27 @@ git add data images && git commit -m "更新历史事件" && git push
 **浏览器模式**：在 GitHub Pages 等静态托管上没有写入接口，访问者的修改只保存在其浏览器的 localStorage 中，
 不会影响仓库数据；侧栏底部可“恢复默认数据”。
 
+## 从维基百科导入事件
+
+`tools/wiki-import.js` 按关键词查询维基百科，新增或更新数据集中的条目：
+
+```bash
+npm run wiki -- --file data/cn_zh.json 淝水之战 北京奥运会      # 一个或多个关键词
+npm run wiki -- --file data/cn_zh.json --list topics.txt         # 条目表，逐条查询
+npm run wiki -- --file data/cn_zh.json --dry-run 北京奥运会      # 只显示将做的修改，不写文件
+npm run wiki -- --file data/cn_zh.json --year 1997 香港回归      # 指定年份
+```
+
+- 条目表每行一个关键词，可写成 `关键词|年份`（公元前写负数），`#` 开头为注释。
+- 维基语言由文件名决定（`cn_zh.json` → 中文维基，简体）。关键词先按条目名查询，查不到再搜索；
+  搜索到的条目须在简介中提到该关键词，否则视为找不到。
+- **已存在的条目**（事件名与关键词相同，或对应同一维基条目）：只更新详细说明、图片、来源，
+  保留事件名、年份、简要说明、重大事件标记和已下载的本地图片；指定了年份时同时更新年份。
+- **新条目**：事件名使用关键词；年份取自 Wikidata，取不到时从简介文字中查找（会提示核对），
+  仍无法确定则报错，需要用 `关键词|年份` 或 `--year` 指定。
+- 写入前按网站服务器的同一套规则校验数据；遇到维基限流会自动等待重试。
+- 新图片直接引用维基共享资源的地址，没有下载到 `images/`。
+
 ## 数据格式与多语言
 
 每个数据集是一个 JSON 文件，命名为 `data/<国家>_<语言>.json`：国家用 ISO 3166-1 两位小写代码，语言用 ISO 639 代码，
@@ -76,6 +97,8 @@ npm run test:report              # 查看上次的 HTML 报告（失败时含截
 | `tests/toolbar.spec.js` | 工具栏默认显示，按钮 / H 键隐藏与恢复 |
 | `tests/era-tooltip.spec.js` | 悬浮 / 点击时间轴显示所处时期，含朝代交界 |
 | `tests/progress-bar.spec.js` | 底部进度条的时期高亮与标签 |
+| `tests/header.spec.js` | 顶栏：标题中的当前时期、时期色条、标题字体、窄屏显示 |
+| `tests/wiki-import.spec.js` | 维基导入脚本：新增 / 更新、条目表、dry run、搜索与年份来源、限流重试（使用模拟的维基接口，不访问外网） |
 | `tests/local-file.spec.js` | 本地文件模式：修改写回 JSON、图片上传、写入接口的安全校验（使用临时数据副本） |
 
 ## 目录结构
@@ -86,4 +109,5 @@ npm run test:report              # 查看上次的 HTML 报告（失败时含截
 - `data/<国家>_<语言>.json` 数据集（事件与时期划分）
 - `images/` 本地保存的事件图片
 - `server.js` 本地服务器（静态文件 + 本地文件模式的写入接口）
+- `tools/wiki-import.js` 从维基百科导入 / 更新事件的命令行脚本
 - `tests/` 自动化测试（`helpers.js` 为共用工具）
