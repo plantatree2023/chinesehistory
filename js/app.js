@@ -1683,6 +1683,33 @@
     setBarsHidden(!document.body.classList.contains('bars-hidden'));
   });
 
+  // ---------- 深色模式 ----------
+  // <html data-theme> 由 index.html 中的脚本在绘制前设置（用户选过的优先，否则跟随系统）。
+  // 点击按钮切换并保存选择；没有保存选择时，随系统设置变化。
+  var THEME_KEY = 'zh-history-timeline:theme';
+  var themeBtn = $('themeToggle');
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    var label = theme === 'dark' ? '切换到浅色模式' : '切换到深色模式';
+    themeBtn.setAttribute('aria-label', label);
+    themeBtn.title = label;
+  }
+  function savedTheme() {
+    try { var t = localStorage.getItem(THEME_KEY); return t === 'light' || t === 'dark' ? t : null; } catch (e) { return null; }
+  }
+  applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+  themeBtn.addEventListener('click', function () {
+    var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    try { localStorage.setItem(THEME_KEY, next); } catch (e) { /* 只在本次访问中生效 */ }
+  });
+  if (window.matchMedia) {
+    var systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+    var onSystemChange = function (e) { if (!savedTheme()) applyTheme(e.matches ? 'dark' : 'light'); };
+    if (systemDark.addEventListener) systemDark.addEventListener('change', onSystemChange);
+    else if (systemDark.addListener) systemDark.addListener(onSystemChange);
+  }
+
   // ---------- 调试模式（默认关闭） ----------
   // 开启后在顶栏下方显示网站最近更新时间，并显示全部编辑功能（新增、编辑、删除、恢复默认数据）。
   // 关闭时这些元素带 .debug-only 类被 CSS 隐藏，openEditor / askDelete 也直接返回。

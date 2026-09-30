@@ -74,13 +74,15 @@ for (const viewport of [{ width: 390, height: 780 }, { width: 320, height: 640 }
   test.describe(`${viewport.width}×${viewport.height}`, () => {
     test.use({ viewport });
 
-    test('最长的时期名也不溢出、不遮挡切换按钮', async ({ page }) => {
+    test('最长的时期名也不溢出、不遮挡右上角的按钮', async ({ page }) => {
       await openApp(page);
       await page.locator('#stage').focus();
       await page.keyboard.press('End');
       await expect(page.locator('#currentEra')).toHaveText('中华人民共和国');
       const brand = await page.locator('.brand').boundingBox();
-      const btn = await page.locator('#barsToggle').boundingBox();
+      // 右上角最左边的按钮是深色模式切换按钮
+      const btn = await page.locator('#themeToggle').boundingBox();
+      expect(btn.x).toBeLessThan((await page.locator('#barsToggle').boundingBox()).x);
       expect(brand.x + brand.width, '标题不应伸到按钮下方').toBeLessThanOrEqual(btn.x);
       const truncated = await page.locator('.brand').evaluate((el) => el.scrollWidth > el.clientWidth);
       expect(truncated, '标题与时期名应完整显示，不被省略号截断').toBe(false);
