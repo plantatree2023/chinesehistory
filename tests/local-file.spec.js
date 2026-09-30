@@ -5,7 +5,9 @@ const os = require('os');
 const path = require('path');
 const crypto = require('crypto');
 const { createServer } = require('../server');
-const { test, expect, DATASET, DEFAULT_EVENT_COUNT } = require('./helpers');
+const http = require('http');
+const { test, expect, makePng, DATASET, DEFAULT_EVENT_COUNT } = require('./helpers');
+const { imageSize } = require('../lib/images');
 
 const ROOT = path.resolve(__dirname, '..');
 const REPO_DATA = path.join(ROOT, 'data', `${DATASET}.json`);
@@ -33,6 +35,18 @@ test.afterEach(async () => {
 });
 
 const readData = () => JSON.parse(fs.readFileSync(tmpData, 'utf8'));
+
+// 模拟一个外部网站：/photo.png 为图片，/page.html 为网页，其他地址 404
+async function startExternalSite() {
+  const photo = makePng(64, 48, 90);
+  const site = http.createServer((req, res) => {
+    if (req.url === '/photo.png') { res.writeHead(200, { 'Content-Type': 'image/png' }); res.end(photo); return; }
+    if (req.url === '/page.html') { res.writeHead(200, { 'Content-Type': 'text/html' }); res.end('<html></html>'); return; }
+    res.writeHead(404).end();
+  });
+  await new Promise((r) => site.listen(0, '127.0.0.1', r));
+  return { url: `http://127.0.0.1:${site.address().port}`, photo, close: () => new Promise((r) => site.close(r)) };
+}
 const findEvent = (title) => readData().events.find((e) => e.title === title);
 
 async function openLocal(page) {
@@ -76,6 +90,43 @@ test.describe('界面', () => {
     await page.reload();
     await expect(page.locator('.card-title', { hasText: '本地写入测试' })).toHaveCount(1);
     await expect(page.locator('.card', { hasText: '本地写入测试' }).locator('img.card-img')).toHaveAttribute('src', ev.images[0].src);
+  });
+
+  test('在编辑页输入图片网址：由本地服务器下载到 images/，数据中只保存本地路径', async ({ page }) => {
+    const ext = await startExternalSite();
+    try {
+      await openLocal(page);
+      await page.click('#addBtn');
+      await page.fill('#editForm [name=title]', '网址图片测试');
+      await page.fill('#editForm [name=yearAbs]', '1600');
+      await page.fill('#editForm [name=short]', '用于验证输入图片网址后会自动下载到本地的测试说明。');
+
+      // 下载失败：显示原因，不加入图片
+      await page.fill('#imageUrlInput', `${ext.url}/missing.png`);
+      await page.click('#imageUrlAdd');
+      await expect(page.locator('#formError')).toContainText('图片下载失败：无法下载图片：网址返回 HTTP 404');
+      await page.fill('#imageUrlInput', `${ext.url}/page.html`);
+      await page.press('#imageUrlInput', 'Enter');
+      await expect(page.locator('#formError')).toContainText('不是 JPEG / PNG / GIF / WebP 图片');
+      await expect(page.locator('#imageEditor .img-slot')).toHaveCount(0);
+
+      // 下载成功：编辑框中显示的已是本地图片
+      await page.fill('#imageUrlInput', `${ext.url}/photo.png`);
+      await page.click('#imageUrlAdd');
+      await expect(page.locator('#imageEditor .img-slot')).toHaveCount(1);
+      await expect(page.locator('#imageEditor .img-slot img')).toHaveAttribute('src', /^images\/[0-9a-f]{16}\.png$/);
+      await expect(page.locator('#imageUrlInput')).toHaveValue('');
+      await page.click('#editForm button[type=submit]');
+
+      await expect.poll(() => findEvent('网址图片测试'), { message: '新事件应写入数据文件' }).toBeTruthy();
+      const img = findEvent('网址图片测试').images[0];
+      expect(img).toMatchObject({ src: expect.stringMatching(/^images\/[0-9a-f]{16}\.png$/), w: 64, h: 48 });
+      const saved = fs.readFileSync(path.join(tmpDir, img.src));
+      expect(saved.equals(ext.photo)).toBe(true);
+      expect(imageSize(saved)).toMatchObject({ w: 64, h: 48 });
+    } finally {
+      await ext.close();
+    }
   });
 
   test('编辑和删除同样写入数据文件', async ({ page }) => {
@@ -137,6 +188,39 @@ test.describe('写入接口', () => {
     expect(fs.readFileSync(tmpData, 'utf8')).toBe(before);
   });
 
+  test('按网址下载图片：只允许 http / https、只接受图片、拒绝跨站请求，成功时返回本地路径与尺寸', async ({ request }) => {
+    const ext = await startExternalSite();
+    try {
+      const fetchUrl = (url, headers = {}) => request.post(`${origin}/api/images/fetch`, {
+        data: JSON.stringify({ url }), headers: { 'Content-Type': 'application/json', ...headers },
+      });
+      const ok = await fetchUrl(`${ext.url}/photo.png`);
+      expect(ok.status()).toBe(200);
+      const body = await ok.json();
+      expect(body).toMatchObject({ path: expect.stringMatching(/^images\/[0-9a-f]{16}\.png$/), w: 64, h: 48 });
+      expect(fs.existsSync(path.join(tmpDir, body.path))).toBe(true);
+
+      for (const url of ['file:///etc/passwd', 'ftp://example.com/a.png', 'not a url']) {
+        const r = await fetchUrl(url);
+        expect(r.status(), url).toBe(400);
+      }
+      expect((await (await fetchUrl('file:///etc/passwd')).json()).error).toContain('只支持 http / https');
+      expect((await fetchUrl(`${ext.url}/page.html`)).status(), '网页不是图片').toBe(400);
+      expect((await fetchUrl(`${ext.url}/missing.png`)).status()).toBe(400);
+      expect((await fetchUrl(`${ext.url}/photo.png`, { Origin: 'https://evil.example' })).status(), '跨站请求').toBe(403);
+    } finally {
+      await ext.close();
+    }
+  });
+
+  test('上传接口校验图片内容并返回尺寸', async ({ request }) => {
+    const upload = (dataUrl) => request.post(`${origin}/api/images`, { data: JSON.stringify({ dataUrl }), headers: { 'Content-Type': 'application/json' } });
+    const r = await upload(`data:image/png;base64,${makePng(20, 10).toString('base64')}`);
+    expect(await r.json()).toMatchObject({ path: expect.stringMatching(/^images\/[0-9a-f]{16}\.png$/), w: 20, h: 10 });
+    const fake = await upload(`data:image/png;base64,${Buffer.from('not really a png').toString('base64')}`);
+    expect(fake.status(), '内容不是图片').toBe(400);
+  });
+
   test('只接受图片类型的上传', async ({ request }) => {
     const res = await request.post(`${origin}/api/images`, {
       data: JSON.stringify({ dataUrl: 'data:text/html;base64,PGgxPmhpPC9oMT4=' }),
@@ -149,6 +233,7 @@ test.describe('写入接口', () => {
 test('只读服务器（与 GitHub Pages 一致）不提供写入接口，使用浏览器模式', async ({ page }) => {
   expect((await page.request.get('/api/status')).status()).toBe(404);
   expect((await page.request.put(`/api/data/${DATASET}`, { data: '{}', headers: { 'Content-Type': 'application/json' } })).status()).toBe(404);
+  expect((await page.request.post('/api/images/fetch', { data: '{}', headers: { 'Content-Type': 'application/json' } })).status()).toBe(404);
   await page.goto('/');
   await page.click('#browseBtn');
   await expect(page.locator('#storageNote')).toHaveText('修改保存在当前浏览器中');

@@ -8,20 +8,19 @@
 // 接口（仅可写模式）：
 //   GET  /api/status          → { writable: true }
 //   PUT  /api/data/<id>       保存整个数据集，<id> 形如 cn_zh（<国家>_<语言>）
-//   POST /api/images          保存上传的图片（{ dataUrl }），返回 { path: "images/xxxx.jpg" }
+//   POST /api/images          保存上传的图片（{ dataUrl }），返回 { path: "images/xxxx.jpg", w, h }
+//   POST /api/images/fetch    按网址下载图片并保存（{ url }，仅 http / https），返回 { path, w, h }
 //
 // 安全：只监听 127.0.0.1；写入请求必须来自本服务自身的页面（校验 Host / Origin / Content-Type），
 // 防止其他网站借用户的浏览器向本机写文件。
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto');
+const { writeAtomic, saveImage, fetchImage, MAX_IMAGE_BYTES } = require('./lib/images');
 
 const DATASET_ID = /^[a-z]{2}_[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})?$/;   // 例：cn_zh、jp_ja、cn_zh-Hant
 const LOCAL_IMAGE = /^images\/[A-Za-z0-9._-]+$/;             // 数据中图片路径的唯一合法形式
 const MAX_JSON_BYTES = 10 * 1024 * 1024;
-const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
-const IMAGE_TYPES = { 'image/jpeg': '.jpg', 'image/png': '.png', 'image/webp': '.webp', 'image/gif': '.gif' };
 const CONTENT_TYPES = {
   '.html': 'text/html; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
@@ -69,14 +68,6 @@ async function readJson(req, limit) {
   }
 }
 
-// 写临时文件再改名，避免写入中断留下损坏的数据文件
-function writeAtomic(file, data) {
-  fs.mkdirSync(path.dirname(file), { recursive: true });
-  const tmp = `${file}.${process.pid}.${Date.now()}.tmp`;
-  fs.writeFileSync(tmp, data);
-  fs.renameSync(tmp, file);
-}
-
 // 校验数据集结构，拒绝明显错误的数据，防止界面异常时写坏数据文件
 function validateDataset(id, data) {
   const fail = (msg) => { throw new HttpError(422, msg); };
@@ -101,6 +92,16 @@ function validateDataset(id, data) {
       if (!LOCAL_IMAGE.test(im.src)) fail(`${where} 的图片必须是 images/ 下的本地文件：${im.src}`);
     });
   });
+}
+
+// 保存图片内容（校验格式、记录宽高），返回 { path, w, h }
+function saveUploaded(getBuffer, imagesDir) {
+  try {
+    const { src, w, h } = saveImage(getBuffer(), imagesDir);
+    return { path: src, w, h };
+  } catch (e) {
+    throw new HttpError(/过大/.test(e.message) ? 413 : 400, e.message);
+  }
 }
 
 function createServer({ root = __dirname, writeDir = root, readonly = false } = {}) {
@@ -140,17 +141,26 @@ function createServer({ root = __dirname, writeDir = root, readonly = false } = 
       return;
     }
 
+    const imagesDir = path.join(writeDir, 'images');
     if (pathname === '/api/images' && req.method === 'POST') {
       const { dataUrl } = await readJson(req, Math.ceil(MAX_IMAGE_BYTES * 1.4));
-      const m = typeof dataUrl === 'string' && dataUrl.match(/^data:(image\/[a-z]+);base64,([A-Za-z0-9+/=]+)$/);
-      if (!m || !IMAGE_TYPES[m[1]]) throw new HttpError(400, '只支持 JPEG / PNG / WebP / GIF 图片');
-      const buf = Buffer.from(m[2], 'base64');
-      if (!buf.length || buf.length > MAX_IMAGE_BYTES) throw new HttpError(413, '图片过大');
-      // 以内容哈希命名：同一张图片重复上传不会产生多个文件
-      const name = crypto.createHash('sha256').update(buf).digest('hex').slice(0, 16) + IMAGE_TYPES[m[1]];
-      const file = path.join(writeDir, 'images', name);
-      if (!fs.existsSync(file)) writeAtomic(file, buf);
-      sendJson(res, 200, { path: `images/${name}` });
+      const m = typeof dataUrl === 'string' && dataUrl.match(/^data:image\/[a-z+]+;base64,([A-Za-z0-9+/=]+)$/);
+      if (!m) throw new HttpError(400, '只支持 JPEG / PNG / WebP / GIF 图片');
+      sendJson(res, 200, saveUploaded(() => Buffer.from(m[1], 'base64'), imagesDir));
+      return;
+    }
+
+    // 编辑页输入的图片网址：由服务器下载并保存到 images/（浏览器受跨域限制，无法直接保存别的网站的图片）
+    if (pathname === '/api/images/fetch' && req.method === 'POST') {
+      const { url } = await readJson(req, 16 * 1024);
+      if (typeof url !== 'string' || !url.trim()) throw new HttpError(400, '请提供图片网址');
+      let buf;
+      try {
+        buf = await fetchImage(url.trim());
+      } catch (e) {
+        throw new HttpError(400, `无法下载图片：${e.message}`);
+      }
+      sendJson(res, 200, saveUploaded(() => buf, imagesDir));
       return;
     }
     throw new HttpError(404, 'Not Found');

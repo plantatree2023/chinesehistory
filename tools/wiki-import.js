@@ -28,10 +28,9 @@
 
 const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto');
 const { validateDataset, writeAtomic, DATASET_ID } = require('../server');
+const { imageSize, saveImage, MAX_IMAGE_BYTES, USER_AGENT } = require('../lib/images');
 
-const USER_AGENT = 'ChineseHistoryTimeline/1.0 (https://github.com/plantatree2023/chinesehistory)';
 const MAX_IMAGES = 9;
 const MAX_DETAIL = 350;
 const MAX_SHORT = 60;
@@ -304,53 +303,9 @@ function titleFromSource(source) {
 }
 
 // ---------- 下载图片 ----------
-const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
-const IMAGE_EXT = { jpeg: '.jpg', png: '.png', gif: '.gif', webp: '.webp' };
-
-// 从文件头读取图片类型和宽高（JPEG / PNG / GIF / WebP），不是这些格式时返回 null
-function imageSize(buf) {
-  if (buf.length >= 24 && buf.readUInt32BE(0) === 0x89504e47 && buf.toString('ascii', 12, 16) === 'IHDR') {
-    return { type: 'png', w: buf.readUInt32BE(16), h: buf.readUInt32BE(20) };
-  }
-  if (buf.length >= 10 && buf.toString('ascii', 0, 4) === 'GIF8') {
-    return { type: 'gif', w: buf.readUInt16LE(6), h: buf.readUInt16LE(8) };
-  }
-  if (buf.length >= 30 && buf.toString('ascii', 0, 4) === 'RIFF' && buf.toString('ascii', 8, 12) === 'WEBP') {
-    const chunk = buf.toString('ascii', 12, 16);
-    if (chunk === 'VP8X') return { type: 'webp', w: 1 + buf.readUIntLE(24, 3), h: 1 + buf.readUIntLE(27, 3) };
-    if (chunk === 'VP8 ') return { type: 'webp', w: buf.readUInt16LE(26) & 0x3fff, h: buf.readUInt16LE(28) & 0x3fff };
-    if (chunk === 'VP8L') {
-      const b = buf.readUInt32LE(21);
-      return { type: 'webp', w: 1 + (b & 0x3fff), h: 1 + ((b >>> 14) & 0x3fff) };
-    }
-    return null;
-  }
-  if (buf.length >= 4 && buf[0] === 0xff && buf[1] === 0xd8) {
-    // 逐个跳过 JPEG 段，找到记录尺寸的 SOF 段
-    let i = 2;
-    while (i + 9 < buf.length) {
-      if (buf[i] !== 0xff) { i++; continue; }
-      const marker = buf[i + 1];
-      if (marker === 0xff) { i++; continue; }
-      if (marker === 0x01 || (marker >= 0xd0 && marker <= 0xd8)) { i += 2; continue; }
-      if (marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker)) {
-        return { type: 'jpeg', h: buf.readUInt16BE(i + 5), w: buf.readUInt16BE(i + 7) };
-      }
-      i += 2 + buf.readUInt16BE(i + 2);
-    }
-  }
-  return null;
-}
-
 // 下载一张图片到 imagesDir，返回数据中使用的 { src: 'images/<哈希>.<扩展名>', w, h }
 async function downloadImage(client, url, imagesDir) {
-  const buf = await client.getBinary(url, MAX_IMAGE_BYTES);
-  const size = imageSize(buf);
-  if (!size || !size.w || !size.h) throw new Error('不是 JPEG / PNG / GIF / WebP 图片');
-  const name = crypto.createHash('sha256').update(buf).digest('hex').slice(0, 16) + IMAGE_EXT[size.type];
-  const file = path.join(imagesDir, name);
-  if (!fs.existsSync(file)) writeAtomic(file, buf);
-  return { src: `images/${name}`, w: size.w, h: size.h };
+  return saveImage(await client.getBinary(url, MAX_IMAGE_BYTES), imagesDir);
 }
 
 // 下载维基图片列表（candidates 中的 src 为维基地址），返回本地图片与统计；dry run 时只计数

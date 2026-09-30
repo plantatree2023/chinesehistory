@@ -998,6 +998,7 @@
     form.source.value = ev ? (ev.source || '') : '';
     form.major.checked = !!(ev && ev.major);
     draftImages = ev ? clone(ev.images || []) : [];
+    $('imageUrlInput').value = '';
     $('formError').textContent = '';
     renderImageEditor();
     updateCounters();
@@ -1042,9 +1043,63 @@
       box.appendChild(slot);
     });
     var full = draftImages.length >= MAX_IMAGES;
+    $('imageUrlInput').disabled = full || urlBusy;
+    $('imageUrlAdd').disabled = full || urlBusy;
     $('imageFileInput').disabled = full;
   }
 
+
+  // 输入图片网址：先下载到本地再加入，数据中不保存外部网址。
+  // - 本地文件模式：由本地服务器下载并保存到 images/（服务器不受浏览器的跨域限制）；
+  // - 浏览器模式：由浏览器下载（需对方网站允许跨域），压缩后与上传的图片一样保存在当前浏览器中。
+  var urlBusy = false;
+  function fetchImageUrl(url) {
+    if (fileMode) {
+      return requestJson('api/images/fetch', 'POST', { url: url }).then(function (r) {
+        return { src: r.path, w: r.w, h: r.h };
+      });
+    }
+    return fetch(url, { mode: 'cors' }).catch(function () {
+      throw new Error('该网站不允许直接下载图片，请先保存到电脑再上传');
+    }).then(function (res) {
+      if (!res.ok) throw new Error('网址返回 HTTP ' + res.status);
+      return res.blob();
+    }).then(function (blob) {
+      if (!/^image\//.test(blob.type)) throw new Error('该网址不是图片');
+      return new Promise(function (resolve, reject) {
+        resizeFile(blob, 900, function (data, w, h) {
+          if (data) resolve({ src: data, w: w, h: h });
+          else reject(new Error('无法识别该图片'));
+        });
+      });
+    });
+  }
+  function addImageUrl() {
+    var inp = $('imageUrlInput'), btn = $('imageUrlAdd');
+    var url = inp.value.trim();
+    if (!url || urlBusy) return;
+    if (!/^https?:\/\//i.test(url)) { $('formError').textContent = '请输入以 http:// 或 https:// 开头的图片网址'; return; }
+    if (draftImages.length >= MAX_IMAGES) { $('formError').textContent = '最多只能添加 9 张图片'; return; }
+    urlBusy = true;
+    btn.textContent = '下载中…';
+    $('formError').textContent = '';
+    renderImageEditor();
+    fetchImageUrl(url).then(function (img) {
+      if (draftImages.length >= MAX_IMAGES) return;
+      draftImages.push({ src: img.src, w: img.w, h: img.h, caption: '' });
+      inp.value = '';
+    }).catch(function (e) {
+      $('formError').textContent = '图片下载失败：' + e.message;
+    }).then(function () {
+      urlBusy = false;
+      btn.textContent = '添加网址';
+      renderImageEditor();
+    });
+  }
+  $('imageUrlAdd').addEventListener('click', addImageUrl);
+  $('imageUrlInput').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); addImageUrl(); }
+  });
 
   // 上传的图片压缩后以 dataURL 保存在本地
   function resizeFile(file, maxSide, cb) {

@@ -1,7 +1,8 @@
 // 核心功能：时间轴浏览、事件详情、编辑 / 新增 / 删除、侧栏、数据持久化。
 const fs = require('fs');
+const http = require('http');
 const path = require('path');
-const { test, expect, openApp, loadDataset, trackOffset, waitForStableLayout, DEFAULT_EVENT_COUNT, STORAGE_KEY } = require('./helpers');
+const { test, expect, makePng, openApp, loadDataset, trackOffset, waitForStableLayout, DEFAULT_EVENT_COUNT, STORAGE_KEY } = require('./helpers');
 
 test.use({ viewport: { width: 1440, height: 860 } });
 
@@ -98,8 +99,7 @@ test.describe('新增事件', () => {
     await page.fill('#editForm [name=detail]', '详细'.repeat(200));
     expect((await page.inputValue('#editForm [name=detail]')).length).toBe(350);
 
-    // 编辑器只能上传图片（没有输入网址的方式）；一次选 10 张，只保留 9 张
-    await expect(page.locator('#imageUrlInput')).toHaveCount(0);
+    // 一次上传 10 张，只保留 9 张
     const dir = path.join(__dirname, '..', 'images');
     const files = fs.readdirSync(dir).filter((f) => f.endsWith('.jpg')).slice(0, 10).map((f) => path.join(dir, f));
     await page.setInputFiles('#imageFileInput', files);
@@ -110,6 +110,47 @@ test.describe('新增事件', () => {
     await page.click('#editForm button[type=submit]');
     await expect(page.locator('.card')).toHaveCount(DEFAULT_EVENT_COUNT + 1);
     await expect(page.locator('.card-title', { hasText: '新增测试事件' })).toHaveCount(1);
+  });
+
+  test('输入图片网址：浏览器下载后保存在本地，数据中没有外部网址', async ({ page }) => {
+    // 模拟外部网站（端口不同即为跨站）：/cors.png 允许跨域下载，/no-cors.png 不允许
+    const photo = makePng(80, 60, 120);
+    const site = http.createServer((req, res) => {
+      const cors = req.url === '/cors.png' ? { 'Access-Control-Allow-Origin': '*' } : {};
+      res.writeHead(200, { 'Content-Type': 'image/png', ...cors });
+      res.end(photo);
+    });
+    await new Promise((r) => site.listen(0, '127.0.0.1', r));
+    const ext = `http://127.0.0.1:${site.address().port}`;
+    try {
+      await openApp(page);
+      await page.click('#addBtn');
+      await page.fill('#editForm [name=title]', '浏览器网址图片');
+      await page.fill('#editForm [name=yearAbs]', '1500');
+      await page.fill('#editForm [name=short]', '用于验证浏览器模式下输入图片网址会先下载到本地的说明。');
+
+      await page.fill('#imageUrlInput', `${ext}/no-cors.png`);
+      await page.click('#imageUrlAdd');
+      await expect(page.locator('#formError')).toContainText('不允许直接下载图片');
+      await expect(page.locator('#imageEditor .img-slot')).toHaveCount(0);
+
+      await page.fill('#imageUrlInput', `ftp://127.0.0.1/a.png`);
+      await page.click('#imageUrlAdd');
+      await expect(page.locator('#formError')).toContainText('http:// 或 https://');
+
+      await page.fill('#imageUrlInput', `${ext}/cors.png`);
+      await page.click('#imageUrlAdd');
+      await expect(page.locator('#imageEditor .img-slot')).toHaveCount(1);
+      await expect(page.locator('#imageEditor .img-slot img')).toHaveAttribute('src', /^data:image\/jpeg;base64,/);
+      await page.click('#editForm button[type=submit]');
+      await expect(page.locator('.card-title', { hasText: '浏览器网址图片' })).toHaveCount(1);
+
+      const saved = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)).find((e) => e.title === '浏览器网址图片'), STORAGE_KEY);
+      expect(saved.images).toHaveLength(1);
+      expect(saved.images[0]).toMatchObject({ src: expect.stringMatching(/^data:image\/jpeg;base64,/), w: 80, h: 60 });
+    } finally {
+      await new Promise((r) => site.close(r));
+    }
   });
 
   test('缺少标题时拒绝保存', async ({ page }) => {

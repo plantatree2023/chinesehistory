@@ -1,4 +1,5 @@
 // 各测试共用的夹具（fixture）与工具函数。
+const zlib = require('zlib');
 const base = require('@playwright/test');
 
 const { expect } = base;
@@ -148,8 +149,30 @@ function layoutMetrics(page) {
   }, { punct: PUNCT.source });
 }
 
+// 测试用图片：生成指定尺寸的纯色 PNG
+function makePng(w, h, shade = 0) {
+  const crcTable = Array.from({ length: 256 }, (_, n) => {
+    let c = n;
+    for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+    return c >>> 0;
+  });
+  const crc = (buf) => { let c = 0xffffffff; for (const b of buf) c = crcTable[(c ^ b) & 0xff] ^ (c >>> 8); return (c ^ 0xffffffff) >>> 0; };
+  const chunk = (type, data) => {
+    const len = Buffer.alloc(4); len.writeUInt32BE(data.length);
+    const body = Buffer.concat([Buffer.from(type, 'ascii'), data]);
+    const sum = Buffer.alloc(4); sum.writeUInt32BE(crc(body));
+    return Buffer.concat([len, body, sum]);
+  };
+  const ihdr = Buffer.alloc(13);
+  ihdr.writeUInt32BE(w, 0); ihdr.writeUInt32BE(h, 4); ihdr[8] = 8; ihdr[9] = 2;
+  const raw = Buffer.alloc((w * 3 + 1) * h, shade);
+  for (let y = 0; y < h; y++) raw[y * (w * 3 + 1)] = 0;
+  return Buffer.concat([Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]), chunk('IHDR', ihdr), chunk('IDAT', zlib.deflateSync(raw)), chunk('IEND', Buffer.alloc(0))]);
+}
+
 module.exports = {
   test, expect,
   MAX_PER_SCREEN, MIN_SUMMARY, DATASET, DATA_URL, STORAGE_KEY, DEFAULT_EVENT_COUNT,
+  makePng,
   openApp, loadDataset, seedEvents, waitForStableLayout, trackOffset, centerOnTrackX, centerOnCard, layoutMetrics,
 };
