@@ -1,3 +1,11 @@
+/* 标题字体：马善政毛笔楷书（SIL OFL 1.1，见 css/fonts/OFL-MaShanZheng.txt）。
+   只含标题与朝代名用到的字，其余字符回退到宋体 */
+@font-face {
+  font-family: 'Ma Shan Zheng Title';
+  src: url(fonts/ma-shan-zheng-title.woff2) format('woff2');
+  font-display: swap;
+}
+
 :root {
   --paper: #f3ecdf;
   --paper-2: #ebe2d1;
@@ -38,15 +46,16 @@ button { font: inherit; cursor: pointer; }
   flex: none;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 16px;
-  padding: 10px 20px;
-  border-bottom: 1px solid var(--line);
+  min-height: 52px;
+  padding: 6px 64px 6px 20px;
+  /* 下沿色条随当前时期变色（--era-color 由脚本设置） */
+  border-bottom: 3px solid var(--era-color, var(--line));
   background: rgba(255, 252, 246, .6);
   backdrop-filter: blur(6px);
   z-index: 5;
+  transition: border-color .4s ease;
 }
-.topbar { padding-right: 64px; min-height: 52px; }
 body.bars-hidden .topbar, body.bars-hidden .bottombar { display: none; }
 
 /* 显示 / 隐藏工具栏按钮 */
@@ -69,23 +78,26 @@ body.bars-hidden .topbar, body.bars-hidden .bottombar { display: none; }
 body.bars-hidden .bars-toggle { transform: rotate(180deg); }
 .brand {
   margin: 0;
-  font-family: var(--font-serif);
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: .12em;
+  min-width: 0;
+  font-family: 'Ma Shan Zheng Title', var(--font-serif);
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: .1em;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.current-era {
-  font-family: var(--font-serif);
-  font-size: 15px;
-  color: var(--red-dark);
-  white-space: nowrap;
-  padding: 4px 12px;
-  border: 1px solid rgba(168, 50, 42, .35);
-  border-radius: 999px;
-  background: rgba(255,255,255,.5);
+/* 当前时期：跟在标题后，用该时期的颜色（略加深以保证可读性） */
+.brand-era {
+  color: color-mix(in srgb, var(--era-color, var(--red)) 82%, #000);
+  transition: color .4s ease;
 }
-.current-era:empty { display: none; }
+.brand-era:not(:empty)::before {
+  content: "·";
+  margin: 0 .3em;
+  color: var(--line);
+}
 
 /* ---------- 舞台 / 时间轴 ---------- */
 .stage {
@@ -711,10 +723,9 @@ body.bars-hidden .bars-toggle { transform: rotate(180deg); }
 
 /* ---------- 自适应 ---------- */
 @media (max-width: 640px) {
-  .topbar { padding: 8px 60px 8px 16px; }
+  .topbar { padding: 8px 56px 8px 16px; }   /* 按钮占右侧 48px，留 8px 间距 */
   .bars-toggle { right: 12px; }
-  .brand { font-size: 18px; }
-  .current-era { font-size: 13px; padding: 3px 9px; }
+  .brand { font-size: clamp(15px, 5vw, 21px); letter-spacing: .04em; }   /* 窄屏按宽度缩小，最长的时期名也能完整显示 */
   .bottombar { padding: 8px 84px 10px 16px; }
   .minimap { display: none; }
   .browse-btn { flex: 1; }

@@ -768,6 +768,7 @@
   var minimap = $('minimap'), minimapView = $('minimapView');
   // 进度条：按时期分段着色，只有当前时期满色显示，上方标出时期名
   var mmEras = null, mmLabel = null, mmCurrent = null;
+  var topbar = document.querySelector('.topbar'), headerEra = null;
   function renderMinimap() {
     Array.prototype.slice.call(minimap.querySelectorAll('i, .mm-eras, .mm-current')).forEach(function (n) { n.remove(); });
     var W = layout.width || 1;
@@ -800,7 +801,13 @@
     minimapView.style.width = (width * 100) + '%';
     var y = yearAtX(-offset + viewW() / 2);
     var era = y == null ? null : eraOf(y);
-    $('currentEra').textContent = era ? era.name : '';
+    if ((era ? era.name : '') !== headerEra) {
+      headerEra = era ? era.name : '';
+      $('currentEra').textContent = headerEra;
+      // 顶栏下沿色条与标题中的时期名使用该时期的颜色
+      if (era) topbar.style.setProperty('--era-color', era.color);
+      else topbar.style.removeProperty('--era-color');
+    }
     if (!mmEras) return;
     if (era && era.name !== mmCurrent) {
       mmCurrent = era.name;

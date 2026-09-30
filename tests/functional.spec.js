@@ -18,7 +18,7 @@ test.describe('时间轴浏览', () => {
   test('标题为“时间上的中国”', async ({ page }) => {
     await openApp(page);
     await expect(page).toHaveTitle('时间上的中国');
-    await expect(page.locator('.topbar .brand')).toHaveText('时间上的中国');
+    await expect(page.locator('.topbar .brand-name')).toHaveText('时间上的中国');
   });
 
   test('默认显示 100 个按时间排序的事件', async ({ page }) => {

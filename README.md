@@ -18,6 +18,10 @@
 事件文字摘自[中文维基百科](https://zh.wikipedia.org/)（CC BY-SA 4.0），图片来自[维基共享资源](https://commons.wikimedia.org/)，部分已压缩保存在 `images/` 目录，其余直接引用
 （在无法访问维基媒体的网络环境下这部分图片会显示为占位图），版权及许可以各文件在维基共享资源上的说明为准。
 
+标题字体为[马善政毛笔楷书](https://fonts.google.com/specimen/Ma+Shan+Zheng)（SIL Open Font License 1.1），
+只保留标题和朝代名用到的字（`css/fonts/`，约 16KB），许可证见 `css/fonts/OFL-MaShanZheng.txt`。
+新增的时期名若含子集外的字，会自动回退为宋体显示。
+
 ## 本地运行与编辑数据
 
 纯静态网站，无需构建。在项目目录运行：
