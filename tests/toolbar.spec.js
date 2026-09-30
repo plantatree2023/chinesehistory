@@ -47,6 +47,15 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 390, height: 780 
       await expect(page.locator('.topbar')).toBeVisible();
     });
 
+    test('切换按钮完整位于顶栏内且垂直居中', async ({ page }) => {
+      await openApp(page);
+      const bar = await page.locator('.topbar').boundingBox();
+      const btn = await page.locator('#barsToggle').boundingBox();
+      expect(btn.y).toBeGreaterThanOrEqual(bar.y);
+      expect(btn.y + btn.height).toBeLessThanOrEqual(bar.y + bar.height);
+      expect(Math.abs((btn.y + btn.height / 2) - (bar.y + bar.height / 2))).toBeLessThanOrEqual(1.5);
+    });
+
     test('刷新后恢复默认显示', async ({ page }) => {
       await openApp(page);
       await page.click('#barsToggle');

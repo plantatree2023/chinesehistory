@@ -197,6 +197,6 @@ if (require.main === module) {
   const portArg = args.indexOf('--port');
   const port = portArg >= 0 ? Number(args[portArg + 1]) : Number(process.env.PORT) || 4173;
   createServer({ readonly }).listen(port, '127.0.0.1', () => {
-    console.log(`中华历史长卷：http://127.0.0.1:${port}/  （${readonly ? '只读模式' : '可写模式：修改会写入 data/ 与 images/'}）`);
+    console.log(`时间上的中国：http://127.0.0.1:${port}/  （${readonly ? '只读模式' : '可写模式：修改会写入 data/ 与 images/'}）`);
   });
 }
