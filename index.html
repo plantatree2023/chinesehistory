@@ -23,9 +23,14 @@
   <main class="stage" id="stage" tabindex="0" aria-label="历史时间轴，可左右拖动或使用方向键浏览">
     <div class="track" id="track">
       <div class="axis" id="axis"></div>
+      <div class="axis-hit" id="axisHit" title=""></div>
       <div class="eras" id="eras"></div>
       <div class="ticks" id="ticks"></div>
       <div class="events" id="events"></div>
+    </div>
+    <div class="era-tip" id="eraTip" hidden aria-live="polite">
+      <div class="era-tip-line"></div>
+      <div class="era-tip-box"></div>
     </div>
     <button class="nav-arrow left" id="navLeft" aria-label="向前">&#8249;</button>
     <button class="nav-arrow right" id="navRight" aria-label="向后">&#8250;</button>

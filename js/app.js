@@ -9,30 +9,30 @@
 
   // 朝代 / 时期色带（用于时间轴着色与“当前时代”提示）
   var ERAS = [
-    { name: '旧石器时代', start: -2000000, end: -10000, color: '#8d8373' },
-    { name: '新石器时代', start: -10000, end: -2070, color: '#a39170' },
-    { name: '夏', start: -2070, end: -1600, color: '#7d6b4f' },
-    { name: '商', start: -1600, end: -1046, color: '#8a5a3b' },
-    { name: '西周', start: -1046, end: -771, color: '#6f7a45' },
-    { name: '春秋', start: -770, end: -476, color: '#58804f' },
-    { name: '战国', start: -475, end: -221, color: '#3f7160' },
-    { name: '秦', start: -221, end: -207, color: '#2b2b2b' },
-    { name: '西汉', start: -206, end: 8, color: '#a8322a' },
-    { name: '新', start: 9, end: 23, color: '#7a5a8a' },
-    { name: '东汉', start: 25, end: 220, color: '#b8503c' },
-    { name: '三国', start: 220, end: 280, color: '#5d6b8a' },
-    { name: '晋', start: 280, end: 420, color: '#4f7f8f' },
-    { name: '南北朝', start: 420, end: 589, color: '#6c8a7a' },
-    { name: '隋', start: 589, end: 618, color: '#9a7a3a' },
-    { name: '唐', start: 618, end: 907, color: '#c0892f' },
-    { name: '五代十国', start: 907, end: 960, color: '#8c7a6b' },
-    { name: '北宋', start: 960, end: 1127, color: '#3f7f86' },
-    { name: '南宋', start: 1127, end: 1279, color: '#5b9098' },
-    { name: '元', start: 1279, end: 1368, color: '#4a5d8c' },
-    { name: '明', start: 1368, end: 1644, color: '#b0302a' },
-    { name: '清', start: 1644, end: 1912, color: '#c9a13a' },
-    { name: '中华民国', start: 1912, end: 1949, color: '#3b5b92' },
-    { name: '中华人民共和国', start: 1949, end: 1990, color: '#c23a2e' }
+    { name: '旧石器时代', start: -2000000, end: -10000, color: '#8d8373', range: '约200万年前—约1万年前', desc: '人类使用打制石器，以采集和狩猎为生' },
+    { name: '新石器时代', start: -10000, end: -2070, color: '#a39170', range: '约1万年前—前2070年', desc: '出现磨制石器、陶器、农业与定居村落' },
+    { name: '夏', start: -2070, end: -1600, color: '#7d6b4f', range: '约前2070年—前1600年', desc: '史书记载的第一个世袭制王朝' },
+    { name: '商', start: -1600, end: -1046, color: '#8a5a3b', range: '约前1600年—前1046年', desc: '青铜文明鼎盛，甲骨文成熟' },
+    { name: '西周', start: -1046, end: -771, color: '#6f7a45', range: '前1046年—前771年', desc: '推行分封制与宗法制，定都镐京' },
+    { name: '春秋', start: -770, end: -476, color: '#58804f', range: '前770年—前476年', desc: '周室衰微，诸侯争霸，孔子、老子出现' },
+    { name: '战国', start: -475, end: -221, color: '#3f7160', range: '前475年—前221年', desc: '七雄并立，变法图强，百家争鸣' },
+    { name: '秦', start: -221, end: -207, color: '#2b2b2b', range: '前221年—前207年', desc: '第一个大一统王朝，统一文字与度量衡' },
+    { name: '西汉', start: -206, end: 8, color: '#a8322a', range: '前202年—8年', desc: '定都长安，开通丝绸之路，独尊儒术' },
+    { name: '新', start: 9, end: 23, color: '#7a5a8a', range: '9年—23年', desc: '王莽代汉建立的短暂王朝' },
+    { name: '东汉', start: 25, end: 220, color: '#b8503c', range: '25年—220年', desc: '定都洛阳，造纸术改进，佛教传入' },
+    { name: '三国', start: 220, end: 280, color: '#5d6b8a', range: '220年—280年', desc: '魏、蜀、吴三国鼎立' },
+    { name: '晋', start: 280, end: 420, color: '#4f7f8f', range: '266年—420年', desc: '西晋短暂统一，东晋偏安江南' },
+    { name: '南北朝', start: 420, end: 589, color: '#6c8a7a', range: '420年—589年', desc: '南北对峙，民族大融合' },
+    { name: '隋', start: 589, end: 618, color: '#9a7a3a', range: '581年—618年', desc: '重归统一，开凿大运河，创立科举' },
+    { name: '唐', start: 618, end: 907, color: '#c0892f', range: '618年—907年', desc: '国力强盛、文化繁荣的开放王朝' },
+    { name: '五代十国', start: 907, end: 960, color: '#8c7a6b', range: '907年—979年', desc: '中原五代更替，南方十国并立' },
+    { name: '北宋', start: 960, end: 1127, color: '#3f7f86', range: '960年—1127年', desc: '重文轻武，经济文化高度发达' },
+    { name: '南宋', start: 1127, end: 1279, color: '#5b9098', range: '1127年—1279年', desc: '偏安江南，经济重心南移' },
+    { name: '元', start: 1279, end: 1368, color: '#4a5d8c', range: '1271年—1368年', desc: '蒙古族建立的大一统王朝，疆域辽阔' },
+    { name: '明', start: 1368, end: 1644, color: '#b0302a', range: '1368年—1644年', desc: '郑和下西洋，修筑长城与紫禁城' },
+    { name: '清', start: 1644, end: 1912, color: '#c9a13a', range: '1644年—1912年', desc: '最后一个封建王朝，晚期遭列强侵略' },
+    { name: '中华民国', start: 1912, end: 1949, color: '#3b5b92', range: '1912年—1949年', desc: '推翻帝制，历经军阀混战与抗日战争' },
+    { name: '中华人民共和国', start: 1949, end: 1990, color: '#c23a2e', range: '1949年至今', desc: '1949年10月1日成立' }
   ];
 
   var TICK_YEARS = [-1500000, -1000000, -500000, -200000, -100000, -50000, -20000, -10000, -5000, -4000, -3000];
@@ -157,9 +157,13 @@
   var PAD = 140;
 
   // 非线性刻度：史前压缩（对数），有文字记载后线性
+  var LIN = 0.9, LOG = 380;
   function rawPos(y) {
-    if (y >= -3000) return (y + 3000) * 0.9;
-    return -Math.log10(-y / 3000) * 380;
+    if (y >= -3000) return (y + 3000) * LIN;
+    return -Math.log10(-y / 3000) * LOG;
+  }
+  function yearOfRaw(r) {
+    return r >= 0 ? r / LIN - 3000 : -3000 * Math.pow(10, -r / LOG);
   }
 
   // 卡片形状：图文关系有三种（上图下文 / 左图右文 / 右图左文），
@@ -403,7 +407,22 @@
     var last = a[a.length - 1];
     return last.x + (r - last.r);
   }
-  // 横坐标 -> 年份（用于显示当前时代）
+  // 横坐标 -> 年份（xOfYear 的反函数，在事件锚点间插值）
+  function yearOfX(x) {
+    var a = layout.anchors;
+    if (!a.length) return null;
+    if (x <= a[0].x) return yearOfRaw(a[0].r - (a[0].x - x));
+    for (var i = 1; i < a.length; i++) {
+      if (x <= a[i].x) {
+        var span = a[i].x - a[i - 1].x;
+        var r = span <= 0 ? a[i].r : a[i - 1].r + (a[i].r - a[i - 1].r) * (x - a[i - 1].x) / span;
+        return yearOfRaw(r);
+      }
+    }
+    var last = a[a.length - 1];
+    return yearOfRaw(last.r + (x - last.x));
+  }
+  // 横坐标 -> 最近事件的年份（用于显示当前时代）
   function yearAtX(x) {
     var list = layout.list, xs = layout.xs;
     if (!list.length) return null;
@@ -421,6 +440,7 @@
     var W = layout.width;
     track.style.width = W + 'px';
     $('axis').style.width = W + 'px';
+    $('axisHit').style.width = W + 'px';
 
     // 朝代色带
     var eras = $('eras');
@@ -430,6 +450,7 @@
       var x1 = clamp(xOfYear(era.start), minX, maxX), x2 = clamp(xOfYear(era.end), minX, maxX);
       if (x2 - x1 < 2) return;
       var d = el('div', 'era');
+      d.dataset.era = era.name;
       d.style.left = x1 + 'px';
       d.style.width = (x2 - x1 - 2) + 'px';
       d.style.background = era.color;
@@ -510,6 +531,7 @@
     offset = clamp(v, minOffset(), 0);
     track.style.transform = 'translate3d(' + offset + 'px,0,0)';
     updateViewIndicators();
+    if (tipShown) hideEraTip();
   }
   var anim = null;
   function stopAnim() { if (anim) cancelAnimationFrame(anim); anim = null; }
@@ -605,6 +627,77 @@
   });
   $('navLeft').addEventListener('click', function () { animateTo(offset + viewW() * 0.7, 500); });
   $('navRight').addEventListener('click', function () { animateTo(offset - viewW() * 0.7, 500); });
+
+  // ---------- 悬浮 / 点击时间轴：显示该时间点所处时期 ----------
+  var tip = $('eraTip'), tipBox = tip.querySelector('.era-tip-box');
+  var tipShown = false, tipPinned = false, hotEra = null;
+
+  function approxYear(y) {
+    if (y <= -10000) {
+      var wan = -y / 10000;
+      return '约' + (wan >= 10 ? Math.round(wan) : Math.round(wan * 10) / 10) + '万年前';
+    }
+    if (y < -3000) return '约公元前' + Math.round(-y / 100) * 100 + '年';
+    if (y < 0.5) return '约公元前' + Math.max(1, Math.round(-y)) + '年';
+    return '约公元' + Math.min(1980, Math.round(y)) + '年';
+  }
+
+  function showEraTip(clientX, pinned) {
+    if (!layout.anchors.length) return;
+    var sr = stage.getBoundingClientRect();
+    var vx = clamp(clientX - sr.left, 0, sr.width);
+    var tx = vx - offset, y = yearOfX(tx);
+    if (y == null) return;
+    // 指针靠近某个事件点时，直接使用该事件的年份
+    for (var i = 0; i < layout.xs.length; i++) {
+      if (Math.abs(layout.xs[i] - tx) <= 7) { y = layout.list[i].year; break; }
+    }
+    y = clamp(y, ERAS[0].start, 1980);
+    var era = eraOf(y);
+    tipBox.innerHTML = '';
+    tipBox.style.borderLeftColor = era.color;
+    var head = el('div', 'era-tip-head');
+    head.appendChild(el('span', 'era-tip-name', era.name));
+    head.appendChild(el('span', 'era-tip-range', era.range));
+    tipBox.appendChild(head);
+    tipBox.appendChild(el('div', 'era-tip-desc', era.desc));
+    tipBox.appendChild(el('div', 'era-tip-year', '此处：' + (Math.round(y) === y && y > -10000 ? formatYear(y) : approxYear(y))));
+    tip.hidden = false;
+    tip.style.left = vx + 'px';
+    var bw = tipBox.offsetWidth;
+    tipBox.style.left = (clamp(vx - bw / 2, 8, Math.max(8, sr.width - bw - 8)) - vx) + 'px';
+    tip.classList.toggle('pinned', !!pinned);
+    tipShown = true;
+    tipPinned = !!pinned;
+    if (hotEra !== era.name) {
+      Array.prototype.forEach.call(document.querySelectorAll('.era.hot'), function (n) { n.classList.remove('hot'); });
+      var band = document.querySelector('.era[data-era="' + era.name + '"]');
+      if (band) band.classList.add('hot');
+      hotEra = era.name;
+    }
+  }
+  function hideEraTip() {
+    tip.hidden = true;
+    tip.classList.remove('pinned');
+    tipShown = tipPinned = false;
+    hotEra = null;
+    Array.prototype.forEach.call(document.querySelectorAll('.era.hot'), function (n) { n.classList.remove('hot'); });
+  }
+
+  var axisHit = $('axisHit');
+  axisHit.addEventListener('mousemove', function (e) {
+    if (drag.active || tipPinned) return;
+    showEraTip(e.clientX, false);
+  });
+  axisHit.addEventListener('mouseleave', function () { if (!tipPinned) hideEraTip(); });
+  axisHit.addEventListener('click', function (e) {
+    if (drag.moved || Math.abs(e.clientX - drag.startX) > 6) return;   // 拖动后的点击不固定提示
+    showEraTip(e.clientX, true);
+  });
+  // 点击其他地方取消固定显示
+  document.addEventListener('pointerdown', function (e) {
+    if (tipPinned && e.target !== axisHit) hideEraTip();
+  }, true);
 
   // ---------- 小地图 & 当前时代 ----------
   var minimap = $('minimap'), minimapView = $('minimapView');

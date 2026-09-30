@@ -140,6 +140,64 @@ body.bars-hidden .bars-toggle { transform: rotate(180deg); }
   pointer-events: none;
   opacity: .85;
 }
+.era { transition: transform .15s, box-shadow .15s; }
+.era.hot { transform: scaleY(1.7); box-shadow: 0 0 0 2px rgba(255,255,255,.85); opacity: 1; }
+/* 时间轴感应区：悬浮或点击显示所处时期 */
+.axis-hit {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 30px;
+  margin-top: -15px;
+  cursor: help;
+  z-index: 1;
+}
+.era-tip {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 0;
+  height: 0;
+  z-index: 8;
+  pointer-events: none;
+}
+.era-tip-line {
+  position: absolute;
+  left: -1px;
+  top: -22px;
+  width: 2px;
+  height: 44px;
+  background: var(--ink);
+  border-radius: 1px;
+}
+.era-tip-line::after {
+  content: "";
+  position: absolute;
+  left: -4px; top: 17px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 2px solid var(--ink);
+}
+.era-tip-box {
+  position: absolute;
+  top: 28px;
+  width: max-content;
+  max-width: 260px;
+  padding: 9px 13px 10px;
+  background: rgba(42, 37, 33, .95);
+  color: #fff;
+  border-left: 5px solid var(--red);
+  border-radius: 8px;
+  box-shadow: var(--shadow-lg);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.era-tip-head { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.era-tip-name { font-family: var(--font-serif); font-size: 18px; font-weight: 700; }
+.era-tip-range { color: rgba(255,255,255,.7); font-size: 12px; }
+.era-tip-desc { margin-top: 2px; color: rgba(255,255,255,.9); }
+.era-tip-year { margin-top: 4px; color: #ffcfb8; font-weight: 600; }
 .ticks { position: absolute; left: 0; top: 50%; height: 0; }
 .tick {
   position: absolute;
@@ -179,6 +237,7 @@ body.bars-hidden .bars-toggle { transform: rotate(180deg); }
   background: var(--card);
   border: 3px solid var(--red);
   z-index: 2;
+  pointer-events: none;
   transition: transform .2s;
 }
 .dot.hot { transform: scale(1.35); }
