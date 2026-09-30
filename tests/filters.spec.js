@@ -67,6 +67,23 @@ test('筛选面板默认收起，可选项由数据生成', async ({ page }) => 
   await expect(page.locator('.filter-hint')).toContainText('约170万年前 — 公元1980年');
 });
 
+test('同类型的筛选放在一起：勾选框（重大事件、时期更迭）在最前，然后是下拉列表，最后是时间范围', async ({ page }) => {
+  await openApp(page);
+  await openFilters(page);
+  const sections = await page.locator('#filterPanel .filter-section').evaluateAll((els) => els.map((el) => ({
+    id: el.dataset.filter,
+    kind: el.dataset.kind,
+    // 实际的控件类型，用来核对 kind 是否写对
+    control: el.querySelector('input[type=checkbox]') ? 'toggle' : el.querySelector('.ms') ? 'select' : el.querySelector('input[data-range]') ? 'range' : '?',
+  })));
+  expect(sections.map((x) => x.id)).toEqual(['major', 'transition', 'type', 'era', 'range']);
+  for (const x of sections) expect(x.kind, x.id).toBe(x.control);
+  // 通用规则：每种控件只出现在连续的一段里，且按 勾选框 → 下拉列表 → 范围 排列
+  const order = ['toggle', 'select', 'range'];
+  const kinds = sections.map((x) => x.kind);
+  for (let i = 1; i < kinds.length; i++) expect(order.indexOf(kinds[i]), kinds.join(',')).toBeGreaterThanOrEqual(order.indexOf(kinds[i - 1]));
+});
+
 test.describe('事件类型下拉列表', () => {
   const typeTrigger = (page) => page.locator('.ms[data-name="type"] .ms-trigger');
   const typeOption = (page, name) => page.locator(`.ms[data-name="type"] .ms-option[data-value="${name}"]`);

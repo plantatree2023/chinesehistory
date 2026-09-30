@@ -1623,10 +1623,14 @@
   //   isActive(v)             该值是否正在筛选
   //   test(ev, v, ctx)        事件是否符合
   //   render(box, v, set, ctx) 生成界面；调用 set(新值) 更新筛选
+  //   kind                    控件类型：toggle（勾选框）、select（下拉多选）、range（范围输入）
   // ctx 为 filterContext() 的结果：事件、时期、各时期的事件数、年份范围等。
+  // 面板中同类型的控件排在一起，按 FILTER_KIND_ORDER 的顺序（勾选框在最前）；同类型内保持下面的定义顺序。
+  var FILTER_KIND_ORDER = ['toggle', 'select', 'range'];
   var FILTERS = [
     {
       id: 'major',
+      kind: 'toggle',
       label: '重大事件',
       available: function (ctx) { return ctx.majorCount > 0; },
       initial: function () { return false; },
@@ -1636,6 +1640,7 @@
     },
     {
       id: 'type',
+      kind: 'select',
       label: '事件类型（可多选）',
       available: function (ctx) { return ctx.typesWithEvents.some(function (t) { return t.name; }); },   // 至少有一个事件有类型
       initial: function () { return []; },
@@ -1649,6 +1654,7 @@
     },
     {
       id: 'transition',
+      kind: 'toggle',
       label: '时期更迭',
       available: function (ctx) { return ctx.transitionCount > 0; },
       initial: function () { return false; },
@@ -1658,6 +1664,7 @@
     },
     {
       id: 'era',
+      kind: 'select',
       label: '朝代 / 时期（可多选）',
       available: function (ctx) { return ctx.erasWithEvents.length > 0; },
       initial: function () { return []; },
@@ -1671,6 +1678,7 @@
     },
     {
       id: 'range',
+      kind: 'range',
       label: '时间范围',
       available: function (ctx) { return ctx.events.length > 1; },
       initial: function () { return { from: null, to: null }; },
@@ -1752,6 +1760,12 @@
 
   // 数据变化（新增、删除、修改年份或重大事件标记、恢复默认）时才重建筛选面板，
   // 输入筛选条件时只刷新列表，避免输入框失去焦点
+  // 按控件类型分组排序（稳定排序：同类型内保持定义顺序）
+  function filtersByKind() {
+    return FILTERS.map(function (f, i) { return { f: f, i: i }; }).sort(function (a, b) {
+      return (FILTER_KIND_ORDER.indexOf(a.f.kind) - FILTER_KIND_ORDER.indexOf(b.f.kind)) || (a.i - b.i);
+    }).map(function (x) { return x.f; });
+  }
   var filterPanelKey = null;
   function renderFilterPanel(ctx) {
     var key = events.map(function (ev) { return ev.year + (isMajor(ev) ? '*' : '') + (ev.transition ? '>' : '') + '#' + (ev.type || ''); }).join(',');
@@ -1759,10 +1773,11 @@
     filterPanelKey = key;
     var panel = $('filterPanel');
     panel.innerHTML = '';
-    FILTERS.forEach(function (f) {
+    filtersByKind().forEach(function (f) {
       if (!f.available(ctx)) return;
       var section = el('section', 'filter-section');
       section.dataset.filter = f.id;
+      section.dataset.kind = f.kind;
       section.appendChild(el('h3', 'filter-title', f.label));
       f.render(section, filterState[f.id], function (value) {
         filterState[f.id] = value;
