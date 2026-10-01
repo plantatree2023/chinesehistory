@@ -6,7 +6,7 @@ const path = require('path');
 const crypto = require('crypto');
 const { createServer } = require('../server');
 const http = require('http');
-const { test, expect, makePng, DATASET, DEFAULT_EVENT_COUNT } = require('./helpers');
+const { test, expect, makePng, centerOnCard, DATASET, DEFAULT_EVENT_COUNT } = require('./helpers');
 const { imageSize } = require('../lib/images');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -90,6 +90,8 @@ test.describe('界面', () => {
     // 重新打开页面，数据来自文件
     await page.reload();
     await expect(page.locator('.card-title', { hasText: '本地写入测试' })).toHaveCount(1);
+    await page.keyboard.press('Escape');            // 网址可能恢复了详情 / 侧栏
+    await centerOnCard(page, '本地写入测试');      // 卡片移入视野后才加载图片
     await expect(page.locator('.card', { hasText: '本地写入测试' }).locator('img.card-img')).toHaveAttribute('src', ev.images[0].src);
   });
 

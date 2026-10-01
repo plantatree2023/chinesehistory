@@ -17,7 +17,7 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 1280, height: 640
     await openApp(page);
     // 等待所有代表图加载完成
     await page.evaluate(() => Promise.all([...document.querySelectorAll('img.card-img')]
-      .map((img) => { img.loading = 'eager'; return img.decode().catch(() => {}); })));
+      .map((img) => { img.loading = 'eager'; if (img.dataset.src) img.src = img.dataset.src; return img.decode().catch(() => {}); })));   // 远处卡片的图片尚未加载（见 loadNearbyImages），这里全部加载以便检查
 
     const { events } = await loadDataset(page);
     const report = await page.evaluate(({ tol, minSide, events }) => {

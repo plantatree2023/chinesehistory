@@ -131,11 +131,13 @@
     toast._t = setTimeout(function () { t.classList.remove('show'); }, 2200);
   }
 
-  // 图片元素，加载失败时回退到占位图
-  function imageEl(image, cls, fallbackChar) {
+  // 图片元素，加载失败时回退到占位图。
+  // deferred 为 true 时先不设置 src（地址放在 data-src），由 loadNearbyImages 在卡片接近视野时再加载
+  function imageEl(image, cls, fallbackChar, deferred) {
     if (image && image.src) {
       var img = el('img', cls);
-      img.src = image.src;
+      if (deferred) img.dataset.src = image.src;
+      else img.src = image.src;
       img.alt = image.caption || '';
       img.loading = 'lazy';
       img.decoding = 'async';
@@ -691,6 +693,7 @@
   function renderTimeline() {
     ensureRatios();
     computeLayout();
+    pendingImages = [];   // 卡片重新生成，旧的待加载列表作废（已加载过的图片浏览器有缓存）
     track.dataset.renders = (+track.dataset.renders || 0) + 1;   // 排版次数，供自动化测试判断排版是否稳定
     var W = layout.width;
     track.style.width = W + 'px';
@@ -782,7 +785,8 @@
       var media = el('div', 'card-media');
       if (sh.kind === 'stack') media.style.height = Math.round(sh.ih) + 'px';
       else media.style.width = Math.round(sh.iw) + 'px';
-      var pic = imageEl(ev.images && ev.images[0], 'card-img', ev.title);
+      var pic = imageEl(ev.images && ev.images[0], 'card-img', ev.title, true);
+      if (pic.dataset.src) pendingImages.push({ img: pic, l: r.l, r: r.r });
       pic.style.width = Math.round(sh.iw) + 'px';
       pic.style.height = Math.round(sh.ih) + 'px';
       media.appendChild(pic);
@@ -799,6 +803,31 @@
 
     renderMinimap();
     setOffset(offset);
+    loadNearbyImages();
+  }
+
+  // 时间轴卡片的图片：只加载视野及左右各 IMAGE_AHEAD 屏范围内的卡片图片，其余等移近时再加载。
+  // 不依赖浏览器的 loading="lazy"：它对横向平移（transform）的时间轴判断不可靠，
+  // 在部分屏幕宽度下会一次加载全部图片（数百张、几十 MB）。
+  var IMAGE_AHEAD = 1.5;
+  var pendingImages = [];    // [{ img, l, r }]，l / r 为卡片在时间轴上的左右位置
+  var imagesQueued = false;
+  function loadNearbyImages() {
+    imagesQueued = false;
+    if (!pendingImages.length) return;
+    // 跳转动画（End、点标题回到开头、点进度条等）一闪而过的卡片不加载，到达后再加载
+    if (anim) { queueNearbyImages(); return; }
+    var w = viewW(), from = -offset - w * IMAGE_AHEAD, to = -offset + w * (1 + IMAGE_AHEAD);
+    pendingImages = pendingImages.filter(function (p) {
+      if (p.r < from || p.l > to) return true;
+      if (p.img.dataset.src) { p.img.src = p.img.dataset.src; delete p.img.dataset.src; }
+      return false;
+    });
+  }
+  function queueNearbyImages() {
+    if (imagesQueued || !pendingImages.length) return;
+    imagesQueued = true;
+    requestAnimationFrame(loadNearbyImages);
   }
 
   // ---------- 平移 / 拖拽 ----------
@@ -809,6 +838,7 @@
     syncUrlSoon();
     track.style.transform = 'translate3d(' + offset + 'px,0,0)';
     updateViewIndicators();
+    queueNearbyImages();
     if (tipShown) hideEraTip();
   }
   var anim = null;
