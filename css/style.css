@@ -265,6 +265,7 @@ body.bars-hidden .bars-toggle .icon-collapse { display: block; }
   margin-top: -2px;
   background: var(--axis);
   border-radius: 2px;
+  opacity: .5;              /* 主轴线半透明，不抢时期色带和事件的视线 */
 }
 .eras { position: absolute; left: 0; top: 50%; height: 0; }
 .era {
@@ -368,7 +369,7 @@ body.bars-hidden .bars-toggle .icon-collapse { display: block; }
 
 /* ---------- 事件卡片 ---------- */
 .events { position: absolute; left: 0; top: 0; height: 100%; }
-/* 时期更迭事件：轴线上的菱形标记（填充新时期的颜色）和“从 → 到”标签（在卡片的另一侧） */
+/* 时期更迭事件：轴线上的菱形标记（填充新时期的颜色） */
 .dot.dot-transition {
   width: 14px; height: 14px;
   margin: -7px 0 0 -7px;
@@ -378,29 +379,6 @@ body.bars-hidden .bars-toggle .icon-collapse { display: block; }
   border: 2.5px solid var(--card);
   box-shadow: 0 0 0 1.5px var(--red);
 }
-.transition-mark {
-  position: absolute;
-  top: 50%;
-  z-index: 3;
-  display: flex; align-items: center; gap: 3px;
-  padding: 1px 7px;
-  border: 1px solid var(--line);
-  border-left: 3px solid var(--to-color, var(--red));
-  border-radius: 4px;
-  background: var(--card);
-  box-shadow: var(--shadow);
-  color: var(--ink-2);
-  font-family: var(--font-serif);
-  font-size: 11px;
-  line-height: 16px;
-  white-space: nowrap;
-  transform: translateX(-50%);
-  pointer-events: none;
-}
-.transition-mark.below { margin-top: 11px; }
-.transition-mark.above { margin-top: -31px; }
-.transition-mark .tm-arrow { color: var(--red); font-family: var(--font-sans); }
-.transition-mark .tm-to { font-weight: 700; color: var(--ink); }
 .links { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
 .links polyline {
   fill: none;

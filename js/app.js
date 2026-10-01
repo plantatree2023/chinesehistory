@@ -689,17 +689,6 @@
 
     // 朝代色带
     renderEraWash(W);
-    // 时期更迭事件直接标在轴线上：在卡片的另一侧显示“从 → 到”（卡片在上则标在轴线下方，反之亦然），
-    // 与之重叠的刻度和时期名让位
-    var marks = [];
-    layout.list.forEach(function (ev, i) {
-      if (!ev.transition || !layout.placed[i]) return;
-      var text = ev.transition.from + ' → ' + ev.transition.to;
-      marks.push({ ev: ev, x: layout.xs[i], above: layout.placed[i].side > 0, text: text, half: (text.length * 11 + 22) / 2 });
-    });
-    var markHits = function (x, half, above) {
-      return marks.some(function (m) { return m.above === above && Math.abs(m.x - x) < m.half + half + 6; });
-    };
     // 最早时期之前的一段轴线从左向右渐显
     var firstX = ERAS.length ? clamp(xOfYear(ERAS[0].start), 0, W) : 0;
     layout.firstEraX = firstX;
@@ -717,7 +706,7 @@
       d.style.width = (x2 - x1 - 2) + 'px';
       d.style.background = era.color;
       d.title = era.name;
-      if (x2 - x1 > era.name.length * 12 + 6 && !markHits((x1 + x2) / 2, era.name.length * 6 + 3, false)) d.appendChild(el('span', 'era-label', era.name));
+      if (x2 - x1 > era.name.length * 12 + 6) d.appendChild(el('span', 'era-label', era.name));
       eras.appendChild(d);
     });
 
@@ -731,7 +720,6 @@
       if (x < 20 || x > W - 20 || x - lastX < 96) return;
       if (todayX != null && todayX - x < 96) return;   // 给“今天”刻度让位
       if (layout.xs.some(function (ex) { return Math.abs(ex - x) < 22; })) return;   // 避开事件连线
-      if (markHits(x, 30, true)) return;                                               // 避开轴线上方的时期更迭标记
       lastX = x;
       var t = el('div', 'tick');
       t.style.left = x + 'px';
@@ -760,6 +748,7 @@
       path.setAttribute('points', pl.pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' '));
       svg.appendChild(path);
 
+      // 时期更迭事件在轴线上用菱形标记（填充新时期的颜色）
       var dot = el('div', 'dot' + (ev.transition ? ' dot-transition' : ''));
       dot.style.left = layout.xs[i] + 'px';
       if (ev.transition) dot.style.setProperty('--to-color', eraByName(ev.transition.to).color);
@@ -790,17 +779,6 @@
       card.addEventListener('mouseenter', function () { path.classList.add('hot'); dot.classList.add('hot'); });
       card.addEventListener('mouseleave', function () { path.classList.remove('hot'); dot.classList.remove('hot'); });
       box.appendChild(card);
-    });
-    marks.forEach(function (m) {
-      var tag = el('div', 'transition-mark ' + (m.above ? 'above' : 'below'));
-      tag.style.left = m.x + 'px';
-      tag.style.setProperty('--to-color', eraByName(m.ev.transition.to).color);
-      tag.dataset.id = m.ev.id;
-      tag.appendChild(el('span', 'tm-from', m.ev.transition.from));
-      tag.appendChild(el('span', 'tm-arrow', '→'));
-      tag.appendChild(el('span', 'tm-to', m.ev.transition.to));
-      tag.title = '时期更迭：' + m.text + '（' + m.ev.title + '）';
-      box.appendChild(tag);
     });
 
     renderMinimap();

@@ -88,37 +88,25 @@ test('最早时期之前留有一段渐隐的轴线：表示更早的年代，�
   await expect(tipName(page)).toHaveText('旧石器时代');
 });
 
-test('每个时期更迭事件都标在轴线上：菱形标记 + “从 → 到”标签，在卡片的另一侧，不与刻度和时期名重叠', async ({ page }) => {
+test('时期更迭事件在轴线上用菱形标记（新时期的颜色），轴线附近不显示“从 → 到”文字；主轴线半透明', async ({ page }) => {
   await openApp(page);
   const { events, eras } = await loadDataset(page);
   const transitions = events.filter((e) => e.transition);
-  const marks = await page.evaluate(() => [...document.querySelectorAll('.transition-mark')].map((m) => {
-    const id = m.dataset.id;
-    const card = document.querySelector(`.card[data-id="${id}"]`);
-    const axis = document.getElementById('axis').getBoundingClientRect();
-    const ay = axis.top + axis.height / 2;
-    const r = m.getBoundingClientRect(), c = card.getBoundingClientRect();
-    return { id, text: m.textContent, cx: m.offsetLeft, markAbove: r.bottom <= ay, cardAbove: c.bottom <= ay, rect: [r.left, r.top, r.right, r.bottom] };
-  }));
-  expect(marks.map((m) => m.id).sort()).toEqual(transitions.map((e) => e.id).sort());
-  for (const m of marks) {
-    const ev = transitions.find((e) => e.id === m.id);
-    expect(m.text, ev.title).toBe(`${ev.transition.from}→${ev.transition.to}`);
-    expect(m.markAbove, `${ev.title}：标签在卡片另一侧`).toBe(!m.cardAbove);
-  }
-  // 事件点为菱形，颜色为新时期的颜色
-  const dots = await page.evaluate(() => [...document.querySelectorAll('.dot.dot-transition')].length);
-  expect(dots).toBe(transitions.length);
-  // 不与刻度文字、时期名重叠
-  const overlaps = await page.evaluate(() => {
-    const boxes = (sel) => [...document.querySelectorAll(sel)].map((e) => e.getBoundingClientRect()).filter((r) => r.width);
-    const marks = boxes('.transition-mark'), others = [...boxes('.tick span'), ...boxes('.era-label')];
-    let n = 0;
-    for (const a of marks) for (const b of others) if (a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top) n++;
-    return n;
-  });
-  expect(overlaps).toBe(0);
-  expect(eras.length).toBeGreaterThan(0);
+  const dots = await page.evaluate(() => [...document.querySelectorAll('.dot.dot-transition')].map((d) => ({
+    radius: getComputedStyle(d).borderTopLeftRadius, transform: getComputedStyle(d).transform, bg: getComputedStyle(d).backgroundColor,
+  })));
+  expect(dots).toHaveLength(transitions.length);
+  for (const d of dots) expect(d.transform).not.toBe('none');   // 旋转 45° 成菱形
+  const rgb = (hex) => `rgb(${[1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)).join(', ')})`;
+  const colors = new Set(transitions.map((e) => rgb(eras.find((x) => x.name === e.transition.to).color)));
+  for (const d of dots) expect(colors.has(d.bg), d.bg).toBe(true);
+  // 不显示时期更迭的文字标签
+  await expect(page.locator('.transition-mark')).toHaveCount(0);
+  await expect(page.locator('#events')).not.toContainText('→');
+  // 主轴线半透明
+  const opacity = await page.locator('#axis').evaluate((a) => Number(getComputedStyle(a).opacity));
+  expect(opacity).toBeGreaterThan(0.2);
+  expect(opacity).toBeLessThanOrEqual(0.6);
 });
 
 test.describe('延续至今的时期', () => {
