@@ -118,7 +118,7 @@
     <div class="filter-panel" id="filterPanel" hidden></div>
     <ol class="event-list" id="eventList"></ol>
     <div class="sidebar-foot">
-      <label class="switch" title="开启后显示网站更新时间和编辑功能">
+      <label class="switch debug-switch" title="开启后显示网站更新时间和编辑功能">
         <input type="checkbox" role="switch" id="debugToggle">
         <span class="switch-track" aria-hidden="true"></span>
         <span>调试模式</span>
@@ -151,14 +151,12 @@
             <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M10 14a4.5 4.5 0 0 0 6.4 0l3.2-3.2a4.5 4.5 0 0 0-6.4-6.4L12 5.6M14 10a4.5 4.5 0 0 0-6.4 0l-3.2 3.2a4.5 4.5 0 0 0 6.4 6.4L12 18.4"/></svg>
             <span>分享链接</span>
           </button>
+          <!-- 所有访问者可见：反馈这个事件的问题，或直接建议修改 -->
+          <button type="button" class="btn btn-ghost btn-small feedback-only" id="detailFeedback">反馈 / 建议修改</button>
         </div>
         <div class="detail-actions debug-only">
           <button class="btn btn-primary" id="detailEdit">编辑</button>
           <button class="btn btn-danger" id="detailDelete">删除</button>
-        </div>
-        <!-- 所有访问者可见：反馈这个事件的问题，或直接建议修改 -->
-        <div class="detail-feedback feedback-only">
-          <button type="button" class="btn btn-ghost btn-small" id="detailFeedback">反馈 / 建议修改</button>
         </div>
       </div>
     </div>
@@ -221,7 +219,7 @@
       </label>
       <label class="field">
         <span>详细说明 <small class="counter" data-for="detail"></small></span>
-        <textarea name="detail" rows="6" maxlength="350"></textarea>
+        <textarea name="detail" rows="6" maxlength="600"></textarea>
       </label>
       <div class="field edit-only">
         <span>图片（最多 9 张，第一张为代表图；上传后保存在本地；可在每张图下方填写标题）</span>
@@ -386,6 +384,7 @@
   <div class="toast" id="toast" role="status"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="js/env.js"></script>
   <script src="js/config.js"></script>
   <script src="js/app.js"></script>
 </body>

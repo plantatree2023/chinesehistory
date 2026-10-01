@@ -11,7 +11,7 @@
   var STORAGE_KEY = 'zh-history-timeline:v1:' + dataset;
   var LEGACY_STORAGE_KEY = 'zh-history-timeline:v1';   // 旧版本（仅中国数据）使用的键
   var MAX_IMAGES = 9;
-  var MAX_DETAIL = 350;
+  var MAX_DETAIL = 600;
   // 任意一屏宽度内最多显示的事件数：大屏幕（时间轴区域宽度不小于 LARGE_SCREEN_W）上放宽到 8 个，
   // 其余（笔记本、平板、手机）为 6 个。窗口大小变化时会重新排版
   var MAX_PER_SCREEN = 6, MAX_PER_SCREEN_LARGE = 8, LARGE_SCREEN_W = 1600;
@@ -1523,7 +1523,7 @@
     var err = '';
     if (!title) err = '请填写事件名称';
     else if (!yAbs || yAbs < 1) err = '请填写有效的年份（正整数）';
-    else if (form.detail.value.length > MAX_DETAIL) err = '详细说明不能超过 350 字';
+    else if (form.detail.value.length > MAX_DETAIL) err = '详细说明不能超过 ' + MAX_DETAIL + ' 字';
     else if (charCount(form.short.value) < MIN_SUMMARY && charCount(form.detail.value) < MIN_SUMMARY) err = '请至少填写 20 字的说明（简要说明或详细说明），时间轴上会显示这段文字';
     var tFrom = form.transitionFrom.value, tTo = form.transitionTo.value;
     if (!err) err = sourcesError();
@@ -2537,11 +2537,15 @@
   var debugMode = false;
   var versionRequest = null;
 
-  function setDebugMode(on) {
+  // 调试模式只在本地启动时提供（js/env.js，见 server.js）；线上不显示开关，浏览器中保存的开启状态也不起作用
+  var debugAvailable = !!(window.TIMELINE_ENV && window.TIMELINE_ENV.debugAvailable);
+  document.body.classList.toggle('debug-available', debugAvailable);
+  function setDebugMode(on, save) {
+    if (!debugAvailable) on = false;
     debugMode = on;
     document.body.classList.toggle('debug-mode', on);
     $('debugToggle').checked = on;
-    try {
+    if (save !== false) try {
       if (on) localStorage.setItem(DEBUG_KEY, '1');
       else localStorage.removeItem(DEBUG_KEY);
     } catch (e) { /* 浏览器禁止存储时只在本次访问中生效 */ }
@@ -2621,7 +2625,7 @@
   (function () {
     var on = false;
     try { on = localStorage.getItem(DEBUG_KEY) === '1'; } catch (e) { /* noop */ }
-    setDebugMode(on);
+    setDebugMode(on, false);
   })();
 
   // ---------- 网址与浏览记录 ----------
