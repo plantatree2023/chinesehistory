@@ -1,5 +1,5 @@
 // 顶栏：标题后显示当前时期（该时期颜色），下沿色条随时期变色；标题使用书法字体；窄屏不溢出、不遮挡按钮。
-const { test, expect, openApp, loadDataset, centerOnCard, trackOffset } = require('./helpers');
+const { test, expect, openApp, loadDataset, centerOnCard, trackOffset, waitForStableLayout } = require('./helpers');
 
 // 读取顶栏状态：标题中的时期名及颜色、下沿色条颜色
 function readHeader(page) {
@@ -133,5 +133,51 @@ test.describe('点击标题回到开头', () => {
     await page.locator('#homeBtn').focus();
     await page.keyboard.press('Enter');
     await expect.poll(() => trackOffset(page)).toBe(0);
+  });
+});
+
+// 直接打开网站时停在时间轴开头，顶栏显示第一个事件的时期；到结尾显示最后一个事件的时期。
+// 大屏一屏能放下多个时期的事件，不能只看视野中心。
+for (const width of [1024, 1440, 1920, 2560]) {
+  test.describe(`${width} 宽：开头与结尾的时期`, () => {
+    test.use({ viewport: { width, height: 900 } });
+
+    test('打开时显示旧石器时代，滚到最后显示中华人民共和国', async ({ page }) => {
+      await openApp(page);
+      await expect.poll(() => trackOffset(page)).toBe(0);
+      await expect(page.locator('#currentEra')).toHaveText('旧石器时代');
+      await expect(page.locator('.mm-current')).toHaveText('▼ 旧石器时代');
+      await waitForStableLayout(page);
+      await page.locator('#stage').focus();
+      await page.keyboard.press('End');
+      await expect.poll(() => trackOffset(page)).toBeLessThan(-1000);
+      await expect(page.locator('#currentEra')).toHaveText('中华人民共和国');
+    });
+  });
+}
+
+test.describe('重新排版', () => {
+  test.use({ viewport: { width: 1440, height: 860 } });
+
+  test('停在开头 / 结尾时，窗口尺寸变化后仍停在开头 / 结尾', async ({ page }) => {
+    await openApp(page);
+    await waitForStableLayout(page);
+    await expect.poll(() => trackOffset(page)).toBe(0);
+    for (const size of [{ width: 1920, height: 900 }, { width: 1100, height: 760 }]) {
+      await page.setViewportSize(size);
+      await waitForStableLayout(page);
+      await expect.poll(() => trackOffset(page)).toBe(0);
+      await expect(page.locator('#currentEra')).toHaveText('旧石器时代');
+    }
+    await page.locator('#stage').focus();
+    await page.keyboard.press('End');
+    await expect.poll(() => trackOffset(page)).toBeLessThan(-1000);
+    await waitForStableLayout(page);
+    const atEnd = () => page.evaluate(() => document.getElementById('navRight').classList.contains('at-end'));
+    await expect.poll(atEnd).toBe(true);
+    await page.setViewportSize({ width: 1600, height: 860 });
+    await waitForStableLayout(page);
+    await expect.poll(atEnd).toBe(true);
+    await expect(page.locator('#currentEra')).toHaveText('中华人民共和国');
   });
 });

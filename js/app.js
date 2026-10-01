@@ -1028,7 +1028,11 @@
     // 到达最左 / 最右时隐藏对应的翻页按钮
     $('navLeft').classList.toggle('at-end', offset >= -0.5);
     $('navRight').classList.toggle('at-end', offset <= minOffset() + 0.5);
-    var y = yearAtX(-offset + viewW() / 2);
+    // 当前时期取视野中心的事件所在的时期；离开头或结尾不到半屏时，参照点从中心逐渐移到视野左端 / 右端，
+    // 因此最左时显示第一个事件的时期（旧石器时代），最右时显示最后一个事件的时期
+    var half = viewW() / 2, scrolled = -offset, rest = Math.max(0, span - scrolled);
+    var ref = scrolled + half - Math.max(0, half - scrolled) + Math.max(0, half - rest);
+    var y = yearAtX(ref);
     var era = y == null ? null : eraOf(y);
     if ((era ? era.name : '') !== headerEra) {
       headerEra = era ? era.name : '';
@@ -1077,9 +1081,13 @@
     clearTimeout(relayoutT);
     var run = function () {
       urgentRelayout = false;
+      // 停在开头 / 结尾时重新排版后仍停在开头 / 结尾，否则保持视野中心的事件不变
+      var atStart = offset >= -0.5, atEnd = !atStart && offset <= minOffset() + 0.5;
       var centerYear = yearAtX(-offset + viewW() / 2);
       renderTimeline();
-      if (centerYear != null) setOffset(viewW() / 2 - xOfYear(centerYear));
+      if (atStart) setOffset(0);
+      else if (atEnd) setOffset(minOffset());
+      else if (centerYear != null) setOffset(viewW() / 2 - xOfYear(centerYear));
     };
     if (urgentRelayout) relayoutT = setTimeout(function () { requestAnimationFrame(function () { setTimeout(run, 0); }); }, 0);
     else relayoutT = setTimeout(run, 150);
