@@ -103,6 +103,20 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 390, height: 780 
       });
     });
 
+    test('下边栏保留浅色底板，上方分隔线较淡', async ({ page }) => {
+      await openApp(page);
+      const bb = await page.locator('.bottombar').evaluate((b) => {
+        const cs = getComputedStyle(b);
+        const alpha = (c) => { const m = c.match(/[\d.]+/g).map(Number); return /^color\(srgb/.test(c) || /^rgba/.test(c) ? (m[3] ?? 1) : 1; };
+        return { bg: cs.backgroundColor, bgAlpha: alpha(cs.backgroundColor), lineAlpha: alpha(cs.borderTopColor), lineWidth: cs.borderTopWidth };
+      });
+      expect(bb.bg).not.toBe('rgba(0, 0, 0, 0)');      // 底板保留
+      expect(bb.bgAlpha).toBeGreaterThan(0.3);
+      expect(bb.lineWidth).toBe('1px');
+      expect(bb.lineAlpha).toBeGreaterThan(0.2);         // 分隔线仍可见
+      expect(bb.lineAlpha).toBeLessThanOrEqual(0.6);     // 但比原来淡
+    });
+
     test('右上角的两个按钮完整位于顶栏内、垂直居中、互不重叠', async ({ page }) => {
       await openApp(page);
       const bar = await page.locator('.topbar').boundingBox();

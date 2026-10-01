@@ -514,7 +514,7 @@ body.bars-hidden .bars-toggle .icon-collapse { display: block; }
   gap: 16px;
   height: var(--bottombar-h);
   padding: 16px 20px 4px;     /* 上方留出进度条标签（▼ 唐）的位置 */
-  border-top: 1px solid var(--line);
+  border-top: 1px solid color-mix(in srgb, var(--line) 45%, transparent);   /* 分隔线调淡，底板保留 */
   background: var(--bar-bg);
   z-index: 5;
 }
