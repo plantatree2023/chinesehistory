@@ -1598,10 +1598,11 @@
   // ---------- 反馈 / 建议修改 ----------
   // 所有访问者都可以：从事件详情反馈问题（类型：事实错误、错别字、图片有问题、链接失效、其他）或直接建议修改
   // （复用编辑页的“建议模式”，只发送改动的字段及改前改后）；从侧栏底部发送整站反馈或建议新增事件。
-  // 通过 Web3Forms 发送到维护者邮箱（js/config.js 中配置 accessKey；未配置时不显示任何反馈入口）。
+  // 通过 Web3Forms 发送到维护者邮箱（js/config.js 中配置 accessKey；enabled 为 false 时不显示任何反馈入口，
+  // 没有 accessKey 时入口照常显示，提交时提示尚未配置）。
   // 图片不开放上传，只能指出第几张图有问题或建议图片网址。
   var FEEDBACK_CFG = (window.TIMELINE_CONFIG && window.TIMELINE_CONFIG.feedback) || {};
-  var feedbackOn = !!(FEEDBACK_CFG.endpoint && FEEDBACK_CFG.accessKey);
+  var feedbackOn = FEEDBACK_CFG.enabled !== false && !!FEEDBACK_CFG.endpoint;
   document.body.classList.toggle('feedback-on', feedbackOn);
   var SITE_NAME = '时间上的中国';
   var EVENT_KINDS = ['事实错误', '错别字', '图片有问题', '链接失效', '其他'];
@@ -1613,6 +1614,7 @@
   function looksLikeEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
   // 发送到 Web3Forms。fields 的键名会原样显示在邮件中，因此用中文；botcheck 为防垃圾的隐藏字段（人不会填写）
   function sendFeedback(subject, fields, contact, botcheck) {
+    if (!FEEDBACK_CFG.accessKey) return Promise.reject(new Error('反馈服务尚未配置（缺少 Access Key）'));
     var body = { access_key: FEEDBACK_CFG.accessKey, subject: '[' + SITE_NAME + '] ' + subject, from_name: SITE_NAME + ' 反馈', botcheck: botcheck || '' };
     Object.keys(fields).forEach(function (k) { if (fields[k] !== '' && fields[k] != null) body[k] = fields[k]; });
     if (contact) {
