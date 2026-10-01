@@ -21,10 +21,13 @@ const PUNCT = /[\s，。、；：“”‘’《》〈〉（）【】！？·—
 // - 屏蔽所有非本机请求（维基媒体图片等），测试完全离线、结果稳定；
 // - 收集页面脚本错误，测试结束时断言没有任何错误；
 // - 选项 debugMode：为 true 时在每次打开页面前开启调试模式（编辑功能只在调试模式下显示），
-//   需要编辑的测试用 test.use({ debugMode: true })。
+//   需要编辑的测试用 test.use({ debugMode: true })；
+// - 选项 autoplay：网页加载后默认自动播放（时间轴缓缓移动），会让位置相关的断言不稳定，
+//   因此测试中默认关闭（window.TIMELINE_AUTOPLAY = false）；测试自动播放本身时用 test.use({ autoplay: true })。
 const test = base.test.extend({
   debugMode: [false, { option: true }],
-  page: async ({ page, baseURL, debugMode }, use) => {
+  autoplay: [false, { option: true }],
+  page: async ({ page, baseURL, debugMode, autoplay }, use) => {
     // 安全检查：默认测试服务器必须是只读的，否则浏览器模式的测试会把测试数据写进真实数据文件
     if (baseURL) {
       const status = await page.request.get('/api/status');
@@ -34,6 +37,7 @@ const test = base.test.extend({
     page.on('pageerror', (e) => errors.push(e.message));
     await page.route(/^https?:\/\/(?!127\.0\.0\.1[:/])/, (route) => route.abort());
     if (debugMode) await page.addInitScript((key) => localStorage.setItem(key, '1'), DEBUG_KEY);
+    if (!autoplay) await page.context().addInitScript(() => { window.TIMELINE_AUTOPLAY = false; });
     await use(page);
     expect(errors, '页面不应出现脚本错误').toEqual([]);
   },

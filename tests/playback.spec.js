@@ -1,4 +1,4 @@
-// 自动播放（右上角播放 / 暂停按钮、空格键）、背景音乐（按数据集配置，第一次操作后开始，可关闭并记住），
+// 自动播放（加载后默认播放、停止操作后自动继续、手动暂停后不再自动继续、二倍速、右上角播放 / 暂停按钮、空格键）、背景音乐（按数据集配置，第一次操作后开始，可关闭并记住），
 // 以及点击底部进度条后可以继续用键盘浏览。
 const fs = require('fs');
 const path = require('path');
@@ -81,6 +81,111 @@ test.describe('自动播放', () => {
     await playBtn(page).click();
     await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'false', { timeout: 5000 });
     expect(await trackOffset(page)).toBeLessThan(end + 1);
+  });
+});
+
+// 一段时间内时间轴移动的距离（像素）
+async function moved(page, ms) {
+  const a = await trackOffset(page);
+  await page.waitForTimeout(ms);
+  return a - (await trackOffset(page));
+}
+
+test.describe('默认自动播放', () => {
+  test.use({ autoplay: true });
+
+  test('加载后默认开始播放，时间轴缓缓前进', async ({ page }) => {
+    await openApp(page);
+    await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'true');
+    expect(await moved(page, 1000)).toBeGreaterThan(20);
+  });
+
+  test('手动浏览时暂停，停止操作约 8 秒后自动继续播放', async ({ page }) => {
+    await openApp(page);
+    await page.mouse.move(900, 300); await page.mouse.down(); await page.mouse.move(700, 300, { steps: 5 }); await page.mouse.up();
+    await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'false');
+    await page.waitForTimeout(5000);
+    expect(await moved(page, 500), '停止操作后还不到 8 秒，不移动').toBe(0);
+    await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'true', { timeout: 6000 });
+    expect(await moved(page, 800)).toBeGreaterThan(10);
+  });
+
+  test('期间继续操作会重新计时', async ({ page }) => {
+    await openApp(page);
+    await page.locator('#stage').focus();
+    await page.keyboard.press('ArrowRight');
+    await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'false');
+    await page.waitForTimeout(5000);
+    await page.keyboard.press('ArrowRight');   // 重新计时
+    await page.waitForTimeout(5000);
+    await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'false');
+    await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'true', { timeout: 6000 });
+  });
+
+  test('用户手动暂停（按钮或空格）后不再自动继续，再次点播放才继续', async ({ page }) => {
+    await openApp(page);
+    await playBtn(page).click();
+    await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'false');
+    // 暂停后再拖动一下，也不会自动继续
+    await page.mouse.move(900, 300); await page.mouse.down(); await page.mouse.move(800, 300, { steps: 3 }); await page.mouse.up();
+    await page.waitForTimeout(9500);
+    await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'false');
+    expect(await moved(page, 500)).toBe(0);
+    // 空格：继续，再按一次暂停
+    await page.locator('#stage').focus();
+    await page.keyboard.press(' ');
+    await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'true');
+    await page.keyboard.press(' ');
+    await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'false');
+  });
+
+  test('到达末端后停止，不会自动从头开始', async ({ page }) => {
+    await openApp(page);
+    await page.locator('#stage').focus();
+    await page.keyboard.press('End');
+    await expect.poll(() => page.evaluate(() => document.getElementById('navRight').classList.contains('at-end'))).toBe(true);
+    await page.waitForTimeout(9500);
+    await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'false');
+    expect(await moved(page, 300)).toBe(0);
+  });
+
+  test('系统设置了“减少动态效果”时不自动开始', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await openApp(page);
+    await page.waitForTimeout(500);
+    await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'false');
+    expect(await moved(page, 500)).toBe(0);
+  });
+});
+
+test.describe('二倍速', () => {
+  test('速度按钮在播放按钮右边；切换为 2× 后速度加倍，选择保存在浏览器中', async ({ page }) => {
+    await openApp(page);
+    const speed = page.locator('#speedToggle');
+    await expect(speed).toHaveText('1×');
+    await expect(speed).toHaveAttribute('aria-pressed', 'false');
+    const p = await playBtn(page).boundingBox(), s = await speed.boundingBox();
+    expect(s.x).toBeGreaterThan(p.x);
+    expect(s.x - (p.x + p.width)).toBeLessThan(12);
+
+    await playBtn(page).click();
+    await page.waitForTimeout(300);
+    const normal = await moved(page, 1500);
+    await speed.click();
+    await expect(speed).toHaveText('2×');
+    await expect(speed).toHaveAttribute('aria-pressed', 'true');
+    await expect(playBtn(page), '切换速度不影响播放状态').toHaveAttribute('aria-pressed', 'true');
+    await page.waitForTimeout(200);
+    const fast = await moved(page, 1500);
+    expect(fast / normal).toBeGreaterThan(1.6);
+    expect(fast / normal).toBeLessThan(2.4);
+
+    await page.reload();
+    await expect(page.locator('.card').first()).toBeVisible();
+    await expect(speed).toHaveText('2×');
+    await speed.click();
+    await expect(speed).toHaveText('1×');
+    expect(await page.evaluate(() => localStorage.getItem('zh-history-timeline:speed'))).toBe('1');
   });
 });
 
@@ -276,20 +381,22 @@ test.describe('背景音乐', () => {
 
 test.describe('右上角按钮', () => {
   for (const viewport of [{ width: 1440, height: 860 }, { width: 390, height: 780 }, { width: 320, height: 640 }]) {
-    test(`${viewport.width}×${viewport.height}：四个按钮排成一行、在顶栏内、不遮挡标题`, async ({ page }) => {
+    test(`${viewport.width}×${viewport.height}：按钮排成一行、在顶栏内、不遮挡标题`, async ({ page }) => {
       await page.setViewportSize(viewport);
       await openApp(page);
       const bar = await page.locator('.topbar').boundingBox();
       const brand = await page.locator('.brand').boundingBox();
       const boxes = [];
-      for (const id of ['#playToggle', '#musicToggle', '#themeToggle', '#barsToggle']) boxes.push(await page.locator(id).boundingBox());
+      for (const id of ['#playToggle', '#speedToggle', '#musicToggle', '#themeToggle', '#barsToggle']) boxes.push(await page.locator(id).boundingBox());
       for (let i = 0; i < boxes.length; i++) {
         expect(boxes[i].y).toBeGreaterThanOrEqual(bar.y);
         expect(boxes[i].y + boxes[i].height).toBeLessThanOrEqual(bar.y + bar.height);
         if (i) expect(boxes[i - 1].x + boxes[i - 1].width).toBeLessThan(boxes[i].x);
       }
       expect(brand.x + brand.width).toBeLessThanOrEqual(boxes[0].x);
-      expect(boxes[3].x + boxes[3].width).toBeLessThanOrEqual(viewport.width - 8);
+      expect(boxes[boxes.length - 1].x + boxes[boxes.length - 1].width).toBeLessThanOrEqual(viewport.width - 8);
+      const clipped = await page.evaluate(() => [...document.querySelectorAll('.brand, .brand-name')].some((e) => e.scrollWidth > e.clientWidth + 0.5));
+      expect(clipped, '标题被截断').toBe(false);
     });
   }
 });

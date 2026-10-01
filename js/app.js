@@ -816,7 +816,10 @@
   function stopAnim() {
     if (anim) cancelAnimationFrame(anim);
     anim = null;
-    if (typeof setPlaying === 'function' && playing) setPlaying(false);
+    if (typeof setPlaying === 'function') {
+      if (playing) setPlaying(false);
+      noteActivity();   // 停止操作一段时间后自动继续播放（用户手动暂停时除外）
+    }
   }
   function animateTo(target, dur) {
     stopAnim();
@@ -2069,11 +2072,24 @@
   document.addEventListener('touchcancel', function () { if (ptr.state !== 'refreshing') ptrReset(); });
 
   // ---------- 自动播放：时间轴缓缓向右前进 ----------
-  // 速度为每 PLAY_SECONDS_PER_SCREEN 秒一屏；手动浏览（见 stopAnim）时暂停；
-  // 打开侧栏、弹窗或图片查看器时原地停住，关闭后继续；到达末端时停止，再次播放从头开始
+  // 速度为每 PLAY_SECONDS_PER_SCREEN 秒一屏，可切换为二倍速（选择保存在浏览器中）。
+  // 页面加载后默认开始播放；手动浏览（见 stopAnim）时暂停，停止操作 IDLE_RESUME_MS 后自动继续；
+  // 用户点暂停按钮或按空格暂停后，本次访问中不再自动继续，直到再次点播放。
+  // 打开侧栏、弹窗或图片查看器时原地停住，关闭后继续；到达末端时停止（不自动从头开始），再次播放从头开始。
+  // 系统设置了“减少动态效果”时不自动开始。
   var PLAY_SECONDS_PER_SCREEN = 30;
+  var IDLE_RESUME_MS = 8000;
+  var SPEED_KEY = 'zh-history-timeline:speed';
   var playing = false, playRaf = null, playLast = 0;
-  var playBtn = $('playToggle');
+  var userPaused = false;     // 用户手动暂停（本次访问）
+  var idleT = null;
+  var playSpeed = 1;
+  var playBtn = $('playToggle'), speedBtn = $('speedToggle');
+  // 自动开始：测试可以通过 window.TIMELINE_AUTOPLAY = false 关闭
+  function autoplayAllowed() {
+    if (window.TIMELINE_AUTOPLAY === false) return false;
+    return !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }
   function setPlaying(on) {
     playing = on;
     playBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
@@ -2083,26 +2099,57 @@
     if (playRaf) cancelAnimationFrame(playRaf);
     playRaf = null;
     if (!on) return;
+    clearTimeout(idleT);
     playLast = performance.now();
     playRaf = requestAnimationFrame(playStep);
   }
+  function atEnd() { return offset <= minOffset() + 0.5; }
   function playStep(now) {
     var dt = Math.min(100, now - playLast);   // 切到后台再回来时不会突然跳很远
     playLast = now;
     var held = openStack.length || sidebarOpen || !$('lightbox').hidden || drag.active;
     if (!held) {
-      if (offset <= minOffset() + 0.5) { setPlaying(false); return; }
-      setOffset(offset - viewW() / PLAY_SECONDS_PER_SCREEN * dt / 1000);
+      if (atEnd()) { setPlaying(false); return; }
+      setOffset(offset - viewW() / PLAY_SECONDS_PER_SCREEN * playSpeed * dt / 1000);
     }
     playRaf = requestAnimationFrame(playStep);
   }
+  // 用户在浏览（拖动、滚轮、按键、点击等）：重新开始计时，停下 IDLE_RESUME_MS 后自动继续播放
+  function noteActivity() {
+    clearTimeout(idleT);
+    idleT = null;
+    if (playing || userPaused || !autoplayAllowed()) return;
+    idleT = setTimeout(resumeIfIdle, IDLE_RESUME_MS);
+  }
+  function resumeIfIdle() {
+    idleT = null;
+    if (playing || userPaused || atEnd()) return;
+    // 正在拖动、动画或打开了侧栏 / 弹窗时稍后再试
+    if (anim || drag.active || openStack.length || sidebarOpen || !$('lightbox').hidden) { noteActivity(); return; }
+    setPlaying(true);
+  }
   function togglePlay() {
-    if (playing) { setPlaying(false); return; }
+    if (playing) { userPaused = true; clearTimeout(idleT); setPlaying(false); return; }
+    userPaused = false;
     if (anim) { cancelAnimationFrame(anim); anim = null; }
-    if (offset <= minOffset() + 0.5) setOffset(0);   // 已在末端：从头开始
+    if (atEnd()) setOffset(0);   // 已在末端：从头开始
     setPlaying(true);
   }
   playBtn.addEventListener('click', togglePlay);
+  // 播放速度：1× / 2×
+  function setSpeed(v, save) {
+    playSpeed = v === 2 ? 2 : 1;
+    speedBtn.textContent = playSpeed + '×';
+    speedBtn.setAttribute('aria-pressed', playSpeed === 2 ? 'true' : 'false');
+    var label = playSpeed === 2 ? '二倍速播放中，点击恢复正常速度' : '切换为二倍速播放';
+    speedBtn.setAttribute('aria-label', label);
+    speedBtn.title = label;
+    if (save) { try { localStorage.setItem(SPEED_KEY, String(playSpeed)); } catch (e) { /* noop */ } }
+  }
+  var savedSpeed = null;
+  try { savedSpeed = localStorage.getItem(SPEED_KEY); } catch (e) { /* noop */ }
+  setSpeed(savedSpeed === '2' ? 2 : 1, false);
+  speedBtn.addEventListener('click', function () { setSpeed(playSpeed === 2 ? 1 : 2, true); });
   // 空格键：播放 / 暂停（焦点在输入框、按钮等控件上或有弹窗时不处理）
   document.addEventListener('keydown', function (e) {
     if (e.key !== ' ' || e.ctrlKey || e.metaKey || e.altKey) return;
@@ -2111,6 +2158,13 @@
     if (openStack.length || sidebarOpen || !$('lightbox').hidden) return;
     e.preventDefault();
     togglePlay();
+  });
+  // 时间轴上的任何操作都算“在浏览”，重新计时（播放 / 速度按钮本身除外）
+  ['pointerdown', 'pointermove', 'wheel', 'keydown', 'touchstart'].forEach(function (type) {
+    stage.addEventListener(type, function (e) {
+      if (type === 'pointermove' && !drag.active) return;
+      if (idleT) noteActivity();
+    }, { passive: true });
   });
 
   // ---------- 背景音乐 ----------
@@ -2569,6 +2623,7 @@
     applyUrl(true);
     urlReady = true;
     syncUrl(false);   // 规范化网址（例如去掉找不到的 id）
+    if (autoplayAllowed()) setPlaying(true);   // 加载后默认自动播放
   }).catch(function (e) {
     showLoadError(location.protocol === 'file:'
       ? '请在项目目录运行 npm start，然后通过 http://127.0.0.1:4173/ 访问。'
