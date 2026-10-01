@@ -156,16 +156,18 @@ test('网址中保留数据集参数 data', async ({ page }) => {
 test.describe('分享链接', () => {
   test.use({ permissions: ['clipboard-read', 'clipboard-write'] });
 
-  test('点击“分享链接”复制只含该事件的链接（不带侧栏、筛选等）', async ({ page, baseURL }) => {
+  test('点击”分享链接”复制只含该事件的链接（不带侧栏、筛选等）', async ({ page, baseURL }) => {
     const { events } = await loadDataset(page);
     const ev = events.find((e) => e.title === '赤壁之战');
     await openApp(page);
     await page.click('#browseBtn');
     await page.click('#filterToggle');
-    await page.check('#filterPanel input[data-filter="major"]');
+    await page.check('#filterPanel input[data-filter=”major”]');
     await openFromList(page, '赤壁之战');
     await expect(page.locator('#detailShare')).toBeVisible();     // 所有访问者都能看到（不需要调试模式）
     await page.click('#detailShare');
+    // 打开分享菜单后点击”复制链接”按钮
+    await page.click('[data-share=”copy”]');
     await expect(page.locator('.toast')).toContainText('链接已复制');
     const copied = await page.evaluate(() => navigator.clipboard.readText());
     expect(copied).toBe(new URL(`/?id=${ev.id}`, baseURL).href);

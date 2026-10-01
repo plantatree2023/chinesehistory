@@ -2375,20 +2375,27 @@
 
       if (type === 'copy') {
         copyText(url).then(function () { toast('链接已复制'); }, function () { toast('请复制链接：' + url); });
+        closeModal('shareModal');
       } else if (type === 'wechat') {
         showWechatQrcode(url);
       } else if (type === 'weibo') {
         window.open('https://service.weibo.com/share/share.php?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title), '_blank');
+        closeModal('shareModal');
       } else if (type === 'qq') {
         window.open('https://sns.qzone.qq.com/cgi-bin/qzc/share?url=' + encodeURIComponent(url), '_blank');
+        closeModal('shareModal');
       } else if (type === 'facebook') {
         window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank');
+        closeModal('shareModal');
       } else if (type === 'twitter') {
         window.open('https://twitter.com/intent/tweet?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(title), '_blank');
+        closeModal('shareModal');
       } else if (type === 'linkedin') {
         window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(url), '_blank');
+        closeModal('shareModal');
       } else if (type === 'telegram') {
         window.open('https://t.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(title), '_blank');
+        closeModal('shareModal');
       } else if (type === 'email') {
         window.location.href = 'mailto:?subject=' + encodeURIComponent(title) + '&body=' + encodeURIComponent(title + '\n\n' + url);
       }
