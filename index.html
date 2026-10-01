@@ -31,6 +31,8 @@
   </div>
 
   <main class="stage" id="stage" tabindex="0" aria-label="历史时间轴，可左右拖动或使用方向键浏览">
+    <!-- 背景纹理：由数据集的 texture 字段配置（每个国家可以不同），不随时间轴移动 -->
+    <div class="bg-texture" id="bgTexture" aria-hidden="true" hidden></div>
     <div class="track" id="track">
       <div class="era-wash" id="eraWash" aria-hidden="true"></div>
       <div class="axis" id="axis"></div>

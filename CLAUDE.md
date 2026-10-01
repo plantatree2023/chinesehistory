@@ -26,5 +26,6 @@ npm test
 - `lib/images.js`：图片工具（格式与尺寸识别、下载、按内容哈希保存到 `images/`），服务器和导入脚本共用
 - `tools/wiki-import.js`：从维基百科导入 / 更新事件（`npm run wiki -- --file data/cn_zh.json 关键词`），支持 `--list`、`--dry-run`、`--refresh-images`、`--type`、`--score`；图片总是下载到本地；自动推断事件类型（`type`）和估算重要程度（`majorScore`）
 - `audio/`：背景音乐（数据集的 `music` 字段引用，只从本地加载；部署时复制）。音乐按数据集配置，便于其他国家 / 语言使用各自的音乐
+- `textures/`：背景纹理（数据集的 `texture` 字段引用，只从本地加载；部署时复制）。纹理按数据集配置，图片只用作遮罩形状，颜色来自 `--texture-ink`
 - `images/`：事件图片。**所有图片都从本地加载**：数据中的图片路径只能是 `images/<文件名>`，不引用外部地址；编辑页输入的图片网址会先下载到本地
 - `tests/`：Playwright 端到端测试，说明见 README

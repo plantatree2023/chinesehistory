@@ -2148,6 +2148,24 @@
     musicBtn.setAttribute('aria-label', label);
     musicBtn.title = label;
   }
+  // ---------- 背景纹理 ----------
+  // 数据集的 texture：{ src: 'textures/<文件名>', size: 平铺单元宽度（像素，默认为图片本身大小）, opacity: 0–0.3 }。
+  // 每个国家 / 语言的数据集可以配置各自的纹理；没有时不显示。
+  var DEFAULT_TEXTURE_OPACITY = 0.06;
+  function setupTexture(texture) {
+    var layer = $('bgTexture');
+    if (!texture || !texture.src) { layer.hidden = true; return; }
+    var img = 'url("' + texture.src + '")';
+    var size = texture.size > 0 ? texture.size + 'px auto' : 'auto';
+    layer.style.webkitMaskImage = img;
+    layer.style.maskImage = img;
+    layer.style.webkitMaskSize = size;
+    layer.style.maskSize = size;
+    var o = Number(texture.opacity);
+    layer.style.setProperty('--texture-opacity', String(o >= 0 && o <= 0.3 ? o : DEFAULT_TEXTURE_OPACITY));
+    layer.hidden = false;
+  }
+
   function setupMusic(music) {
     if (!music || !music.src) return;
     bgm.src = music.src;
@@ -2492,6 +2510,7 @@
     Object.keys(data).forEach(function (k) { if (k !== 'events') meta[k] = data[k]; });
     ERAS = data.eras;
     setupMusic(data.music);
+    setupTexture(data.texture);
     TYPES = Array.isArray(data.types) ? data.types.filter(function (t) { return t && t.name; }) : [];
     defaultEvents = data.events;
     events = fileMode ? clone(defaultEvents) : load();

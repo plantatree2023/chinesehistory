@@ -244,6 +244,11 @@
     "title": "",
     "credit": ""
   },
+  "texture": {
+    "src": "textures/cn-xiangyun.svg",
+    "size": 160,
+    "opacity": 0.09
+  },
   "events": [
     {
       "id": "e001",

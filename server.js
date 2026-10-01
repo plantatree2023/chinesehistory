@@ -22,8 +22,9 @@ const { execFileSync } = require('child_process');
 const { writeAtomic, saveImage, fetchImage, MAX_IMAGE_BYTES } = require('./lib/images');
 
 const DATASET_ID = /^[a-z]{2}_[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})?$/;   // 例：cn_zh、jp_ja、cn_zh-Hant
-const LOCAL_IMAGE = /^images\/[A-Za-z0-9._-]+$/;
-const LOCAL_AUDIO = /^audio\/[A-Za-z0-9._-]+\.(mp3|ogg|m4a)$/;     // 背景音乐只能是 audio/ 下的本地文件             // 数据中图片路径的唯一合法形式
+const LOCAL_IMAGE = /^images\/[A-Za-z0-9._-]+$/;                       // 数据中图片路径的唯一合法形式
+const LOCAL_AUDIO = /^audio\/[A-Za-z0-9._-]+\.(mp3|ogg|m4a)$/;         // 背景音乐只能是 audio/ 下的本地文件
+const LOCAL_TEXTURE = /^textures\/[A-Za-z0-9._-]+\.(svg|png|webp)$/;   // 背景纹理只能是 textures/ 下的本地文件
 const MAX_JSON_BYTES = 10 * 1024 * 1024;
 const MAX_SOURCES = 10;                                        // 每个事件最多的参考链接数
 const CONTENT_TYPES = {
@@ -90,6 +91,13 @@ function validateDataset(id, data) {
     const m = data.music;
     if (typeof m !== 'object' || typeof m.src !== 'string' || !LOCAL_AUDIO.test(m.src)) fail('music.src 必须是 audio/ 下的本地音频文件（mp3 / ogg / m4a）');
     if (m.volume != null && !(typeof m.volume === 'number' && m.volume >= 0 && m.volume <= 1)) fail('music.volume 必须是 0–1 之间的数');
+  }
+  // 背景纹理（可选）：{ src: 'textures/<文件名>', size: 平铺单元的宽度（像素）, opacity: 0–1 }
+  if (data.texture != null) {
+    const t = data.texture;
+    if (typeof t !== 'object' || typeof t.src !== 'string' || !LOCAL_TEXTURE.test(t.src)) fail('texture.src 必须是 textures/ 下的本地图片（svg / png / webp）');
+    if (t.size != null && !(typeof t.size === 'number' && t.size >= 8 && t.size <= 2000)) fail('texture.size 必须是 8–2000 之间的数（像素）');
+    if (t.opacity != null && !(typeof t.opacity === 'number' && t.opacity >= 0 && t.opacity <= 0.3)) fail('texture.opacity 必须是 0–0.3 之间的数（纹理要清淡）');
   }
   // 事件类型（可选）：[{ key, name, color }]，名称不能重复；有此列表时事件的 type 必须是其中的名称
   let typeNames = null;

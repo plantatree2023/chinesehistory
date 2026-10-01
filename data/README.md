@@ -30,6 +30,7 @@ data/<国家>_<语言>.json
   "eras": [ { "name": "唐", "start": 618, "end": 907, "...": "..." } ],
   "types": [ { "key": "war", "name": "战争", "color": "#5f4b8b" } ],
   "music": { "src": "audio/bgm-cn.mp3", "volume": 0.2, "title": "", "credit": "" },
+  "texture": { "src": "textures/cn-xiangyun.svg", "size": 160, "opacity": 0.09 },
   "events": [ { "id": "e052", "year": 755, "title": "安史之乱", "...": "..." } ]
 }
 ```
@@ -42,6 +43,7 @@ data/<国家>_<语言>.json
 | `eras` | 数组 | 是 | 时期划分，见下文。 |
 | `types` | 数组 | 否 | 事件类型列表，见下文。 |
 | `music` | 对象 | 否 | 背景音乐，见下文。没有时网页不播放音乐、也不显示音乐按钮。 |
+| `texture` | 对象 | 否 | 时间轴的背景纹理，见下文。没有时不显示纹理。 |
 | `events` | 数组 | 是 | 历史事件，见下文。 |
 
 ## 时期（`eras`）
@@ -82,6 +84,22 @@ data/<国家>_<语言>.json
 | `title` / `credit` | 字符串 | 否 | 曲名和作者 / 授权说明，供记录版权来源（网页暂不显示）。 |
 
 浏览器不允许网页在访问者操作之前自动发声，所以音乐在访问者第一次点击、按键或触摸页面时开始；右上角的喇叭按钮可以关闭（会记住选择）。
+
+## 背景纹理（`texture`）
+
+每个数据集（国家 / 语言）可以有自己的清淡背景纹理，铺在时间轴区域后面，不随时间轴移动。纹理文件放在仓库的 `textures/` 目录，网站只从本地加载。
+
+```json
+{ "src": "textures/cn-xiangyun.svg", "size": 160, "opacity": 0.09 }
+```
+
+| 字段 | 类型 | 必填 | 含义 |
+|---|---|---|---|
+| `src` | 字符串 | 是 | 纹理图片路径，**只能是 `textures/<文件名>`**，格式为 SVG、PNG 或 WebP，内容是可以无缝平铺的单元。 |
+| `size` | 数字 | 否 | 平铺单元的显示宽度（像素，8–2000），缺省为图片本身的大小。 |
+| `opacity` | 数字 | 否 | 不透明度，0–0.3，缺省为 0.06。纹理应当清淡，不影响阅读。 |
+
+纹理图片只用作**形状**（按透明度取用，图片本身的颜色不起作用）：画在透明背景上的线条或图形即可。颜色由网页配色决定（`css/style.css` 中的 `--texture-ink`），浅色和深色模式各自适配。现有的中国纹理（`textures/cn-*.svg`）：回纹 `huiwen`、祥云 `xiangyun`、冰裂纹 `binglie`、海水纹 `haishui`、古钱纹 `qianwen`、宣纸纤维 `xuanzhi`。其他国家建议命名为 `<国家>-<名称>.svg`。
 
 ## 事件类型（`types`）
 
@@ -167,5 +185,6 @@ data/<国家>_<语言>.json
 - 若有 `types`，每项的 `name` 不能为空或重复，`color` 为 `#rrggbb`；事件的 `type` 必须是其中的名称；
 - 若有 `majorScore`，必须是 1–10 的整数；
 - 若有 `music`，`src` 必须是 `audio/` 下的 mp3 / ogg / m4a 文件，`volume` 在 0–1 之间；
+- 若有 `texture`，`src` 必须是 `textures/` 下的 svg / png / webp 文件，`size` 在 8–2000 之间，`opacity` 在 0–0.3 之间；
 - 若有 `sources`，最多 10 条，每条的 `url` 以 `http://` 或 `https://` 开头、`title` 为文字；不能再使用旧的 `source` 字段；
 - `images` 是最多 9 项的数组，每项都有 `src`，且 `src` 必须是 `images/` 下的本地文件路径。

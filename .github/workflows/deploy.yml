@@ -28,7 +28,7 @@ jobs:
       - name: Prepare site
         run: |
           mkdir -p _site
-          cp -r index.html css js data images audio _site/
+          cp -r index.html css js data images audio textures _site/
           touch _site/.nojekyll
       # 网页调试模式显示的“网站最近更新”时间：每次部署（每次 push 到 main）都会重新生成
       - name: Write version info
