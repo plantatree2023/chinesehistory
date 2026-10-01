@@ -2260,17 +2260,21 @@
       });
       li.appendChild(row);
       if (ev.id === activeListId) {
+        // 按钮在事件右侧：第一行“查看详情”，第二行“编辑”“删除”（调试模式）
+        li.classList.add('has-actions');
         var acts = el('div', 'list-actions');
         var v = el('button', 'btn btn-ghost btn-small', '查看详情');
         v.type = 'button';
         v.addEventListener('click', function () { openDetail(ev.id); });
-        var ed = el('button', 'btn btn-primary btn-small debug-only', '编辑');
+        var ed = el('button', 'btn btn-primary btn-small', '编辑');
         ed.type = 'button';
         ed.addEventListener('click', function () { openEditor(ev.id); });
-        var del = el('button', 'btn btn-danger btn-small debug-only', '删除');
+        var del = el('button', 'btn btn-danger btn-small', '删除');
         del.type = 'button';
         del.addEventListener('click', function () { askDelete(ev.id); });
-        acts.appendChild(v); acts.appendChild(ed); acts.appendChild(del);
+        var editRow = el('div', 'list-actions-edit debug-only');
+        editRow.appendChild(ed); editRow.appendChild(del);
+        acts.appendChild(v); acts.appendChild(editRow);
         li.appendChild(acts);
       }
       ol.appendChild(li);
