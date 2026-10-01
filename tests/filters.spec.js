@@ -310,6 +310,17 @@ test.describe('时期更迭', () => {
       || e.transition.from === e.transition.to || eraOf(eras, e.year).name !== e.transition.to).map((e) => e.title);
     expect(problems).toEqual([]);
   });
+
+  test('数据中每次朝代 / 时期更迭都有对应的更迭事件（史前的旧石器 → 新石器为渐变，不要求）', async ({ page }) => {
+    const { eras, events } = await loadDataset(page);
+    const missing = [];
+    for (let i = 1; i < eras.length; i++) {
+      const from = eras[i - 1].name, to = eras[i].name;
+      if (from === '旧石器时代') continue;
+      if (!events.some((e) => e.transition && e.transition.from === from && e.transition.to === to)) missing.push(`${from} → ${to}`);
+    }
+    expect(missing).toEqual([]);
+  });
 });
 
 test('按时间范围筛选：可只填一端，公元前用下拉选择', async ({ page }) => {

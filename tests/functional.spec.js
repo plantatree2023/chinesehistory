@@ -24,7 +24,7 @@ test.describe('时间轴浏览', () => {
     await expect(page.locator('.topbar .brand-name')).toHaveText('时间上的中国');
   });
 
-  test('默认显示 100 个按时间排序的事件', async ({ page }) => {
+  test(`默认显示 ${DEFAULT_EVENT_COUNT} 个按时间排序的事件`, async ({ page }) => {
     await openApp(page);
     await expect(page.locator('.card')).toHaveCount(DEFAULT_EVENT_COUNT);
     const years = (await loadDataset(page)).events.map((e) => e.year);

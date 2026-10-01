@@ -14,7 +14,7 @@ const DATASET = 'cn_zh';
 const DATA_URL = `/data/${DATASET}.json`;
 const STORAGE_KEY = `zh-history-timeline:v1:${DATASET}`;
 const DEBUG_KEY = 'zh-history-timeline:debug';
-const DEFAULT_EVENT_COUNT = 100;
+const DEFAULT_EVENT_COUNT = 104;
 const PUNCT = /[\s，。、；：“”‘’《》〈〉（）【】！？·—…,.;:()[\]!?"'-]/;
 
 // 扩展 test：

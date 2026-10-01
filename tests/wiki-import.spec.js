@@ -74,6 +74,11 @@ function mockWiki(pages, entities, { searchMap = {}, rateLimitOnce = [], files =
 }
 
 let tmp, dataFile, repoHash, wiki;
+// 仓库数据中的事件数（导入前）
+const REPO_EVENTS = JSON.parse(fs.readFileSync(REPO_DATA, 'utf8')).events;
+const REPO_COUNT = REPO_EVENTS.length;
+// 新条目的编号：现有最大编号加一
+const NEXT_ID = `e${String(Math.max(...REPO_EVENTS.map((e) => Number(e.id.slice(1)))) + 1).padStart(3, '0')}`;
 
 test.beforeEach(() => {
   repoHash = sha256(REPO_DATA);
@@ -143,9 +148,9 @@ test.describe('单个关键词', () => {
     expect(r.stdout).toContain('已下载 2 张图片到本地');
 
     const data = readData();
-    expect(data.events).toHaveLength(101);
+    expect(data.events).toHaveLength(REPO_COUNT + 1);
     const ev = find('测试战役');
-    expect(ev).toMatchObject({ id: 'e101', year: -260, date: '前260年', wiki: '测试战役', type: '战争', majorScore: 6 });
+    expect(ev).toMatchObject({ id: NEXT_ID, year: -260, date: '前260年', wiki: '测试战役', type: '战争', majorScore: 6 });
     expect(ev).not.toHaveProperty('major');
     // Wikidata 性质为“战役”（Q178561）→ 战争；50 个语言版本 → 重要程度 6；都提示核对
     expect(r.stdout).toContain('类型 战争，重要程度 6');
@@ -188,7 +193,7 @@ test.describe('单个关键词', () => {
     expect(r.code, r.stdout + r.stderr).toBe(0);
     expect(r.stdout).toContain(`~ 更新 ${target.title}`);
     const ev = find(target.title);
-    expect(readData().events).toHaveLength(100);
+    expect(readData().events).toHaveLength(before.events.length);
     expect(ev.detail).toContain('更新后的简介');
     // 人工设定的类型和重要程度保留，不查询 Wikidata
     expect(ev).toMatchObject({ id: target.id, year: target.year, date: target.date, short: target.short, majorScore: 9, type: '社会' });
@@ -424,7 +429,7 @@ test.describe('条目表', () => {
     expect(find('表中新条目').year).toBe(1500);
     expect(find('表中指定年份')).toMatchObject({ year: -500, date: '前500年', type: '文化', majorScore: 7 });
     expect(find(existing.title).detail).toContain('条目表中更新的简介');
-    expect(readData().events).toHaveLength(102);
+    expect(readData().events).toHaveLength(REPO_COUNT + 2);
   });
 });
 
