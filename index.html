@@ -383,7 +383,8 @@
 
   <div class="toast" id="toast" role="status"></div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <!-- 微信分享的二维码库（qrcodejs 1.0.0，MIT，保存在本地）：async 在页面开始加载时就并行下载，但不阻塞页面 -->
+  <script src="js/vendor/qrcode.min.js" id="qrcodeLib" async onerror="this.dataset.failed = '1'"></script>
   <script src="js/env.js"></script>
   <script src="js/config.js"></script>
   <script src="js/app.js"></script>

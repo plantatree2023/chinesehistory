@@ -2804,6 +2804,7 @@
       $('shareQrcodeContainer').innerHTML = '';
       qrcodeInstance = null;
     }
+    delete $('shareQrcodeContainer').dataset.url;
   }
 
   $('detailShare').addEventListener('click', function () {
@@ -2862,15 +2863,29 @@
     });
   });
 
+  // 二维码库异步加载（index.html 中的 #qrcodeLib）：已加载时立即调用，否则等加载完成；加载失败时 cb(false)
+  function whenQrcodeReady(cb) {
+    if (window.QRCode) { cb(true); return; }
+    var s = $('qrcodeLib');
+    if (!s || s.dataset.failed) { cb(false); return; }
+    s.addEventListener('load', function () { cb(!!window.QRCode); }, { once: true });
+    s.addEventListener('error', function () { s.dataset.failed = '1'; cb(false); }, { once: true });
+  }
+
   function showWechatQrcode(url) {
     $('shareQrcode').hidden = false;
     var container = $('shareQrcodeContainer');
     container.innerHTML = '';
-    qrcodeInstance = new QRCode(container, {
-      text: url,
-      width: 200,
-      height: 200,
-      correctLevel: QRCode.CorrectLevel.H
+    container.dataset.url = url;
+    if (!window.QRCode) container.appendChild(el('p', 'qrcode-wait', '正在生成二维码…'));
+    whenQrcodeReady(function (ok) {
+      if (container.dataset.url !== url) return;   // 期间已关闭或换了链接
+      container.innerHTML = '';
+      if (!ok) {
+        container.appendChild(el('p', 'qrcode-wait', '二维码生成失败，请复制链接后在微信中发送：' + url));
+        return;
+      }
+      qrcodeInstance = new QRCode(container, { text: url, width: 200, height: 200, correctLevel: QRCode.CorrectLevel.H });
     });
   }
 

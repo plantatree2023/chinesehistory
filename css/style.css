@@ -1214,3 +1214,4 @@ body.bars-hidden .fab { bottom: 18px; }
 .suggest-mode .edit-only { display: none !important; }
 /* 防垃圾的隐藏字段：访问者看不到，机器人会填写 */
 .hp-field { position: absolute !important; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.qrcode-wait { margin: 8px 0; max-width: 240px; font-size: 13px; color: var(--ink-2); word-break: break-all; }
