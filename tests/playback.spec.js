@@ -1,4 +1,4 @@
-// 自动播放（加载后默认播放、停止操作后自动继续、手动暂停后不再自动继续、二倍速、右上角播放 / 暂停按钮、空格键）、背景音乐（按数据集配置，第一次操作后开始，可关闭并记住），
+// 自动播放（加载后默认播放、停止操作后自动继续、手动暂停后不再自动继续、播放按钮依次切换一倍速 / 二倍速 / 暂停、空格键）、背景音乐（按数据集配置，第一次操作后开始，可关闭并记住），
 // 以及点击底部进度条后可以继续用键盘浏览。
 const fs = require('fs');
 const path = require('path');
@@ -14,22 +14,37 @@ const audioState = (page) => page.evaluate(() => {
 });
 
 test.describe('自动播放', () => {
-  test('点击播放后时间轴缓缓向右前进，再点暂停后停止', async ({ page }) => {
+  test('点击播放后时间轴缓缓向右前进，再点切换为二倍速，第三次点击暂停', async ({ page }) => {
     await openApp(page);
     await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'false');
     await expect(playBtn(page).locator('.icon-play')).toBeVisible();
     await playBtn(page).click();
     await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'true');
-    await expect(playBtn(page)).toHaveAttribute('aria-label', '暂停自动播放');
-    await expect(playBtn(page).locator('.icon-pause')).toBeVisible();
+    await expect(playBtn(page)).toHaveAttribute('data-speed', '1');
+    // 一倍速播放中：图标为双箭头（点击后切换为二倍速）
+    await expect(playBtn(page)).toHaveAttribute('aria-label', '切换为二倍速播放');
+    await expect(playBtn(page).locator('.icon-fast')).toBeVisible();
+    await expect(playBtn(page).locator('.icon-play')).toBeHidden();
+    await expect(playBtn(page).locator('.icon-pause')).toBeHidden();
     const t0 = await trackOffset(page);
     await page.waitForTimeout(1500);
     const t1 = await trackOffset(page);
     // 速度约为每 30 秒一屏（1440px）：1.5 秒约 72px，“缓缓”而不是跳跃
     expect(t0 - t1).toBeGreaterThan(30);
     expect(t0 - t1).toBeLessThan(200);
+    // 第二次点击：二倍速，图标为暂停，角上显示“2×”
+    await playBtn(page).click();
+    await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'true');
+    await expect(playBtn(page)).toHaveAttribute('data-speed', '2');
+    await expect(playBtn(page)).toHaveAttribute('aria-label', '暂停自动播放（当前二倍速）');
+    await expect(playBtn(page).locator('.icon-pause')).toBeVisible();
+    await expect(playBtn(page).locator('.icon-fast')).toBeHidden();
+    expect(await playBtn(page).evaluate((b) => getComputedStyle(b, '::after').content)).toBe('"2×"');
+    // 第三次点击：暂停
     await playBtn(page).click();
     await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'false');
+    await expect(playBtn(page).locator('.icon-play')).toBeVisible();
+    expect(await playBtn(page).evaluate((b) => getComputedStyle(b, '::after').content)).toBe('none');
     const t2 = await trackOffset(page);
     await page.waitForTimeout(500);
     expect(await trackOffset(page)).toBe(t2);
@@ -100,13 +115,16 @@ test.describe('默认自动播放', () => {
     expect(await moved(page, 1000)).toBeGreaterThan(20);
   });
 
-  test('手动浏览时暂停，停止操作约 8 秒后自动继续播放', async ({ page }) => {
+  test('手动浏览时暂停，停止操作约 3 秒后自动继续播放', async ({ page }) => {
     await openApp(page);
     await page.mouse.move(900, 300); await page.mouse.down(); await page.mouse.move(700, 300, { steps: 5 }); await page.mouse.up();
+    const stopped = Date.now();
     await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'false');
-    await page.waitForTimeout(5000);
-    expect(await moved(page, 500), '停止操作后还不到 8 秒，不移动').toBe(0);
-    await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'true', { timeout: 6000 });
+    await page.waitForTimeout(1500);
+    expect(await moved(page, 500), '停止操作后还不到 3 秒，不播放（只剩拖动惯性的余量）').toBeLessThan(2);
+    await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'false');
+    await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'true', { timeout: 3000 });
+    expect(Date.now() - stopped).toBeGreaterThanOrEqual(2900);
     expect(await moved(page, 800)).toBeGreaterThan(10);
   });
 
@@ -115,26 +133,31 @@ test.describe('默认自动播放', () => {
     await page.locator('#stage').focus();
     await page.keyboard.press('ArrowRight');
     await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'false');
-    await page.waitForTimeout(5000);
+    await page.waitForTimeout(2000);
     await page.keyboard.press('ArrowRight');   // 重新计时
-    await page.waitForTimeout(5000);
-    await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'false');
-    await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'true', { timeout: 6000 });
+    await page.waitForTimeout(2000);
+    await expect(playBtn(page), '距上次操作只有 2 秒').toHaveAttribute('aria-pressed', 'false');
+    await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'true', { timeout: 3000 });
   });
 
   test('用户手动暂停（按钮或空格）后不再自动继续，再次点播放才继续', async ({ page }) => {
     await openApp(page);
+    // 加载后为一倍速；点两次：二倍速 → 暂停
+    await expect(playBtn(page)).toHaveAttribute('data-speed', '1');
+    await playBtn(page).click();
+    await expect(playBtn(page)).toHaveAttribute('data-speed', '2');
     await playBtn(page).click();
     await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'false');
     // 暂停后再拖动一下，也不会自动继续
     await page.mouse.move(900, 300); await page.mouse.down(); await page.mouse.move(800, 300, { steps: 3 }); await page.mouse.up();
-    await page.waitForTimeout(9500);
+    await page.waitForTimeout(4000);
     await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'false');
     expect(await moved(page, 500)).toBe(0);
-    // 空格：继续，再按一次暂停
+    // 空格：继续（从一倍速开始），再按一次暂停
     await page.locator('#stage').focus();
     await page.keyboard.press(' ');
     await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'true');
+    await expect(playBtn(page)).toHaveAttribute('data-speed', '1');
     await page.keyboard.press(' ');
     await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'false');
   });
@@ -144,7 +167,7 @@ test.describe('默认自动播放', () => {
     await page.locator('#stage').focus();
     await page.keyboard.press('End');
     await expect.poll(() => page.evaluate(() => document.getElementById('navRight').classList.contains('at-end'))).toBe(true);
-    await page.waitForTimeout(9500);
+    await page.waitForTimeout(4000);
     await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'false');
     expect(await moved(page, 300)).toBe(0);
   });
@@ -159,33 +182,38 @@ test.describe('默认自动播放', () => {
 });
 
 test.describe('二倍速', () => {
-  test('速度按钮在播放按钮右边；切换为 2× 后速度加倍，选择保存在浏览器中', async ({ page }) => {
+  test('二倍速的速度约为一倍速的两倍；暂停后再播放回到一倍速；浏览后自动继续时保持原来的速度', async ({ page }) => {
     await openApp(page);
-    const speed = page.locator('#speedToggle');
-    await expect(speed).toHaveText('1×');
-    await expect(speed).toHaveAttribute('aria-pressed', 'false');
-    const p = await playBtn(page).boundingBox(), s = await speed.boundingBox();
-    expect(s.x).toBeGreaterThan(p.x);
-    expect(s.x - (p.x + p.width)).toBeLessThan(12);
-
     await playBtn(page).click();
     await page.waitForTimeout(300);
     const normal = await moved(page, 1500);
-    await speed.click();
-    await expect(speed).toHaveText('2×');
-    await expect(speed).toHaveAttribute('aria-pressed', 'true');
-    await expect(playBtn(page), '切换速度不影响播放状态').toHaveAttribute('aria-pressed', 'true');
+    await playBtn(page).click();
+    await expect(playBtn(page)).toHaveAttribute('data-speed', '2');
     await page.waitForTimeout(200);
     const fast = await moved(page, 1500);
     expect(fast / normal).toBeGreaterThan(1.6);
     expect(fast / normal).toBeLessThan(2.4);
+    // 不保存：刷新后仍为一倍速
+    expect(await page.evaluate(() => Object.keys(localStorage).filter((k) => /speed/.test(k)))).toEqual([]);
+    await playBtn(page).click();   // 暂停
+    await playBtn(page).click();   // 再播放：一倍速
+    await expect(playBtn(page)).toHaveAttribute('data-speed', '1');
+  });
 
-    await page.reload();
-    await expect(page.locator('.card').first()).toBeVisible();
-    await expect(speed).toHaveText('2×');
-    await speed.click();
-    await expect(speed).toHaveText('1×');
-    expect(await page.evaluate(() => localStorage.getItem('zh-history-timeline:speed'))).toBe('1');
+  test.describe('自动继续', () => {
+    test.use({ autoplay: true });
+
+    test('二倍速播放时手动浏览，停下后以二倍速继续', async ({ page }) => {
+      await openApp(page);
+      await expect(playBtn(page)).toHaveAttribute('data-speed', '1');
+      await playBtn(page).click();
+      await expect(playBtn(page)).toHaveAttribute('data-speed', '2');
+      await page.locator('#stage').focus();
+      await page.keyboard.press('ArrowRight');
+      await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'false');
+      await expect(playBtn(page)).toHaveAttribute('aria-pressed', 'true', { timeout: 5000 });
+      await expect(playBtn(page)).toHaveAttribute('data-speed', '2');
+    });
   });
 });
 
@@ -387,7 +415,9 @@ test.describe('右上角按钮', () => {
       const bar = await page.locator('.topbar').boundingBox();
       const brand = await page.locator('.brand').boundingBox();
       const boxes = [];
-      for (const id of ['#playToggle', '#speedToggle', '#musicToggle', '#themeToggle', '#barsToggle']) boxes.push(await page.locator(id).boundingBox());
+      // 手机竖屏也显示分享按钮
+      await expect(page.locator('#shareTimeline')).toBeVisible();
+      for (const id of ['#playToggle', '#musicToggle', '#themeToggle', '#shareTimeline', '#barsToggle']) boxes.push(await page.locator(id).boundingBox());
       for (let i = 0; i < boxes.length; i++) {
         expect(boxes[i].y).toBeGreaterThanOrEqual(bar.y);
         expect(boxes[i].y + boxes[i].height).toBeLessThanOrEqual(bar.y + bar.height);

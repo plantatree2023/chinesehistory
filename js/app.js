@@ -1255,14 +1255,20 @@
   // ---------- 编辑 / 新建 ----------
   var form = $('editForm');
   var editingId = null;
+  var suggestMode = null, suggestBase = null;   // 建议模式（见 openEditor）
   var draftImages = [];
 
-  function openEditor(id) {
-    if (!debugMode) return;
+  // mode：缺省为编辑（只在调试模式下可用）；'suggest' 为访问者建议修改该事件，'propose' 为建议新增事件
+  // （建议模式不修改数据，而是把改动通过反馈发送给维护者，见下方“反馈”部分）
+  function openEditor(id, mode) {
+    if (mode ? !feedbackOn : !debugMode) return;
     var ev = id ? findEvent(id) : null;
-    editingId = ev ? ev.id : null;
+    suggestMode = mode || null;
+    suggestBase = mode === 'suggest' ? ev : null;
+    editingId = mode ? null : (ev ? ev.id : null);
+    form.classList.toggle('suggest-mode', !!mode);
     setSaveState(null);
-    $('editTitle').textContent = ev ? '编辑事件' : '添加新事件';
+    $('editTitle').textContent = mode === 'suggest' ? '建议修改：' + ev.title : mode === 'propose' ? '建议新增事件' : ev ? '编辑事件' : '添加新事件';
     form.reset();
     form.title.value = ev ? ev.title : '';
     var y = ev ? ev.year : 1980;
@@ -1291,6 +1297,7 @@
     draftImages = ev ? clone(ev.images || []) : [];
     $('imageUrlInput').value = '';
     $('formError').textContent = '';
+    if (mode) fillSuggestFields(mode === 'suggest' ? ev : null);
     renderImageEditor();
     updateCounters();
     openModal('editModal');
@@ -1498,7 +1505,9 @@
     form.classList.toggle('saved', state === 'saved');
     form.setAttribute('aria-busy', state === 'saving' ? 'true' : 'false');
     $('saveBtn').disabled = !!state;
-    $('saveBtn').querySelector('.btn-label').textContent = state === 'saving' ? '保存中…' : state === 'saved' ? '✓ 已保存' : '保存';
+    $('saveBtn').querySelector('.btn-label').textContent = suggestMode
+      ? (state === 'saving' ? '提交中…' : state === 'saved' ? '✓ 已提交' : '提交建议')
+      : (state === 'saving' ? '保存中…' : state === 'saved' ? '✓ 已保存' : '保存');
   }
   function afterPaint(fn) {
     requestAnimationFrame(function () { setTimeout(fn, 0); });
@@ -1508,6 +1517,7 @@
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     if (form.classList.contains('saving') || form.classList.contains('saved')) return;   // 防止重复提交
+    if (suggestMode) { submitSuggestion(); return; }
     var title = form.title.value.trim();
     var yAbs = parseInt(form.yearAbs.value, 10);
     var err = '';
@@ -1584,6 +1594,262 @@
   }
 
   $('addBtn').addEventListener('click', function () { openEditor(null); });
+
+  // ---------- 反馈 / 建议修改 ----------
+  // 所有访问者都可以：从事件详情反馈问题（类型：事实错误、错别字、图片有问题、链接失效、其他）或直接建议修改
+  // （复用编辑页的“建议模式”，只发送改动的字段及改前改后）；从侧栏底部发送整站反馈或建议新增事件。
+  // 通过 Web3Forms 发送到维护者邮箱（js/config.js 中配置 accessKey；未配置时不显示任何反馈入口）。
+  // 图片不开放上传，只能指出第几张图有问题或建议图片网址。
+  var FEEDBACK_CFG = (window.TIMELINE_CONFIG && window.TIMELINE_CONFIG.feedback) || {};
+  var feedbackOn = !!(FEEDBACK_CFG.endpoint && FEEDBACK_CFG.accessKey);
+  document.body.classList.toggle('feedback-on', feedbackOn);
+  var SITE_NAME = '时间上的中国';
+  var EVENT_KINDS = ['事实错误', '错别字', '图片有问题', '链接失效', '其他'];
+  var SITE_KINDS = ['网站问题', '功能建议', '其他'];
+  var fbForm = $('feedbackForm');
+  var fbEventId = null;
+
+  function isHttpUrl(v) { return /^https?:\/\/\S+$/.test(v); }
+  function looksLikeEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+  // 发送到 Web3Forms。fields 的键名会原样显示在邮件中，因此用中文；botcheck 为防垃圾的隐藏字段（人不会填写）
+  function sendFeedback(subject, fields, contact, botcheck) {
+    var body = { access_key: FEEDBACK_CFG.accessKey, subject: '[' + SITE_NAME + '] ' + subject, from_name: SITE_NAME + ' 反馈', botcheck: botcheck || '' };
+    Object.keys(fields).forEach(function (k) { if (fields[k] !== '' && fields[k] != null) body[k] = fields[k]; });
+    if (contact) {
+      body['联系方式'] = contact;
+      if (looksLikeEmail(contact)) body.email = contact;   // 邮件中可直接回复
+    }
+    body['数据集'] = dataset;
+    body['页面'] = location.href;
+    return fetch(FEEDBACK_CFG.endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(body)
+    }).then(function (res) {
+      return res.json().catch(function () { return {}; }).then(function (j) {
+        if (!res.ok || j.success === false) throw new Error(j.message || ('HTTP ' + res.status));
+        return j;
+      });
+    });
+  }
+  function imageOptions(sel, ev, noneLabel) {
+    sel.innerHTML = '';
+    if (noneLabel) sel.appendChild(new Option(noneLabel, ''));
+    (ev && ev.images || []).forEach(function (im, i) {
+      var cap = (im.caption || '').trim();
+      sel.appendChild(new Option('第 ' + (i + 1) + ' 张' + (cap ? '：' + (cap.length > 24 ? cap.slice(0, 24) + '…' : cap) : ''), String(i + 1)));
+    });
+  }
+  function imageDesc(ev, n) {
+    var im = ev.images[n - 1];
+    return '第 ' + n + ' 张（' + im.src + (im.caption ? '，' + im.caption : '') + '）';
+  }
+
+  // 反馈弹窗：eventId 为空时是整站反馈
+  function openFeedback(eventId) {
+    if (!feedbackOn) return;
+    var ev = eventId ? findEvent(eventId) : null;
+    fbEventId = ev ? ev.id : null;
+    fbForm.reset();
+    fbForm.classList.remove('saving', 'saved');
+    $('feedbackSend').disabled = false;
+    $('feedbackSend').querySelector('.btn-label').textContent = '发送反馈';
+    $('feedbackError').textContent = '';
+    $('feedbackTitle').textContent = ev ? '反馈 / 建议修改' : '网站反馈';
+    $('feedbackTarget').textContent = ev ? (ev.date || formatYear(ev.year)) + ' · ' + ev.title : '对网站的问题或建议；也可以建议新增事件。';
+    var box = $('feedbackKinds');
+    box.innerHTML = '';
+    (ev ? EVENT_KINDS : SITE_KINDS).forEach(function (k) {
+      var lab = el('label', 'kind-option');
+      var r = document.createElement('input');
+      r.type = 'radio'; r.name = 'kind'; r.value = k;
+      lab.appendChild(r);
+      lab.appendChild(el('span', null, k));
+      box.appendChild(lab);
+    });
+    var hasImages = !!(ev && ev.images && ev.images.length);
+    imageOptions(fbForm.image, ev, hasImages ? '' : '（这个事件没有图片）');
+    if (hasImages) fbForm.image.insertBefore(new Option('请选择', ''), fbForm.image.firstChild);
+    fbForm.image.value = '';
+    $('feedbackImages').hidden = true;
+    $('feedbackSuggestEdit').hidden = !ev;
+    $('feedbackProposeNew').hidden = !!ev;
+    openModal('feedbackModal');
+    setTimeout(function () { var first = box.querySelector('input'); if (first) first.focus(); }, 50);
+  }
+  fbForm.addEventListener('change', function (e) {
+    if (e.target.name === 'kind') $('feedbackImages').hidden = e.target.value !== '图片有问题';
+  });
+  fbForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (fbForm.classList.contains('saving') || fbForm.classList.contains('saved')) return;
+    var ev = fbEventId ? findEvent(fbEventId) : null;
+    var kindInput = fbForm.querySelector('input[name="kind"]:checked');
+    var kind = kindInput ? kindInput.value : '';
+    var message = fbForm.message.value.trim();
+    var imageN = parseInt(fbForm.image.value, 10) || 0;
+    var imageUrl = fbForm.imageUrl.value.trim();
+    var err = '';
+    if (!kind) err = '请选择反馈类型';
+    else if (!message) err = '请填写说明';
+    else if (kind === '图片有问题' && imageUrl && !isHttpUrl(imageUrl)) err = '图片网址必须以 http:// 或 https:// 开头';
+    if (err) { $('feedbackError').textContent = err; return; }
+    $('feedbackError').textContent = '';
+    var fields = { '反馈类型': kind, '说明': message };
+    if (ev) {
+      fields['事件'] = ev.title;
+      fields['事件 id'] = ev.id;
+      if (kind === '图片有问题') {
+        if (imageN && ev.images && ev.images[imageN - 1]) fields['有问题的图片'] = imageDesc(ev, imageN);
+        if (imageUrl) fields['建议的图片网址'] = imageUrl;
+      }
+    }
+    var subject = ev ? '事件反馈（' + kind + '）：' + ev.title : '网站反馈（' + kind + '）';
+    submitFeedback(fbForm, $('feedbackSend'), '发送反馈', $('feedbackError'), 'feedbackModal',
+      sendFeedback(subject, fields, fbForm.contact.value.trim(), fbForm.botcheck.value));
+  });
+  // 发送中 / 已发送的按钮状态；成功后关闭弹窗并提示，失败时保留填写的内容并显示原因
+  function submitFeedback(formEl, btn, label, errBox, modalId, request) {
+    formEl.classList.add('saving');
+    btn.disabled = true;
+    btn.querySelector('.btn-label').textContent = '发送中…';
+    request.then(function () {
+      formEl.classList.remove('saving');
+      formEl.classList.add('saved');
+      btn.querySelector('.btn-label').textContent = '✓ 已发送';
+      setTimeout(function () {
+        formEl.classList.remove('saved');
+        btn.disabled = false;
+        btn.querySelector('.btn-label').textContent = label;
+        closeModal(modalId);
+        toast('已发送，谢谢你的反馈！');
+      }, SAVED_PAUSE);
+    }, function (e) {
+      formEl.classList.remove('saving');
+      btn.disabled = false;
+      btn.querySelector('.btn-label').textContent = label;
+      errBox.textContent = '发送失败：' + e.message + '。填写的内容仍保留，可以稍后再试。';
+    });
+  }
+  $('detailFeedback').addEventListener('click', function () { if (detailId) openFeedback(detailId); });
+  $('siteFeedback').addEventListener('click', function () { openFeedback(null); });
+  $('feedbackSuggestEdit').addEventListener('click', function () {
+    var id = fbEventId;
+    closeModal('feedbackModal');
+    openEditor(id, 'suggest');
+  });
+  $('feedbackProposeNew').addEventListener('click', function () {
+    closeModal('feedbackModal');
+    openEditor(null, 'propose');
+  });
+
+  // 编辑页的建议模式：填写图片相关的选项，说明在建议修改时必填、建议新增时选填
+  function fillSuggestFields(ev) {
+    imageOptions(form.suggestImage, ev, '无');
+    $('suggestImageField').hidden = !(ev && ev.images && ev.images.length);
+    form.suggestImageUrl.value = '';
+    form.suggestNote.value = '';
+    form.suggestContact.value = '';
+    form.botcheck.value = '';
+    $('suggestNoteLabel').innerHTML = suggestMode === 'suggest' ? '修改说明 <em>*</em>' : '补充说明（可选）';
+  }
+  // 建议修改涉及的字段：编辑页中的当前值（与数据中的写法一致，便于比较）
+  var SUGGEST_FIELDS = [
+    { key: 'title', label: '事件名称' },
+    { key: 'year', label: '年份' },
+    { key: 'date', label: '时间显示' },
+    { key: 'short', label: '简要说明' },
+    { key: 'detail', label: '详细说明' },
+    { key: 'type', label: '事件类型' },
+    { key: 'sources', label: '参考链接' }
+  ];
+  function suggestValues() {
+    var yAbs = parseInt(form.yearAbs.value, 10);
+    return {
+      title: form.title.value.trim(),
+      year: yAbs > 0 ? (form.era.value === 'bce' ? -yAbs : yAbs) : null,
+      date: form.date.value.trim(),
+      short: form.short.value.trim(),
+      detail: form.detail.value.trim(),
+      type: form.type.value,
+      sources: cleanSources()
+    };
+  }
+  function baseValues(ev) {
+    return {
+      title: ev.title || '', year: ev.year, date: ev.date || '', short: ev.short || '', detail: ev.detail || '',
+      type: ev.type || '', sources: sourcesOf(ev).map(function (s) { return s.title ? { url: s.url, title: s.title } : { url: s.url }; })
+    };
+  }
+  function showValue(key, v) {
+    if (key === 'year') return v == null ? '' : formatYear(v);
+    if (key === 'type') return v || '未分类';
+    if (key === 'sources') return v.map(function (s) { return (s.title ? s.title + ' ' : '') + s.url; }).join('\n') || '（无）';
+    return v || '（空）';
+  }
+  // 只列出改动的字段：[{ field, label, before, after }]
+  function suggestChanges(ev, now) {
+    var base = baseValues(ev);
+    return SUGGEST_FIELDS.filter(function (f) {
+      return JSON.stringify(base[f.key]) !== JSON.stringify(now[f.key]);
+    }).map(function (f) {
+      return { field: f.key, label: f.label, before: showValue(f.key, base[f.key]), after: showValue(f.key, now[f.key]) };
+    });
+  }
+  function submitSuggestion() {
+    var now = suggestValues();
+    var note = form.suggestNote.value.trim();
+    var imageUrl = form.suggestImageUrl.value.trim();
+    var ev = suggestBase;
+    var imageN = parseInt(form.suggestImage.value, 10) || 0;
+    var err = sourcesError();
+    if (!err && imageUrl && !isHttpUrl(imageUrl)) err = '图片网址必须以 http:// 或 https:// 开头';
+    var changes = [];
+    if (!err && suggestMode === 'suggest') {
+      changes = suggestChanges(ev, now);
+      if (!changes.length && !imageN && !imageUrl) err = '还没有修改任何内容';
+      else if (now.year == null) err = '请填写有效的年份（正整数）';
+      else if (!note) err = '请填写修改说明';
+    } else if (!err) {
+      if (!now.title) err = '请填写事件名称';
+      else if (now.year == null) err = '请填写有效的年份（正整数）';
+    }
+    if (err) { $('formError').textContent = err; return; }
+    $('formError').textContent = '';
+    var fields, subject;
+    if (suggestMode === 'suggest') {
+      subject = '建议修改：' + ev.title;
+      fields = { '反馈类型': '建议修改', '事件': ev.title, '事件 id': ev.id, '说明': note };
+      if (changes.length) {
+        fields['修改内容'] = changes.map(function (c) { return '【' + c.label + '】\n改前：' + c.before + '\n改后：' + c.after; }).join('\n\n');
+        fields['修改内容（JSON）'] = JSON.stringify(changes);
+      }
+      if (imageN) fields['有问题的图片'] = imageDesc(ev, imageN);
+    } else {
+      subject = '建议新增事件：' + now.title;
+      fields = { '反馈类型': '建议新增事件', '说明': note };
+      fields['建议的事件'] = SUGGEST_FIELDS.map(function (f) {
+        var v = now[f.key];
+        if (f.key === 'year') return '【年份】' + showValue('year', v);
+        if (f.key === 'sources' ? !v.length : !v) return '';
+        return '【' + f.label + '】' + showValue(f.key, v);
+      }).filter(Boolean).join('\n');
+      fields['建议的事件（JSON）'] = JSON.stringify(now);
+    }
+    if (imageUrl) fields['建议的图片网址'] = imageUrl;
+    setSaveState('saving');
+    sendFeedback(subject, fields, form.suggestContact.value.trim(), form.botcheck.value).then(function () {
+      setSaveState('saved');
+      setTimeout(function () {
+        setSaveState(null);
+        closeModal('editModal');
+        toast('建议已提交，谢谢！');
+      }, SAVED_PAUSE);
+    }, function (e) {
+      setSaveState(null);
+      $('formError').textContent = '提交失败：' + e.message + '。填写的内容仍保留，可以稍后再试。';
+    });
+  }
 
   // ---------- 侧栏 ----------
   var sidebarOpen = false;
@@ -2072,30 +2338,35 @@
   document.addEventListener('touchcancel', function () { if (ptr.state !== 'refreshing') ptrReset(); });
 
   // ---------- 自动播放：时间轴缓缓向右前进 ----------
-  // 速度为每 PLAY_SECONDS_PER_SCREEN 秒一屏，可切换为二倍速（选择保存在浏览器中）。
-  // 页面加载后默认开始播放；手动浏览（见 stopAnim）时暂停，停止操作 IDLE_RESUME_MS 后自动继续；
-  // 用户点暂停按钮或按空格暂停后，本次访问中不再自动继续，直到再次点播放。
+  // 速度为每 PLAY_SECONDS_PER_SCREEN 秒一屏。播放按钮依次切换：暂停 → 一倍速 → 二倍速 → 暂停，
+  // 图标表示点击后的动作（▶ 播放、⏩ 二倍速、⏸ 暂停），二倍速时按钮角上显示“2×”；空格键直接播放 / 暂停。
+  // 页面加载后默认以一倍速开始播放；手动浏览（见 stopAnim）时暂停，停止操作 IDLE_RESUME_MS 后以原来的速度自动继续；
+  // 用户点暂停或按空格暂停后，本次访问中不再自动继续，直到再次点播放（从一倍速开始）。
   // 打开侧栏、弹窗或图片查看器时原地停住，关闭后继续；到达末端时停止（不自动从头开始），再次播放从头开始。
   // 系统设置了“减少动态效果”时不自动开始。
   var PLAY_SECONDS_PER_SCREEN = 30;
-  var IDLE_RESUME_MS = 8000;
-  var SPEED_KEY = 'zh-history-timeline:speed';
+  var IDLE_RESUME_MS = 3000;
   var playing = false, playRaf = null, playLast = 0;
   var userPaused = false;     // 用户手动暂停（本次访问）
   var idleT = null;
   var playSpeed = 1;
-  var playBtn = $('playToggle'), speedBtn = $('speedToggle');
+  var playBtn = $('playToggle');
   // 自动开始：测试可以通过 window.TIMELINE_AUTOPLAY = false 关闭
   function autoplayAllowed() {
     if (window.TIMELINE_AUTOPLAY === false) return false;
     return !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   }
-  function setPlaying(on) {
-    playing = on;
-    playBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
-    var label = on ? '暂停自动播放' : '自动播放';
+  function updatePlayBtn() {
+    playBtn.setAttribute('aria-pressed', playing ? 'true' : 'false');
+    playBtn.dataset.speed = String(playSpeed);
+    var label = !playing ? '自动播放' : playSpeed === 2 ? '暂停自动播放（当前二倍速）' : '切换为二倍速播放';
     playBtn.setAttribute('aria-label', label);
-    playBtn.title = label + '（空格）';
+    playBtn.title = label + (playing ? '（空格暂停）' : '（空格）');
+  }
+  function setPlaying(on, speed) {
+    playing = on;
+    if (speed) playSpeed = speed;
+    updatePlayBtn();
     if (playRaf) cancelAnimationFrame(playRaf);
     playRaf = null;
     if (!on) return;
@@ -2128,28 +2399,21 @@
     if (anim || drag.active || openStack.length || sidebarOpen || !$('lightbox').hidden) { noteActivity(); return; }
     setPlaying(true);
   }
-  function togglePlay() {
-    if (playing) { userPaused = true; clearTimeout(idleT); setPlaying(false); return; }
+  function pauseByUser() { userPaused = true; clearTimeout(idleT); setPlaying(false); }
+  function startByUser() {
     userPaused = false;
     if (anim) { cancelAnimationFrame(anim); anim = null; }
     if (atEnd()) setOffset(0);   // 已在末端：从头开始
-    setPlaying(true);
+    setPlaying(true, 1);
   }
-  playBtn.addEventListener('click', togglePlay);
-  // 播放速度：1× / 2×
-  function setSpeed(v, save) {
-    playSpeed = v === 2 ? 2 : 1;
-    speedBtn.textContent = playSpeed + '×';
-    speedBtn.setAttribute('aria-pressed', playSpeed === 2 ? 'true' : 'false');
-    var label = playSpeed === 2 ? '二倍速播放中，点击恢复正常速度' : '切换为二倍速播放';
-    speedBtn.setAttribute('aria-label', label);
-    speedBtn.title = label;
-    if (save) { try { localStorage.setItem(SPEED_KEY, String(playSpeed)); } catch (e) { /* noop */ } }
-  }
-  var savedSpeed = null;
-  try { savedSpeed = localStorage.getItem(SPEED_KEY); } catch (e) { /* noop */ }
-  setSpeed(savedSpeed === '2' ? 2 : 1, false);
-  speedBtn.addEventListener('click', function () { setSpeed(playSpeed === 2 ? 1 : 2, true); });
+  // 空格：播放 / 暂停
+  function togglePlay() { if (playing) pauseByUser(); else startByUser(); }
+  // 播放按钮：暂停 → 一倍速 → 二倍速 → 暂停
+  playBtn.addEventListener('click', function () {
+    if (!playing) startByUser();
+    else if (playSpeed === 1) setPlaying(true, 2);
+    else pauseByUser();
+  });
   // 空格键：播放 / 暂停（焦点在输入框、按钮等控件上或有弹窗时不处理）
   document.addEventListener('keydown', function (e) {
     if (e.key !== ' ' || e.ctrlKey || e.metaKey || e.altKey) return;
