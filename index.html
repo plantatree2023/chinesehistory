@@ -123,6 +123,8 @@
         <span class="switch-track" aria-hidden="true"></span>
         <span>调试模式</span>
       </label>
+      <!-- 整站反馈、建议新增事件（不针对具体事件） -->
+      <button type="button" class="btn btn-ghost btn-small foot-feedback feedback-only" id="siteFeedback">反馈 / 建议新增事件</button>
       <div class="debug-only foot-edit">
         <p class="storage-note" id="storageNote"></p>
         <button class="btn btn-ghost btn-small" id="resetBtn">恢复默认数据</button>
@@ -153,6 +155,10 @@
         <div class="detail-actions debug-only">
           <button class="btn btn-primary" id="detailEdit">编辑</button>
           <button class="btn btn-danger" id="detailDelete">删除</button>
+        </div>
+        <!-- 所有访问者可见：反馈这个事件的问题，或直接建议修改 -->
+        <div class="detail-feedback feedback-only">
+          <button type="button" class="btn btn-ghost btn-small" id="detailFeedback">反馈 / 建议修改</button>
         </div>
       </div>
     </div>
@@ -185,7 +191,7 @@
           <input type="text" name="date" maxlength="20" placeholder="如：约前2070年">
         </label>
       </div>
-      <div class="field-row transition-row">
+      <div class="field-row transition-row edit-only">
         <label class="field">
           <span>时期更迭（可选）：从</span>
           <select name="transitionFrom"></select>
@@ -200,7 +206,7 @@
           <span>事件类型</span>
           <select name="type"></select>
         </label>
-        <label class="field">
+        <label class="field edit-only">
           <span>重要程度（1–10，决定时间轴上的图片大小）</span>
           <select name="majorScore">
             <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5（小图）</option>
@@ -217,7 +223,7 @@
         <span>详细说明 <small class="counter" data-for="detail"></small></span>
         <textarea name="detail" rows="6" maxlength="350"></textarea>
       </label>
-      <div class="field">
+      <div class="field edit-only">
         <span>图片（最多 9 张，第一张为代表图；上传后保存在本地；可在每张图下方填写标题）</span>
         <div class="image-editor" id="imageEditor"></div>
         <div class="image-add">
@@ -234,10 +240,71 @@
         <ol class="source-editor" id="sourceEditor"></ol>
         <button type="button" class="btn btn-ghost btn-small" id="sourceAdd">＋ 添加参考链接</button>
       </div>
+      <!-- 建议模式（访问者建议修改 / 建议新增事件）：不开放图片上传，只能指出有问题的图片或建议图片网址 -->
+      <div class="suggest-only">
+        <div class="field-row suggest-images">
+          <label class="field" id="suggestImageField">
+            <span>有问题的图片</span>
+            <select name="suggestImage"></select>
+          </label>
+          <label class="field grow">
+            <span>建议的图片网址（可选，不开放上传）</span>
+            <input type="url" name="suggestImageUrl" maxlength="500" placeholder="https://…">
+          </label>
+        </div>
+        <label class="field">
+          <span id="suggestNoteLabel">修改说明 <em>*</em></span>
+          <textarea name="suggestNote" rows="2" maxlength="500" placeholder="简单说明为什么这样改，最好附上依据"></textarea>
+        </label>
+        <label class="field">
+          <span>联系方式（选填，仅用于回复你）</span>
+          <input type="text" name="suggestContact" maxlength="100" placeholder="邮箱或其他联系方式" autocomplete="email">
+        </label>
+        <input type="text" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+      </div>
       <p class="form-error" id="formError" role="alert"></p>
       <div class="detail-actions">
         <button type="submit" class="btn btn-primary save-btn" id="saveBtn"><span class="btn-spinner" aria-hidden="true"></span><span class="btn-label">保存</span></button>
         <button type="button" class="btn btn-ghost" data-close>取消</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- 反馈弹窗：事件反馈（从详情进入，自动带上事件）或整站反馈（从侧栏进入） -->
+  <div class="modal" id="feedbackModal" hidden role="dialog" aria-modal="true" aria-labelledby="feedbackTitle">
+    <div class="modal-backdrop" data-close></div>
+    <form class="modal-card edit-card feedback-card" id="feedbackForm" novalidate>
+      <button type="button" class="icon-btn modal-close" data-close aria-label="关闭">&times;</button>
+      <h2 id="feedbackTitle">反馈</h2>
+      <p class="feedback-target" id="feedbackTarget"></p>
+      <fieldset class="field feedback-kinds">
+        <legend>反馈类型 <em>*</em></legend>
+        <div class="kind-options" id="feedbackKinds"></div>
+      </fieldset>
+      <div class="field-row feedback-images" id="feedbackImages" hidden>
+        <label class="field">
+          <span>第几张图</span>
+          <select name="image"></select>
+        </label>
+        <label class="field grow">
+          <span>建议的图片网址（可选，不开放上传）</span>
+          <input type="url" name="imageUrl" maxlength="500" placeholder="https://…">
+        </label>
+      </div>
+      <label class="field">
+        <span>说明 <em>*</em></span>
+        <textarea name="message" rows="4" maxlength="1000" placeholder="具体是哪里有问题、应该是什么，最好附上依据"></textarea>
+      </label>
+      <label class="field">
+        <span>联系方式（选填，仅用于回复你）</span>
+        <input type="text" name="contact" maxlength="100" placeholder="邮箱或其他联系方式" autocomplete="email">
+      </label>
+      <input type="text" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <p class="form-error" id="feedbackError" role="alert"></p>
+      <div class="detail-actions">
+        <button type="submit" class="btn btn-primary save-btn" id="feedbackSend"><span class="btn-spinner" aria-hidden="true"></span><span class="btn-label">发送反馈</span></button>
+        <button type="button" class="btn btn-ghost" id="feedbackSuggestEdit">直接建议修改内容…</button>
+        <button type="button" class="btn btn-ghost" id="feedbackProposeNew">建议新增事件…</button>
       </div>
     </form>
   </div>
@@ -319,6 +386,7 @@
   <div class="toast" id="toast" role="status"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="js/config.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

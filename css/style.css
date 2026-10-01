@@ -103,6 +103,8 @@ button { font: inherit; cursor: pointer; }
 [hidden] { display: none !important; }
 /* 编辑功能与调试信息只在调试模式（body.debug-mode）下显示 */
 body:not(.debug-mode) .debug-only { display: none !important; }
+/* 反馈入口只在配置了反馈服务（js/config.js）时显示 */
+body:not(.feedback-on) .feedback-only { display: none !important; }
 
 /* ---------- 顶栏 ---------- */
 .topbar {
@@ -866,9 +868,9 @@ body.bars-hidden .fab { bottom: 18px; }
   padding: 0 8px 10px 66px;
 }
 .list-empty { padding: 30px; text-align: center; color: var(--muted); }
-.sidebar-foot { padding: 10px 20px 16px; border-top: 1px solid var(--line); }
+.sidebar-foot { padding: 10px 20px 16px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
 .storage-note { margin: 0 0 8px; font-size: 12px; color: var(--muted); }
-.foot-edit { margin-top: 10px; }
+.foot-edit { margin-top: 2px; flex-basis: 100%; }
 
 /* 开关（调试模式） */
 .switch { position: relative; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-2); cursor: pointer; user-select: none; }
@@ -1193,3 +1195,21 @@ body.bars-hidden .fab { bottom: 18px; }
   body.debug-mode .corner-btns { gap: 2px; top: 13.5px; }
   body.debug-mode .corner-btn { width: 25px; height: 25px; }
 }
+
+/* ---------- 反馈 / 建议修改 ---------- */
+.detail-feedback { display: flex; justify-content: flex-end; margin-top: 18px; padding-top: 12px; border-top: 1px dashed var(--line); }
+.feedback-target { margin: -8px 0 14px; font-size: 14px; color: var(--ink-2); }
+.feedback-kinds { border: 0; padding: 0; margin: 0 0 12px; min-width: 0; }
+.feedback-kinds legend { padding: 0; margin-bottom: 6px; }
+.kind-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.kind-option { position: relative; display: inline-flex; align-items: center; padding: 5px 13px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--ink); font-size: 13px; cursor: pointer; user-select: none; }
+.kind-option input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
+.kind-option:hover { border-color: var(--red); }
+.kind-option:has(input:checked) { border-color: var(--red); color: var(--red); background: color-mix(in srgb, var(--red) 8%, var(--card)); }
+.kind-option:has(input:focus-visible) { outline: 2px solid var(--red); outline-offset: 2px; }
+/* 编辑页的建议模式：隐藏只供维护者使用的字段（时期更迭、重要程度、图片上传），显示建议相关的字段 */
+.suggest-only { display: none; }
+.suggest-mode .suggest-only { display: block; }
+.suggest-mode .edit-only { display: none !important; }
+/* 防垃圾的隐藏字段：访问者看不到，机器人会填写 */
+.hp-field { position: absolute !important; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
