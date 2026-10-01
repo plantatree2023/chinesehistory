@@ -1254,14 +1254,21 @@
   }
 
   // ---------- 图片查看 ----------
-  var lb = { imgs: [], i: 0 };
-  function openLightbox(imgs, i) {
-    lb.imgs = imgs; lb.i = i;
+  // edit 为 true 时从编辑页打开：imgs 是编辑中的图片（draftImages），显示“设为代表图”“从本事件移除”
+  var lb = { imgs: [], i: 0, edit: false };
+  function openLightbox(imgs, i, edit) {
+    lb.imgs = imgs; lb.i = i; lb.edit = !!edit;
     showLightbox();
     $('lightbox').hidden = false;
   }
   function showLightbox() {
     var im = lb.imgs[lb.i];
+    $('lbActions').hidden = !lb.edit;
+    if (lb.edit) {
+      var isCover = lb.i === 0;
+      $('lbCover').disabled = isCover;
+      $('lbCover').textContent = isCover ? '★ 已是代表图' : '★ 设为代表图';
+    }
     var img = $('lightboxImg');
     img.src = im.src;
     img.alt = im.caption || '';
@@ -1272,6 +1279,7 @@
   }
   function closeLightbox() { $('lightbox').hidden = true; }
   $('lightbox').addEventListener('click', function (e) {
+    if (e.target.closest('.lb-actions')) return;
     if (e.target.closest('.lb-prev')) { lb.i = (lb.i - 1 + lb.imgs.length) % lb.imgs.length; showLightbox(); }
     else if (e.target.closest('.lb-next')) { lb.i = (lb.i + 1) % lb.imgs.length; showLightbox(); }
     else if (e.target.tagName !== 'IMG') closeLightbox();
@@ -1280,6 +1288,25 @@
     if ($('lightbox').hidden) return;
     if (e.key === 'ArrowLeft') { lb.i = (lb.i - 1 + lb.imgs.length) % lb.imgs.length; showLightbox(); }
     if (e.key === 'ArrowRight') { lb.i = (lb.i + 1) % lb.imgs.length; showLightbox(); }
+  });
+
+  // 编辑页的图片查看器：设为代表图 —— 当前图片移到第一张，仍显示这张图；
+  // 从本事件移除 —— 从编辑中的图片里去掉（图片文件不删除），显示下一张（是最后一张时显示上一张），没有图片时关闭。
+  // 两者都只改编辑页中的草稿，编辑页的缩略图随之更新；点“保存”后才写入数据，点“取消”则全部作废。
+  $('lbCover').addEventListener('click', function () {
+    if (!lb.edit || lb.i === 0) return;
+    lb.imgs.unshift(lb.imgs.splice(lb.i, 1)[0]);
+    lb.i = 0;
+    renderImageEditor();
+    showLightbox();
+  });
+  $('lbRemove').addEventListener('click', function () {
+    if (!lb.edit) return;
+    lb.imgs.splice(lb.i, 1);
+    renderImageEditor();
+    if (!lb.imgs.length) { closeLightbox(); return; }
+    if (lb.i >= lb.imgs.length) lb.i = lb.imgs.length - 1;
+    showLightbox();
   });
 
   // ---------- 编辑 / 新建 ----------
@@ -1328,6 +1355,8 @@
     $('imageUrlInput').value = '';
     $('formError').textContent = '';
     if (mode) fillSuggestFields(mode === 'suggest' ? ev : null);
+    setImageSearchMenu(false);
+    updateImageSearch();
     renderImageEditor();
     updateCounters();
     openModal('editModal');
@@ -1348,7 +1377,12 @@
     box.innerHTML = '';
     draftImages.forEach(function (im, i) {
       var slot = el('div', 'img-slot');
-      slot.appendChild(imageEl(im, '', '图'));
+      var pic = imageEl(im, '', '图');
+      // 点击缩略图放大查看，可左右切换、设为代表图或移除（建议模式不显示图片编辑）
+      pic.classList.add('slot-zoom');
+      pic.title = '点击放大';
+      pic.addEventListener('click', function () { openLightbox(draftImages, i, true); });
+      slot.appendChild(pic);
       if (i === 0) slot.appendChild(el('span', 'badge', '代表图'));
       var acts = el('div', 'slot-actions');
       if (i > 0) {
@@ -1491,7 +1525,27 @@
       title.placeholder = '标题（可选）';
       title.value = src.title || '';
       title.setAttribute('aria-label', '第 ' + (i + 1) + ' 条参考链接的标题');
-      title.addEventListener('input', function () { src.title = title.value; });
+      var hint = el('div', 'source-hint');
+      title.addEventListener('input', function () {
+        src.title = title.value;
+        if (src._hint) { src._hint = null; showSourceHint(src, hint); }   // 手动修改后不再显示自动填写的提示
+      });
+      // 在新标签页中打开链接（建议模式不显示）；网址无效时不可点
+      var open = el('a', 'icon-btn source-open', '↗');
+      open.target = '_blank';
+      open.rel = 'noopener';
+      open.title = '在新标签页中打开';
+      open.setAttribute('aria-label', '打开第 ' + (i + 1) + ' 条参考链接');
+      var syncOpen = function () {
+        var u = (src.url || '').trim();
+        if (/^https?:\/\/\S+$/.test(u)) { open.href = u; open.removeAttribute('aria-disabled'); }
+        else { open.removeAttribute('href'); open.setAttribute('aria-disabled', 'true'); }
+      };
+      syncOpen();
+      url.addEventListener('input', syncOpen);
+      // 维基百科 / 百度百科链接：粘贴后或离开输入框时自动填写标题（建议模式不自动填写）
+      url.addEventListener('paste', function () { setTimeout(function () { autoSourceTitle(src, title, hint); }, 0); });
+      url.addEventListener('change', function () { autoSourceTitle(src, title, hint); });
       var rm = el('button', 'icon-btn source-remove', '×');
       rm.type = 'button';
       rm.title = '删除这条链接';
@@ -1502,7 +1556,10 @@
       });
       li.appendChild(url);
       li.appendChild(title);
+      li.appendChild(open);
       li.appendChild(rm);
+      li.appendChild(hint);
+      showSourceHint(src, hint);
       box.appendChild(li);
     });
     $('sourceAdd').disabled = draftSources.length >= MAX_SOURCES;
@@ -1514,6 +1571,111 @@
     var inputs = $('sourceEditor').querySelectorAll('.source-url');
     inputs[inputs.length - 1].focus();
   });
+  // 搜图：用编辑页中的“事件名称”在所选网站搜索图片（新标签页打开）；选择保存在浏览器中
+  var IMAGE_SEARCH_KEY = 'zh-history-timeline:imageSearch';
+  var IMAGE_SEARCH = [
+    { id: 'google', menu: 'Google 图片', label: 'Google 搜图', url: function (q) { return 'https://www.google.com/search?tbm=isch&q=' + encodeURIComponent(q); } },
+    { id: 'bing', menu: 'Bing 图片', label: 'Bing 搜图', url: function (q) { return 'https://www.bing.com/images/search?q=' + encodeURIComponent(q); } },
+    { id: 'baidu', menu: '百度图片', label: '百度搜图', url: function (q) { return 'https://image.baidu.com/search/index?tn=baiduimage&word=' + encodeURIComponent(q); } },
+    { id: 'commons', menu: 'Google · 维基共享资源', label: '维基共享资源', url: function (q) { return 'https://www.google.com/search?tbm=isch&q=' + encodeURIComponent(q + ' site:commons.wikimedia.org'); } }
+  ];
+  var imageSearchId = 'google';
+  try { var savedSearch = localStorage.getItem(IMAGE_SEARCH_KEY); if (IMAGE_SEARCH.some(function (e) { return e.id === savedSearch; })) imageSearchId = savedSearch; } catch (e) { /* noop */ }
+  function imageSearchEngine() { return IMAGE_SEARCH.filter(function (e) { return e.id === imageSearchId; })[0]; }
+  function updateImageSearch() {
+    var q = form.title.value.trim();
+    var eng = imageSearchEngine();
+    $('imgSearchLabel').textContent = eng.label;
+    var main = $('imgSearchMain');
+    main.title = q ? '用“' + q + '”搜索图片' : '请先填写事件名称';
+    if (q) { main.href = eng.url(q); main.removeAttribute('aria-disabled'); }
+    else { main.removeAttribute('href'); main.setAttribute('aria-disabled', 'true'); }
+    var menu = $('imgSearchMenu');
+    menu.innerHTML = '';
+    IMAGE_SEARCH.forEach(function (e) {
+      var a = el('a', 'img-search-item' + (e.id === imageSearchId ? ' on' : ''), e.menu);
+      a.setAttribute('role', 'menuitemradio');
+      a.setAttribute('aria-checked', e.id === imageSearchId ? 'true' : 'false');
+      a.dataset.engine = e.id;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      if (q) a.href = e.url(q);
+      menu.appendChild(a);
+    });
+  }
+  function setImageSearchMenu(open) {
+    $('imgSearchMenu').hidden = !open;
+    $('imgSearchMore').setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  form.title.addEventListener('input', updateImageSearch);
+  $('imgSearchMain').addEventListener('click', function (e) {
+    if (!form.title.value.trim()) { e.preventDefault(); toast('请先填写事件名称'); }
+  });
+  $('imgSearchMore').addEventListener('click', function () { setImageSearchMenu($('imgSearchMenu').hidden); });
+  // 选择网站：记住选择，并直接用该网站搜索（没有事件名称时只记住选择）
+  $('imgSearchMenu').addEventListener('click', function (e) {
+    var a = e.target.closest('.img-search-item');
+    if (!a) return;
+    imageSearchId = a.dataset.engine;
+    try { localStorage.setItem(IMAGE_SEARCH_KEY, imageSearchId); } catch (err) { /* noop */ }
+    if (!form.title.value.trim()) { e.preventDefault(); toast('请先填写事件名称'); }
+    setImageSearchMenu(false);
+    setTimeout(updateImageSearch, 0);   // 等链接打开后再更新菜单
+  });
+  document.addEventListener('click', function (e) {
+    if (!$('imgSearchMenu').hidden && !e.target.closest('#imgSearch')) setImageSearchMenu(false);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !$('imgSearchMenu').hidden) { e.stopImmediatePropagation(); setImageSearchMenu(false); $('imgSearchMore').focus(); }
+  }, true);
+
+  // 参考链接的自动标题：维基百科 / 百度百科链接先按链接中的词条名立即填写“维基百科 - 词条名”，
+  // 再请本地服务器查询（跟随重定向、取简体标题；百度百科读取网页标题）后更新；查询失败时保留按链接填写的标题。
+  // 只在标题为空、或仍是上次自动填写的内容时填写，不覆盖手动输入的标题。
+  // _auto、_hint 只在编辑页中使用，保存时由 cleanSources 去掉。
+  function parseEncyclopediaLink(u) {
+    var x;
+    try { x = new URL(u); } catch (e) { return null; }
+    if (!/^https?:$/.test(x.protocol)) return null;
+    var dec = function (s) { try { return decodeURIComponent(s); } catch (e) { return s; } };
+    var host = x.hostname.toLowerCase(), m;
+    if (/(^|\.)wikipedia\.org$/.test(host)) {
+      m = x.pathname.match(/^\/(?:wiki|zh|zh-[a-z]+)\/(.+)$/);
+      var raw = m ? m[1] : x.searchParams.get('title');
+      return { label: '维基百科', name: raw ? dec(raw).replace(/_/g, ' ').trim() : '' };
+    }
+    if (/(^|\.)baike\.baidu\.com$/.test(host)) {
+      m = x.pathname.match(/^\/item\/([^\/?#]+)/);
+      return { label: '百度百科', name: m ? dec(m[1]).trim() : '' };
+    }
+    return null;
+  }
+  var SOURCE_HINTS = { loading: '⟳ 正在查询词条名…', done: '✓ 已自动填写标题（可修改）' };
+  function showSourceHint(src, hint) {
+    hint.textContent = SOURCE_HINTS[src._hint] || '';
+    hint.hidden = !src._hint;
+  }
+  function autoSourceTitle(src, titleInput, hint) {
+    if (suggestMode) return;
+    var u = (src.url || '').trim();
+    var info = parseEncyclopediaLink(u);
+    var canFill = function () { return !(src.title || '').trim() || src.title === src._auto; };
+    if (!info || !canFill() || src._lookedUp === u) return;
+    src._lookedUp = u;
+    var fill = function (t) { src.title = src._auto = t; titleInput.value = t; };
+    if (info.name) fill(info.label + ' - ' + info.name);
+    src._hint = 'loading';
+    showSourceHint(src, hint);
+    fetch('api/link-title?url=' + encodeURIComponent(u), { cache: 'no-store' })
+      .then(function (res) { return res.ok ? res.json() : null; })
+      .catch(function () { return null; })
+      .then(function (j) {
+        if ((src.url || '').trim() !== u) return;   // 期间链接已改，结果作废
+        if (j && j.title && canFill()) fill(j.title);
+        src._hint = src._auto && src.title === src._auto ? 'done' : null;
+        showSourceHint(src, hint);
+      });
+  }
   // 保存用的参考链接：去掉首尾空格和空行，标题为空时不写 title；网址无效时返回错误说明
   function cleanSources() {
     return draftSources.map(function (s) {

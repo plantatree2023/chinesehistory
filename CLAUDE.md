@@ -28,6 +28,7 @@ npm test
 - 侧栏筛选（`js/app.js` 中的 `FILTERS`）：**同类型的控件放在一起**（勾选框在最前，然后是下拉列表、范围输入）。新增筛选时写明 `kind`（`toggle` / `select` / `range`），面板按 `FILTER_KIND_ORDER` 自动分组；`tests/filters.spec.js` 会检查。每个筛选还要写 `toParams` / `fromParams`，把条件写进网址并能从网址恢复（见 `tests/url.spec.js`）
 - 反馈 / 建议修改：所有访问者可用，通过 Web3Forms 发送（`js/config.js` 中的 `accessKey`；`enabled: false` 时反馈入口带 `feedback-only` 类被隐藏，没有 `accessKey` 时提交提示尚未配置）；建议模式复用编辑页（`openEditor(id, 'suggest' | 'propose')`），不修改数据。测试替换 `js/config.js` 并拦截发送请求（`tests/feedback.spec.js`），不得真的发出
 - 脚本都从本地加载（第三方库放在 `js/vendor/`），不阻塞页面的用 `async`；`tests/share-qrcode.spec.js` 检查页面不引用外部脚本
+- `lib/link-title.js`：维基百科 / 百度百科链接的词条名查询，本地服务器 `/api/link-title`（只读模式也提供）供编辑页自动填写参考链接标题；`tests/helpers.js` 默认拦截该请求，测试不访问外网
 - `lib/images.js`：图片工具（格式与尺寸识别、下载、按内容哈希保存到 `images/`），服务器和导入脚本共用
 - `tools/wiki-import.js`：从维基百科导入 / 更新事件（`npm run wiki -- --file data/cn_zh.json 关键词`），支持 `--list`、`--dry-run`、`--refresh-images`、`--type`、`--score`；图片总是下载到本地；自动推断事件类型（`type`）和估算重要程度（`majorScore`）
 - `audio/`：背景音乐（数据集的 `music` 字段引用，只从本地加载；部署时复制）。音乐按数据集配置，便于其他国家 / 语言使用各自的音乐

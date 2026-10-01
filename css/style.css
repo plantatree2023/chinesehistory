@@ -1002,10 +1002,18 @@ body.bars-hidden .fab { bottom: 18px; }
 /* 编辑页：参考链接列表 */
 .source-editor { list-style: none; margin: 0 0 6px; padding: 0; display: grid; gap: 6px; }
 .source-editor:empty { display: none; }
-.source-row { display: flex; gap: 6px; align-items: center; }
+.source-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 .field .source-row .source-url { flex: 3; min-width: 0; }
 .field .source-row .source-title { flex: 2; min-width: 0; }
 .source-remove { flex: none; width: 30px; height: 30px; font-size: 20px; }
+/* 打开链接（新标签页）；网址无效时不可点。建议模式不显示 */
+.source-open { flex: none; width: 30px; height: 30px; font-size: 16px; border: 1px solid var(--line); border-radius: 7px; text-decoration: none; }
+.source-open:hover { color: var(--red); }
+.source-open[aria-disabled="true"] { opacity: .35; pointer-events: none; }
+.suggest-mode .source-open { display: none; }
+/* 自动填写标题的提示（正在查询 / 已填写），在该行下方 */
+.source-hint { flex-basis: 100%; margin: -2px 0 0 2px; font-size: 12px; color: var(--muted); }
+.source-hint[hidden] { display: none; }
 @media (max-width: 640px) {
   .source-row { flex-wrap: wrap; }
   .field .source-row .source-url { flex: 1 1 100%; }
@@ -1140,6 +1148,14 @@ body.bars-hidden .fab { bottom: 18px; }
 .lightbox figure { margin: 0; text-align: center; max-width: 88vw; }
 .lightbox img { max-width: 88vw; max-height: 80vh; object-fit: contain; border-radius: 4px; }
 .lightbox figcaption { color: #eee; font-size: 14px; margin-top: 10px; }
+/* 从编辑页打开的图片查看器：设为代表图 / 从本事件移除 */
+.lb-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 12px; }
+.lb-actions[hidden] { display: none; }
+.lb-actions button { padding: 6px 16px; border: 1px solid rgba(255,255,255,.35); border-radius: 999px; background: rgba(255,255,255,.12); color: #fff; font-size: 14px; }
+.lb-actions button:hover:not(:disabled) { background: rgba(255,255,255,.22); }
+.lb-actions button:disabled { opacity: .5; cursor: default; }
+.lb-note { flex-basis: 100%; margin: 0; color: rgba(255,255,255,.6); font-size: 12px; }
+.slot-zoom { cursor: zoom-in; }
 .lb-close { position: absolute; top: 14px; right: 14px; color: #fff; }
 .lb-close:hover { background: rgba(255,255,255,.12); }
 .lb-nav {
@@ -1224,3 +1240,19 @@ body.bars-hidden .fab { bottom: 18px; }
 /* 防垃圾的隐藏字段：访问者看不到，机器人会填写 */
 .hp-field { position: absolute !important; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 .qrcode-wait { margin: 8px 0; max-width: 240px; font-size: 13px; color: var(--ink-2); word-break: break-all; }
+
+/* 编辑页“图片”标题行：右侧为搜图按钮（▾ 选择网站） */
+.img-field-head { display: flex; align-items: center; gap: 10px; }
+.img-field-head > span { flex: 1; min-width: 0; }
+.img-search { flex: none; position: relative; display: inline-flex; }
+.img-search-main, .img-search-more { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border: 1px solid var(--line); background: var(--card); color: var(--ink); font-size: 12.5px; line-height: 18px; text-decoration: none; white-space: nowrap; cursor: pointer; }
+.img-search-main { border-radius: 7px 0 0 7px; }
+.img-search-more { border-left: 0; border-radius: 0 7px 7px 0; padding: 4px 7px; }
+.img-search-main:hover, .img-search-more:hover { color: var(--red); }
+.img-search-main[aria-disabled="true"] { color: var(--muted); }
+.img-search-menu { position: absolute; right: 0; top: calc(100% + 4px); z-index: 6; min-width: 190px; padding: 4px; background: var(--card); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); }
+.img-search-menu[hidden] { display: none; }
+.img-search-item { display: block; padding: 7px 10px 7px 28px; border-radius: 6px; color: var(--ink); font-size: 13px; text-decoration: none; white-space: nowrap; position: relative; }
+.img-search-item:hover { background: var(--hover-tint); }
+.img-search-item.on { color: var(--red); }
+.img-search-item.on::before { content: "✓"; position: absolute; left: 10px; }

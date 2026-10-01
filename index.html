@@ -222,7 +222,15 @@
         <textarea name="detail" rows="6" maxlength="600"></textarea>
       </label>
       <div class="field edit-only">
-        <span>图片（最多 9 张，第一张为代表图；上传后保存在本地；可在每张图下方填写标题）</span>
+        <div class="img-field-head">
+          <span>图片（最多 9 张，第一张为代表图；上传后保存在本地；可在每张图下方填写标题）</span>
+          <!-- 用“事件名称”搜索图片（新标签页）；▾ 选择搜索网站，记住上次的选择 -->
+          <div class="img-search" id="imgSearch">
+            <a class="img-search-main" id="imgSearchMain" target="_blank" rel="noopener">🔍 <span id="imgSearchLabel">Google 搜图</span></a>
+            <button type="button" class="img-search-more" id="imgSearchMore" aria-haspopup="menu" aria-expanded="false" aria-label="选择搜图网站">▾</button>
+            <div class="img-search-menu" id="imgSearchMenu" role="menu" hidden></div>
+          </div>
+        </div>
         <div class="image-editor" id="imageEditor"></div>
         <div class="image-add">
           <input type="url" id="imageUrlInput" placeholder="粘贴图片网址，自动下载到本地">
@@ -326,6 +334,12 @@
     <figure>
       <img id="lightboxImg" alt="">
       <figcaption id="lightboxCaption"></figcaption>
+      <!-- 从编辑页打开时：管理编辑中的图片（只改编辑页中的草稿，点“保存”后才生效） -->
+      <div class="lb-actions" id="lbActions" hidden>
+        <button type="button" id="lbCover">★ 设为代表图</button>
+        <button type="button" id="lbRemove">✕ 从本事件移除</button>
+        <p class="lb-note">修改在编辑页点“保存”后生效</p>
+      </div>
     </figure>
     <button class="lb-nav lb-next" aria-label="下一张">&#8250;</button>
   </div>
