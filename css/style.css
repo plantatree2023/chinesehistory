@@ -999,7 +999,7 @@ body.bars-hidden .fab { bottom: 18px; }
   .source-row { flex-wrap: wrap; }
   .field .source-row .source-url { flex: 1 1 100%; }
 }
-.detail-share { margin: -6px 0 16px; }
+.detail-share { margin: -6px 0 16px; display: flex; flex-wrap: wrap; gap: 8px; }   /* 分享链接和反馈按钮在同一行 */
 .detail-share .btn { gap: 5px; }
 .detail-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
@@ -1197,7 +1197,6 @@ body.bars-hidden .fab { bottom: 18px; }
 }
 
 /* ---------- 反馈 / 建议修改 ---------- */
-.detail-feedback { display: flex; justify-content: flex-end; margin-top: 18px; padding-top: 12px; border-top: 1px dashed var(--line); }
 .feedback-target { margin: -8px 0 14px; font-size: 14px; color: var(--ink-2); }
 .feedback-kinds { border: 0; padding: 0; margin: 0 0 12px; min-width: 0; }
 .feedback-kinds legend { padding: 0; margin-bottom: 6px; }
