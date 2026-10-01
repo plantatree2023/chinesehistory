@@ -245,9 +245,9 @@
     "credit": ""
   },
   "texture": {
-    "src": "textures/cn-xiangyun.svg",
-    "size": 160,
-    "opacity": 0.09
+    "src": "textures/cn-xuanzhi.svg",
+    "size": 240,
+    "opacity": 0.12
   },
   "events": [
     {

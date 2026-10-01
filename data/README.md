@@ -30,7 +30,7 @@ data/<国家>_<语言>.json
   "eras": [ { "name": "唐", "start": 618, "end": 907, "...": "..." } ],
   "types": [ { "key": "war", "name": "战争", "color": "#5f4b8b" } ],
   "music": { "src": "audio/bgm-cn.mp3", "volume": 0.2, "title": "", "credit": "" },
-  "texture": { "src": "textures/cn-xiangyun.svg", "size": 160, "opacity": 0.09 },
+  "texture": { "src": "textures/cn-xuanzhi.svg", "size": 240, "opacity": 0.12 },
   "events": [ { "id": "e052", "year": 755, "title": "安史之乱", "...": "..." } ]
 }
 ```
@@ -90,7 +90,7 @@ data/<国家>_<语言>.json
 每个数据集（国家 / 语言）可以有自己的清淡背景纹理，铺在时间轴区域后面，不随时间轴移动。纹理文件放在仓库的 `textures/` 目录，网站只从本地加载。
 
 ```json
-{ "src": "textures/cn-xiangyun.svg", "size": 160, "opacity": 0.09 }
+{ "src": "textures/cn-xuanzhi.svg", "size": 240, "opacity": 0.12 }
 ```
 
 | 字段 | 类型 | 必填 | 含义 |
