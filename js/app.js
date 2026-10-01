@@ -2340,18 +2340,72 @@
       if (ok) resolve(); else reject(new Error('copy failed'));
     });
   }
-  $('detailShare').addEventListener('click', function () {
-    var ev = findEvent(detailId);
+  // 分享菜单
+  var shareId = null;
+  var qrcodeInstance = null;
+
+  function openShareMenu(id) {
+    shareId = id;
+    var ev = findEvent(id);
     if (!ev) return;
-    var url = shareUrl(ev.id);
-    // 手机等触屏设备优先使用系统分享，其余复制到剪贴板
-    var touch = window.matchMedia && matchMedia('(pointer: coarse)').matches;
-    if (touch && navigator.share) {
-      navigator.share({ title: ev.title + ' · ' + BASE_TITLE, url: url }).catch(function () { /* 用户取消 */ });
-      return;
+    openModal('shareModal');
+    $('shareQrcode').hidden = true;
+    // 清空上次的二维码
+    if (qrcodeInstance) {
+      $('shareQrcodeCanvas').innerHTML = '';
+      qrcodeInstance = null;
     }
-    copyText(url).then(function () { toast('链接已复制'); }, function () { toast('请复制链接：' + url); });
+  }
+
+  $('detailShare').addEventListener('click', function () {
+    if (!detailId) return;
+    openShareMenu(detailId);
   });
+
+  // 分享菜单的各个按钮
+  var shareButtons = document.querySelectorAll('.share-btn');
+  shareButtons.forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      var type = this.dataset.share;
+      var ev = findEvent(shareId);
+      if (!ev) return;
+      var url = shareUrl(ev.id);
+      var title = ev.title + ' · ' + BASE_TITLE;
+
+      if (type === 'copy') {
+        copyText(url).then(function () { toast('链接已复制'); }, function () { toast('请复制链接：' + url); });
+      } else if (type === 'wechat') {
+        showWechatQrcode(url);
+      } else if (type === 'weibo') {
+        window.open('https://service.weibo.com/share/share.php?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title), '_blank');
+      } else if (type === 'qq') {
+        window.open('https://sns.qzone.qq.com/cgi-bin/qzc/share?url=' + encodeURIComponent(url), '_blank');
+      } else if (type === 'facebook') {
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank');
+      } else if (type === 'twitter') {
+        window.open('https://twitter.com/intent/tweet?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(title), '_blank');
+      } else if (type === 'linkedin') {
+        window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(url), '_blank');
+      } else if (type === 'telegram') {
+        window.open('https://t.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(title), '_blank');
+      } else if (type === 'email') {
+        window.location.href = 'mailto:?subject=' + encodeURIComponent(title) + '&body=' + encodeURIComponent(title + '\n\n' + url);
+      }
+    });
+  });
+
+  function showWechatQrcode(url) {
+    $('shareQrcode').hidden = false;
+    var canvas = $('shareQrcodeCanvas');
+    canvas.innerHTML = '';
+    qrcodeInstance = new QRCode(canvas, {
+      text: url,
+      width: 200,
+      height: 200,
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  }
 
   // ---------- 启动 ----------
   function showLoadError(message) {

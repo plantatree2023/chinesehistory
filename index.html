@@ -250,8 +250,60 @@
     <button class="lb-nav lb-next" aria-label="下一张">&#8250;</button>
   </div>
 
+  <!-- 分享菜单 -->
+  <div class="modal" id="shareModal" hidden role="dialog" aria-modal="true" aria-labelledby="shareTitle">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card share-card">
+      <button class="icon-btn modal-close" data-close aria-label="关闭">&times;</button>
+      <h2 id="shareTitle">分享事件</h2>
+      <div class="share-menu">
+        <button class="share-btn share-copy" data-share="copy" title="复制链接">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 9h6a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2z"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M7 17V7a2 2 0 0 1 2-2h6m-9 10a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>
+          <span>复制链接</span>
+        </button>
+        <button class="share-btn share-wechat" data-share="wechat" title="分享到微信">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 2C6.48 2 2 5.58 2 10c0 2.54 1.19 4.85 3.15 6.37.1.73.39 2.12.67 3.24-.58-.36-1.84-1.18-2.77-2.06C3.12 18.16 2 16.2 2 14c0-4.42 3.58-8 8-8s8 3.58 8 8-3.58 8-8 8c-.5 0-.99-.05-1.46-.14 1.13.72 2.47 1.14 3.96 1.14 4.42 0 8-3.58 8-8s-3.58-8-8-8z"/></svg>
+          <span>微信二维码</span>
+        </button>
+        <button class="share-btn share-weibo" data-share="weibo" title="分享到微博">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path fill="currentColor" d="M12 8c2.21 0 4 1.79 4 4s-1.79 4-4 4-4-1.79-4-4 1.79-4 4-4z"/></svg>
+          <span>微博</span>
+        </button>
+        <button class="share-btn share-qq" data-share="qq" title="分享到QQ空间">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+          <span>QQ空间</span>
+        </button>
+        <button class="share-btn share-facebook" data-share="facebook" title="分享到Facebook">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.39v-1.2h-2.5v8.5h2.5v-4.26c0-.85.62-1.63 1.52-1.63.93 0 1.62.53 1.62 1.75v4.14h2.5M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69-.93 0-1.69.76-1.69 1.69 0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.5H5.5v8.5h2.77z"/></svg>
+          <span>Facebook</span>
+        </button>
+        <button class="share-btn share-twitter" data-share="twitter" title="分享到Twitter">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2s9 5 20 5a9.5 9.5 0 00-9-5.5c4.75 2.25 7-7 7-7a10.6 10.6 0 01-9.5 5"/></svg>
+          <span>Twitter</span>
+        </button>
+        <button class="share-btn share-linkedin" data-share="linkedin" title="分享到LinkedIn">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2" fill="currentColor"/></svg>
+          <span>LinkedIn</span>
+        </button>
+        <button class="share-btn share-telegram" data-share="telegram" title="分享到Telegram">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.02-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.6.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.06-.16-.04-.25-.02-.11.02-1.93 1.23-5.45 3.6-.51.35-.98.52-1.4.51-.46-.01-1.35-.26-2.01-.48-.81-.27-1.46-.42-1.4-.88.03-.24.37-.49 1.02-.75 4.02-1.75 6.71-2.91 8.07-3.47 3.84-1.63 4.63-1.91 5.16-1.91.1 0 .35.02.5.12.12.08.2.19.22.35.01.11.01.36 0 .58z"/></svg>
+          <span>Telegram</span>
+        </button>
+        <button class="share-btn share-email" data-share="email" title="通过邮件分享">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m22 6-10 7L2 6"/></svg>
+          <span>邮件</span>
+        </button>
+      </div>
+      <div class="share-qrcode" id="shareQrcode" hidden>
+        <p>用微信扫描二维码分享</p>
+        <canvas id="shareQrcodeCanvas"></canvas>
+      </div>
+    </div>
+  </div>
+
   <div class="toast" id="toast" role="status"></div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
