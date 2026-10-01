@@ -2537,11 +2537,15 @@
   var debugMode = false;
   var versionRequest = null;
 
-  function setDebugMode(on) {
+  // 调试模式只在本地启动时提供（js/env.js，见 server.js）；线上不显示开关，浏览器中保存的开启状态也不起作用
+  var debugAvailable = !!(window.TIMELINE_ENV && window.TIMELINE_ENV.debugAvailable);
+  document.body.classList.toggle('debug-available', debugAvailable);
+  function setDebugMode(on, save) {
+    if (!debugAvailable) on = false;
     debugMode = on;
     document.body.classList.toggle('debug-mode', on);
     $('debugToggle').checked = on;
-    try {
+    if (save !== false) try {
       if (on) localStorage.setItem(DEBUG_KEY, '1');
       else localStorage.removeItem(DEBUG_KEY);
     } catch (e) { /* 浏览器禁止存储时只在本次访问中生效 */ }
@@ -2621,7 +2625,7 @@
   (function () {
     var on = false;
     try { on = localStorage.getItem(DEBUG_KEY) === '1'; } catch (e) { /* noop */ }
-    setDebugMode(on);
+    setDebugMode(on, false);
   })();
 
   // ---------- 网址与浏览记录 ----------

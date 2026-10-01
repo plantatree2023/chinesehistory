@@ -4,6 +4,7 @@
 //   node server.js                 可写模式（npm start），修改会写入仓库中的数据文件和 images/
 //   node server.js --readonly      只读模式，不提供写入接口（与 GitHub Pages 行为一致，供自动化测试使用）
 //   node server.js --port 8080     指定端口，默认 4173
+//   node server.js --no-debug      不提供调试模式（网页不显示“调试模式”开关，与线上一致）；默认提供
 //
 // 接口（仅可写模式）：
 //   GET  /api/status          → { writable: true }
@@ -12,6 +13,8 @@
 //   POST /api/images/fetch    按网址下载图片并保存（{ url }，仅 http / https），返回 { path, w, h }
 // 另外，项目中没有 version.json 时（只在部署时生成），GET /version.json 根据 git 最近一次提交生成版本信息，
 // 供网页调试模式显示“网站最近更新”时间（两种模式都提供）。
+// 调试模式：仓库中的 js/env.js（部署到线上的版本）不提供调试模式；本地服务器默认改为返回
+// debugAvailable: true，网页才显示“调试模式”开关（--no-debug 时原样返回该文件）。
 //
 // 安全：只监听 127.0.0.1；写入请求必须来自本服务自身的页面（校验 Host / Origin / Content-Type），
 // 防止其他网站借用户的浏览器向本机写文件。
@@ -160,7 +163,7 @@ function saveUploaded(getBuffer, imagesDir) {
   }
 }
 
-function createServer({ root = __dirname, writeDir = root, readonly = false } = {}) {
+function createServer({ root = __dirname, writeDir = root, readonly = false, debug = true } = {}) {
   root = path.resolve(root);
   writeDir = path.resolve(writeDir);
 
@@ -238,6 +241,11 @@ function createServer({ root = __dirname, writeDir = root, readonly = false } = 
     // 可写目录优先（测试时可写目录是临时副本），其次是项目目录
     const candidates = [resolveIn(writeDir, pathname), resolveIn(root, pathname)].filter(Boolean);
     if (!candidates.length) throw new HttpError(403, 'Forbidden');
+    if (debug && pathname === '/js/env.js') {
+      res.writeHead(200, { 'Content-Type': 'text/javascript; charset=utf-8', 'Cache-Control': 'no-store' });
+      res.end(req.method === 'HEAD' ? undefined : '// 本地服务器生成：提供调试模式\nwindow.TIMELINE_ENV = { debugAvailable: true, local: true };\n');
+      return;
+    }
     const file = candidates.find((f) => fs.existsSync(f) && fs.statSync(f).isFile());
     if (!file && pathname === '/version.json') {
       const version = localVersion();
@@ -279,9 +287,10 @@ module.exports = { createServer, validateDataset, writeAtomic, HttpError, DATASE
 if (require.main === module) {
   const args = process.argv.slice(2);
   const readonly = args.includes('--readonly');
+  const debug = !args.includes('--no-debug');
   const portArg = args.indexOf('--port');
   const port = portArg >= 0 ? Number(args[portArg + 1]) : Number(process.env.PORT) || 4173;
-  createServer({ readonly }).listen(port, '127.0.0.1', () => {
-    console.log(`时间上的中国：http://127.0.0.1:${port}/  （${readonly ? '只读模式' : '可写模式：修改会写入 data/ 与 images/'}）`);
+  createServer({ readonly, debug }).listen(port, '127.0.0.1', () => {
+    console.log(`时间上的中国：http://127.0.0.1:${port}/  （${readonly ? '只读模式' : '可写模式：修改会写入 data/ 与 images/'}；${debug ? '提供调试模式' : '不提供调试模式'}）`);
   });
 }

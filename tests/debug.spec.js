@@ -341,3 +341,60 @@ test.describe('清除缓存按钮', () => {
     });
   });
 });
+
+test.describe('只有本地启动时提供调试模式', () => {
+  const STATIC_ENV = fs.readFileSync(path.join(ROOT, 'js', 'env.js'), 'utf8');
+  // 模拟线上（GitHub Pages）或 npm start -- --no-debug：网页拿到的是仓库中的 js/env.js
+  const asPublic = (page) => page.route('**/js/env.js', (route) => route.fulfill({ contentType: 'text/javascript', body: STATIC_ENV }));
+
+  test('仓库中的 js/env.js（部署到线上的版本）不提供调试模式', async () => {
+    expect(STATIC_ENV).toMatch(/debugAvailable:\s*false/);
+    const yml = fs.readFileSync(path.join(ROOT, '.github', 'workflows', 'deploy.yml'), 'utf8');
+    expect(yml).toMatch(/cp -r [^\n]*\bjs\b[^\n]*_site/);   // 原样部署
+    const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
+    expect(pkg.scripts.start).toBe('node server.js');
+    expect(pkg.scripts['start:public']).toBe('node server.js --no-debug');
+  });
+
+  test('本地服务器默认提供调试模式；--no-debug 时返回仓库中的文件', async ({ request }) => {
+    for (const debug of [true, false]) {
+      const server = createServer({ root: ROOT, readonly: true, debug });
+      await new Promise((r) => server.listen(0, '127.0.0.1', r));
+      try {
+        const res = await request.get(`http://127.0.0.1:${server.address().port}/js/env.js`);
+        expect(res.ok()).toBe(true);
+        expect(res.headers()['content-type']).toContain('javascript');
+        const body = await res.text();
+        if (debug) expect(body).toMatch(/debugAvailable:\s*true/);
+        else expect(body).toBe(STATIC_ENV);
+      } finally {
+        await new Promise((r) => server.close(r));
+      }
+    }
+    // 命令行参数
+    const src = fs.readFileSync(path.join(ROOT, 'server.js'), 'utf8');
+    expect(src).toMatch(/const debug = !args\.includes\('--no-debug'\)/);
+  });
+
+  test('本地启动时显示“调试模式”开关', async ({ page }) => {
+    await openApp(page);
+    await page.click('#browseBtn');
+    await expect(page.locator('.switch')).toBeVisible();
+  });
+
+  test('线上不显示开关；即使浏览器中保存了开启状态，调试信息和编辑功能也都不显示', async ({ page }) => {
+    await asPublic(page);
+    await page.addInitScript((k) => localStorage.setItem(k, '1'), DEBUG_KEY);
+    await openApp(page);
+    await page.click('#browseBtn');
+    await expect(page.locator('.switch')).toBeHidden();
+    await expect(page.locator('#debugToggle')).not.toBeChecked();
+    for (const sel of [...EDIT_CONTROLS, '#debugBar', '#githubLink', '#clearCacheBtn']) await expect(page.locator(sel), sel).toBeHidden();
+    expect(await page.evaluate(() => document.body.classList.contains('debug-mode'))).toBe(false);
+    // 通过脚本触发也不会打开编辑页
+    await page.evaluate(() => document.getElementById('addBtn').click());
+    await expect(page.locator('#editModal')).toBeHidden();
+    // 保存的状态保留（回到本地时仍是开启）
+    expect(await page.evaluate((k) => localStorage.getItem(k), DEBUG_KEY)).toBe('1');
+  });
+});

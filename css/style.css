@@ -103,6 +103,8 @@ button { font: inherit; cursor: pointer; }
 [hidden] { display: none !important; }
 /* 编辑功能与调试信息只在调试模式（body.debug-mode）下显示 */
 body:not(.debug-mode) .debug-only { display: none !important; }
+/* “调试模式”开关只在本地启动时显示（js/env.js） */
+body:not(.debug-available) .debug-switch { display: none !important; }
 /* 反馈入口只在配置了反馈服务（js/config.js）时显示 */
 body:not(.feedback-on) .feedback-only { display: none !important; }
 
