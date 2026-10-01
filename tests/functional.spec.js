@@ -427,6 +427,32 @@ test.describe('新增事件', () => {
 test.describe('侧栏', () => {
   test.use({ debugMode: true });
 
+  for (const viewport of [{ width: 1440, height: 860 }, { width: 390, height: 780 }]) {
+    test(`${viewport.width}：展开的事件按钮在右侧，第一行“查看详情”，第二行“编辑”“删除”`, async ({ page }) => {
+      await page.setViewportSize(viewport);
+      await openApp(page);
+      await page.click('#browseBtn');
+      await page.fill('#searchInput', '贞观之治');
+      await page.locator('.list-row').first().click();
+      const box = (sel) => page.locator(sel).boundingBox();
+      const title = await box('.list-item.has-actions .list-title');
+      const view = await box('.list-actions .btn-ghost');
+      const edit = await box('.list-actions .btn-primary');
+      const del = await box('.list-actions .btn-danger');
+      const item = await box('.list-item.has-actions');
+      // 都在事件名称右侧、在列表项内
+      for (const b of [view, edit, del]) {
+        expect(b.x).toBeGreaterThan(title.x + title.width);
+        expect(b.x + b.width).toBeLessThanOrEqual(item.x + item.width + 0.5);
+      }
+      // 第一行查看详情，第二行编辑和删除（同一行、编辑在左）
+      expect(edit.y).toBeGreaterThanOrEqual(view.y + view.height);
+      expect(Math.abs(edit.y - del.y)).toBeLessThanOrEqual(1);
+      expect(edit.x + edit.width).toBeLessThanOrEqual(del.x);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(viewport.width);
+    });
+  }
+
   test('按时间顺序列出全部事件，可搜索', async ({ page }) => {
     await openApp(page);
     await page.click('#browseBtn');
