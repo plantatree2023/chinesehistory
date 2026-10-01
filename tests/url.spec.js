@@ -161,9 +161,6 @@ test.describe('分享链接', () => {
     const ev = events.find((e) => e.title === '赤壁之战');
     await openApp(page);
     await page.click('#browseBtn');
-    await page.click('#filterToggle');
-    await page.waitForSelector('#filterPanel input[data-filter=”major”]');
-    await page.check('#filterPanel input[data-filter=”major”]');
     await openFromList(page, '赤壁之战');
     await expect(page.locator('#detailShare')).toBeVisible();     // 所有访问者都能看到（不需要调试模式）
     await page.click('#detailShare');
