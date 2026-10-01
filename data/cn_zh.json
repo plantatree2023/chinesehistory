@@ -238,6 +238,12 @@
       "color": "#8a5a7a"
     }
   ],
+  "music": {
+    "src": "audio/bgm-cn.mp3",
+    "volume": 0.2,
+    "title": "",
+    "credit": ""
+  },
   "events": [
     {
       "id": "e001",

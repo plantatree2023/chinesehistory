@@ -22,7 +22,8 @@ const { execFileSync } = require('child_process');
 const { writeAtomic, saveImage, fetchImage, MAX_IMAGE_BYTES } = require('./lib/images');
 
 const DATASET_ID = /^[a-z]{2}_[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})?$/;   // 例：cn_zh、jp_ja、cn_zh-Hant
-const LOCAL_IMAGE = /^images\/[A-Za-z0-9._-]+$/;             // 数据中图片路径的唯一合法形式
+const LOCAL_IMAGE = /^images\/[A-Za-z0-9._-]+$/;
+const LOCAL_AUDIO = /^audio\/[A-Za-z0-9._-]+\.(mp3|ogg|m4a)$/;     // 背景音乐只能是 audio/ 下的本地文件             // 数据中图片路径的唯一合法形式
 const MAX_JSON_BYTES = 10 * 1024 * 1024;
 const MAX_SOURCES = 10;                                        // 每个事件最多的参考链接数
 const CONTENT_TYPES = {
@@ -37,6 +38,9 @@ const CONTENT_TYPES = {
   '.gif': 'image/gif',
   '.svg': 'image/svg+xml',
   '.ico': 'image/x-icon',
+  '.mp3': 'audio/mpeg',
+  '.ogg': 'audio/ogg',
+  '.m4a': 'audio/mp4',
 };
 
 class HttpError extends Error {
@@ -81,6 +85,12 @@ function validateDataset(id, data) {
   if (!Array.isArray(data.events)) fail('events 必须是数组');
   const ids = new Set();
   const eraNames = new Set(data.eras.map((e) => e && e.name));
+  // 背景音乐（可选）：{ src: 'audio/<文件名>', volume: 0–1, title, credit }
+  if (data.music != null) {
+    const m = data.music;
+    if (typeof m !== 'object' || typeof m.src !== 'string' || !LOCAL_AUDIO.test(m.src)) fail('music.src 必须是 audio/ 下的本地音频文件（mp3 / ogg / m4a）');
+    if (m.volume != null && !(typeof m.volume === 'number' && m.volume >= 0 && m.volume <= 1)) fail('music.volume 必须是 0–1 之间的数');
+  }
   // 事件类型（可选）：[{ key, name, color }]，名称不能重复；有此列表时事件的 type 必须是其中的名称
   let typeNames = null;
   if (data.types != null) {

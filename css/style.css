@@ -109,7 +109,7 @@ body:not(.debug-mode) .debug-only { display: none !important; }
   align-items: center;
   gap: 16px;
   min-height: 52px;
-  padding: 6px 108px 6px 20px;   /* 右侧留给两个圆形按钮 */
+  padding: 6px 196px 6px 20px;   /* 右侧留给最多四个圆形按钮 */
   /* 下沿色条随当前时期变色（--era-color 由脚本设置） */
   border-bottom: 3px solid var(--era-color, var(--line));
   background: var(--bar-bg);
@@ -161,14 +161,19 @@ body.bars-hidden .topbar, body.bars-hidden .bottombar, body.bars-hidden .debug-b
 .ptr.refreshing .ptr-icon { animation: ptr-spin .8s linear infinite; }
 @keyframes ptr-spin { to { transform: rotate(360deg); } }
 
-/* 右上角的圆形按钮：切换深色模式、显示 / 隐藏工具栏 */
-.theme-toggle,
-.bars-toggle {
+/* 右上角的圆形按钮：自动播放、背景音乐、深色模式、显示 / 隐藏工具栏（从左到右） */
+.corner-btns {
   position: fixed;
   top: 8px;                 /* 在 52px 高的顶栏中垂直居中 */
   right: 14px;
   z-index: 25;
+  display: flex;
+  gap: 8px;
+}
+.corner-btn {
+  flex: none;
   width: 36px; height: 36px;
+  padding: 0;
   display: grid;
   place-items: center;
   border: 1px solid var(--line);
@@ -178,10 +183,15 @@ body.bars-hidden .topbar, body.bars-hidden .bottombar, body.bars-hidden .debug-b
   box-shadow: var(--shadow);
   transition: color .15s, transform .25s;
 }
-.theme-toggle:hover, .bars-toggle:hover { color: var(--red); }
-.theme-toggle { right: 58px; }
-.theme-toggle svg, .bars-toggle svg { display: block; }
-body.bars-hidden .theme-toggle { display: none; }      /* 隐藏工具栏时只保留恢复按钮 */
+.corner-btn:hover { color: var(--red); }
+.corner-btn svg { display: block; }
+body.bars-hidden .theme-toggle { display: none; }      /* 隐藏工具栏时不显示深色模式按钮，播放、音乐、恢复按钮保留 */
+.play-toggle .icon-pause, .play-toggle[aria-pressed="true"] .icon-play { display: none; }
+.play-toggle[aria-pressed="true"] .icon-pause { display: block; }
+.play-toggle[aria-pressed="true"] { color: var(--red); border-color: color-mix(in srgb, var(--red) 50%, var(--line)); }
+.music-toggle .icon-muted, .music-toggle[aria-pressed="false"] .icon-sound { display: none; }
+.music-toggle[aria-pressed="false"] .icon-muted { display: block; }
+.music-toggle[aria-pressed="false"] { color: var(--muted); }
 .bars-toggle .icon-collapse, body.bars-hidden .bars-toggle .icon-expand { display: none; }
 body.bars-hidden .bars-toggle .icon-collapse { display: block; }
 .theme-toggle .icon-sun, [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
@@ -353,6 +363,39 @@ body.bars-hidden .bars-toggle .icon-collapse { display: block; }
 
 /* ---------- 事件卡片 ---------- */
 .events { position: absolute; left: 0; top: 0; height: 100%; }
+/* 时期更迭事件：轴线上的菱形标记（填充新时期的颜色）和“从 → 到”标签（在卡片的另一侧） */
+.dot.dot-transition {
+  width: 14px; height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 2px;
+  transform: rotate(45deg);
+  background: var(--to-color, var(--red));
+  border: 2.5px solid var(--card);
+  box-shadow: 0 0 0 1.5px var(--red);
+}
+.transition-mark {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  display: flex; align-items: center; gap: 3px;
+  padding: 1px 7px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--to-color, var(--red));
+  border-radius: 4px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+  color: var(--ink-2);
+  font-family: var(--font-serif);
+  font-size: 11px;
+  line-height: 16px;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.transition-mark.below { margin-top: 11px; }
+.transition-mark.above { margin-top: -31px; }
+.transition-mark .tm-arrow { color: var(--red); font-family: var(--font-sans); }
+.transition-mark .tm-to { font-weight: 700; color: var(--ink); }
 .links { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
 .links polyline {
   fill: none;
@@ -376,6 +419,7 @@ body.bars-hidden .bars-toggle .icon-collapse { display: block; }
   transition: transform .2s;
 }
 .dot.hot { transform: scale(1.35); }
+.dot.dot-transition.hot { transform: rotate(45deg) scale(1.35); }
 .card {
   position: absolute;
   display: flex;
@@ -489,6 +533,7 @@ body.bars-hidden .bars-toggle .icon-collapse { display: block; }
   background: var(--bar-bg);
   z-index: 5;
 }
+.minimap:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; border-radius: 6px; }
 .minimap {
   flex: 1;
   position: relative;
@@ -1050,10 +1095,14 @@ body.bars-hidden .fab { bottom: 18px; }
 
 /* ---------- 自适应 ---------- */
 @media (max-width: 640px) {
-  .topbar { padding: 8px 98px 8px 16px; }   /* 两个按钮占右侧 90px，留 8px 间距 */
-  .bars-toggle { right: 12px; }
-  .theme-toggle { right: 54px; }
-  .brand { font-size: clamp(15px, 5vw, 21px); letter-spacing: .04em; }   /* 窄屏按宽度缩小，最长的时期名也能完整显示 */
+  .topbar { padding: 6px 166px 6px 16px; }   /* 四个按钮（34px，间距 6px）占右侧约 154px */
+  .corner-btns { right: 12px; gap: 6px; top: 9px; }
+  .corner-btn { width: 34px; height: 34px; }
+  /* 窄屏：标题和当前时期分两行，最长的时期名也能完整显示 */
+  .brand { font-size: clamp(15px, 5vw, 21px); letter-spacing: .04em; }
+  .brand-home { display: flex; flex-direction: column; line-height: 1.15; }
+  .brand-era { font-size: .72em; }
+  .brand-era:not(:empty)::before { content: none; }
   :root { --bottombar-h: 50px; }
   .bottombar { padding: 7px 16px; }
   .minimap { display: none; }

@@ -55,6 +55,10 @@
     if (y < 0) return '前' + (-y);
     return String(y);
   }
+  function eraByName(name) {
+    for (var i = 0; i < ERAS.length; i++) if (ERAS[i].name === name) return ERAS[i];
+    return { name: name, color: '#8a8178' };
+  }
   function eraOf(y) {
     for (var i = ERAS.length - 1; i >= 0; i--) if (y >= ERAS[i].start) return ERAS[i];
     return ERAS[0];
@@ -685,6 +689,17 @@
 
     // 朝代色带
     renderEraWash(W);
+    // 时期更迭事件直接标在轴线上：在卡片的另一侧显示“从 → 到”（卡片在上则标在轴线下方，反之亦然），
+    // 与之重叠的刻度和时期名让位
+    var marks = [];
+    layout.list.forEach(function (ev, i) {
+      if (!ev.transition || !layout.placed[i]) return;
+      var text = ev.transition.from + ' → ' + ev.transition.to;
+      marks.push({ ev: ev, x: layout.xs[i], above: layout.placed[i].side > 0, text: text, half: (text.length * 11 + 22) / 2 });
+    });
+    var markHits = function (x, half, above) {
+      return marks.some(function (m) { return m.above === above && Math.abs(m.x - x) < m.half + half + 6; });
+    };
     // 最早时期之前的一段轴线从左向右渐显
     var firstX = ERAS.length ? clamp(xOfYear(ERAS[0].start), 0, W) : 0;
     layout.firstEraX = firstX;
@@ -702,7 +717,7 @@
       d.style.width = (x2 - x1 - 2) + 'px';
       d.style.background = era.color;
       d.title = era.name;
-      if (x2 - x1 > era.name.length * 12 + 6) d.appendChild(el('span', 'era-label', era.name));
+      if (x2 - x1 > era.name.length * 12 + 6 && !markHits((x1 + x2) / 2, era.name.length * 6 + 3, false)) d.appendChild(el('span', 'era-label', era.name));
       eras.appendChild(d);
     });
 
@@ -716,6 +731,7 @@
       if (x < 20 || x > W - 20 || x - lastX < 96) return;
       if (todayX != null && todayX - x < 96) return;   // 给“今天”刻度让位
       if (layout.xs.some(function (ex) { return Math.abs(ex - x) < 22; })) return;   // 避开事件连线
+      if (markHits(x, 30, true)) return;                                               // 避开轴线上方的时期更迭标记
       lastX = x;
       var t = el('div', 'tick');
       t.style.left = x + 'px';
@@ -744,8 +760,9 @@
       path.setAttribute('points', pl.pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' '));
       svg.appendChild(path);
 
-      var dot = el('div', 'dot');
+      var dot = el('div', 'dot' + (ev.transition ? ' dot-transition' : ''));
       dot.style.left = layout.xs[i] + 'px';
+      if (ev.transition) dot.style.setProperty('--to-color', eraByName(ev.transition.to).color);
       box.appendChild(dot);
 
       var sh = pl.shape;
@@ -774,6 +791,17 @@
       card.addEventListener('mouseleave', function () { path.classList.remove('hot'); dot.classList.remove('hot'); });
       box.appendChild(card);
     });
+    marks.forEach(function (m) {
+      var tag = el('div', 'transition-mark ' + (m.above ? 'above' : 'below'));
+      tag.style.left = m.x + 'px';
+      tag.style.setProperty('--to-color', eraByName(m.ev.transition.to).color);
+      tag.dataset.id = m.ev.id;
+      tag.appendChild(el('span', 'tm-from', m.ev.transition.from));
+      tag.appendChild(el('span', 'tm-arrow', '→'));
+      tag.appendChild(el('span', 'tm-to', m.ev.transition.to));
+      tag.title = '时期更迭：' + m.text + '（' + m.ev.title + '）';
+      box.appendChild(tag);
+    });
 
     renderMinimap();
     setOffset(offset);
@@ -789,7 +817,12 @@
     if (tipShown) hideEraTip();
   }
   var anim = null;
-  function stopAnim() { if (anim) cancelAnimationFrame(anim); anim = null; }
+  // 手动浏览（拖动、滚轮、方向键、进度条、翻页按钮、跳到某个事件等）都会先调用 stopAnim，同时暂停自动播放
+  function stopAnim() {
+    if (anim) cancelAnimationFrame(anim);
+    anim = null;
+    if (typeof setPlaying === 'function' && playing) setPlaying(false);
+  }
   function animateTo(target, dur) {
     stopAnim();
     target = clamp(target, minOffset(), 0);
@@ -874,12 +907,15 @@
     if (e.deltaMode === 1) d *= 32;
     setOffset(offset - d);
   }, { passive: false });
-  stage.addEventListener('keydown', function (e) {
+  // 方向键 / Home / End 浏览：时间轴区域和底部进度条获得焦点时都可用（点击进度条后也能继续用键盘）
+  function navKeys(e) {
     if (e.key === 'ArrowRight') { animateTo(offset - viewW() * 0.6, 400); e.preventDefault(); }
     else if (e.key === 'ArrowLeft') { animateTo(offset + viewW() * 0.6, 400); e.preventDefault(); }
     else if (e.key === 'Home') { animateTo(0); e.preventDefault(); }
     else if (e.key === 'End') { animateTo(minOffset()); e.preventDefault(); }
-  });
+  }
+  stage.addEventListener('keydown', navKeys);
+  $('minimap').addEventListener('keydown', navKeys);
   // 点击左上角标题：回到时间轴开头
   $('homeBtn').addEventListener('click', function () { stopAnim(); animateTo(0, 600); });
   $('navLeft').addEventListener('click', function () { animateTo(offset + viewW() * 0.7, 500); });
@@ -992,6 +1028,8 @@
     var left = -offset / W, width = Math.min(1, viewW() / W);
     minimapView.style.left = (left * 100) + '%';
     minimapView.style.width = (width * 100) + '%';
+    var span = layout.width - viewW();
+    minimap.setAttribute('aria-valuenow', String(span > 0 ? Math.round(-offset / span * 100) : 0));
     var y = yearAtX(-offset + viewW() / 2);
     var era = y == null ? null : eraOf(y);
     if ((era ? era.name : '') !== headerEra) {
@@ -1024,6 +1062,7 @@
   }
   minimap.addEventListener('pointerdown', function (e) {
     mmDown = true; stopAnim(); minimapJump(e);
+    minimap.focus({ preventScroll: true });
     try { minimap.setPointerCapture(e.pointerId); } catch (err) { /* noop */ }
   });
   minimap.addEventListener('pointermove', function (e) { if (mmDown) minimapJump(e); });
@@ -1990,6 +2029,96 @@
   document.addEventListener('touchend', ptrEnd);
   document.addEventListener('touchcancel', function () { if (ptr.state !== 'refreshing') ptrReset(); });
 
+  // ---------- 自动播放：时间轴缓缓向右前进 ----------
+  // 速度为每 PLAY_SECONDS_PER_SCREEN 秒一屏；手动浏览（见 stopAnim）时暂停；
+  // 打开侧栏、弹窗或图片查看器时原地停住，关闭后继续；到达末端时停止，再次播放从头开始
+  var PLAY_SECONDS_PER_SCREEN = 30;
+  var playing = false, playRaf = null, playLast = 0;
+  var playBtn = $('playToggle');
+  function setPlaying(on) {
+    playing = on;
+    playBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    var label = on ? '暂停自动播放' : '自动播放';
+    playBtn.setAttribute('aria-label', label);
+    playBtn.title = label + '（空格）';
+    if (playRaf) cancelAnimationFrame(playRaf);
+    playRaf = null;
+    if (!on) return;
+    playLast = performance.now();
+    playRaf = requestAnimationFrame(playStep);
+  }
+  function playStep(now) {
+    var dt = Math.min(100, now - playLast);   // 切到后台再回来时不会突然跳很远
+    playLast = now;
+    var held = openStack.length || sidebarOpen || !$('lightbox').hidden || drag.active;
+    if (!held) {
+      if (offset <= minOffset() + 0.5) { setPlaying(false); return; }
+      setOffset(offset - viewW() / PLAY_SECONDS_PER_SCREEN * dt / 1000);
+    }
+    playRaf = requestAnimationFrame(playStep);
+  }
+  function togglePlay() {
+    if (playing) { setPlaying(false); return; }
+    if (anim) { cancelAnimationFrame(anim); anim = null; }
+    if (offset <= minOffset() + 0.5) setOffset(0);   // 已在末端：从头开始
+    setPlaying(true);
+  }
+  playBtn.addEventListener('click', togglePlay);
+  // 空格键：播放 / 暂停（焦点在输入框、按钮等控件上或有弹窗时不处理）
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== ' ' || e.ctrlKey || e.metaKey || e.altKey) return;
+    var t = e.target;
+    if (t && (t.closest('input, textarea, select, button, a, [contenteditable="true"]'))) return;
+    if (openStack.length || sidebarOpen || !$('lightbox').hidden) return;
+    e.preventDefault();
+    togglePlay();
+  });
+
+  // ---------- 背景音乐 ----------
+  // 每个数据集可以有自己的背景音乐（数据中的 music 字段，见 data/README.md），没有则不显示音乐按钮。
+  // 浏览器不允许网页在用户操作之前自动发声，所以在访问者第一次点击、按键或触摸页面时开始播放；
+  // 音量较小（默认 DEFAULT_MUSIC_VOLUME，数据可指定）。关闭后记住选择（保存在当前浏览器中）
+  var MUSIC_KEY = 'zh-history-timeline:music';
+  var DEFAULT_MUSIC_VOLUME = 0.2;
+  var bgm = $('bgm'), musicBtn = $('musicToggle');
+  var musicOn = true, musicStarted = false;
+  function setMusicOn(on, save) {
+    musicOn = on;
+    musicBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    var label = on ? '关闭背景音乐' : '开启背景音乐';
+    musicBtn.setAttribute('aria-label', label);
+    musicBtn.title = label;
+    if (save) { try { localStorage.setItem(MUSIC_KEY, on ? 'on' : 'off'); } catch (e) { /* noop */ } }
+    if (!bgm.getAttribute('src')) return;
+    if (on) playMusic(); else bgm.pause();
+  }
+  function playMusic() {
+    musicStarted = true;
+    var p = bgm.play();
+    if (p && p.catch) p.catch(function () { musicStarted = false; });   // 被浏览器拦截时等下一次用户操作再试
+  }
+  function setupMusic(music) {
+    if (!music || !music.src) return;
+    bgm.src = music.src;
+    var v = Number(music.volume);
+    bgm.volume = v >= 0 && v <= 1 ? v : DEFAULT_MUSIC_VOLUME;
+    musicBtn.hidden = false;
+    var saved = null;
+    try { saved = localStorage.getItem(MUSIC_KEY); } catch (e) { /* noop */ }
+    setMusicOn(saved !== 'off', false);
+    musicStarted = false;
+    bgm.pause();
+  }
+  musicBtn.addEventListener('click', function () { setMusicOn(!musicOn, true); });
+  // 第一次用户操作时开始播放（点击音乐按钮本身除外：那是在开关音乐）
+  ['pointerdown', 'keydown', 'touchstart'].forEach(function (type) {
+    document.addEventListener(type, function (e) {
+      if (!musicOn || musicStarted || !bgm.getAttribute('src')) return;
+      if (e.target && e.target.closest && e.target.closest('#musicToggle')) return;
+      playMusic();
+    }, { capture: true, passive: true });
+  });
+
   // ---------- 深色模式 ----------
   // 默认浅色（日间）；点击右上角按钮切换并保存选择。<html data-theme> 由 index.html 中的脚本在绘制前设置
   var THEME_KEY = 'zh-history-timeline:theme';
@@ -2091,6 +2220,7 @@
     meta = {};
     Object.keys(data).forEach(function (k) { if (k !== 'events') meta[k] = data[k]; });
     ERAS = data.eras;
+    setupMusic(data.music);
     TYPES = Array.isArray(data.types) ? data.types.filter(function (t) { return t && t.name; }) : [];
     defaultEvents = data.events;
     events = fileMode ? clone(defaultEvents) : load();

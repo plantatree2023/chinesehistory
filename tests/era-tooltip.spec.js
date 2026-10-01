@@ -88,6 +88,39 @@ test('最早时期之前留有一段渐隐的轴线：表示更早的年代，�
   await expect(tipName(page)).toHaveText('旧石器时代');
 });
 
+test('每个时期更迭事件都标在轴线上：菱形标记 + “从 → 到”标签，在卡片的另一侧，不与刻度和时期名重叠', async ({ page }) => {
+  await openApp(page);
+  const { events, eras } = await loadDataset(page);
+  const transitions = events.filter((e) => e.transition);
+  const marks = await page.evaluate(() => [...document.querySelectorAll('.transition-mark')].map((m) => {
+    const id = m.dataset.id;
+    const card = document.querySelector(`.card[data-id="${id}"]`);
+    const axis = document.getElementById('axis').getBoundingClientRect();
+    const ay = axis.top + axis.height / 2;
+    const r = m.getBoundingClientRect(), c = card.getBoundingClientRect();
+    return { id, text: m.textContent, cx: m.offsetLeft, markAbove: r.bottom <= ay, cardAbove: c.bottom <= ay, rect: [r.left, r.top, r.right, r.bottom] };
+  }));
+  expect(marks.map((m) => m.id).sort()).toEqual(transitions.map((e) => e.id).sort());
+  for (const m of marks) {
+    const ev = transitions.find((e) => e.id === m.id);
+    expect(m.text, ev.title).toBe(`${ev.transition.from}→${ev.transition.to}`);
+    expect(m.markAbove, `${ev.title}：标签在卡片另一侧`).toBe(!m.cardAbove);
+  }
+  // 事件点为菱形，颜色为新时期的颜色
+  const dots = await page.evaluate(() => [...document.querySelectorAll('.dot.dot-transition')].length);
+  expect(dots).toBe(transitions.length);
+  // 不与刻度文字、时期名重叠
+  const overlaps = await page.evaluate(() => {
+    const boxes = (sel) => [...document.querySelectorAll(sel)].map((e) => e.getBoundingClientRect()).filter((r) => r.width);
+    const marks = boxes('.transition-mark'), others = [...boxes('.tick span'), ...boxes('.era-label')];
+    let n = 0;
+    for (const a of marks) for (const b of others) if (a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top) n++;
+    return n;
+  });
+  expect(overlaps).toBe(0);
+  expect(eras.length).toBeGreaterThan(0);
+});
+
 test.describe('延续至今的时期', () => {
   test('中华人民共和国色带延伸到轴线末端，末端有“今天”刻度', async ({ page }) => {
     await openApp(page);
