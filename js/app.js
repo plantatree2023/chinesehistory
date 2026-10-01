@@ -2072,30 +2072,35 @@
   document.addEventListener('touchcancel', function () { if (ptr.state !== 'refreshing') ptrReset(); });
 
   // ---------- 自动播放：时间轴缓缓向右前进 ----------
-  // 速度为每 PLAY_SECONDS_PER_SCREEN 秒一屏，可切换为二倍速（选择保存在浏览器中）。
-  // 页面加载后默认开始播放；手动浏览（见 stopAnim）时暂停，停止操作 IDLE_RESUME_MS 后自动继续；
-  // 用户点暂停按钮或按空格暂停后，本次访问中不再自动继续，直到再次点播放。
+  // 速度为每 PLAY_SECONDS_PER_SCREEN 秒一屏。播放按钮依次切换：暂停 → 一倍速 → 二倍速 → 暂停，
+  // 图标表示点击后的动作（▶ 播放、⏩ 二倍速、⏸ 暂停），二倍速时按钮角上显示“2×”；空格键直接播放 / 暂停。
+  // 页面加载后默认以一倍速开始播放；手动浏览（见 stopAnim）时暂停，停止操作 IDLE_RESUME_MS 后以原来的速度自动继续；
+  // 用户点暂停或按空格暂停后，本次访问中不再自动继续，直到再次点播放（从一倍速开始）。
   // 打开侧栏、弹窗或图片查看器时原地停住，关闭后继续；到达末端时停止（不自动从头开始），再次播放从头开始。
   // 系统设置了“减少动态效果”时不自动开始。
   var PLAY_SECONDS_PER_SCREEN = 30;
-  var IDLE_RESUME_MS = 8000;
-  var SPEED_KEY = 'zh-history-timeline:speed';
+  var IDLE_RESUME_MS = 3000;
   var playing = false, playRaf = null, playLast = 0;
   var userPaused = false;     // 用户手动暂停（本次访问）
   var idleT = null;
   var playSpeed = 1;
-  var playBtn = $('playToggle'), speedBtn = $('speedToggle');
+  var playBtn = $('playToggle');
   // 自动开始：测试可以通过 window.TIMELINE_AUTOPLAY = false 关闭
   function autoplayAllowed() {
     if (window.TIMELINE_AUTOPLAY === false) return false;
     return !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   }
-  function setPlaying(on) {
-    playing = on;
-    playBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
-    var label = on ? '暂停自动播放' : '自动播放';
+  function updatePlayBtn() {
+    playBtn.setAttribute('aria-pressed', playing ? 'true' : 'false');
+    playBtn.dataset.speed = String(playSpeed);
+    var label = !playing ? '自动播放' : playSpeed === 2 ? '暂停自动播放（当前二倍速）' : '切换为二倍速播放';
     playBtn.setAttribute('aria-label', label);
-    playBtn.title = label + '（空格）';
+    playBtn.title = label + (playing ? '（空格暂停）' : '（空格）');
+  }
+  function setPlaying(on, speed) {
+    playing = on;
+    if (speed) playSpeed = speed;
+    updatePlayBtn();
     if (playRaf) cancelAnimationFrame(playRaf);
     playRaf = null;
     if (!on) return;
@@ -2128,28 +2133,21 @@
     if (anim || drag.active || openStack.length || sidebarOpen || !$('lightbox').hidden) { noteActivity(); return; }
     setPlaying(true);
   }
-  function togglePlay() {
-    if (playing) { userPaused = true; clearTimeout(idleT); setPlaying(false); return; }
+  function pauseByUser() { userPaused = true; clearTimeout(idleT); setPlaying(false); }
+  function startByUser() {
     userPaused = false;
     if (anim) { cancelAnimationFrame(anim); anim = null; }
     if (atEnd()) setOffset(0);   // 已在末端：从头开始
-    setPlaying(true);
+    setPlaying(true, 1);
   }
-  playBtn.addEventListener('click', togglePlay);
-  // 播放速度：1× / 2×
-  function setSpeed(v, save) {
-    playSpeed = v === 2 ? 2 : 1;
-    speedBtn.textContent = playSpeed + '×';
-    speedBtn.setAttribute('aria-pressed', playSpeed === 2 ? 'true' : 'false');
-    var label = playSpeed === 2 ? '二倍速播放中，点击恢复正常速度' : '切换为二倍速播放';
-    speedBtn.setAttribute('aria-label', label);
-    speedBtn.title = label;
-    if (save) { try { localStorage.setItem(SPEED_KEY, String(playSpeed)); } catch (e) { /* noop */ } }
-  }
-  var savedSpeed = null;
-  try { savedSpeed = localStorage.getItem(SPEED_KEY); } catch (e) { /* noop */ }
-  setSpeed(savedSpeed === '2' ? 2 : 1, false);
-  speedBtn.addEventListener('click', function () { setSpeed(playSpeed === 2 ? 1 : 2, true); });
+  // 空格：播放 / 暂停
+  function togglePlay() { if (playing) pauseByUser(); else startByUser(); }
+  // 播放按钮：暂停 → 一倍速 → 二倍速 → 暂停
+  playBtn.addEventListener('click', function () {
+    if (!playing) startByUser();
+    else if (playSpeed === 1) setPlaying(true, 2);
+    else pauseByUser();
+  });
   // 空格键：播放 / 暂停（焦点在输入框、按钮等控件上或有弹窗时不处理）
   document.addEventListener('keydown', function (e) {
     if (e.key !== ' ' || e.ctrlKey || e.metaKey || e.altKey) return;

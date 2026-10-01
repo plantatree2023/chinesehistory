@@ -111,7 +111,7 @@ body:not(.debug-mode) .debug-only { display: none !important; }
   align-items: center;
   gap: 16px;
   min-height: 52px;
-  padding: 6px 284px 6px 20px;   /* 右侧留给六个圆形按钮（36px，间距 8px）；调试模式另有两个 */
+  padding: 6px 240px 6px 20px;   /* 右侧留给五个圆形按钮（36px，间距 8px）；调试模式另有两个 */
   /* 下沿色条随当前时期变色（--era-color 由脚本设置） */
   border-bottom: 3px solid var(--era-color, var(--line));
   background: var(--bar-bg);
@@ -120,7 +120,7 @@ body:not(.debug-mode) .debug-only { display: none !important; }
   transition: border-color .4s ease;
 }
 body.bars-hidden .topbar, body.bars-hidden .bottombar, body.bars-hidden .debug-bar { display: none; }
-body.debug-mode .topbar { padding-right: 372px; }   /* 调试模式多 GitHub、清除缓存两个按钮 */
+body.debug-mode .topbar { padding-right: 328px; }   /* 调试模式多 GitHub、清除缓存两个按钮 */
 
 /* 调试模式：顶栏下方的网站更新时间 */
 .debug-bar {
@@ -166,7 +166,7 @@ body.debug-mode .topbar { padding-right: 372px; }   /* 调试模式多 GitHub、
 
 /* 清除缓存：进行中图标旋转 */
 .clear-cache.busy svg { animation: btn-spin .8s linear infinite; }
-/* 右上角的圆形按钮（从左到右）：GitHub 仓库、清除缓存（这两个仅调试模式）、自动播放、播放速度、背景音乐、深色模式、分享、显示 / 隐藏工具栏 */
+/* 右上角的圆形按钮（从左到右）：GitHub 仓库、清除缓存（这两个仅调试模式）、自动播放（含二倍速）、背景音乐、深色模式、分享、显示 / 隐藏工具栏 */
 .corner-btns {
   position: fixed;
   top: 8px;                 /* 在 52px 高的顶栏中垂直居中 */
@@ -191,12 +191,25 @@ body.debug-mode .topbar { padding-right: 372px; }   /* 调试模式多 GitHub、
 .corner-btn:hover { color: var(--red); }
 .corner-btn svg { display: block; }
 body.bars-hidden .theme-toggle, body.bars-hidden .github-link, body.bars-hidden .clear-cache { display: none; }      /* 隐藏工具栏时不显示深色模式按钮，播放、音乐、恢复按钮保留 */
-.play-toggle .icon-pause, .play-toggle[aria-pressed="true"] .icon-play { display: none; }
-.play-toggle[aria-pressed="true"] .icon-pause { display: block; }
+/* 播放按钮：图标表示点击后的动作。暂停时 ▶；一倍速播放时 ⏩（切换二倍速）；二倍速时 ⏸，角上显示“2×” */
+.play-toggle { position: relative; }
+.play-toggle .icon-pause, .play-toggle .icon-fast, .play-toggle[aria-pressed="true"] .icon-play { display: none; }
+.play-toggle[aria-pressed="true"][data-speed="1"] .icon-fast { display: block; }
+.play-toggle[aria-pressed="true"][data-speed="2"] .icon-pause { display: block; }
+.play-toggle[aria-pressed="true"][data-speed="2"]::after {
+  content: "2×";
+  position: absolute;
+  right: -5px;
+  bottom: -4px;
+  padding: 0 3px;
+  border-radius: 6px;
+  background: var(--red);
+  color: #fff;
+  font: 700 9px/13px var(--font-sans);
+  letter-spacing: -.02em;
+  pointer-events: none;
+}
 .play-toggle[aria-pressed="true"] { color: var(--red); border-color: color-mix(in srgb, var(--red) 50%, var(--line)); }
-/* 播放速度：显示“1×”或“2×”，二倍速时为红色 */
-.speed-toggle { font-size: 12px; font-weight: 700; font-family: var(--font-sans); letter-spacing: -.02em; }
-.speed-toggle[aria-pressed="true"] { color: var(--red); border-color: color-mix(in srgb, var(--red) 50%, var(--line)); }
 .music-toggle .icon-muted, .music-toggle[aria-pressed="false"] .icon-sound { display: none; }
 .music-toggle[aria-pressed="false"] .icon-muted { display: block; }
 .music-toggle[aria-pressed="false"] { color: var(--muted); }
@@ -1151,7 +1164,6 @@ body.bars-hidden .fab { bottom: 18px; }
   body.debug-mode .corner-btn { width: 30px; height: 30px; }
   .corner-btns { right: 12px; gap: 6px; top: 9px; }
   .corner-btn { width: 34px; height: 34px; }
-  .share-timeline { display: none; }
   /* 窄屏：标题和当前时期分两行，最长的时期名也能完整显示 */
   .brand { font-size: clamp(15px, 5vw, 21px); letter-spacing: .04em; }
   .brand-home { display: flex; flex-direction: column; line-height: 1.15; }
@@ -1180,5 +1192,4 @@ body.bars-hidden .fab { bottom: 18px; }
   body.debug-mode .topbar { padding-right: 203px; }
   body.debug-mode .corner-btns { gap: 2px; top: 13.5px; }
   body.debug-mode .corner-btn { width: 25px; height: 25px; }
-  .speed-toggle { font-size: 11px; }
 }
