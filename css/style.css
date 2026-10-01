@@ -1119,6 +1119,7 @@ body.bars-hidden .fab { bottom: 18px; }
   .topbar { padding: 6px 166px 6px 16px; }   /* 四个按钮（34px，间距 6px）占右侧约 154px */
   .corner-btns { right: 12px; gap: 6px; top: 9px; }
   .corner-btn { width: 34px; height: 34px; }
+  .share-timeline { display: none; }
   /* 窄屏：标题和当前时期分两行，最长的时期名也能完整显示 */
   .brand { font-size: clamp(15px, 5vw, 21px); letter-spacing: .04em; }
   .brand-home { display: flex; flex-direction: column; line-height: 1.15; }

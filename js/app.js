@@ -2344,22 +2344,31 @@
   var shareId = null;
   var qrcodeInstance = null;
 
-  function openShareMenu(id) {
+  var shareType = null;  // 'event' 或 'timeline'
+
+  function openShareMenu(id, type) {
     shareId = id;
-    var ev = findEvent(id);
-    if (!ev) return;
+    shareType = type || 'event';
+    if (shareType === 'event') {
+      var ev = findEvent(id);
+      if (!ev) return;
+    }
     openModal('shareModal');
     $('shareQrcode').hidden = true;
     // 清空上次的二维码
     if (qrcodeInstance) {
-      $('shareQrcodeCanvas').innerHTML = '';
+      $('shareQrcodeContainer').innerHTML = '';
       qrcodeInstance = null;
     }
   }
 
   $('detailShare').addEventListener('click', function () {
     if (!detailId) return;
-    openShareMenu(detailId);
+    openShareMenu(detailId, 'event');
+  });
+
+  $('shareTimeline').addEventListener('click', function () {
+    openShareMenu(null, 'timeline');
   });
 
   // 分享菜单的各个按钮
@@ -2368,10 +2377,17 @@
     btn.addEventListener('click', function (e) {
       e.preventDefault();
       var type = this.dataset.share;
-      var ev = findEvent(shareId);
-      if (!ev) return;
-      var url = shareUrl(ev.id);
-      var title = ev.title + ' · ' + BASE_TITLE;
+      var url, title;
+
+      if (shareType === 'timeline') {
+        url = location.origin + location.pathname;
+        title = BASE_TITLE;
+      } else {
+        var ev = findEvent(shareId);
+        if (!ev) return;
+        url = shareUrl(ev.id);
+        title = ev.title + ' · ' + BASE_TITLE;
+      }
 
       if (type === 'copy') {
         copyText(url).then(function () { toast('链接已复制'); }, function () { toast('请复制链接：' + url); });
@@ -2404,9 +2420,9 @@
 
   function showWechatQrcode(url) {
     $('shareQrcode').hidden = false;
-    var canvas = $('shareQrcodeCanvas');
-    canvas.innerHTML = '';
-    qrcodeInstance = new QRCode(canvas, {
+    var container = $('shareQrcodeContainer');
+    container.innerHTML = '';
+    qrcodeInstance = new QRCode(container, {
       text: url,
       width: 200,
       height: 200,
