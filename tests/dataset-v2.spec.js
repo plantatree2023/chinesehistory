@@ -38,6 +38,18 @@ test('cn_zh-v2 的事件按年份排列，标题不重复，说明长度合适',
   });
 });
 
+test('cn_zh-v2 的维基百科链接标题为“维基百科 - 条目名”', () => {
+  const { events } = read(ID);
+  const problems = [];
+  for (const e of events) {
+    for (const s of e.sources) {
+      if (!/^https:\/\/zh\.wikipedia\.org\/wiki\/\S+$/.test(s.url)) continue;
+      if (!/^维基百科 - \S.*$/.test(s.title || '')) problems.push(`${e.title}：${s.title || '（无标题）'}`);
+    }
+  }
+  expect(problems).toEqual([]);
+});
+
 test('cn_zh-v2 的图片都是 images/ 下的本地文件，尺寸与记录一致，同一事件内没有重复', () => {
   const { events } = read(ID);
   const problems = [];
