@@ -15,7 +15,7 @@ const ROOT = path.resolve(__dirname, '..');
 const SCRIPT = path.join(ROOT, 'tools', 'wiki-import.js');
 const REPO_DATA = path.join(ROOT, 'data', 'cn_zh.json');
 const sha256 = (file) => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
-const LONG_TEXT = '这是一段很长的维基百科简介文字，用来检验详细说明会在句末截断并控制在三百五十字以内。'.repeat(12);
+const LONG_TEXT = '这是一段很长的维基百科简介文字，用来检验详细说明会在句末截断并控制在六百字以内。'.repeat(20);
 
 // 模拟的维基条目：summary（简介）、media（图片列表）、entity（Wikidata 时间）
 function page(title, extract, { qid, images = [], thumbnail } = {}) {
@@ -158,7 +158,9 @@ test.describe('单个关键词', () => {
     expect(r.stdout).toContain('重要程度 6 根据 Wikidata 语言版本数（50 个）估算，请核对');
     expect(ev.sources).toEqual([{ url: `${base}/wiki/${encodeURIComponent('测试战役')}` }]);
     expect(ev).not.toHaveProperty('source');
-    expect(ev.detail.length).toBeLessThanOrEqual(350);
+    expect(ev.detail.length).toBeLessThanOrEqual(600);
+    expect(ev.detail.length, '超过 350 字的说明不再截短').toBeGreaterThan(350);
+    expect(ev.detail).toMatch(/。$/);   // 在句末截断
     expect(ev.detail).not.toContain('英语');
     expect(charCount(ev.short)).toBeGreaterThanOrEqual(20);
     expect(ev.short.length).toBeLessThanOrEqual(60);

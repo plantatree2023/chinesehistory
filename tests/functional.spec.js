@@ -95,7 +95,7 @@ test.describe('时间轴浏览', () => {
 test.describe('事件详情', () => {
   test.use({ debugMode: true });
 
-  test('点击卡片打开详情，说明不超过 350 字', async ({ page }) => {
+  test('点击卡片打开详情，说明不超过 600 字', async ({ page }) => {
     await openApp(page);
     const card = await visibleCard(page);
     const title = await card.locator('.card-title').textContent();
@@ -104,7 +104,7 @@ test.describe('事件详情', () => {
     await expect(page.locator('#detailTitle')).toHaveText(title);
     const text = await page.locator('#detailText').textContent();
     expect(text.length).toBeGreaterThan(0);
-    expect(text.length).toBeLessThanOrEqual(350);
+    expect(text.length).toBeLessThanOrEqual(600);
     await expect(page.locator('#detailEdit')).toBeVisible();
     await expect(page.locator('#detailDelete')).toBeVisible();
   });
@@ -356,8 +356,8 @@ test.describe('新增事件', () => {
     await page.selectOption('#editForm [name=era]', 'bce');
     await page.fill('#editForm [name=yearAbs]', '500');
     await page.fill('#editForm [name=short]', '这是一段用于自动化测试的简要说明文字，长度超过二十个字。');
-    await page.fill('#editForm [name=detail]', '详细'.repeat(200));
-    expect((await page.inputValue('#editForm [name=detail]')).length).toBe(350);
+    await page.fill('#editForm [name=detail]', '详细'.repeat(350));
+    expect((await page.inputValue('#editForm [name=detail]')).length).toBe(600);
 
     // 一次上传 10 张，只保留 9 张
     const dir = path.join(__dirname, '..', 'images');

@@ -41,7 +41,7 @@ const { validateDataset, writeAtomic, DATASET_ID } = require('../server');
 const { imageSize, saveImage, MAX_IMAGE_BYTES, USER_AGENT } = require('../lib/images');
 
 const MAX_IMAGES = 9;
-const MAX_DETAIL = 350;
+const MAX_DETAIL = 600;
 const MAX_SHORT = 60;
 const MIN_SUMMARY = 20;
 const PUNCT = /[\s，。、；：“”‘’《》〈〉（）【】！？·—…,.;:()[\]!?"'-]/g;
@@ -245,7 +245,7 @@ function sentences(text) {
   return text.match(/[^。！？!?]+[。！？!?]?/g) || [];
 }
 
-// 详细说明：在句末处截断到 350 字以内；首句过长时硬截断
+// 详细说明：在句末处截断到 MAX_DETAIL（600）字以内；首句过长时硬截断
 function makeDetail(text) {
   if (text.length <= MAX_DETAIL) return text;
   let out = '';

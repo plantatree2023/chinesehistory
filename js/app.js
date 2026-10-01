@@ -11,7 +11,7 @@
   var STORAGE_KEY = 'zh-history-timeline:v1:' + dataset;
   var LEGACY_STORAGE_KEY = 'zh-history-timeline:v1';   // 旧版本（仅中国数据）使用的键
   var MAX_IMAGES = 9;
-  var MAX_DETAIL = 350;
+  var MAX_DETAIL = 600;
   // 任意一屏宽度内最多显示的事件数：大屏幕（时间轴区域宽度不小于 LARGE_SCREEN_W）上放宽到 8 个，
   // 其余（笔记本、平板、手机）为 6 个。窗口大小变化时会重新排版
   var MAX_PER_SCREEN = 6, MAX_PER_SCREEN_LARGE = 8, LARGE_SCREEN_W = 1600;
@@ -1523,7 +1523,7 @@
     var err = '';
     if (!title) err = '请填写事件名称';
     else if (!yAbs || yAbs < 1) err = '请填写有效的年份（正整数）';
-    else if (form.detail.value.length > MAX_DETAIL) err = '详细说明不能超过 350 字';
+    else if (form.detail.value.length > MAX_DETAIL) err = '详细说明不能超过 ' + MAX_DETAIL + ' 字';
     else if (charCount(form.short.value) < MIN_SUMMARY && charCount(form.detail.value) < MIN_SUMMARY) err = '请至少填写 20 字的说明（简要说明或详细说明），时间轴上会显示这段文字';
     var tFrom = form.transitionFrom.value, tTo = form.transitionTo.value;
     if (!err) err = sourcesError();
