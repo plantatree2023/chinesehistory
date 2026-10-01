@@ -208,11 +208,16 @@ body.bars-hidden .bars-toggle .icon-collapse { display: block; }
   overflow: hidden;
   text-overflow: ellipsis;
 }
-/* 标题整体是一个按钮：点击回到时间轴开头。外观与普通标题相同 */
-.brand-home { all: unset; cursor: pointer; }
+/* 标题整体是一个链接：点击回到时间轴开头。外观与普通标题完全相同（不显示按钮样式、悬浮不变色），
+   只在用键盘聚焦时显示轮廓 */
+.brand-home {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
 .brand-home:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 4px; }
-.brand-home:hover .brand-name { color: var(--red); }
-.brand-name { transition: color .15s; }
 /* 当前时期：跟在标题后，用该时期的颜色（略加深以保证可读性） */
 .brand-era {
   font-size: .72em;           /* 比标题小一号，按标题字号等比缩放 */
@@ -513,12 +518,14 @@ body.bars-hidden .bars-toggle .icon-collapse { display: block; }
   color: var(--ink-2);
   z-index: 6;
   box-shadow: var(--shadow);
-  transition: color .15s, background .15s, box-shadow .15s;
+  transition: color .15s, background .15s, box-shadow .15s, opacity .2s, visibility .2s;
 }
 .nav-arrow svg { display: block; }
 .nav-arrow:hover { color: var(--red); background: var(--card); box-shadow: var(--shadow), 0 0 0 3px rgba(168, 50, 42, .12); }
 .nav-arrow:active { transform: translateY(-50%) scale(.94); }
 .nav-arrow.left { left: 10px; }
+/* 已到最左 / 最右：隐藏对应的按钮（淡出，不能点击） */
+.nav-arrow.at-end { opacity: 0; visibility: hidden; pointer-events: none; }
 .nav-arrow.right { right: 10px; }
 
 /* ---------- 底栏 ---------- */

@@ -94,6 +94,30 @@ for (const viewport of [{ width: 390, height: 780 }, { width: 320, height: 640 }
 test.describe('点击标题回到开头', () => {
   test.use({ viewport: { width: 1440, height: 860 } });
 
+  test('标题外观与普通标题完全一致：没有按钮样式，悬浮不变色，左边距不变', async ({ page }) => {
+    await openApp(page);
+    const read = () => page.evaluate(() => {
+      const a = document.getElementById('homeBtn');
+      const cs = getComputedStyle(a);
+      const name = document.querySelector('.brand-name');
+      return {
+        tag: a.tagName, padding: cs.padding, margin: cs.margin, border: cs.borderTopWidth, bg: cs.backgroundColor,
+        deco: cs.textDecorationLine, display: cs.display, nameColor: getComputedStyle(name).color,
+        ink: getComputedStyle(document.body).color, left: Math.round(name.getBoundingClientRect().left),
+      };
+    });
+    const before = await read();
+    expect(before).toMatchObject({ tag: 'A', padding: '0px', margin: '0px', border: '0px', bg: 'rgba(0, 0, 0, 0)', deco: 'none', display: 'inline' });
+    expect(before.nameColor).toBe(before.ink);
+    expect(before.left).toBe(20);                     // 与顶栏左内边距一致（原来的位置）
+    await page.hover('.brand-name');
+    const hovered = await read();
+    expect(hovered.nameColor, '悬浮时不变色').toBe(before.ink);
+    // 鼠标点击后不显示焦点轮廓
+    await page.click('.brand-name');
+    expect(await page.locator('#homeBtn').evaluate((a) => getComputedStyle(a).outlineStyle)).toBe('none');
+  });
+
   test('拖到后面后点击左上角标题，平滑回到时间轴开头', async ({ page }) => {
     await openApp(page);
     await page.locator('#stage').focus();

@@ -917,7 +917,7 @@
   stage.addEventListener('keydown', navKeys);
   $('minimap').addEventListener('keydown', navKeys);
   // 点击左上角标题：回到时间轴开头
-  $('homeBtn').addEventListener('click', function () { stopAnim(); animateTo(0, 600); });
+  $('homeBtn').addEventListener('click', function (e) { e.preventDefault(); stopAnim(); animateTo(0, 600); });
   $('navLeft').addEventListener('click', function () { animateTo(offset + viewW() * 0.7, 500); });
   $('navRight').addEventListener('click', function () { animateTo(offset - viewW() * 0.7, 500); });
 
@@ -1030,6 +1030,9 @@
     minimapView.style.width = (width * 100) + '%';
     var span = layout.width - viewW();
     minimap.setAttribute('aria-valuenow', String(span > 0 ? Math.round(-offset / span * 100) : 0));
+    // 到达最左 / 最右时隐藏对应的翻页按钮
+    $('navLeft').classList.toggle('at-end', offset >= -0.5);
+    $('navRight').classList.toggle('at-end', offset <= minOffset() + 0.5);
     var y = yearAtX(-offset + viewW() / 2);
     var era = y == null ? null : eraOf(y);
     if ((era ? era.name : '') !== headerEra) {

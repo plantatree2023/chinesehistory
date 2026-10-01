@@ -61,6 +61,27 @@ test.describe('时间轴浏览', () => {
     await expect.poll(() => trackOffset(page)).toBeGreaterThan(moved + 500);
   });
 
+  test('到达最左 / 最右时隐藏对应的翻页按钮', async ({ page }) => {
+    await openApp(page);
+    const left = page.locator('#navLeft'), right = page.locator('#navRight');
+    // 开头：只显示向右
+    await expect(left).toBeHidden();
+    await expect(right).toBeVisible();
+    await right.click();
+    await expect(left).toBeVisible();
+    await expect(right).toBeVisible();
+    // 末尾：只显示向左
+    await page.locator('#stage').focus();
+    await page.keyboard.press('End');
+    await expect(right).toBeHidden();
+    await expect(left).toBeVisible();
+    await left.click();
+    await expect(right).toBeVisible();
+    // 回到开头后向左按钮再次隐藏
+    await page.keyboard.press('Home');
+    await expect(left).toBeHidden();
+  });
+
   test('键盘 End / Home 跳到时间轴两端', async ({ page }) => {
     await openApp(page);
     await page.locator('#stage').focus();
