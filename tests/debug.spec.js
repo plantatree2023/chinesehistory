@@ -229,6 +229,7 @@ test.describe('GitHub 仓库按钮', () => {
     const xs = await page.evaluate(() => [...document.querySelectorAll('.corner-btns > *')]
       .filter((b) => b.offsetParent).map((b) => ({ id: b.id, x: b.getBoundingClientRect().x })));
     expect(xs[0].id).toBe('githubLink');
+    expect(xs[1].id, '清除缓存按钮紧挨在 GitHub 按钮右边').toBe('clearCacheBtn');
     expect(Math.min(...xs.map((b) => b.x))).toBe(xs[0].x);
     // 关闭调试模式后再次隐藏
     await page.click('#browseBtn');
@@ -253,6 +254,9 @@ test.describe('GitHub 仓库按钮', () => {
           if (i) expect(boxes[i - 1].x + boxes[i - 1].width).toBeLessThan(boxes[i].x);
         }
         expect(brand.x + brand.width, '标题不被按钮遮挡').toBeLessThanOrEqual(boxes[0].x);
+        // 标题文字完整显示（没有被截断成省略号）
+        const clipped = await page.evaluate(() => [...document.querySelectorAll('.brand, .brand-name')].some((e) => e.scrollWidth > e.clientWidth + 0.5));
+        expect(clipped, '标题被截断').toBe(false);
         expect(boxes[boxes.length - 1].x + boxes[boxes.length - 1].width).toBeLessThanOrEqual(viewport.width - 8);
         expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(viewport.width);
       });
@@ -267,5 +271,73 @@ test.describe('GitHub 仓库按钮', () => {
     await expect(page.locator('#githubLink')).toBeHidden();
     await page.click('#barsToggle');
     await expect(page.locator('#githubLink')).toBeVisible();
+  });
+});
+
+test.describe('清除缓存按钮', () => {
+  test('默认不显示；调试模式下显示在 GitHub 按钮右边', async ({ page }) => {
+    await openApp(page);
+    await expect(page.locator('#clearCacheBtn')).toBeHidden();
+    await page.evaluate((k) => localStorage.setItem(k, '1'), DEBUG_KEY);
+    await page.reload();
+    await expect(page.locator('#clearCacheBtn')).toBeVisible();
+    await expect(page.locator('#clearCacheBtn')).toHaveAttribute('aria-label', '清除缓存并刷新');
+    const gh = await page.locator('#githubLink').boundingBox();
+    const cc = await page.locator('#clearCacheBtn').boundingBox();
+    const play = await page.locator('#playToggle').boundingBox();
+    expect(gh.x).toBeLessThan(cc.x);
+    expect(cc.x).toBeLessThan(play.x);
+  });
+
+  test.describe('调试模式', () => {
+    test.use({ debugMode: true });
+
+    test('点击后绕过缓存重新下载网页、代码、样式和数据，然后刷新；保存在浏览器中的修改和设置不受影响', async ({ page }) => {
+      await openApp(page);
+      // 记录以 cache: 'reload'（绕过并更新浏览器缓存）方式发出的请求；记在 sessionStorage 中，刷新后仍可读取
+      await page.addInitScript(() => {
+        const real = window.fetch;
+        window.fetch = function (url, init) {
+          if (init && init.cache === 'reload') {
+            const list = JSON.parse(sessionStorage.getItem('__refetch') || '[]');
+            list.push(new URL(url, location.href).pathname);
+            sessionStorage.setItem('__refetch', JSON.stringify(list));
+          }
+          return real.apply(this, arguments);
+        };
+      });
+      await page.reload();
+      await expect(page.locator('.card').first()).toBeVisible();
+      await page.evaluate(() => {
+        localStorage.setItem('zh-history-timeline:theme', 'dark');
+        window.__beforeReload = true;
+      });
+      const stored = await page.evaluate(() => JSON.stringify(Object.entries(localStorage).sort()));
+      await Promise.all([
+        page.waitForEvent('load'),
+        page.click('#clearCacheBtn'),
+      ]);
+      await expect(page.locator('.card').first()).toBeVisible();
+      // 已经刷新（页面中的变量不在了）
+      expect(await page.evaluate(() => window.__beforeReload)).toBeUndefined();
+      const refetched = await page.evaluate(() => JSON.parse(sessionStorage.getItem('__refetch') || '[]'));
+      for (const f of ['/', '/css/style.css', '/js/app.js', '/data/cn_zh.json', '/version.json']) {
+        expect(refetched, f).toContain(f);
+      }
+      // 图片、音乐不重新下载
+      expect(refetched.filter((p) => /^\/(images|audio)\//.test(p))).toEqual([]);
+      // 浏览器中保存的内容（修改、设置）原样保留
+      expect(await page.evaluate(() => JSON.stringify(Object.entries(localStorage).sort()))).toBe(stored);
+      expect(await page.evaluate(() => document.documentElement.getAttribute('data-theme'))).toBe('dark');
+    });
+
+    test('某个文件下载失败时仍然刷新', async ({ page }) => {
+      await openApp(page);
+      await page.route('**/css/style.css', (route) => route.request().resourceType() === 'fetch' ? route.abort() : route.continue());
+      await page.evaluate(() => { window.__beforeReload = true; });
+      await Promise.all([page.waitForEvent('load'), page.click('#clearCacheBtn')]);
+      await expect(page.locator('.card').first()).toBeVisible();
+      expect(await page.evaluate(() => window.__beforeReload)).toBeUndefined();
+    });
   });
 });

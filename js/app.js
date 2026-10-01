@@ -2228,6 +2228,48 @@
     if (on) loadVersion();
   }
 
+  // 清除缓存并刷新（调试模式右上角）：网页代码、样式、数据等文件可能还是浏览器缓存的旧版本
+  // （GitHub Pages 允许缓存 10 分钟）。先逐个重新下载这些文件（cache: 'reload' 会更新浏览器缓存），
+  // 再刷新页面，刷新后用的就是最新版本。编辑保存在浏览器中的修改、设置等不受影响。
+  function siteFiles() {
+    var urls = [location.href.split('#')[0], 'version.json'];
+    document.querySelectorAll('link[rel="stylesheet"][href], script[src]').forEach(function (n) { urls.push(n.href || n.src); });
+    if (window.performance && performance.getEntriesByType) {
+      performance.getEntriesByType('resource').forEach(function (r) {
+        // 图片和音乐体积大、内容不会原地变化（图片按内容命名），不重新下载
+        if (/^(link|script|css|fetch|xmlhttprequest|other)$/.test(r.initiatorType)) urls.push(r.name);
+      });
+    }
+    var seen = {};
+    return urls.filter(function (u) {
+      var url;
+      try { url = new URL(u, location.href); } catch (e) { return false; }
+      if (url.origin !== location.origin || /\/(images|audio|api)\//.test(url.pathname)) return false;
+      url.hash = '';
+      if (seen[url.href]) return false;
+      return (seen[url.href] = true);
+    });
+  }
+  var clearingCache = false;
+  $('clearCacheBtn').addEventListener('click', function () {
+    if (clearingCache) return;
+    clearingCache = true;
+    var btn = $('clearCacheBtn');
+    btn.classList.add('busy');
+    btn.setAttribute('aria-busy', 'true');
+    toast('正在清除缓存、获取最新版本…');
+    var jobs = siteFiles().map(function (u) {
+      return fetch(u, { cache: 'reload' }).catch(function () { /* 某个文件失败不影响其他文件和刷新 */ });
+    });
+    // 网站没有使用 Service Worker；以防万一也清除 Cache Storage
+    if (window.caches && caches.keys) {
+      jobs.push(caches.keys().then(function (keys) {
+        return Promise.all(keys.map(function (k) { return caches.delete(k); }));
+      }).catch(function () {}));
+    }
+    Promise.all(jobs).then(function () { location.reload(); });
+  });
+
   // version.json：部署时由 GitHub Actions 生成（每次 push 都会更新）；本地服务器根据 git 最近一次提交生成
   function loadVersion() {
     if (versionRequest) return versionRequest;

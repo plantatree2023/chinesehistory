@@ -120,7 +120,7 @@ body:not(.debug-mode) .debug-only { display: none !important; }
   transition: border-color .4s ease;
 }
 body.bars-hidden .topbar, body.bars-hidden .bottombar, body.bars-hidden .debug-bar { display: none; }
-body.debug-mode .topbar { padding-right: 284px; }
+body.debug-mode .topbar { padding-right: 328px; }   /* 调试模式多 GitHub、清除缓存两个按钮 */
 
 /* 调试模式：顶栏下方的网站更新时间 */
 .debug-bar {
@@ -164,7 +164,9 @@ body.debug-mode .topbar { padding-right: 284px; }
 .ptr.refreshing .ptr-icon { animation: ptr-spin .8s linear infinite; }
 @keyframes ptr-spin { to { transform: rotate(360deg); } }
 
-/* 右上角的圆形按钮（从左到右）：GitHub 仓库（仅调试模式）、自动播放、背景音乐、深色模式、分享、显示 / 隐藏工具栏 */
+/* 清除缓存：进行中图标旋转 */
+.clear-cache.busy svg { animation: btn-spin .8s linear infinite; }
+/* 右上角的圆形按钮（从左到右）：GitHub 仓库、清除缓存（这两个仅调试模式）、自动播放、背景音乐、深色模式、分享、显示 / 隐藏工具栏 */
 .corner-btns {
   position: fixed;
   top: 8px;                 /* 在 52px 高的顶栏中垂直居中 */
@@ -188,7 +190,7 @@ body.debug-mode .topbar { padding-right: 284px; }
 }
 .corner-btn:hover { color: var(--red); }
 .corner-btn svg { display: block; }
-body.bars-hidden .theme-toggle, body.bars-hidden .github-link { display: none; }      /* 隐藏工具栏时不显示深色模式按钮，播放、音乐、恢复按钮保留 */
+body.bars-hidden .theme-toggle, body.bars-hidden .github-link, body.bars-hidden .clear-cache { display: none; }      /* 隐藏工具栏时不显示深色模式按钮，播放、音乐、恢复按钮保留 */
 .play-toggle .icon-pause, .play-toggle[aria-pressed="true"] .icon-play { display: none; }
 .play-toggle[aria-pressed="true"] .icon-pause { display: block; }
 .play-toggle[aria-pressed="true"] { color: var(--red); border-color: color-mix(in srgb, var(--red) 50%, var(--line)); }
@@ -1140,7 +1142,10 @@ body.bars-hidden .fab { bottom: 18px; }
 /* ---------- 自适应 ---------- */
 @media (max-width: 640px) {
   .topbar { padding: 6px 166px 6px 16px; }   /* 四个按钮（34px，间距 6px）占右侧约 154px */
-  body.debug-mode .topbar { padding-right: 206px; }   /* 调试模式多一个 GitHub 按钮 */
+  /* 调试模式多两个按钮：六个按钮缩小为 30px、间距 4px，共 200px */
+  body.debug-mode .topbar { padding-right: 216px; }
+  body.debug-mode .corner-btns { gap: 4px; }
+  body.debug-mode .corner-btn { width: 30px; height: 30px; }
   .corner-btns { right: 12px; gap: 6px; top: 9px; }
   .corner-btn { width: 34px; height: 34px; }
   .share-timeline { display: none; }
@@ -1162,4 +1167,10 @@ body.bars-hidden .fab { bottom: 18px; }
   .field-row { flex-wrap: wrap; }
   .field-row .field.grow { flex-basis: 100%; }
   .detail-hero img, .detail-hero .img-placeholder { height: 220px; }
+}
+@media (max-width: 400px) {
+  /* 很窄的屏幕：调试模式的六个按钮再缩小（28px、间距 3px，共 183px），标题完整显示 */
+  body.debug-mode .topbar { padding-right: 201px; }
+  body.debug-mode .corner-btns { gap: 3px; }
+  body.debug-mode .corner-btn { width: 28px; height: 28px; }
 }
