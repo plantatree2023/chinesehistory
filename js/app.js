@@ -99,6 +99,21 @@
     for (var i = 0; i < TYPES.length; i++) if (TYPES[i].name === name) return TYPES[i];
     return { name: name, color: UNTYPED_COLOR };
   }
+  function typeParamOf(name) {
+    if (!name) return 'none';
+    var t = typeInfo(name);
+    return t.key || name;
+  }
+  function typeNameOfParam(v) {
+    if (v === 'none') return '';
+    for (var i = 0; i < TYPES.length; i++) if (TYPES[i].key === v || TYPES[i].name === v) return TYPES[i].name;
+    return events.some(function (ev) { return ev.type === v; }) ? v : null;
+  }
+  // 逗号分隔的列表参数
+  function listParam(p, name) {
+    var v = p.get(name);
+    return v ? v.split(',').map(function (x) { return x.trim(); }).filter(function (x) { return x !== ''; }) : [];
+  }
   function typesWithEvents(counts) {
     var out = TYPES.filter(function (t) { return counts[t.name] > 0; });
     Object.keys(counts).forEach(function (name) {
@@ -790,6 +805,7 @@
   function minOffset() { return Math.min(0, viewW() - layout.width); }
   function setOffset(v) {
     offset = clamp(v, minOffset(), 0);
+    syncUrlSoon();
     track.style.transform = 'translate3d(' + offset + 'px,0,0)';
     updateViewIndicators();
     if (tipShown) hideEraTip();
@@ -1086,8 +1102,10 @@
     if (openStack.indexOf(id) < 0) openStack.push(id);
   }
   function closeModal(id) {
+    var wasOpen = !$(id).hidden;
     $(id).hidden = true;
     openStack = openStack.filter(function (x) { return x !== id; });
+    if (id === 'detailModal' && wasOpen) onLayerClosed('detail');
   }
   Array.prototype.forEach.call(document.querySelectorAll('.modal'), function (m) {
     m.addEventListener('click', function (e) {
@@ -1121,6 +1139,7 @@
   function openDetail(id) {
     var ev = findEvent(id);
     if (!ev) return;
+    var wasOpen = !$('detailModal').hidden;
     detailId = id;
     var imgs = ev.images || [];
     var hero = $('detailHero');
@@ -1168,6 +1187,7 @@
     }
     openModal('detailModal');
     $('detailModal').querySelector('.modal-card').scrollTop = 0;
+    if (wasOpen) syncUrl(false); else onLayerOpened('detail');
   }
   $('detailEdit').addEventListener('click', function () {
     closeModal('detailModal');
@@ -1552,6 +1572,7 @@
   var sidebarOpen = false;
   var activeListId = null;
   function openSidebar() {
+    var wasOpen = sidebarOpen;
     sidebarOpen = true;
     renderList();
     $('sidebarScrim').hidden = false;
@@ -1559,17 +1580,20 @@
     $('sidebar').setAttribute('aria-hidden', 'false');
     var a = $('eventList').querySelector('.active');
     if (a) a.scrollIntoView({ block: 'center' });
+    if (!wasOpen) onLayerOpened('browse');
   }
   function closeSidebar() {
+    var wasOpen = sidebarOpen;
     sidebarOpen = false;
     $('sidebarScrim').hidden = true;
     $('sidebar').classList.remove('open');
     $('sidebar').setAttribute('aria-hidden', 'true');
+    if (wasOpen) onLayerClosed('browse');
   }
   $('browseBtn').addEventListener('click', openSidebar);
   $('closeSidebar').addEventListener('click', closeSidebar);
   $('sidebarScrim').addEventListener('click', closeSidebar);
-  $('searchInput').addEventListener('input', renderList);
+  $('searchInput').addEventListener('input', function () { renderList(); syncUrl(false); });
 
   // ---------- 通用多选下拉列表 ----------
   // options: [{ value, label, color, count }]；selected: 已选 value 数组；onChange(新数组)。
@@ -1680,6 +1704,8 @@
   //   test(ev, v, ctx)        事件是否符合
   //   render(box, v, set, ctx) 生成界面；调用 set(新值) 更新筛选
   //   kind                    控件类型：toggle（勾选框）、select（下拉多选）、range（范围输入）
+  //   toParams(v, out)         把筛选值写成网址参数（向 out 追加 [名称, 值]；不筛选时不写）
+  //   fromParams(params)       从网址参数（URLSearchParams）读回筛选值；无效的值忽略
   // ctx 为 filterContext() 的结果：事件、时期、各时期的事件数、年份范围等。
   // 面板中同类型的控件排在一起，按 FILTER_KIND_ORDER 的顺序（勾选框在最前）；同类型内保持下面的定义顺序。
   var FILTER_KIND_ORDER = ['toggle', 'select', 'range'];
@@ -1687,6 +1713,8 @@
     {
       id: 'major',
       kind: 'toggle',
+      toParams: function (v, out) { if (v) out.push(['major', '1']); },
+      fromParams: function (p) { return p.get('major') === '1'; },
       label: '重大事件',
       available: function (ctx) { return ctx.majorCount > 0; },
       initial: function () { return false; },
@@ -1697,6 +1725,9 @@
     {
       id: 'type',
       kind: 'select',
+      // 网址中使用类型的 key（如 war），与语言无关；“未分类”写作 none
+      toParams: function (v, out) { if (v.length) out.push(['type', v.map(typeParamOf)]); },
+      fromParams: function (p) { return listParam(p, 'type').map(typeNameOfParam).filter(function (x) { return x != null; }); },
       label: '事件类型（可多选）',
       available: function (ctx) { return ctx.typesWithEvents.some(function (t) { return t.name; }); },   // 至少有一个事件有类型
       initial: function () { return []; },
@@ -1711,6 +1742,8 @@
     {
       id: 'transition',
       kind: 'toggle',
+      toParams: function (v, out) { if (v) out.push(['transition', '1']); },
+      fromParams: function (p) { return p.get('transition') === '1'; },
       label: '时期更迭',
       available: function (ctx) { return ctx.transitionCount > 0; },
       initial: function () { return false; },
@@ -1721,6 +1754,8 @@
     {
       id: 'era',
       kind: 'select',
+      toParams: function (v, out) { if (v.length) out.push(['era', v]); },
+      fromParams: function (p) { return listParam(p, 'era').filter(function (n) { return ERAS.some(function (e) { return e.name === n; }); }); },
       label: '朝代 / 时期（可多选）',
       available: function (ctx) { return ctx.erasWithEvents.length > 0; },
       initial: function () { return []; },
@@ -1735,6 +1770,14 @@
     {
       id: 'range',
       kind: 'range',
+      toParams: function (v, out) {
+        if (v.from != null) out.push(['from', String(v.from)]);
+        if (v.to != null) out.push(['to', String(v.to)]);
+      },
+      fromParams: function (p) {
+        var num = function (k) { var n = parseInt(p.get(k), 10); return isFinite(n) && n !== 0 ? n : null; };
+        return { from: num('from'), to: num('to') };
+      },
       label: '时间范围',
       available: function (ctx) { return ctx.events.length > 1; },
       initial: function () { return { from: null, to: null }; },
@@ -1837,6 +1880,7 @@
       section.appendChild(el('h3', 'filter-title', f.label));
       f.render(section, filterState[f.id], function (value) {
         filterState[f.id] = value;
+        syncUrl(false);
         renderList();
       }, ctx);
       panel.appendChild(section);
@@ -2170,6 +2214,145 @@
     setDebugMode(on);
   })();
 
+  // ---------- 网址与浏览记录 ----------
+  // 网址参数记录当前状态，可以直接打开、刷新、分享：
+  //   id=e052        打开该事件的详情
+  //   browse         打开“浏览所有历史事件”侧栏；同时记录搜索词 q 和各筛选条件（见 FILTERS 的 toParams）
+  //   at=755         时间轴中央的年份（拖动停下后更新）
+  //   data=cn_zh     数据集（原有参数，只在打开时带有才保留）
+  // 打开详情、侧栏时新增一条浏览记录，所以浏览器的“返回”会先关闭它们；改筛选、搜索、拖动只更新当前记录。
+  // 深色模式、背景音乐、调试模式、编辑页是个人偏好或内部功能，不放进网址。
+  var BASE_TITLE = document.title;
+  var urlReady = false, applyingUrl = false, urlTimer = null;
+  var keepDataParam = new URLSearchParams(location.search).has('data');
+  function centerYear() {
+    var y = yearOfX(-offset + viewW() / 2);
+    return y == null ? null : Math.round(y);
+  }
+  function buildQuery() {
+    var out = [];
+    if (keepDataParam) out.push(['data', dataset]);
+    if (!$('detailModal').hidden && detailId && findEvent(detailId)) out.push(['id', detailId]);
+    if (sidebarOpen) {
+      out.push(['browse', '']);
+      var q = $('searchInput').value.trim();
+      if (q) out.push(['q', q]);
+      filtersByKind().forEach(function (f) { if (f.toParams) f.toParams(filterState[f.id], out); });
+    }
+    if (offset < -1) { var y = centerYear(); if (y != null) out.push(['at', String(y)]); }
+    // 逗号分隔的列表保留逗号本身，便于阅读；没有值的参数（browse）只写名称
+    return out.map(function (kv) {
+      var v = Array.isArray(kv[1]) ? kv[1].map(encodeURIComponent).join(',') : encodeURIComponent(kv[1]);
+      return kv[1] === '' ? kv[0] : kv[0] + '=' + v;
+    }).join('&');
+  }
+  function updateTitle() {
+    var ev = !$('detailModal').hidden && detailId ? findEvent(detailId) : null;
+    document.title = ev ? ev.title + ' · ' + BASE_TITLE : BASE_TITLE;
+  }
+  // push：新增一条浏览记录（layer 为 detail / browse，用于“返回”时关闭）；否则只替换当前记录
+  function syncUrl(push, layer) {
+    updateTitle();
+    if (!urlReady || applyingUrl) return;
+    clearTimeout(urlTimer);
+    var q = buildQuery();
+    var url = location.pathname + (q ? '?' + q : '') + location.hash;
+    if (push) history.pushState({ ch: true, layer: layer }, '', url);
+    else if (url !== location.pathname + location.search + location.hash) history.replaceState(history.state, '', url);
+  }
+  function syncUrlSoon() {
+    if (!urlReady || applyingUrl) return;
+    clearTimeout(urlTimer);
+    urlTimer = setTimeout(function () { syncUrl(false); }, 300);
+  }
+  function onLayerOpened(layer) { syncUrl(true, layer); }
+  // 关闭详情 / 侧栏：如果它对应我们新增的浏览记录，就退回上一条（与按“返回”效果相同）；否则只更新网址
+  function onLayerClosed(layer) {
+    if (!urlReady || applyingUrl) { updateTitle(); return; }
+    var st = history.state;
+    if (st && st.ch && st.layer === layer) history.back();
+    else syncUrl(false);
+  }
+
+  // 按网址恢复状态。initial：打开页面时（会恢复时间轴位置）；否则为浏览器的前进 / 返回
+  function applyUrl(initial) {
+    var p = new URLSearchParams(location.search);
+    applyingUrl = true;
+    try {
+      if (!$('lightbox').hidden) closeLightbox();
+      // 侧栏与筛选
+      if (p.has('browse')) {
+        FILTERS.forEach(function (f) { if (f.fromParams) filterState[f.id] = f.fromParams(p); });
+        $('searchInput').value = p.get('q') || '';
+        filterPanelKey = null;               // 按新的条件重建筛选面板
+        var anyFilter = FILTERS.some(function (f) { return f.isActive(filterState[f.id]); });
+        if (anyFilter) { $('filterPanel').hidden = false; $('filterToggle').setAttribute('aria-expanded', 'true'); }
+        if (sidebarOpen) renderList(); else openSidebar();
+      } else if (sidebarOpen) {
+        closeSidebar();
+      }
+      // 时间轴位置（只在打开页面时恢复，前进 / 返回时保持当前位置）
+      var id = p.get('id');
+      var ev = id ? findEvent(id) : null;
+      if (initial) {
+        var at = parseInt(p.get('at'), 10);
+        if (ev) {
+          var i = layout.list.indexOf(ev);
+          if (i > -1) centerOnX(layout.xs[i], false);
+        } else if (isFinite(at)) {
+          centerOnX(xOfYear(at), false);
+        }
+      }
+      // 详情
+      if (ev) {
+        if ($('detailModal').hidden || detailId !== id) openDetail(id);
+      } else {
+        if (!$('detailModal').hidden) closeModal('detailModal');
+        if (id) toast('找不到该事件：' + id);
+      }
+    } finally {
+      applyingUrl = false;
+    }
+    updateTitle();
+  }
+  window.addEventListener('popstate', function () {
+    if (!ready) return;
+    applyUrl(false);
+    syncUrl(false);
+  });
+
+  // 分享链接：只包含事件（和数据集），不带侧栏、筛选等当前浏览状态
+  function shareUrl(id) {
+    var q = (keepDataParam ? 'data=' + encodeURIComponent(dataset) + '&' : '') + 'id=' + encodeURIComponent(id);
+    return location.origin + location.pathname + '?' + q;
+  }
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text);
+    return new Promise(function (resolve, reject) {
+      var ta = el('textarea');
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { /* noop */ }
+      ta.remove();
+      if (ok) resolve(); else reject(new Error('copy failed'));
+    });
+  }
+  $('detailShare').addEventListener('click', function () {
+    var ev = findEvent(detailId);
+    if (!ev) return;
+    var url = shareUrl(ev.id);
+    // 手机等触屏设备优先使用系统分享，其余复制到剪贴板
+    var touch = window.matchMedia && matchMedia('(pointer: coarse)').matches;
+    if (touch && navigator.share) {
+      navigator.share({ title: ev.title + ' · ' + BASE_TITLE, url: url }).catch(function () { /* 用户取消 */ });
+      return;
+    }
+    copyText(url).then(function () { toast('链接已复制'); }, function () { toast('请复制链接：' + url); });
+  });
+
   // ---------- 启动 ----------
   function showLoadError(message) {
     var box = el('div', 'load-error');
@@ -2215,6 +2398,9 @@
     renderTimeline();
     setOffset(0);
     stage.focus({ preventScroll: true });
+    applyUrl(true);
+    urlReady = true;
+    syncUrl(false);   // 规范化网址（例如去掉找不到的 id）
   }).catch(function (e) {
     showLoadError(location.protocol === 'file:'
       ? '请在项目目录运行 npm start，然后通过 http://127.0.0.1:4173/ 访问。'

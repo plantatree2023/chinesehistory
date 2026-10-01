@@ -103,7 +103,9 @@ test('清除时期更迭后刷新仍保持清除', async ({ page }) => {
   await page.selectOption('#editForm [name=transitionTo]', '');
   await page.click('#editForm button[type=submit]');
   await expect(page.locator('.list-transition')).toHaveCount(0);
-  await page.reload();
+  // 打开不带参数的首页（直接刷新会按网址恢复侧栏），验证数据在新的访问中仍然保留
+  await page.goto('/');
+  await expect(page.locator('.card').first()).toBeVisible();
   await page.click('#browseBtn');
   await page.fill('#searchInput', '秦统一六国');
   await expect(page.locator('.list-item')).toHaveCount(1);

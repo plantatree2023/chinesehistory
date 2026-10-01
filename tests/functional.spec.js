@@ -143,7 +143,9 @@ test.describe('事件详情', () => {
       await expect(page.locator('#lightbox')).toBeHidden();
     };
     await check();
-    await page.reload();
+    // 打开不带参数的首页（直接刷新会按网址恢复侧栏和详情，这里要验证的是数据在新的访问中仍然保留）
+    await page.goto('/');
+    await expect(page.locator('.card').first()).toBeVisible();
     await page.click('#browseBtn');
     await page.fill('#searchInput', '安史之乱');
     await page.locator('.list-row').first().click();
@@ -245,7 +247,9 @@ test.describe('事件详情', () => {
     await expect(rows).toHaveCount(2);
     await expect(rows.nth(0).locator('.source-title')).toHaveValue('旧唐书');
     await page.click('#editForm button[type=submit]');
-    await page.reload();
+    // 打开不带参数的首页（直接刷新会按网址恢复侧栏和详情，这里要验证的是数据在新的访问中仍然保留）
+    await page.goto('/');
+    await expect(page.locator('.card').first()).toBeVisible();
     await page.click('#browseBtn');
     await page.fill('#searchInput', '安史之乱');
     await openDetailFromList();

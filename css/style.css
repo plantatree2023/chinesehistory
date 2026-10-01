@@ -956,6 +956,8 @@ body.bars-hidden .fab { bottom: 18px; }
   .source-row { flex-wrap: wrap; }
   .field .source-row .source-url { flex: 1 1 100%; }
 }
+.detail-share { margin: -6px 0 16px; }
+.detail-share .btn { gap: 5px; }
 .detail-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
 .edit-card { padding: 22px 26px 24px; }
