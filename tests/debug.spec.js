@@ -209,3 +209,63 @@ test.describe('version.json 的来源', () => {
     expect(Math.abs(Date.parse(v.updatedAt) - before)).toBeLessThan(60_000);
   });
 });
+
+test.describe('GitHub 仓库按钮', () => {
+  const REPO = 'https://github.com/plantatree2023/chinesehistory';
+
+  test('默认不显示；打开调试模式后显示在右上角所有按钮的最左侧，新窗口打开仓库', async ({ page }) => {
+    await openApp(page);
+    await expect(page.locator('#githubLink')).toBeHidden();
+    await page.click('#browseBtn');
+    await page.locator('.switch').click();
+    await page.keyboard.press('Escape');
+    const link = page.locator('#githubLink');
+    await expect(link).toBeVisible();
+    await expect(link).toHaveAttribute('href', REPO);
+    await expect(link).toHaveAttribute('target', '_blank');
+    await expect(link).toHaveAttribute('rel', /noopener/);
+    await expect(link).toHaveAttribute('aria-label', 'GitHub 仓库');
+    // 最左侧：比其他所有可见的按钮都靠左
+    const xs = await page.evaluate(() => [...document.querySelectorAll('.corner-btns > *')]
+      .filter((b) => b.offsetParent).map((b) => ({ id: b.id, x: b.getBoundingClientRect().x })));
+    expect(xs[0].id).toBe('githubLink');
+    expect(Math.min(...xs.map((b) => b.x))).toBe(xs[0].x);
+    // 关闭调试模式后再次隐藏
+    await page.click('#browseBtn');
+    await page.locator('.switch').click();
+    await expect(link).toBeHidden();
+  });
+
+  for (const viewport of [{ width: 1440, height: 860 }, { width: 390, height: 780 }, { width: 320, height: 640 }]) {
+    test.describe(`${viewport.width}×${viewport.height}`, () => {
+      test.use({ viewport, debugMode: true });
+
+      test('调试模式下按钮排成一行、在顶栏内、不遮挡标题', async ({ page }) => {
+        await openApp(page);
+        const bar = await page.locator('.topbar').boundingBox();
+        const brand = await page.locator('.brand').boundingBox();
+        const boxes = await page.evaluate(() => [...document.querySelectorAll('.corner-btns > *')]
+          .filter((b) => b.offsetParent).map((b) => b.getBoundingClientRect().toJSON()));
+        expect(boxes.length).toBeGreaterThanOrEqual(5);
+        for (let i = 0; i < boxes.length; i++) {
+          expect(boxes[i].y).toBeGreaterThanOrEqual(bar.y);
+          expect(boxes[i].y + boxes[i].height).toBeLessThanOrEqual(bar.y + bar.height);
+          if (i) expect(boxes[i - 1].x + boxes[i - 1].width).toBeLessThan(boxes[i].x);
+        }
+        expect(brand.x + brand.width, '标题不被按钮遮挡').toBeLessThanOrEqual(boxes[0].x);
+        expect(boxes[boxes.length - 1].x + boxes[boxes.length - 1].width).toBeLessThanOrEqual(viewport.width - 8);
+        expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(viewport.width);
+      });
+    });
+  }
+
+  test('隐藏工具栏时 GitHub 按钮一同隐藏', async ({ page }) => {
+    await page.addInitScript((k) => localStorage.setItem(k, '1'), DEBUG_KEY);
+    await openApp(page);
+    await expect(page.locator('#githubLink')).toBeVisible();
+    await page.click('#barsToggle');
+    await expect(page.locator('#githubLink')).toBeHidden();
+    await page.click('#barsToggle');
+    await expect(page.locator('#githubLink')).toBeVisible();
+  });
+});
