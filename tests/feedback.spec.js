@@ -1,5 +1,4 @@
 // 反馈 / 建议修改：所有访问者可用（不需要调试模式），通过 Web3Forms 发送到维护者邮箱。
-// 仓库中的 Access Key 可能还没填写：此时入口照常显示，提交时提示尚未配置。
 // 测试中替换 js/config.js 为测试用的 Access Key，并拦截发送请求（不会真的发出）。
 const { test, expect, openApp, loadDataset } = require('./helpers');
 
@@ -32,16 +31,27 @@ async function openDetailOf(page, title) {
   await expect(page.locator('#detailTitle')).toHaveText(title);
 }
 
-test('仓库中的配置：反馈入口照常显示；还没有 Access Key 时提交提示尚未配置，不发出请求', async ({ page }) => {
-  const requests = [];
-  await page.route(ENDPOINT, (route) => { requests.push(route.request().url()); route.abort(); });
+test('仓库中的配置：Web3Forms 接口、已填写 Access Key，反馈入口显示', async ({ page }) => {
+  await page.route(ENDPOINT, (route) => route.abort());   // 不得真的发出
   await openApp(page);
   const cfg = await page.evaluate(() => window.TIMELINE_CONFIG.feedback);
   expect(cfg.endpoint).toBe(ENDPOINT);
   expect(cfg.enabled).not.toBe(false);
+  expect(cfg.accessKey).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/);
   await openDetailOf(page, '安史之乱');
   await expect(page.locator('#detailFeedback')).toBeVisible();
-  if (cfg.accessKey) return;   // 已经填好 Access Key：以下“未配置”的情况不适用
+});
+
+test('没有 Access Key 时反馈入口照常显示，提交时提示尚未配置，不发出请求', async ({ page }) => {
+  const requests = [];
+  await page.route('**/js/config.js', (route) => route.fulfill({
+    contentType: 'application/javascript',
+    body: `window.TIMELINE_CONFIG = { feedback: { enabled: true, endpoint: '${ENDPOINT}', accessKey: '' } };`,
+  }));
+  await page.route(ENDPOINT, (route) => { requests.push(route.request().url()); route.abort(); });
+  await openApp(page);
+  await openDetailOf(page, '安史之乱');
+  await expect(page.locator('#detailFeedback')).toBeVisible();
   await page.click('#detailFeedback');
   await page.locator('.kind-option', { hasText: '其他' }).click();
   await page.fill('#feedbackForm [name=message]', '测试');
