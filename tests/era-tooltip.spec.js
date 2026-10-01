@@ -66,6 +66,28 @@ test('提示圆点位于轴线正中', async ({ page }) => {
   expect(Math.abs(circle - band), `圆心 ${circle} 与朝代色带中心 ${band}`).toBeLessThanOrEqual(0.5);
 });
 
+test('最早时期之前留有一段渐隐的轴线：表示更早的年代，悬浮时不显示时期', async ({ page }) => {
+  await openApp(page);
+  const info = await page.evaluate(() => {
+    const era = document.querySelector('#eras .era');
+    const firstDot = Math.min(...[...document.querySelectorAll('.dot')].map((d) => d.offsetLeft));
+    return { eraLeft: era.offsetLeft, firstDot, axisBg: getComputedStyle(document.getElementById('axis')).backgroundImage, viewW: document.getElementById('stage').clientWidth };
+  });
+  // 至少留出屏宽的 15%（这里约 216px）+ 原有边距，旧石器时代的色带从这里开始
+  expect(info.eraLeft).toBeGreaterThan(140 + info.viewW * 0.15 - 40);
+  expect(info.firstDot).toBeGreaterThan(info.eraLeft);
+  // 渐隐：从透明过渡到轴线颜色，终点在最早时期的起点
+  expect(info.axisBg).toMatch(/^linear-gradient\(to right, rgba\(0, 0, 0, 0\)/);
+  expect(info.axisBg).toContain(`${Math.round(info.eraLeft)}px`);
+  // 悬浮在渐隐段：不显示时期提示；悬浮在旧石器时代色带上：显示
+  const y = await axisY(page);
+  await page.mouse.move(info.eraLeft / 2, y);
+  await page.waitForTimeout(200);
+  await expect(tip(page)).toBeHidden();
+  await hoverAxis(page, info.eraLeft + 30, y);
+  await expect(tipName(page)).toHaveText('旧石器时代');
+});
+
 test.describe('延续至今的时期', () => {
   test('中华人民共和国色带延伸到轴线末端，末端有“今天”刻度', async ({ page }) => {
     await openApp(page);

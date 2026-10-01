@@ -1,5 +1,5 @@
 // 顶栏：标题后显示当前时期（该时期颜色），下沿色条随时期变色；标题使用书法字体；窄屏不溢出、不遮挡按钮。
-const { test, expect, openApp, loadDataset, centerOnCard } = require('./helpers');
+const { test, expect, openApp, loadDataset, centerOnCard, trackOffset } = require('./helpers');
 
 // 读取顶栏状态：标题中的时期名及颜色、下沿色条颜色
 function readHeader(page) {
@@ -90,3 +90,24 @@ for (const viewport of [{ width: 390, height: 780 }, { width: 320, height: 640 }
     });
   });
 }
+
+test.describe('点击标题回到开头', () => {
+  test.use({ viewport: { width: 1440, height: 860 } });
+
+  test('拖到后面后点击左上角标题，平滑回到时间轴开头', async ({ page }) => {
+    await openApp(page);
+    await page.locator('#stage').focus();
+    await page.keyboard.press('End');
+    await expect.poll(() => trackOffset(page)).toBeLessThan(-1000);
+    await expect(page.locator('#currentEra')).toHaveText('中华人民共和国');
+    await expect(page.locator('#homeBtn')).toHaveAttribute('title', '回到时间轴开头');
+    await page.click('.brand-name');
+    await expect.poll(() => trackOffset(page)).toBe(0);
+    await expect(page.locator('#currentEra')).toHaveText('旧石器时代');
+    // 键盘也能使用
+    await page.keyboard.press('End');
+    await page.locator('#homeBtn').focus();
+    await page.keyboard.press('Enter');
+    await expect.poll(() => trackOffset(page)).toBe(0);
+  });
+});

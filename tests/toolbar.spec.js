@@ -33,6 +33,40 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 390, height: 780 
       expect((await layoutMetrics(page)).outOfBounds).toBe(0);
     });
 
+    test('切换工具栏的瞬间时间轴不会错位：重新排版前轴线、事件点、卡片作为整体移动，随后立即重新排版', async ({ page }) => {
+      await openApp(page);
+      // 记录轴线中心、事件点中心、卡片位置（相对轴线）
+      const snapshot = () => {
+        const axis = document.getElementById('axis').getBoundingClientRect();
+        const ay = axis.top + axis.height / 2;
+        return {
+          renders: document.getElementById('track').dataset.renders,
+          axisVsStage: (() => { const st = document.getElementById('stage').getBoundingClientRect(); return Math.round(ay - (st.top + st.height / 2)); })(),
+          dots: [...document.querySelectorAll('.dot')].slice(0, 20).map((d) => { const r = d.getBoundingClientRect(); return Math.round(r.top + r.height / 2 - ay); }),
+          cards: [...document.querySelectorAll('.card')].slice(0, 20).map((c) => Math.round(c.getBoundingClientRect().top - ay)),
+        };
+      };
+      const before = await page.evaluate(`(${snapshot})()`);
+      // 点击后的第一帧（还没重新排版）
+      const first = await page.evaluate(`new Promise((resolve) => {
+        document.getElementById('barsToggle').click();
+        requestAnimationFrame(() => resolve((${snapshot})()));
+      })`);
+      expect(first.renders, '第一帧还没有重新排版').toBe(before.renders);
+      expect(first.dots, '事件点仍在轴线上').toEqual(before.dots);
+      expect(first.cards, '卡片与轴线的相对位置不变（连线不断开）').toEqual(before.cards);
+      expect(Math.abs(first.axisVsStage), '轴线保持在舞台垂直中央').toBeLessThanOrEqual(1);
+      // 随后重新排版（不等 150ms 防抖），排版规则成立
+      await expect.poll(() => page.evaluate(() => document.getElementById('track').dataset.renders)).not.toBe(before.renders);
+      await waitForStableLayout(page);
+      const after = await page.evaluate(`(${snapshot})()`);
+      expect(Math.abs(after.axisVsStage)).toBeLessThanOrEqual(1);
+      expect(after.dots.every((d) => Math.abs(d) <= 1)).toBe(true);
+      const m = await layoutMetrics(page);
+      expect(m.outOfBounds).toBe(0);
+      expect(m.overlaps).toBe(0);
+    });
+
     test.describe('调试模式', () => {
       test.use({ debugMode: true });
 

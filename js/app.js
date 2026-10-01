@@ -387,7 +387,8 @@
   // 在隐藏元素中实际排版，测量文字区高度
   var measurer = null, textCache = {};
   function textHeight(ev, width, kind) {
-    width = Math.round(width);
+    // 宽度按 4px 向下取整再测量：窄一点只会让测得的高度偏大（更保守），而缓存命中率高得多
+    width = Math.floor(width / 4) * 4;
     var key = [ev.id, width, kind, tierOf(ev), ev.date, ev.title, summaryOf(ev)].join('|');
     if (textCache[key]) return textCache[key];
     if (!measurer) {
@@ -450,6 +451,8 @@
     var band = Math.round(30 * s);          // 轴线附近留给刻度和朝代名的空间
     var half = axisY - 12;                  // 卡片离舞台边缘至少 12px
     var maxW = Math.max(150, viewW() - 48);
+    // 第一个事件之前多留一段（屏宽的 15%，60–260px）：轴线在这里渐隐，表示更早的年代，时间轴不会戛然而止
+    var lead = PAD + clamp(viewW() * 0.15, 60, 260);
     var narrow = clamp(viewW() / 1100, 0.5, 1);   // 窄屏上小、中两级图片的面积系数
     var minGap = Math.round(40 * s);
     var cards = [], links = [];             // 已放置的卡片与连线（用于碰撞检测）
@@ -458,7 +461,7 @@
     var prevX = -Infinity, prevSide = 0, prevSame = 0;
 
     // 放入新卡片后，任意一屏宽度内的卡片（按中心计）不超过 limit 个（大屏幕 8 个，其余 6 个）
-    var centers = [];
+    var centers = [], centersMax = -Infinity;
     var screenW = viewW();
     var limit = maxPerScreen(screenW);
     function densityOk(cx) {
@@ -501,10 +504,24 @@
         });
       });
       if (!shapes.length) shapes.push({ kind: 'stack', iw: 120, ih: 90, w: MIN_STACK_W + 2, h: Math.min(maxH, 90 + textHeight(ev, MIN_STACK_W, 'stack') + 2), cost: 0 });
-      var x0 = Math.max(PAD + (rawPos(ev.year) - base) * 1, prevX + minGap, PAD);
+      var x0 = Math.max(lead + (rawPos(ev.year) - base) * 1, prevX + minGap, lead);
       var best = null;
 
+      var maxShapeW = 0;
+      shapes.forEach(function (sh) { maxShapeW = Math.max(maxShapeW, sh.w); });
       for (var tries = 0; tries < 2000 && !best; tries++) {
+        // 快速跳过：这一步中所有候选位置的中心都不超过 x0 + 56 + 最宽卡片的一半；
+        // 若连这个最靠右的中心都超出“一屏最多 limit 个”的限制，其余候选也都不行，
+        // 直接算出需要右移多少步（结果与逐步右移完全相同，只是省去无用的尝试）
+        var maxCx = x0 + 56 + maxShapeW / 2;
+        if (centers.length >= limit && maxCx >= centersMax && !densityOk(maxCx)) {
+          var sortedC = centers.slice().sort(function (a, b) { return a - b; });
+          var need = sortedC[sortedC.length - limit] + screenW;
+          var k = Math.max(1, Math.ceil((need - maxCx) / 14));
+          x0 += 14 * k;
+          tries += k - 1;
+          continue;
+        }
         shapes.forEach(function (sh) {
           var w = sh.w, h = sh.h;
           [-1, 1].forEach(function (side) {
@@ -559,6 +576,7 @@
       }
       cards.push(best.rect);
       centers.push((best.rect.l + best.rect.r) / 2);
+      centersMax = Math.max(centersMax, (best.rect.l + best.rect.r) / 2);
       Array.prototype.push.apply(links, best.segs);
       prevSame = best.side === prevSide ? prevSame + 1 : 0;
       prevSide = best.side;
@@ -657,11 +675,20 @@
     track.dataset.renders = (+track.dataset.renders || 0) + 1;   // 排版次数，供自动化测试判断排版是否稳定
     var W = layout.width;
     track.style.width = W + 'px';
+    // 时间轴高度固定为排版时的高度，并在舞台中垂直居中：舞台高度变化（如隐藏工具栏）到重新排版之间，
+    // 轴线、卡片和连线作为一个整体移动，不会错位
+    track.style.height = layout.height + 'px';
+    track.style.top = '50%';
+    track.style.marginTop = (-layout.height / 2) + 'px';
     $('axis').style.width = W + 'px';
     $('axisHit').style.width = W + 'px';
 
     // 朝代色带
     renderEraWash(W);
+    // 最早时期之前的一段轴线从左向右渐显
+    var firstX = ERAS.length ? clamp(xOfYear(ERAS[0].start), 0, W) : 0;
+    layout.firstEraX = firstX;
+    $('axis').style.background = firstX > 0 ? 'linear-gradient(to right, transparent, var(--axis) ' + Math.round(firstX) + 'px)' : '';
     var eras = $('eras');
     eras.innerHTML = '';
     var minX = 0, maxX = W;
@@ -853,6 +880,8 @@
     else if (e.key === 'Home') { animateTo(0); e.preventDefault(); }
     else if (e.key === 'End') { animateTo(minOffset()); e.preventDefault(); }
   });
+  // 点击左上角标题：回到时间轴开头
+  $('homeBtn').addEventListener('click', function () { stopAnim(); animateTo(0, 600); });
   $('navLeft').addEventListener('click', function () { animateTo(offset + viewW() * 0.7, 500); });
   $('navRight').addEventListener('click', function () { animateTo(offset - viewW() * 0.7, 500); });
 
@@ -876,6 +905,7 @@
     var vx = clamp(clientX - sr.left, 0, sr.width);
     var tx = vx - offset, y = yearOfX(tx);
     if (y == null) return;
+    if (tx < layout.firstEraX - 4) { hideEraTip(); return; }   // 最早时期之前的渐隐段不显示时期
     // 指针靠近某个事件点时，直接使用该事件的年份
     for (var i = 0; i < layout.xs.length; i++) {
       if (Math.abs(layout.xs[i] - tx) <= 7) { y = layout.list[i].year; break; }
@@ -1002,14 +1032,20 @@
 
   // 重新排版并保持当前屏幕中心的年代不变
   var relayoutT;
-  function scheduleRelayout() {
+  // urgent：由用户操作（如显示 / 隐藏工具栏）引起的尺寸变化，不等防抖，画出新状态后立即重新排版
+  var urgentRelayout = false;
+  function scheduleRelayout(urgent) {
     if (!ready) return;
+    if (urgent) urgentRelayout = true;
     clearTimeout(relayoutT);
-    relayoutT = setTimeout(function () {
+    var run = function () {
+      urgentRelayout = false;
       var centerYear = yearAtX(-offset + viewW() / 2);
       renderTimeline();
       if (centerYear != null) setOffset(viewW() / 2 - xOfYear(centerYear));
-    }, 150);
+    };
+    if (urgentRelayout) relayoutT = setTimeout(function () { requestAnimationFrame(function () { setTimeout(run, 0); }); }, 0);
+    else relayoutT = setTimeout(run, 150);
   }
   // 舞台尺寸变化（窗口缩放、字体加载后顶栏高度变化等）都会重新排版。
   // 与“排版时实际使用的尺寸”比较，而不是排版之后再读取的尺寸：
@@ -1882,6 +1918,7 @@
     barsBtn.setAttribute('aria-label', label);
     barsBtn.title = label + '（H）';
     if (hidden && sidebarOpen) closeSidebar();
+    scheduleRelayout(true);
   }
   barsBtn.addEventListener('click', function () {
     setBarsHidden(!document.body.classList.contains('bars-hidden'));
