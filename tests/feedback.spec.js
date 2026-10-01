@@ -83,7 +83,8 @@ test.describe('已配置', () => {
     await openDetailOf(page, '安史之乱');
     await expect(page.locator('#detailEdit')).toBeHidden();       // 不是调试模式
     await expect(page.locator('#detailFeedback')).toBeVisible();
-    // 与“分享链接”在同一行（垂直居中对齐、在它右边）
+    // 与“分享链接”在同一行（垂直居中对齐、在它右边）；等弹出动画结束再量位置
+    await page.locator('#detailModal').evaluate((m) => Promise.all(m.getAnimations({ subtree: true }).map((a) => a.finished)));
     const share = await page.locator('#detailShare').boundingBox();
     const fb = await page.locator('#detailFeedback').boundingBox();
     expect(Math.abs((fb.y + fb.height / 2) - (share.y + share.height / 2))).toBeLessThanOrEqual(1);

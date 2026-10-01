@@ -21,6 +21,13 @@ async function openEditorOf(page, title) {
   await page.locator('#editForm').evaluate((f) => Promise.all(f.getAnimations({ subtree: true }).map((a) => a.finished)));
 }
 const lbCaption = (page) => page.locator('#lightboxCaption');
+// 末尾预留的空行（固定为当前的最后一行；填入内容后会在它后面再预留一行）
+async function spareRow(page) {
+  const rows = page.locator('#sourceEditor .source-row');
+  const n = await rows.count();
+  await expect(rows.nth(n - 1).locator('.source-url')).toHaveValue('');
+  return rows.nth(n - 1);
+}
 const thumbs = (page) => page.locator('#imageEditor .img-slot img.slot-zoom');
 
 test.describe('编辑页', () => {
@@ -132,8 +139,7 @@ test.describe('编辑页', () => {
       await expect(first).toHaveAttribute('href', ev.sources[0].url);
       await expect(first).toHaveAttribute('target', '_blank');
       await expect(first).toHaveAttribute('rel', /noopener/);
-      await page.click('#sourceAdd');
-      const row = page.locator('#sourceEditor .source-row').last();
+      const row = await spareRow(page);
       await expect(row.locator('.source-open')).toHaveAttribute('aria-disabled', 'true');
       await expect(row.locator('.source-open')).not.toHaveAttribute('href', /.+/);
       await row.locator('.source-url').fill('https://example.org/a');
@@ -151,8 +157,7 @@ test.describe('编辑页', () => {
         route.fulfill({ json: { title: '维基百科 - 安史之乱' } });
       });
       await openEditorOf(page, '安史之乱');
-      await page.click('#sourceAdd');
-      const row = page.locator('#sourceEditor .source-row').last();
+      const row = await spareRow(page);
       const link = 'https://zh.wikipedia.org/wiki/%E5%AE%89%E5%8F%B2%E4%B9%8B%E4%BA%82';   // 安史之亂
       await row.locator('.source-url').fill(link);
       await row.locator('.source-url').dispatchEvent('change');
@@ -173,8 +178,7 @@ test.describe('编辑页', () => {
     test('百度百科：粘贴（paste 事件）后自动填写；查询失败时保留按链接填写的标题', async ({ page }) => {
       await page.route('**/api/link-title?**', (route) => route.fulfill({ json: { title: null } }));
       await openEditorOf(page, '安史之乱');
-      await page.click('#sourceAdd');
-      const row = page.locator('#sourceEditor .source-row').last();
+      const row = await spareRow(page);
       const input = row.locator('.source-url');
       await input.focus();
       await page.evaluate(() => {
@@ -191,8 +195,7 @@ test.describe('编辑页', () => {
       const asked = [];
       await page.route('**/api/link-title?**', (route) => { asked.push(route.request().url()); route.fulfill({ json: { title: '维基百科 - 查询结果' } }); });
       await openEditorOf(page, '安史之乱');
-      await page.click('#sourceAdd');
-      const row = page.locator('#sourceEditor .source-row').last();
+      const row = await spareRow(page);
       await row.locator('.source-title').fill('我自己的标题');
       await row.locator('.source-url').fill('https://zh.wikipedia.org/wiki/唐朝');
       await row.locator('.source-url').dispatchEvent('change');
@@ -200,8 +203,7 @@ test.describe('编辑页', () => {
       await expect(row.locator('.source-title')).toHaveValue('我自己的标题');
       expect(asked).toEqual([]);
       // 其他网站
-      await page.click('#sourceAdd');
-      const row2 = page.locator('#sourceEditor .source-row').last();
+      const row2 = await spareRow(page);
       await row2.locator('.source-url').fill('https://example.org/x');
       await row2.locator('.source-url').dispatchEvent('change');
       await page.waitForTimeout(200);
@@ -279,7 +281,7 @@ test.describe('建议模式不提供这些功能', () => {
     await expect(page.locator('#imageEditor')).toBeHidden();
     await expect(page.locator('#sourceEditor .source-open').first()).toBeHidden();
     await page.click('#sourceAdd');
-    const row = page.locator('#sourceEditor .source-row').last();
+    const row = page.locator('#sourceEditor .source-row').last();   // 建议模式：按钮添加的新行
     await row.locator('.source-url').fill('https://zh.wikipedia.org/wiki/唐朝');
     await row.locator('.source-url').dispatchEvent('change');
     await page.waitForTimeout(200);

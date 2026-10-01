@@ -233,17 +233,22 @@ test.describe('事件详情', () => {
     await page.click('.list-actions .btn-primary');
 
     const rows = page.locator('#sourceEditor .source-row');
-    await expect(rows).toHaveCount(1);
+    // 末尾预留一个空行
+    await expect(rows).toHaveCount(2);
     await expect(rows.nth(0).locator('.source-url')).toHaveValue(wiki);
-    // 添加两条：一条带标题，一条不带
+    await expect(rows.nth(1).locator('.source-url')).toHaveValue('');
+    // 添加两条：一条带标题，一条不带。“添加参考链接”把光标放到预留的空行；填入后自动再预留一行
     await page.click('#sourceAdd');
+    await expect(rows).toHaveCount(2);
     await expect(rows.nth(1).locator('.source-url')).toBeFocused();
     await rows.nth(1).locator('.source-url').fill(' https://example.org/anshi ');
+    await expect(rows).toHaveCount(3);
+    await expect(rows.nth(2).locator('.source-url')).toHaveValue('');
     await rows.nth(1).locator('.source-title').fill(' 《旧唐书·安禄山传》 ');
-    await page.click('#sourceAdd');
+    await expect(rows).toHaveCount(3);   // 填的不是最后一行，不再增加
     await rows.nth(2).locator('.source-url').fill('https://example.com/b');
+    await expect(rows).toHaveCount(4);
     // 空行不保存
-    await page.click('#sourceAdd');
     await page.click('#editForm button[type=submit]');
     await expect(page.locator('#editModal')).toBeHidden();
 
@@ -260,10 +265,10 @@ test.describe('事件详情', () => {
 
     // 修改第二条、删除第一条（维基百科）
     await page.click('#detailEdit');
-    await expect(rows).toHaveCount(3);
+    await expect(rows).toHaveCount(4);   // 3 条 + 预留的空行
     await rows.nth(1).locator('.source-title').fill('旧唐书');
     await rows.nth(0).locator('.source-remove').click();
-    await expect(rows).toHaveCount(2);
+    await expect(rows).toHaveCount(3);
     await expect(rows.nth(0).locator('.source-title')).toHaveValue('旧唐书');
     await page.click('#editForm button[type=submit]');
     // 打开不带参数的首页（直接刷新会按网址恢复侧栏和详情，这里要验证的是数据在新的访问中仍然保留）
@@ -283,18 +288,20 @@ test.describe('事件详情', () => {
     await page.click('#addBtn');
     await page.fill('#editForm [name=title]', '链接测试事件');
     await page.fill('#editForm [name=short]', '用于测试参考链接校验的说明文字，长度超过二十个字。');
-    await page.click('#sourceAdd');
-    await page.locator('#sourceEditor .source-url').fill('ftp://example.org/x');
+    const rows = page.locator('#sourceEditor .source-row');
+    await expect(rows).toHaveCount(1);   // 新事件：只有预留的空行
+    await rows.nth(0).locator('.source-url').fill('ftp://example.org/x');
     await page.click('#editForm button[type=submit]');
     await expect(page.locator('#formError')).toContainText('参考链接必须以 http:// 或 https:// 开头');
     await expect(page.locator('#editModal')).toBeVisible();
     // 只填标题、没有网址也不行
-    await page.locator('#sourceEditor .source-url').fill('');
-    await page.locator('#sourceEditor .source-title').fill('只有标题');
+    await rows.nth(0).locator('.source-url').fill('');
+    await rows.nth(0).locator('.source-title').fill('只有标题');
     await page.click('#editForm button[type=submit]');
     await expect(page.locator('#formError')).toContainText('只有标题');
-    for (let i = 1; i < 10; i++) await page.click('#sourceAdd');
-    await expect(page.locator('#sourceEditor .source-row')).toHaveCount(10);
+    // 最多 10 条：填满后不再预留空行，“添加参考链接”不可用
+    for (let i = 1; i < 10; i++) await rows.nth(i).locator('.source-url').fill(`https://example.org/${i}`);
+    await expect(rows).toHaveCount(10);
     await expect(page.locator('#sourceAdd')).toBeDisabled();
   });
 

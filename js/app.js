@@ -1508,67 +1508,88 @@
 
   // ---------- 编辑页：参考链接（可增删改） ----------
   var draftSources = [];
+  // 编辑模式下末尾总保留一个空行（预留的添加位置）；在最后一行填入内容后自动再预留一个。
+  // 空行不保存（见 cleanSources）。建议模式不预留，保持“添加参考链接”按钮添加。
+  function needsSpareSource() {
+    if (suggestMode || draftSources.length >= MAX_SOURCES) return false;
+    var last = draftSources[draftSources.length - 1];
+    return !last || !!((last.url || '').trim() || (last.title || '').trim());
+  }
+  function addSpareSourceIfNeeded() {
+    if (!needsSpareSource()) return;
+    var spare = { url: '', title: '' };
+    draftSources.push(spare);
+    $('sourceEditor').appendChild(sourceRow(spare, draftSources.length - 1));   // 只追加一行，不重绘（保留光标和正在进行的查询）
+    $('sourceAdd').disabled = draftSources.length >= MAX_SOURCES;
+  }
   function renderSourceEditor() {
     var box = $('sourceEditor');
     box.innerHTML = '';
-    draftSources.forEach(function (src, i) {
-      var li = el('li', 'source-row');
-      var url = el('input', 'source-url');
-      url.type = 'url';
-      url.placeholder = 'https://…';
-      url.value = src.url || '';
-      url.setAttribute('aria-label', '第 ' + (i + 1) + ' 条参考链接的网址');
-      url.addEventListener('input', function () { src.url = url.value; });
-      var title = el('input', 'source-title');
-      title.type = 'text';
-      title.maxLength = 60;
-      title.placeholder = '标题（可选）';
-      title.value = src.title || '';
-      title.setAttribute('aria-label', '第 ' + (i + 1) + ' 条参考链接的标题');
-      var hint = el('div', 'source-hint');
-      title.addEventListener('input', function () {
-        src.title = title.value;
-        if (src._hint) { src._hint = null; showSourceHint(src, hint); }   // 手动修改后不再显示自动填写的提示
-      });
-      // 在新标签页中打开链接（建议模式不显示）；网址无效时不可点
-      var open = el('a', 'icon-btn source-open', '↗');
-      open.target = '_blank';
-      open.rel = 'noopener';
-      open.title = '在新标签页中打开';
-      open.setAttribute('aria-label', '打开第 ' + (i + 1) + ' 条参考链接');
-      var syncOpen = function () {
-        var u = (src.url || '').trim();
-        if (/^https?:\/\/\S+$/.test(u)) { open.href = u; open.removeAttribute('aria-disabled'); }
-        else { open.removeAttribute('href'); open.setAttribute('aria-disabled', 'true'); }
-      };
-      syncOpen();
-      url.addEventListener('input', syncOpen);
-      // 维基百科 / 百度百科链接：粘贴后或离开输入框时自动填写标题（建议模式不自动填写）
-      url.addEventListener('paste', function () { setTimeout(function () { autoSourceTitle(src, title, hint); }, 0); });
-      url.addEventListener('change', function () { autoSourceTitle(src, title, hint); });
-      var rm = el('button', 'icon-btn source-remove', '×');
-      rm.type = 'button';
-      rm.title = '删除这条链接';
-      rm.setAttribute('aria-label', '删除第 ' + (i + 1) + ' 条参考链接');
-      rm.addEventListener('click', function () {
-        draftSources.splice(i, 1);
-        renderSourceEditor();
-      });
-      li.appendChild(url);
-      li.appendChild(title);
-      li.appendChild(open);
-      li.appendChild(rm);
-      li.appendChild(hint);
-      showSourceHint(src, hint);
-      box.appendChild(li);
-    });
+    if (needsSpareSource()) draftSources.push({ url: '', title: '' });
+    draftSources.forEach(function (src, i) { box.appendChild(sourceRow(src, i)); });
     $('sourceAdd').disabled = draftSources.length >= MAX_SOURCES;
   }
+  function sourceRow(src, i) {
+    var li = el('li', 'source-row');
+    var url = el('input', 'source-url');
+    url.type = 'url';
+    url.placeholder = 'https://…';
+    url.value = src.url || '';
+    url.setAttribute('aria-label', '第 ' + (i + 1) + ' 条参考链接的网址');
+    url.addEventListener('input', function () { src.url = url.value; addSpareSourceIfNeeded(); });
+    var title = el('input', 'source-title');
+    title.type = 'text';
+    title.maxLength = 60;
+    title.placeholder = '标题（可选）';
+    title.value = src.title || '';
+    title.setAttribute('aria-label', '第 ' + (i + 1) + ' 条参考链接的标题');
+    var hint = el('div', 'source-hint');
+    title.addEventListener('input', function () {
+      src.title = title.value;
+      if (src._hint) { src._hint = null; showSourceHint(src, hint); }   // 手动修改后不再显示自动填写的提示
+      addSpareSourceIfNeeded();
+    });
+    // 在新标签页中打开链接（建议模式不显示）；网址无效时不可点
+    var open = el('a', 'icon-btn source-open', '↗');
+    open.target = '_blank';
+    open.rel = 'noopener';
+    open.title = '在新标签页中打开';
+    open.setAttribute('aria-label', '打开第 ' + (i + 1) + ' 条参考链接');
+    var syncOpen = function () {
+      var u = (src.url || '').trim();
+      if (/^https?:\/\/\S+$/.test(u)) { open.href = u; open.removeAttribute('aria-disabled'); }
+      else { open.removeAttribute('href'); open.setAttribute('aria-disabled', 'true'); }
+    };
+    syncOpen();
+    url.addEventListener('input', syncOpen);
+    // 维基百科 / 百度百科链接：粘贴后或离开输入框时自动填写标题（建议模式不自动填写）
+    url.addEventListener('paste', function () { setTimeout(function () { autoSourceTitle(src, title, hint); }, 0); });
+    url.addEventListener('change', function () { autoSourceTitle(src, title, hint); });
+    var rm = el('button', 'icon-btn source-remove', '×');
+    rm.type = 'button';
+    rm.title = '删除这条链接';
+    rm.setAttribute('aria-label', '删除第 ' + (i + 1) + ' 条参考链接');
+    rm.addEventListener('click', function () {
+      draftSources.splice(i, 1);
+      renderSourceEditor();
+    });
+    li.appendChild(url);
+    li.appendChild(title);
+    li.appendChild(open);
+    li.appendChild(rm);
+    li.appendChild(hint);
+    showSourceHint(src, hint);
+    return li;
+  }
   $('sourceAdd').addEventListener('click', function () {
+    var last = draftSources[draftSources.length - 1];
+    var inputs = $('sourceEditor').querySelectorAll('.source-url');
+    // 末尾已有空行（预留的位置）时直接把光标放到那里
+    if (last && !(last.url || '').trim() && !(last.title || '').trim() && inputs.length) { inputs[inputs.length - 1].focus(); return; }
     if (draftSources.length >= MAX_SOURCES) return;
     draftSources.push({ url: '', title: '' });
     renderSourceEditor();
-    var inputs = $('sourceEditor').querySelectorAll('.source-url');
+    inputs = $('sourceEditor').querySelectorAll('.source-url');
     inputs[inputs.length - 1].focus();
   });
   // 搜图：用编辑页中的“事件名称”在所选网站搜索图片（新标签页打开）；选择保存在浏览器中
