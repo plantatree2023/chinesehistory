@@ -1521,7 +1521,9 @@
     if (err) { $('formError').textContent = err; return; }
     $('formError').textContent = '';
     setSaveState('saving');
-    afterPaint(function () { commitEdit(yAbs, title, tFrom, tTo); });
+    // 数据立即写入（保存后马上刷新或离开页面也不会丢失）；重新排版较慢，等按钮状态显示出来再做
+    var saved = commitEdit(yAbs, title, tFrom, tTo);
+    afterPaint(function () { finishEdit(saved); });
   });
 
   function commitEdit(yAbs, title, tFrom, tTo) {
@@ -1553,12 +1555,15 @@
       data.id = id = uid();
       events.push(data);
     }
-    var wasEditing = !!editingId;
     // 本地文件模式等待写入完成；浏览器模式直接保存到 localStorage
-    var written = fileMode ? saveToFile() : Promise.resolve(save());
+    return { id: id, wasEditing: !!editingId, written: fileMode ? saveToFile() : Promise.resolve(save()) };
+  }
+
+  function finishEdit(saved) {
+    var id = saved.id, wasEditing = saved.wasEditing;
     renderTimeline();
     renderList();
-    written.then(function () {
+    saved.written.then(function () {
       setSaveState('saved');
       setTimeout(function () {
         setSaveState(null);
@@ -2116,26 +2121,32 @@
   var MUSIC_KEY = 'zh-history-timeline:music';
   var DEFAULT_MUSIC_VOLUME = 0.2;
   var bgm = $('bgm'), musicBtn = $('musicToggle');
-  var musicOn = true, musicStarted = false;
+  var musicOn = true;
   function setMusicOn(on, save) {
     musicOn = on;
     musicBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
-    var label = on ? '关闭背景音乐' : '开启背景音乐';
-    musicBtn.setAttribute('aria-label', label);
-    musicBtn.title = label;
+    if (!on) musicBtn.classList.remove('waiting');
+    setMusicLabel();
     if (save) { try { localStorage.setItem(MUSIC_KEY, on ? 'on' : 'off'); } catch (e) { /* noop */ } }
     if (!bgm.getAttribute('src')) return;
-    if (on) playMusic(); else { bgm.pause(); musicBtn.classList.remove('waiting'); }
+    if (on) playMusic(); else bgm.pause();
   }
   function playMusic() {
-    musicStarted = true;
+    if (!bgm.paused) return;
     var p = bgm.play();
     if (p && p.then) {
-      p.then(function () { musicBtn.classList.remove('waiting'); }, function () {
-        musicStarted = false;                    // 被浏览器拦截：等下一次用户操作再试
-        if (musicOn) musicBtn.classList.add('waiting');
+      p.then(function () { musicBtn.classList.remove('waiting'); setMusicLabel(); }, function () {
+        // 被浏览器拦截（iPhone / iPad 和多数浏览器在用户第一次操作页面之前都不允许有声音的自动播放）：
+        // 等下一次用户操作再试
+        if (musicOn && bgm.paused) { musicBtn.classList.add('waiting'); setMusicLabel(); }
       });
     }
+  }
+  // 等待用户操作时，按钮的说明改为“轻触开始播放”
+  function setMusicLabel() {
+    var label = !musicOn ? '开启背景音乐' : musicBtn.classList.contains('waiting') ? '开始播放背景音乐' : '关闭背景音乐';
+    musicBtn.setAttribute('aria-label', label);
+    musicBtn.title = label;
   }
   function setupMusic(music) {
     if (!music || !music.src) return;
@@ -2147,11 +2158,17 @@
     try { saved = localStorage.getItem(MUSIC_KEY); } catch (e) { /* noop */ }
     setMusicOn(saved !== 'off', false);   // 开启状态下立即尝试播放
   }
-  musicBtn.addEventListener('click', function () { setMusicOn(!musicOn, true); });
-  // 第一次用户操作时开始播放（点击音乐按钮本身除外：那是在开关音乐）
-  ['pointerdown', 'keydown', 'touchstart'].forEach(function (type) {
+  musicBtn.addEventListener('click', function () {
+    // 被拦截、正在等待时点音乐按钮：开始播放（按钮在闪动提示点它），而不是关闭
+    if (musicOn && bgm.paused && musicBtn.classList.contains('waiting')) { playMusic(); return; }
+    setMusicOn(!musicOn, true);
+  });
+  // 被拦截后，用户在页面任何位置操作时开始播放（点击音乐按钮本身除外，由上面处理）。
+  // 浏览器只把部分事件算作“用户操作”：触屏上是手指抬起（touchend / pointerup / click），而不是按下，
+  // 鼠标是按下（mousedown / pointerdown），键盘是 keydown。每个事件都尝试一次，上一次被拒绝的尝试不影响下一次。
+  ['pointerdown', 'pointerup', 'mousedown', 'touchend', 'click', 'keydown'].forEach(function (type) {
     document.addEventListener(type, function (e) {
-      if (!musicOn || musicStarted || !bgm.getAttribute('src')) return;
+      if (!musicOn || !bgm.paused || !bgm.getAttribute('src')) return;
       if (e.target && e.target.closest && e.target.closest('#musicToggle')) return;
       playMusic();
     }, { capture: true, passive: true });

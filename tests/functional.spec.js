@@ -203,6 +203,25 @@ test.describe('事件详情', () => {
     await expect(page.locator('#editForm [name=type]')).toHaveValue('');
   });
 
+  test('点保存后立即离开页面（不等保存动画）修改也不会丢失', async ({ page }) => {
+    const { events } = await loadDataset(page);
+    const target = events.find((e) => e.title === '安史之乱');
+    await openApp(page);
+    await page.click('#browseBtn');
+    await page.fill('#searchInput', '安史之乱');
+    await page.locator('.list-row').first().click();
+    await page.click('.list-actions .btn-primary');
+    await page.fill('#editForm [name=short]', '立即离开页面测试：这段简要说明在保存后马上刷新也应该保留下来。');
+    // 让页面的下一帧迟迟不到（模拟设备繁忙），点保存后马上打开新页面
+    await page.evaluate(() => { window.requestAnimationFrame = () => 0; });
+    await page.click('#editForm button[type=submit]');
+    await page.goto('/');
+    await expect(page.locator('.card').first()).toBeVisible();
+    const stored = await page.evaluate((k) => JSON.parse(localStorage.getItem(k)), STORAGE_KEY);
+    expect(stored.changed[target.id].short).toBe('立即离开页面测试：这段简要说明在保存后马上刷新也应该保留下来。');
+    await expect(page.locator(`.card[data-id="${target.id}"]`)).toContainText('立即离开页面测试');
+  });
+
   test('参考链接：可添加多条、修改、删除，详情中逐条显示，刷新后保留', async ({ page }) => {
     const { events } = await loadDataset(page);
     const target = events.find((e) => e.title === '安史之乱');

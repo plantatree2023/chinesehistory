@@ -149,24 +149,65 @@ test.describe('背景音乐', () => {
     await expect(page.locator('#musicToggle')).toHaveAttribute('aria-pressed', 'true');
   });
 
-  test('被浏览器拦截时音乐按钮闪动提示；点击页面任何位置（不只是拖动时间轴）立即开始', async ({ page }) => {
-    // 模拟拦截：在页面上点击之前 play() 一律被拒绝（用测试自己的开关，不依赖测试浏览器的激活状态）
-    await page.addInitScript(() => {
-      window.__allowPlay = false;
-      document.addEventListener('pointerdown', () => { window.__allowPlay = true; }, true);
-      const real = HTMLMediaElement.prototype.play;
-      HTMLMediaElement.prototype.play = function () {
-        if (!window.__allowPlay) return Promise.reject(new DOMException('blocked', 'NotAllowedError'));
-        return real.call(this);
-      };
-    });
+  // 模拟拦截：play() 在 allowOn 中的事件发生之前一律被拒绝（用测试自己的开关，不依赖测试浏览器的激活状态）。
+  // 拒绝是异步的（与真实浏览器一样），因此按下时的失败尝试可能还没结束，抬起时就要再试。
+  const blockAutoplay = (page, allowOn) => page.addInitScript((events) => {
+    window.__allowPlay = false;
+    window.__plays = 0;
+    for (const type of events) document.addEventListener(type, () => { window.__allowPlay = true; }, true);
+    const real = HTMLMediaElement.prototype.play;
+    HTMLMediaElement.prototype.play = function () {
+      window.__plays++;
+      if (!window.__allowPlay) return new Promise((resolve, reject) => setTimeout(() => reject(new DOMException('blocked', 'NotAllowedError')), 50));
+      return real.call(this);
+    };
+  }, allowOn);
+
+  test('被浏览器拦截时音乐按钮闪动提示（几次后停止闪动）；点击页面任何位置（不只是拖动时间轴）立即开始', async ({ page }) => {
+    await blockAutoplay(page, ['pointerdown']);
     await openApp(page);
-    await expect(page.locator('#musicToggle')).toHaveClass(/waiting/);
+    const btn = page.locator('#musicToggle');
+    await expect(btn).toHaveClass(/waiting/);
+    await expect(btn).toHaveAttribute('aria-label', '开始播放背景音乐');
     expect((await audioState(page)).paused).toBe(true);
+    // 闪动有次数限制，不会一直闪
+    const anim = await btn.evaluate((b) => ({ name: getComputedStyle(b).animationName, count: getComputedStyle(b).animationIterationCount }));
+    expect(anim.name).toBe('music-wait');
+    expect(anim.count).not.toBe('infinite');
+    expect(Number(anim.count)).toBeLessThanOrEqual(3);
     // 点击顶栏标题旁的空白处（不是时间轴）
     await page.mouse.click(700, 26);
     await expect.poll(async () => (await audioState(page)).paused).toBe(false);
+    await expect(btn).not.toHaveClass(/waiting/);
+    await expect(btn).toHaveAttribute('aria-label', '关闭背景音乐');
+  });
+
+  test('触屏（iPhone / iPad）：手指按下不算用户操作、抬起才算；轻触或拖动时间轴后开始播放', async ({ page }) => {
+    // 与 iOS 一致：只有 touchend / pointerup / click 允许播放；按下时的尝试被拒绝也不影响抬起时再试
+    await blockAutoplay(page, ['pointerup', 'touchend', 'click']);
+    await openApp(page);
+    await expect(page.locator('#musicToggle')).toHaveClass(/waiting/);
+    // 拖动时间轴：按下、移动、抬起
+    await page.mouse.move(700, 300);
+    await page.mouse.down();
+    await page.mouse.move(600, 300, { steps: 4 });
+    await page.mouse.up();
+    await expect.poll(async () => (await audioState(page)).paused).toBe(false);
     await expect(page.locator('#musicToggle')).not.toHaveClass(/waiting/);
+  });
+
+  test('被拦截时点闪动的音乐按钮：开始播放，而不是关闭', async ({ page }) => {
+    await blockAutoplay(page, ['click']);
+    await openApp(page);
+    await expect(page.locator('#musicToggle')).toHaveClass(/waiting/);
+    await page.click('#musicToggle');
+    await expect.poll(async () => (await audioState(page)).paused).toBe(false);
+    await expect(page.locator('#musicToggle')).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('#musicToggle')).not.toHaveClass(/waiting/);
+    // 播放中再点：关闭
+    await page.click('#musicToggle');
+    await expect(page.locator('#musicToggle')).toHaveAttribute('aria-pressed', 'false');
+    expect((await audioState(page)).paused).toBe(true);
   });
 
   test('关闭后停止播放并记住选择，刷新后不再自动播放；再次开启恢复', async ({ page }) => {
@@ -187,12 +228,23 @@ test.describe('背景音乐', () => {
     await expect.poll(async () => (await audioState(page)).paused).toBe(false);
   });
 
-  test('第一次操作就是点音乐按钮时，直接关闭而不是先开始播放', async ({ page }) => {
+  test('正在播放时点音乐按钮：关闭（不会被页面上的点击立即重新开始）', async ({ page }) => {
+    // 模拟允许自动播放的浏览器：play() 直接成功，paused 随 play / pause 变化
+    await page.addInitScript(() => {
+      const playing = new WeakSet();
+      Object.defineProperty(HTMLMediaElement.prototype, 'paused', { configurable: true, get() { return !playing.has(this); } });
+      HTMLMediaElement.prototype.play = function () { playing.add(this); return Promise.resolve(); };
+      HTMLMediaElement.prototype.pause = function () { playing.delete(this); };
+    });
     await openApp(page);
+    expect((await audioState(page)).paused).toBe(false);
     await page.click('#musicToggle');
     await page.waitForTimeout(300);
     expect((await audioState(page)).paused).toBe(true);
     await expect(page.locator('#musicToggle')).toHaveAttribute('aria-pressed', 'false');
+    await page.mouse.click(700, 26);
+    await page.waitForTimeout(300);
+    expect((await audioState(page)).paused).toBe(true);
   });
 
   test('数据集没有配置音乐时不显示音乐按钮（每个国家 / 语言的数据集各自配置）', async ({ page }) => {
