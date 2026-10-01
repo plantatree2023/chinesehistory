@@ -84,6 +84,24 @@ test.describe('自动播放', () => {
   });
 });
 
+test('时间轴到卡片的连线使用该事件所属朝代 / 时期的颜色', async ({ page }) => {
+  await openApp(page);
+  const { eras } = await loadDataset(page);
+  const res = await page.evaluate(() => [...document.querySelectorAll('.links polyline')].slice(0, 12).map((p) => ({
+    color: p.style.getPropertyValue('--link-color'), stroke: getComputedStyle(p).stroke,
+  })));
+  const rgb = (hex) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+  const parse = (css) => { const m = css.match(/[\d.]+/g).map(Number); return /^color\(srgb/.test(css) ? m.slice(0, 3).map((v) => Math.round(v * 255)) : m.slice(0, 3); };
+  const names = await page.evaluate(() => [...document.querySelectorAll('.card')].slice(0, 12).map((c) => c.dataset.id));
+  const { events } = await loadDataset(page);
+  const eraOf = (y) => eras.filter((e) => y >= e.start).pop();
+  res.forEach((r, i) => {
+    const ev = events.find((e) => e.id === names[i]);
+    expect(r.color, ev.title).toBe(eraOf(ev.year).color);
+    expect(parse(r.stroke), ev.title).toEqual(rgb(eraOf(ev.year).color));
+  });
+});
+
 test.describe('点击底部进度条后键盘可控制', () => {
   test('点击进度条后，方向键、Home、End 都能浏览；进度条是可获得焦点的滑块', async ({ page }) => {
     await openApp(page);
@@ -108,15 +126,47 @@ test.describe('点击底部进度条后键盘可控制', () => {
 });
 
 test.describe('背景音乐', () => {
-  test('数据集中配置的音乐：音量较小、循环；第一次操作页面后开始播放', async ({ page }) => {
+  test('数据集中配置的音乐：本地文件、音量较小、循环', async ({ page }) => {
     const { music } = await loadDataset(page);
     await openApp(page);
     await expect(page.locator('#musicToggle')).toBeVisible();
-    let a = await audioState(page);
-    expect(a).toMatchObject({ src: music.src, volume: music.volume, loop: true, paused: true });   // 浏览器不允许操作前自动发声
+    const a = await audioState(page);
+    expect(a).toMatchObject({ src: music.src, volume: music.volume, loop: true });
     expect(music.volume).toBeLessThanOrEqual(0.3);
-    await page.mouse.click(700, 100);
+  });
+
+  test('浏览器允许自动播放时，页面加载后立即播放（不需要先操作）', async ({ page }) => {
+    // 模拟允许自动播放的浏览器（例如经常访问的网站）：记录 play() 的调用并直接成功
+    await page.addInitScript(() => {
+      window.__media = [];
+      HTMLMediaElement.prototype.play = function () { window.__media.push('play ' + this.getAttribute('src')); return Promise.resolve(); };
+      HTMLMediaElement.prototype.pause = function () { window.__media.push('pause'); };
+    });
+    await openApp(page);
+    // 没有任何操作，加载后就开始播放，而且之后没有被暂停
+    expect(await page.evaluate(() => window.__media)).toEqual(['play audio/bgm-cn.mp3']);
+    await expect(page.locator('#musicToggle')).not.toHaveClass(/waiting/);
+    await expect(page.locator('#musicToggle')).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  test('被浏览器拦截时音乐按钮闪动提示；点击页面任何位置（不只是拖动时间轴）立即开始', async ({ page }) => {
+    // 模拟拦截：在页面上点击之前 play() 一律被拒绝（用测试自己的开关，不依赖测试浏览器的激活状态）
+    await page.addInitScript(() => {
+      window.__allowPlay = false;
+      document.addEventListener('pointerdown', () => { window.__allowPlay = true; }, true);
+      const real = HTMLMediaElement.prototype.play;
+      HTMLMediaElement.prototype.play = function () {
+        if (!window.__allowPlay) return Promise.reject(new DOMException('blocked', 'NotAllowedError'));
+        return real.call(this);
+      };
+    });
+    await openApp(page);
+    await expect(page.locator('#musicToggle')).toHaveClass(/waiting/);
+    expect((await audioState(page)).paused).toBe(true);
+    // 点击顶栏标题旁的空白处（不是时间轴）
+    await page.mouse.click(700, 26);
     await expect.poll(async () => (await audioState(page)).paused).toBe(false);
+    await expect(page.locator('#musicToggle')).not.toHaveClass(/waiting/);
   });
 
   test('关闭后停止播放并记住选择，刷新后不再自动播放；再次开启恢复', async ({ page }) => {

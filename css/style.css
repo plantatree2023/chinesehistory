@@ -192,6 +192,9 @@ body.bars-hidden .theme-toggle { display: none; }      /* 隐藏工具栏时不�
 .music-toggle .icon-muted, .music-toggle[aria-pressed="false"] .icon-sound { display: none; }
 .music-toggle[aria-pressed="false"] .icon-muted { display: block; }
 .music-toggle[aria-pressed="false"] { color: var(--muted); }
+/* 音乐被浏览器拦截、等待第一次操作时：按钮轻轻闪动，提示可以点击开启 */
+.music-toggle.waiting { animation: music-wait 1.6s ease-in-out infinite; }
+@keyframes music-wait { 50% { color: var(--red); box-shadow: var(--shadow), 0 0 0 4px color-mix(in srgb, var(--red) 18%, transparent); } }
 .bars-toggle .icon-collapse, body.bars-hidden .bars-toggle .icon-expand { display: none; }
 body.bars-hidden .bars-toggle .icon-collapse { display: block; }
 .theme-toggle .icon-sun, [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
@@ -382,13 +385,15 @@ body.bars-hidden .bars-toggle .icon-collapse { display: block; }
 .links { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
 .links polyline {
   fill: none;
-  stroke: rgba(168, 50, 42, .55);
+  /* 事件所属朝代 / 时期的颜色；深色模式下调亮（与类型标签相同的 --type-lighten），保证在深色背景上可见 */
+  stroke: color-mix(in srgb, var(--link-color, var(--red)), #fff var(--type-lighten));
+  stroke-opacity: .7;
   stroke-width: 1.6;
   stroke-linejoin: round;
   stroke-linecap: round;
   transition: stroke .2s, stroke-width .2s;
 }
-.links polyline.hot { stroke: var(--red); stroke-width: 2.4; }
+.links polyline.hot { stroke-opacity: 1; stroke-width: 2.4; }
 .dot {
   position: absolute;
   top: 50%;

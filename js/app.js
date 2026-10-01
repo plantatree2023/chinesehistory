@@ -761,6 +761,7 @@
       var pl = layout.placed[i], r = pl.rect;
       var path = document.createElementNS(NS, 'polyline');
       path.setAttribute('points', pl.pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' '));
+      path.style.setProperty('--link-color', eraOf(ev.year).color);   // 连线用事件所属时期的颜色
       svg.appendChild(path);
 
       // 时期更迭事件在轴线上用菱形标记（填充新时期的颜色）
@@ -2101,7 +2102,8 @@
 
   // ---------- 背景音乐 ----------
   // 每个数据集可以有自己的背景音乐（数据中的 music 字段，见 data/README.md），没有则不显示音乐按钮。
-  // 浏览器不允许网页在用户操作之前自动发声，所以在访问者第一次点击、按键或触摸页面时开始播放；
+  // 页面加载后立即尝试播放；多数浏览器不允许网页在访问者操作之前发声，被拦截时音乐按钮轻轻闪动提示，
+  // 并在访问者第一次点击、按键或触摸页面（任何位置）时开始播放；
   // 音量较小（默认 DEFAULT_MUSIC_VOLUME，数据可指定）。关闭后记住选择（保存在当前浏览器中）
   var MUSIC_KEY = 'zh-history-timeline:music';
   var DEFAULT_MUSIC_VOLUME = 0.2;
@@ -2115,12 +2117,17 @@
     musicBtn.title = label;
     if (save) { try { localStorage.setItem(MUSIC_KEY, on ? 'on' : 'off'); } catch (e) { /* noop */ } }
     if (!bgm.getAttribute('src')) return;
-    if (on) playMusic(); else bgm.pause();
+    if (on) playMusic(); else { bgm.pause(); musicBtn.classList.remove('waiting'); }
   }
   function playMusic() {
     musicStarted = true;
     var p = bgm.play();
-    if (p && p.catch) p.catch(function () { musicStarted = false; });   // 被浏览器拦截时等下一次用户操作再试
+    if (p && p.then) {
+      p.then(function () { musicBtn.classList.remove('waiting'); }, function () {
+        musicStarted = false;                    // 被浏览器拦截：等下一次用户操作再试
+        if (musicOn) musicBtn.classList.add('waiting');
+      });
+    }
   }
   function setupMusic(music) {
     if (!music || !music.src) return;
@@ -2130,9 +2137,7 @@
     musicBtn.hidden = false;
     var saved = null;
     try { saved = localStorage.getItem(MUSIC_KEY); } catch (e) { /* noop */ }
-    setMusicOn(saved !== 'off', false);
-    musicStarted = false;
-    bgm.pause();
+    setMusicOn(saved !== 'off', false);   // 开启状态下立即尝试播放
   }
   musicBtn.addEventListener('click', function () { setMusicOn(!musicOn, true); });
   // 第一次用户操作时开始播放（点击音乐按钮本身除外：那是在开关音乐）
