@@ -7,7 +7,7 @@ const path = require('path');
 const { execFileSync } = require('child_process');
 
 const ROOT = path.resolve(__dirname, '..');
-const SITE_FILES = ['index.html', 'css', 'js', 'data', 'images', 'audio', 'textures'];
+const SITE_FILES = ['index.html', '404.html', 'css', 'js', 'data', 'images', 'audio', 'textures'];
 
 function git(...args) {
   return execFileSync('git', args, { cwd: ROOT, encoding: 'utf8' }).trim();
