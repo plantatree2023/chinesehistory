@@ -1,0 +1,4 @@
+# 部署流程和 shell 脚本在任何系统上都保持 LF（Windows 上 core.autocrlf=true 时也不转换成 CRLF）
+*.yml text eol=lf
+*.yaml text eol=lf
+*.sh text eol=lf

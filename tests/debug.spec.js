@@ -9,6 +9,13 @@ const { test, expect, openApp, waitForStableLayout, layoutMetrics, MAX_PER_SCREE
 
 const ROOT = path.resolve(__dirname, '..');
 const git = (...args) => execFileSync('git', args, { cwd: ROOT, encoding: 'utf8' }).trim();
+// 执行部署脚本用的 bash：Windows 上 Git Bash 通常不在 PATH 中，从 git 的安装目录找
+// （git --exec-path 为 <Git>/mingw64/libexec/git-core，bash 在 <Git>/bin/bash.exe）
+function bashPath() {
+  if (process.platform !== 'win32') return 'bash';
+  const gitRoot = path.resolve(git('--exec-path'), '..', '..', '..');
+  return [path.join(gitRoot, 'bin', 'bash.exe'), path.join(gitRoot, 'usr', 'bin', 'bash.exe')].find((p) => fs.existsSync(p)) || 'bash';
+}
 
 test.use({ viewport: { width: 1440, height: 860 } });
 
@@ -198,7 +205,7 @@ test.describe('version.json 的来源', () => {
     const script = step[1].replace(/^ {10}/gm, '');
     fs.mkdirSync(path.join(tmpDir, '_site'));
     const before = Date.now();
-    execFileSync('bash', ['-e', '-c', script], {
+    execFileSync(bashPath(), ['-e', '-c', script], {
       cwd: tmpDir,
       env: { ...process.env, GITHUB_SHA: 'a1b2c3d4e5f60718293a4b5c6d7e8f9012345678', GIT_DIR: path.join(ROOT, '.git') },
       stdio: 'ignore',
