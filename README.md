@@ -85,6 +85,10 @@ git add data images && git commit -m "更新历史事件" && git push
 部署到 Cloudflare Pages 时由构建脚本 `tools/build-site.js` 生成（构建命令 `node tools/build-site.js`，输出目录 `_site`）；
 本地运行时由 `server.js` 根据 git 最近一次提交生成（显示“本地”）。
 
+**社交分享卡片**：`index.html` 中有全站的 `og:` / `twitter:` 元数据（标题、简介、封面图），在微信、微博、Telegram、X 中分享链接会显示卡片；
+封面图 `images/share/cover.png`（1200×630）和主屏幕图标 `images/share/apple-touch-icon.png`（180×180）由 `node tools/share-images.js` 生成（标题字体、纹理和时期配色取自网站）。
+`og:url`、`og:image` 必须是绝对地址，目前写的是 GitHub Pages 地址（与 `package.json` 的 `homepage` 一致，`tests/share-card.spec.js` 检查），换域名时两处一起改。
+
 ## 从维基百科导入事件
 
 `tools/wiki-import.js` 按关键词查询维基百科，新增或更新数据集中的条目：
@@ -168,12 +172,13 @@ npm run test:report              # 查看上次的 HTML 报告（失败时含截
 - `js/env.js` 运行环境：线上不提供调试模式，本地服务器改为提供
 - `js/vendor/` 第三方库（微信分享二维码 qrcodejs，MIT），保存在本地，`async` 加载不阻塞页面
 - `data/<国家>_<语言>.json` 数据集（事件与时期划分），字段说明见 `data/README.md`
-- `images/` 事件图片（网站只从这里加载图片）
+- `images/` 事件图片（网站只从这里加载图片）；`images/share/` 是社交分享封面图和主屏幕图标
 - `audio/` 背景音乐（各数据集在 `music` 字段中引用）
 - `textures/` 背景纹理（各数据集在 `texture` 字段中引用）
 - `server.js` 本地服务器（静态文件 + 本地文件模式的写入接口 + 本地的 `version.json`）
 - `lib/link-title.js` 维基百科 / 百度百科链接的词条名查询（本地服务器的 `/api/link-title`）
 - `lib/images.js` 图片工具（识别格式与尺寸、下载、按内容哈希保存），服务器和导入脚本共用
 - `tools/wiki-import.js` 从维基百科导入 / 更新事件的命令行脚本
+- `tools/share-images.js` 生成社交分享封面图和 apple-touch-icon
 - `tools/build-site.js` 生成部署用的 `_site/`（网站文件 + `version.json`），Cloudflare Pages 的构建命令
 - `tests/` 自动化测试（`helpers.js` 为共用工具）
