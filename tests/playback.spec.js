@@ -10,7 +10,8 @@ test.use({ viewport: { width: 1440, height: 860 } });
 const playBtn = (page) => page.locator('#playToggle');
 const audioState = (page) => page.evaluate(() => {
   const a = document.getElementById('bgm');
-  return { src: a.getAttribute('src'), paused: a.paused, volume: a.volume, loop: a.loop };
+  // src：数据集配置的音乐文件；音乐在后台下载完成后以 blob 地址交给 <audio>（srcAttr）
+  return { src: a.getAttribute('data-music'), srcAttr: a.getAttribute('src'), paused: a.paused, volume: a.volume, loop: a.loop };
 });
 
 test.describe('自动播放', () => {
@@ -266,17 +267,61 @@ test.describe('背景音乐', () => {
     const a = await audioState(page);
     expect(a).toMatchObject({ src: music.src, volume: music.volume, loop: true });
     expect(music.volume).toBeLessThanOrEqual(0.3);
+    // 后台下载完成后以 blob 交给 <audio>（只下载一次）
+    await expect.poll(async () => (await audioState(page)).srcAttr).toMatch(/^blob:/);
+  });
+
+  test('音乐在页面开始加载时后台下载，不推迟页面加载完成；下载完成后自动播放', async ({ page }) => {
+    await page.addInitScript(() => {
+      window.__media = [];
+      HTMLMediaElement.prototype.play = function () { window.__media.push('play'); return Promise.resolve(); };
+    });
+    let release;
+    const held = new Promise((r) => { release = r; });
+    const requested = [];
+    await page.route('**/audio/**', async (route) => {
+      requested.push(route.request().url());
+      await held;   // 模拟很慢的音乐下载
+      await route.continue();
+    });
+    await page.goto('/', { waitUntil: 'load' });   // 音乐还没下载完，load 事件也已经触发
+    await expect(page.locator('.card').first()).toBeVisible();
+    expect(requested.length).toBe(1);               // 页面开始加载时就已经请求了音乐
+    expect((await audioState(page)).srcAttr).toBeNull();
+    expect(await page.evaluate(() => window.__media)).toEqual([]);
+    release();
+    await expect.poll(() => page.evaluate(() => window.__media)).toEqual(['play']);
+    expect((await audioState(page)).srcAttr).toMatch(/^blob:/);
+    expect(requested.length).toBe(1);               // 只下载一次
+  });
+
+  test('音乐已关闭时不下载；开启后才下载并播放', async ({ page }) => {
+    const requested = [];
+    await page.route('**/audio/**', (route) => { requested.push(route.request().url()); return route.continue(); });
+    await page.goto('/');
+    await page.evaluate(() => localStorage.setItem('zh-history-timeline:music', 'off'));
+    await page.reload();
+    await expect(page.locator('.card').first()).toBeVisible();
+    requested.length = 0;
+    await page.waitForTimeout(500);
+    expect(requested).toEqual([]);
+    expect((await audioState(page)).srcAttr).toBeNull();
+    await page.click('#musicToggle');
+    await expect.poll(async () => (await audioState(page)).paused).toBe(false);
+    expect(requested.length).toBe(1);
   });
 
   test('浏览器允许自动播放时，页面加载后立即播放（不需要先操作）', async ({ page }) => {
     // 模拟允许自动播放的浏览器（例如经常访问的网站）：记录 play() 的调用并直接成功
     await page.addInitScript(() => {
       window.__media = [];
-      HTMLMediaElement.prototype.play = function () { window.__media.push('play ' + this.getAttribute('src')); return Promise.resolve(); };
+      HTMLMediaElement.prototype.play = function () { window.__media.push('play ' + this.getAttribute('data-music')); return Promise.resolve(); };
       HTMLMediaElement.prototype.pause = function () { window.__media.push('pause'); };
     });
     await openApp(page);
-    // 没有任何操作，加载后就开始播放，而且之后没有被暂停
+    // 没有任何操作，音乐下载完成后就开始播放，而且之后没有被暂停
+    await expect.poll(() => page.evaluate(() => window.__media)).toEqual(['play audio/bgm-cn.mp3']);
+    await page.waitForTimeout(300);
     expect(await page.evaluate(() => window.__media)).toEqual(['play audio/bgm-cn.mp3']);
     await expect(page.locator('#musicToggle')).not.toHaveClass(/waiting/);
     await expect(page.locator('#musicToggle')).toHaveAttribute('aria-pressed', 'true');
@@ -390,6 +435,7 @@ test.describe('背景音乐', () => {
     await expect(page.locator('#musicToggle')).toBeHidden();
     await page.mouse.click(700, 100);
     expect((await audioState(page)).src).toBeNull();
+    expect((await audioState(page)).srcAttr).toBeNull();
   });
 
   test('音乐文件在本地 audio/ 下、是有效的 MP3，大小适中；部署时会一起发布', async ({ request }) => {

@@ -2858,7 +2858,9 @@
 
   // ---------- 背景音乐 ----------
   // 每个数据集可以有自己的背景音乐（数据中的 music 字段，见 data/README.md），没有则不显示音乐按钮。
-  // 页面加载后立即尝试播放；多数浏览器不允许网页在访问者操作之前发声，被拦截时音乐按钮轻轻闪动提示，
+  // 音乐文件较大（约 1.7MB），在页面开始加载时用低优先级的 fetch 在后台下载（不推迟页面的 load 事件，也不占用渲染所需的请求），
+  // 下载完成后作为 blob 交给 <audio>，只下载一次；关闭音乐时不下载，开启后才下载。
+  // 下载完成后立即尝试播放；多数浏览器不允许网页在访问者操作之前发声，被拦截时音乐按钮轻轻闪动提示，
   // 并在访问者第一次点击、按键或触摸页面（任何位置）时开始播放；
   // 音量较小（默认 DEFAULT_MUSIC_VOLUME，数据可指定）。关闭后记住选择（保存在当前浏览器中）
   var MUSIC_KEY = 'zh-history-timeline:music';
@@ -2871,8 +2873,25 @@
     if (!on) musicBtn.classList.remove('waiting');
     setMusicLabel();
     if (save) { try { localStorage.setItem(MUSIC_KEY, on ? 'on' : 'off'); } catch (e) { /* noop */ } }
-    if (!bgm.getAttribute('src')) return;
+    if (!bgm.getAttribute('src')) { if (on) loadMusic(); return; }
     if (on) playMusic(); else bgm.pause();
+  }
+  var musicSrc = null, musicLoading = false;
+  function loadMusic() {
+    if (!musicSrc || musicLoading) return;
+    musicLoading = true;
+    function ready(url) {
+      bgm.src = url;
+      if (musicOn) playMusic();
+    }
+    var req;
+    try { req = fetch(musicSrc, { priority: 'low' }); } catch (e) { req = Promise.reject(e); }
+    req.then(function (res) {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.blob();
+    }).then(function (blob) { ready(URL.createObjectURL(blob)); }, function () {
+      ready(musicSrc);   // 下载失败（如离线、file://）时交给 <audio> 自己加载
+    });
   }
   function playMusic() {
     if (!bgm.paused) return;
@@ -2911,13 +2930,14 @@
 
   function setupMusic(music) {
     if (!music || !music.src) return;
-    bgm.src = music.src;
+    musicSrc = music.src;
+    bgm.setAttribute('data-music', music.src);
     var v = Number(music.volume);
     bgm.volume = v >= 0 && v <= 1 ? v : DEFAULT_MUSIC_VOLUME;
     musicBtn.hidden = false;
     var saved = null;
     try { saved = localStorage.getItem(MUSIC_KEY); } catch (e) { /* noop */ }
-    setMusicOn(saved !== 'off', false);   // 开启状态下立即尝试播放
+    setMusicOn(saved !== 'off', false);   // 开启状态下开始后台下载，下载完成后尝试播放
   }
   musicBtn.addEventListener('click', function () {
     // 被拦截、正在等待时点音乐按钮：开始播放（按钮在闪动提示点它），而不是关闭
