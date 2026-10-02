@@ -2,6 +2,7 @@
   "id": "cn_zh-test",
   "country": "cn",
   "language": "zh",
+  "description": "可以拖动浏览的中国历史时间轴：按朝代排列重大历史事件，点开查看详细说明和图片。",
   "eras": [
     {
       "name": "旧石器时代",

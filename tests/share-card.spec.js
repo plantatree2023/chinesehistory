@@ -2,7 +2,7 @@
 // 分享到微信、微博、Telegram、X 时显示标题、简介和封面图，而不是一行网址。
 const fs = require('fs');
 const path = require('path');
-const { test, expect } = require('./helpers');
+const { test, expect, DATA_URL, readTestData } = require('./helpers');
 
 const ROOT = path.resolve(__dirname, '..');
 const HOMEPAGE = require('../package.json').homepage;
@@ -40,6 +40,37 @@ test('页面有 og: 和 twitter: 元数据，标题、简介与页面一致，�
   expect(m['og:image:width']).toBe('1200');
   expect(m['og:image:height']).toBe('630');
   expect(m['og:image:alt']).toBeTruthy();
+});
+
+test('index.html 中的简介是通用文字：不提到具体国家、不写数字（实际简介来自数据集的 description）', () => {
+  const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const descs = [...html.matchAll(/<meta (?:name="description"|property="og:description"|name="twitter:description") content="([^"]*)">/g)].map((m) => m[1]);
+  expect(descs).toHaveLength(3);
+  expect(new Set(descs).size).toBe(1);
+  expect(descs[0]).not.toMatch(/[0-9０-９]|中国|一百|百个/);
+});
+
+test('网页加载数据后，简介换成当前数据集的 description；数据集没有该字段时保留通用文字', async ({ page }) => {
+  const { description } = readTestData();
+  expect(description).toBeTruthy();
+  await page.goto('/');
+  await expect(page.locator('.card').first()).toBeVisible();
+  let m = await metaMap(page);
+  expect(m.description).toBe(description);
+  expect(m['og:description']).toBe(description);
+  expect(m['twitter:description']).toBe(description);
+
+  const generic = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8').match(/<meta name="description" content="([^"]*)">/)[1];
+  await page.route(`**${DATA_URL}`, async (route) => {
+    const data = await (await route.fetch()).json();
+    delete data.description;
+    await route.fulfill({ json: data });
+  });
+  await page.reload();
+  await expect(page.locator('.card').first()).toBeVisible();
+  m = await metaMap(page);
+  expect(m.description).toBe(generic);
+  expect(m['og:description']).toBe(generic);
 });
 
 test('封面图是 1200×630 的 PNG，部署时会一起复制', async ({ page, request }) => {

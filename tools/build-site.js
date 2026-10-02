@@ -148,6 +148,23 @@ function datasetEvents(data) {
     .map((x) => x.ev);
 }
 
+// 首页的简介（description / og:description / twitter:description）换成默认数据集的 description 字段：
+// 搜索引擎和社交分享卡片不运行脚本，所以在构建时写进 HTML；默认数据集没有该字段时保留 index.html 中的通用文字
+function applySiteDescription(outDir, dataDir = path.join(ROOT, 'data')) {
+  let desc;
+  try {
+    desc = JSON.parse(fs.readFileSync(path.join(dataDir, `${DEFAULT_DATASET}.json`), 'utf8')).description;
+  } catch {
+    return;
+  }
+  if (typeof desc !== 'string' || !desc.trim()) return;
+  const file = path.join(outDir, 'index.html');
+  const html = fs.readFileSync(file, 'utf8').replace(
+    /(<meta (?:name="description"|property="og:description"|name="twitter:description") content=")[^"]*(">)/g,
+    (_, a, b) => a + esc(desc.trim()) + b);
+  fs.writeFileSync(file, html);
+}
+
 // 为 dataDir 下所有数据集生成事件页、sitemap.xml 和 robots.txt；返回 { 数据集: 事件列表 }
 function buildEventPages(outDir, dataDir = path.join(ROOT, 'data')) {
   const result = {};
@@ -184,6 +201,7 @@ function build(outDir) {
   }
   fs.writeFileSync(path.join(outDir, '.nojekyll'), '');
   fs.copyFileSync(path.join(ROOT, '_headers'), path.join(outDir, '_headers'));
+  applySiteDescription(outDir);
   const pages = buildEventPages(outDir);
 
   // Cloudflare Pages 提供 CF_PAGES_COMMIT_SHA，GitHub Actions 提供 GITHUB_SHA

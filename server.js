@@ -84,6 +84,8 @@ async function readJson(req, limit) {
 }
 
 // 校验数据集结构，拒绝明显错误的数据，防止界面异常时写坏数据文件
+const MAX_DESCRIPTION = 200;   // 数据集简介（description）的最大字数
+
 function validateDataset(id, data) {
   const fail = (msg) => { throw new HttpError(422, msg); };
   if (!data || typeof data !== 'object') fail('数据集必须是对象');
@@ -92,6 +94,10 @@ function validateDataset(id, data) {
   if (!Array.isArray(data.events)) fail('events 必须是数组');
   const ids = new Set();
   const eraNames = new Set(data.eras.map((e) => e && e.name));
+  // 网站简介（可选）：用于网页的 description / og:description / twitter:description，按数据集写（如“……的中国历史时间轴”）
+  if (data.description != null && !(typeof data.description === 'string' && data.description.trim() && data.description.length <= MAX_DESCRIPTION)) {
+    fail(`description 必须是不超过 ${MAX_DESCRIPTION} 字的文字`);
+  }
   // 背景音乐（可选）：{ src: 'audio/<文件名>', volume: 0–1, title, credit }
   if (data.music != null) {
     const m = data.music;

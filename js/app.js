@@ -3525,6 +3525,14 @@
       return data;
     });
   }
+  // 网站简介：取自数据集的 description 字段（每个国家 / 语言各自的说法）；没有时保留 index.html 中的通用文字
+  function setupDescription(text) {
+    if (typeof text !== 'string' || !text.trim()) return;
+    ['meta[name="description"]', 'meta[property="og:description"]', 'meta[name="twitter:description"]'].forEach(function (sel) {
+      var el = document.querySelector(sel);
+      if (el) el.setAttribute('content', text.trim());
+    });
+  }
   // 本地服务器会在 /api/status 声明可写；GitHub Pages 等静态托管没有该接口
   function detectWritable() {
     return fetch('api/status', { cache: 'no-store' })
@@ -3542,6 +3550,7 @@
     renderEraMenu();
     setupMusic(data.music);
     setupTexture(data.texture);
+    setupDescription(data.description);
     TYPES = Array.isArray(data.types) ? data.types.filter(function (t) { return t && t.name; }) : [];
     defaultEvents = data.events;
     events = fileMode ? clone(defaultEvents) : load();

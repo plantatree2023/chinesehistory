@@ -31,6 +31,23 @@ for (const id of REAL_DATASETS) test(`${id}：每个事件都有类型和重要�
   expect([...tiers].sort()).toEqual([1, 2, 3]);
 });
 
+test('data/ 下的每个数据集都有简介（description），不写具体数字', () => {
+  for (const id of REAL_DATASETS) {
+    const { description } = readRealDataset(id);
+    expect(typeof description === 'string' && description.trim().length > 0, id).toBe(true);
+    expect(description, id).not.toMatch(/[0-9０-９]/);
+  }
+});
+
+test('服务器校验简介（description）：可选，必须是不超过 200 字的文字', () => {
+  const data = readTestData();
+  const { description, ...noDesc } = data;
+  expect(() => validateDataset(DATASET, noDesc)).not.toThrow();
+  for (const bad of ['', '  ', 123, ['a'], '字'.repeat(201)]) {
+    expect(() => validateDataset(DATASET, { ...data, description: bad }), JSON.stringify(bad).slice(0, 20)).toThrow('description');
+  }
+});
+
 test('data/ 下的所有数据集都通过服务器校验', () => {
   expect(REAL_DATASETS).toContain('cn_zh');
   for (const id of REAL_DATASETS) expect(() => validateDataset(id, readRealDataset(id)), id).not.toThrow();

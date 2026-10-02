@@ -43,6 +43,15 @@ test.afterAll(async () => {
   fs.rmSync(path.dirname(siteDir), { recursive: true, force: true });
 });
 
+test('部署的首页简介（description / og / twitter）来自默认数据集的 description 字段', () => {
+  const { description } = loadData(DEFAULT_DATASET);
+  expect(description).toBeTruthy();
+  const html = read('index.html');
+  for (const re of [/<meta name="description" content="([^"]*)">/, /<meta property="og:description" content="([^"]*)">/, /<meta name="twitter:description" content="([^"]*)">/]) {
+    expect(meta(html, re)).toBe(description);
+  }
+});
+
 test('构建脚本处理 data/ 下所有数据集，命名规则与网页（js/app.js）相同，默认数据集在最前', () => {
   const app = fs.readFileSync(path.join(ROOT, 'js', 'app.js'), 'utf8');
   expect(app).toContain(`var DATASET_ID = ${DATASET_ID.toString()};`);

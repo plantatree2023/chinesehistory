@@ -237,6 +237,27 @@ test.describe('界面', () => {
     expect(readData().eras.length).toBeGreaterThan(0);
     expect(readData().id).toBe(DATASET);
   });
+
+  test('编辑哪个数据集就写回哪个数据集的文件（?data= 打开的其他数据集），其他数据集不变', async ({ page }) => {
+    const other = 'cn_zh-v9';
+    const otherFile = path.join(tmpDir, 'data', `${other}.json`);
+    fs.writeFileSync(otherFile, JSON.stringify({ ...readData(), id: other }, null, 2) + '\n');
+    const defaultHash = sha256(tmpData);
+    await page.goto(`${origin}/?data=${other}`);
+    await expect(page.locator('.card')).toHaveCount(DEFAULT_EVENT_COUNT);
+    await expect(page.locator('#storageNote')).toContainText(`data/${other}.json`);
+    await page.click('#browseBtn');
+    await page.fill('#searchInput', '贞观之治');
+    await page.locator('.list-row').first().click();
+    await page.click('.list-actions .btn-primary');
+    await page.fill('#editForm [name=title]', '贞观之治（另一个数据集）');
+    await page.click('#editForm button[type=submit]');
+    const readOther = () => JSON.parse(fs.readFileSync(otherFile, 'utf8'));
+    await expect.poll(() => readOther().events.some((e) => e.title === '贞观之治（另一个数据集）')).toBe(true);
+    expect(readOther().id).toBe(other);
+    expect(readOther().description).toBe(readData().description);   // 事件以外的字段原样保留
+    expect(sha256(tmpData), '默认数据集的文件不应改动').toBe(defaultHash);
+  });
 });
 
 test.describe('写入接口', () => {
