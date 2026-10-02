@@ -82,6 +82,7 @@ git add data images && git commit -m "更新历史事件" && git push
 
 **网站更新时间**：调试模式下顶栏下方显示“网站最近更新”的时间（按浏览器所在时区）和版本号，来自网站根目录的 `version.json`。
 该文件由部署流程（`.github/workflows/deploy.yml`）在每次 push 到 `main` 时生成，记录部署时间、提交哈希和提交时间，不需要手工维护，也不提交到仓库；
+部署到 Cloudflare Pages 时由构建脚本 `tools/build-site.js` 生成（构建命令 `node tools/build-site.js`，输出目录 `_site`）；
 本地运行时由 `server.js` 根据 git 最近一次提交生成（显示“本地”）。
 
 ## 从维基百科导入事件
@@ -144,7 +145,7 @@ npm run test:report              # 查看上次的 HTML 报告（失败时含截
 | `tests/share-qrcode.spec.js` | 微信分享二维码库：本地、async（页面加载时就下载）、下载很慢时页面照常显示并在打开时先提示等待、加载失败时提示复制链接 |
 | `tests/image-loading.spec.js` | 时间轴卡片的图片只在接近视野时加载（手机和桌面、两个数据集）；跳转时不加载一路经过的图片；重新排版后视野内图片仍显示 |
 | `tests/feedback.spec.js` | 反馈 / 建议修改：仓库配置（已填写 Access Key）、没有 Access Key 时提示尚未配置、关闭时不显示、详情中的事件反馈（类型、必填、图片问题、失败重试）、编辑页建议模式（预填、只发送改动）、侧栏的整站反馈和建议新增事件、窄屏（发送请求被拦截，不会真的发出） |
-| `tests/debug.spec.js` | 调试模式：只在本地启动时提供（`js/env.js`、`--no-debug`）、默认隐藏全部编辑功能、开关显示 / 隐藏与保存、网站更新时间（本地 git、部署的 version.json、缺失时显示“未知”）、部署流程生成 version.json、GitHub 仓库按钮、清除缓存按钮 |
+| `tests/debug.spec.js` | 调试模式：只在本地启动时提供（`js/env.js`、`--no-debug`）、默认隐藏全部编辑功能、开关显示 / 隐藏与保存、网站更新时间（本地 git、部署的 version.json、缺失时显示“未知”）、部署流程和 Cloudflare 构建脚本生成 version.json、GitHub 仓库按钮、清除缓存按钮 |
 | `tests/toolbar.spec.js` | 工具栏默认显示，按钮（全屏 / 退出全屏图标）/ H 键隐藏与恢复，切换瞬间时间轴不错位；添加按钮悬浮在底栏上方 |
 | `tests/storage.spec.js` | 浏览器模式的保存方式：只保存改动，数据文件更新后未改动的内容随之更新，旧版本快照的迁移 |
 | `tests/playback.spec.js` | 自动播放（加载后默认播放、停止操作后自动继续、手动暂停后不再自动继续、播放按钮切换一倍速 / 二倍速 / 暂停、空格、弹窗时停住、末端停止）、背景音乐（按数据集配置、首次操作后播放、关闭并记住）、点击进度条后键盘可用、右上角按钮布局 |
@@ -174,4 +175,5 @@ npm run test:report              # 查看上次的 HTML 报告（失败时含截
 - `lib/link-title.js` 维基百科 / 百度百科链接的词条名查询（本地服务器的 `/api/link-title`）
 - `lib/images.js` 图片工具（识别格式与尺寸、下载、按内容哈希保存），服务器和导入脚本共用
 - `tools/wiki-import.js` 从维基百科导入 / 更新事件的命令行脚本
+- `tools/build-site.js` 生成部署用的 `_site/`（网站文件 + `version.json`），Cloudflare Pages 的构建命令
 - `tests/` 自动化测试（`helpers.js` 为共用工具）

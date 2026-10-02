@@ -215,6 +215,26 @@ test.describe('version.json 的来源', () => {
     expect(v.updatedAt).toMatch(/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/);
     expect(Math.abs(Date.parse(v.updatedAt) - before)).toBeLessThan(60_000);
   });
+
+  test('Cloudflare Pages 构建脚本只输出网站文件，并生成 version.json', async () => {
+    const yml = fs.readFileSync(path.join(ROOT, '.github', 'workflows', 'deploy.yml'), 'utf8');
+    const copied = yml.match(/cp -r (.+) _site\//)[1].split(/\s+/);
+    const { SITE_FILES } = require('../tools/build-site');
+    expect(SITE_FILES, '与 GitHub Pages 部署的文件一致').toEqual(copied);
+
+    const out = path.join(tmpDir, 'site');
+    const before = Date.now();
+    execFileSync(process.execPath, [path.join(ROOT, 'tools', 'build-site.js'), out], {
+      env: { ...process.env, CF_PAGES_COMMIT_SHA: '0123456789abcdef0123456789abcdef01234567' },
+      stdio: 'ignore',
+    });
+    expect(fs.readdirSync(out).sort()).toEqual([...SITE_FILES, '.nojekyll', 'version.json'].sort());
+    expect(fs.existsSync(path.join(out, 'js', 'app.js'))).toBe(true);
+    const v = JSON.parse(fs.readFileSync(path.join(out, 'version.json'), 'utf8'));
+    expect(v).toMatchObject({ commit: '0123456', source: 'deploy', commitAt: git('log', '-1', '--format=%cI') });
+    expect(v.updatedAt).toMatch(/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/);
+    expect(Math.abs(Date.parse(v.updatedAt) - before)).toBeLessThan(60_000);
+  });
 });
 
 test.describe('GitHub 仓库按钮', () => {
