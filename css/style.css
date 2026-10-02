@@ -286,13 +286,13 @@ body.bars-hidden .bars-toggle .icon-collapse { display: block; }
   flex: 1;
   position: relative;
   overflow: hidden;
-  cursor: grab;
+  cursor: default;
   touch-action: pan-y;
   user-select: none;
   -webkit-user-select: none;
   outline: none;
 }
-.stage.dragging { cursor: grabbing; }
+.stage.dragging { cursor: default; }
 /* 背景纹理：纹理图片只用作遮罩（形状），颜色来自 --texture-ink，因此深浅两种配色都适用；
    图片、平铺大小和不透明度由数据集的 texture 字段设置（js/app.js 中的 setupTexture） */
 .bg-texture {
