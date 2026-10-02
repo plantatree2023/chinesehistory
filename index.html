@@ -35,6 +35,9 @@
       var t = null;
       try { t = localStorage.getItem('zh-history-timeline:theme'); } catch (e) {}
       document.documentElement.setAttribute('data-theme', t === 'dark' ? 'dark' : 'light');
+      // 界面语言不是中文时（如 ?data=cn_en），先隐藏页面，等 js/app.js 换成对应语言的文字后再显示，避免先闪出中文
+      var m = /[?&]data=[a-z]{2}_([a-z]{2,3})/.exec(location.search);
+      if (m && m[1] !== 'zh') document.documentElement.classList.add('i18n-pending');
     })();
   </script>
 </head>
@@ -85,7 +88,7 @@
     </div>
     <button class="btn btn-primary browse-btn" id="browseBtn">
       <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
-      <span>浏览<span class="browse-long">所有历史</span>事件</span>
+      <span data-i18n>浏览<span class="browse-long">所有历史</span>事件</span>
     </button>
   </footer>
 
@@ -139,7 +142,22 @@
           <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M10 14a4.5 4.5 0 0 0 6.4 0l3.2-3.2a4.5 4.5 0 0 0-6.4-6.4L12 5.6M14 10a4.5 4.5 0 0 0-6.4 0l-3.2 3.2a4.5 4.5 0 0 0 6.4 6.4L12 18.4"/></svg>
           <span>分享时间线</span>
         </button>
+        <!-- 调试模式：切换语言（手机；电脑上见下面的语言下拉菜单） -->
+        <div class="more-lang debug-only" id="moreLang">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></g></svg>
+          <span>语言</span>
+          <div class="lang-seg" id="langSeg" role="radiogroup" aria-label="语言"></div>
+        </div>
       </div>
+    </div>
+    <!-- 调试模式：切换语言（电脑），选项由 js/app.js 按 js/i18n/ 中的语言生成 -->
+    <div class="lang-wrap debug-only">
+      <button class="lang-btn" id="langBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langMenu" aria-label="切换语言" title="切换语言">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></g></svg>
+        <span id="langName"></span>
+        <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="more-menu lang-menu" id="langMenu" role="menu" hidden></div>
     </div>
     <button class="corner-btn bars-toggle" id="barsToggle" aria-pressed="false" aria-label="隐藏工具栏" title="隐藏工具栏（H）">
       <!-- 工具栏显示时：向外的四角（展开视野）；隐藏后：向内收的四角（恢复） -->
@@ -411,7 +429,7 @@
       <button class="icon-btn modal-close" data-close aria-label="关闭">&times;</button>
       <div class="about-body">
         <h2 id="aboutTitle">关于本站</h2>
-        <p class="about-lead">“时间上的中国”把中国历史上的重大事件放在一条可以拖动的时间轴上，按朝代着色。<span id="aboutSummary"></span>点开每个事件可以看详细说明和图片。</p>
+        <p class="about-lead" data-i18n>“时间上的中国”把中国历史上的重大事件放在一条可以拖动的时间轴上，按朝代着色。<span id="aboutSummary"></span>点开每个事件可以看详细说明和图片。</p>
         <h3>怎么用</h3>
         <ul>
           <li>左右拖动时间轴，也可以用方向键或滚轮；右上角 ▶ 自动播放</li>
@@ -419,11 +437,11 @@
           <li>底部“浏览所有历史事件”可以搜索，并按类型、年代筛选</li>
         </ul>
         <h3>内容来源与许可</h3>
-        <p>事件文字主要摘编自<a href="https://zh.wikipedia.org/" target="_blank" rel="noopener">维基百科</a>，以 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hans" target="_blank" rel="noopener">CC BY-SA 4.0</a> 许可发布；每个事件的详情页列出了参考链接。</p>
+        <p data-i18n>事件文字主要摘编自<a href="https://zh.wikipedia.org/" target="_blank" rel="noopener">维基百科</a>，以 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hans" target="_blank" rel="noopener">CC BY-SA 4.0</a> 许可发布；每个事件的详情页列出了参考链接。</p>
         <h3>图片</h3>
-        <p>图片主要来自<a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">维基共享资源</a>，版权归原作者所有，按各自的许可证使用。</p>
+        <p data-i18n>图片主要来自<a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">维基共享资源</a>，版权归原作者所有，按各自的许可证使用。</p>
         <h3>字体<span id="aboutMusicHead">与音乐</span></h3>
-        <p>标题字体：马善政毛笔楷书（SIL Open Font License 1.1）。<span id="aboutMusic"></span></p>
+        <p data-i18n>标题字体：马善政毛笔楷书（SIL Open Font License 1.1）。<span id="aboutMusic"></span></p>
         <h3>反馈与隐私</h3>
         <p>欢迎指出错误或建议新增事件。反馈通过 Web3Forms 发送，联系方式选填，只用于回复你。本站不使用 cookie，也没有统计跟踪；深色模式等设置只保存在你自己的浏览器中。</p>
         <div class="about-foot">
@@ -453,9 +471,9 @@
     <button type="button" class="icon-btn hint-close" id="hintClose" aria-label="关闭">&times;</button>
     <h3 id="hintTitle">第一次来？三步上手</h3>
     <ul>
-      <li><span class="hint-ico"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M7 8l-4 4 4 4M17 8l4 4-4 4M3 12h18"/></svg></span><span><b>左右滑动</b>浏览时间轴</span></li>
-      <li><span class="hint-ico"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M8 10h8M8 14h5"/></svg></span><span><b>点卡片</b>看事件详情和图片</span></li>
-      <li><span class="hint-ico"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg></span><span>底部<b>“浏览所有历史事件”</b>可搜索、筛选全部事件</span></li>
+      <li><span class="hint-ico"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M7 8l-4 4 4 4M17 8l4 4-4 4M3 12h18"/></svg></span><span data-i18n><b>左右滑动</b>浏览时间轴</span></li>
+      <li><span class="hint-ico"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M8 10h8M8 14h5"/></svg></span><span data-i18n><b>点卡片</b>看事件详情和图片</span></li>
+      <li><span class="hint-ico"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg></span><span data-i18n>底部<b>“浏览所有历史事件”</b>可搜索、筛选全部事件</span></li>
     </ul>
     <div class="hint-row"><span class="hint-note">点别处也会收起</span><button type="button" class="btn btn-primary btn-small" id="hintOk">知道了</button></div>
   </div>
@@ -535,6 +553,9 @@
   <script src="js/vendor/qrcode.min.js" id="qrcodeLib" async onerror="this.dataset.failed = '1'"></script>
   <script src="js/env.js"></script>
   <script src="js/config.js"></script>
+  <!-- 界面语言（js/i18n/<语言>.js）：新增语言时在这里加一行 -->
+  <script src="js/i18n/zh.js"></script>
+  <script src="js/i18n/en.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

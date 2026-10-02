@@ -6,7 +6,7 @@ const os = require('os');
 const path = require('path');
 const http = require('http');
 const { test, expect } = require('./helpers');
-const { build, buildEventPages, listDatasets, eventPath, HOMEPAGE, DEFAULT_DATASET, DATASET_ID } = require('../tools/build-site');
+const { build, buildEventPages, listDatasets, eventPath, pageStrings, HOMEPAGE, DEFAULT_DATASET, DATASET_ID } = require('../tools/build-site');
 
 const ROOT = path.resolve(__dirname, '..');
 const DATA_DIR = path.join(ROOT, 'data');
@@ -21,7 +21,8 @@ let siteDir;
 let server;
 let origin;
 const read = (rel) => fs.readFileSync(path.join(siteDir, rel), 'utf8');
-const meta = (html, re) => (html.match(re) || [])[1];
+const UNESC = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'" };
+const meta = (html, re) => { const v = (html.match(re) || [])[1]; return v && v.replace(/&(amp|lt|gt|quot|#39);/g, (m) => UNESC[m]); };
 
 test.beforeAll(async () => {
   siteDir = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'chinesehistory-site-')), 'site');
@@ -68,6 +69,7 @@ for (const ds of DATASETS) {
     const dir = ds === DEFAULT_DATASET ? 'e' : `e/${ds}`;
     const up = ds === DEFAULT_DATASET ? '../' : '../../';
     const q = ds === DEFAULT_DATASET ? '' : `data=${ds}&amp;`;
+    const L = pageStrings(ds);   // 页面文字按数据集的语言
     const files = fs.readdirSync(path.join(siteDir, dir)).filter((f) => f.endsWith('.html')).sort();
     expect(files).toEqual(data.events.map((ev) => `${ev.id}.html`).sort());
     for (const ev of data.events) {
@@ -75,12 +77,13 @@ for (const ds of DATASETS) {
       expect(rel).toBe(`${dir}/${ev.id}.html`);
       const html = read(rel);
       const url = HOMEPAGE + rel;
-      expect(meta(html, /<title>([^<]*)<\/title>/), ev.id).toBe(`${ev.title} · 时间上的中国`);
+      expect(meta(html, /<title>([^<]*)<\/title>/), ev.id).toBe(`${ev.title} · ${L.siteName}`);
+      expect(html).toContain(`<html lang="${L.htmlLang}">`);
       expect(html).toContain(`<link rel="canonical" href="${url}">`);
       expect(html).toContain(`<meta property="og:url" content="${url}">`);
-      expect(meta(html, /<meta property="og:title" content="([^"]*)">/)).toBe(`${ev.title} · 时间上的中国`);
+      expect(meta(html, /<meta property="og:title" content="([^"]*)">/)).toBe(`${ev.title} · ${L.siteName}`);
       expect(html).toMatch(/<meta name="description" content="[^"]+">/);
-      expect(html).toContain(`<a class="ev-open" href="${up}?${q}id=${ev.id}">在时间轴中查看</a>`);
+      expect(html).toContain(`<a class="ev-open" href="${up}?${q}id=${ev.id}">${L.open}</a>`);
       expect(html).toContain(`<link rel="stylesheet" href="${up}css/event.css">`);
       const imgs = (ev.images || []).filter((im) => im.src);
       const og = meta(html, /<meta property="og:image" content="([^"]*)">/);
@@ -101,6 +104,22 @@ for (const ds of DATASETS) {
     }
   });
 }
+
+test('事件页的文字按数据集的语言显示：中文数据集用中文，英文数据集（cn_en）用英文，没有对应语言时用中文', () => {
+  expect(pageStrings('cn_zh')).toMatchObject({ htmlLang: 'zh-CN', siteName: '时间上的中国', open: '在时间轴中查看' });
+  expect(pageStrings('cn_zh-v0').htmlLang).toBe('zh-CN');
+  expect(pageStrings('cn_en')).toMatchObject({ htmlLang: 'en', siteName: 'China Through Time', open: 'View on the timeline' });
+  expect(pageStrings('jp_xx')).toBe(pageStrings('cn_zh'));
+  // 英文页面中除时期颜色等以外没有中文；网站名与界面的英文翻译（js/i18n/en.js）一致
+  const en = DATASETS.find((d) => d.split('_')[1].split('-')[0] === 'en');
+  if (!en) return;
+  const html = read(eventPath(en, loadData(en).events[0]));
+  expect(html.replace(/<link rel="icon"[^>]*>/, '').replace(/<script>[\s\S]*?<\/script>/g, '')).not.toMatch(/[\u3400-\u9fff]/);
+  global.window = {};
+  require('../js/i18n/en.js');
+  expect(window.TIMELINE_I18N.en.siteName).toBe(pageStrings(en).siteName);
+  delete global.window;
+});
 
 test('sitemap.xml 列出首页和所有数据集的事件页的绝对地址，robots.txt 指向 sitemap', async () => {
   const xml = read('sitemap.xml');

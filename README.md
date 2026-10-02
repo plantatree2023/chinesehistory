@@ -54,6 +54,10 @@ Access Key 设计上就是公开写在网页中的（只能用来向该邮箱发
 标题字体为[马善政毛笔楷书](https://fonts.google.com/specimen/Ma+Shan+Zheng)（SIL Open Font License 1.1），
 只保留标题和朝代名用到的字（`css/fonts/`，约 16KB），许可证见 `css/fonts/OFL-MaShanZheng.txt`。
 新增的时期名若含子集外的字，会自动回退为宋体显示。
+英文界面的标题字体为 [Cinzel](https://fonts.google.com/specimen/Cinzel)，正文为 [EB Garamond](https://fonts.google.com/specimen/EB+Garamond)
+（均为 SIL Open Font License 1.1，拉丁字符子集，许可证见 `css/fonts/OFL-Cinzel.txt`、`css/fonts/OFL-EBGaramond.txt`）。
+
+英文数据集 `data/cn_en.json` 是 `cn_zh.json` 的英文翻译（事件 id、年份、图片、参考链接与中文版一一对应）。
 
 ## 本地运行与编辑数据
 
@@ -128,6 +132,13 @@ npm run wiki -- --file data/cn_zh.json --type 战争 --score 6 淝水之战  # �
 每个数据集是一个 JSON 文件，命名为 `data/<国家>_<语言>.json`（如 `cn_zh.json`、`jp_ja.json`），包含时期划分 `eras`
 和事件 `events`；通过网址参数切换：`?data=jp_ja`，默认 `cn_zh`。所有字段的含义与规则见 [`data/README.md`](data/README.md)。
 
+**界面语言**由数据集名称中的语言决定（`cn_zh` → 中文，`cn_en` → 英文，`?data=cn_en` 打开英文版）。界面文字以中文为原文写在
+`index.html` 和 `js/app.js` 中（脚本中的文字写成 `_('中文原文', { 名称: 值 })`），各语言的译文、网站名称、字体以外的设置
+（年份格式、编辑页的长度上限）在 `js/i18n/<语言>.js` 中，按中文原文给出译文；字体在 `css/style.css` 的 `:root:lang(en)` 中设置。
+调试模式下右上角的语言下拉菜单（手机在“⋯”菜单中）可以切换到同一国家的其他语言。新增语言：
+加 `js/i18n/<语言>.js` 并在 `index.html` 中引用，再加对应的数据集；`tests/i18n.spec.js` 检查每条原文都有译文。
+事件静态页和 404 页面的文字分别在 `tools/build-site.js` 的 `PAGE_STRINGS` 和 `404.html` 的 `STRINGS` 中。
+
 ## 测试
 
 使用 [Playwright](https://playwright.dev/) 在 Chromium 中做端到端测试，全程离线（外部图片请求会被屏蔽）。每次改动后运行：
@@ -174,6 +185,7 @@ npm run test:report              # 查看上次的 HTML 报告（失败时含截
 | `tests/era-tooltip.spec.js` | 悬浮 / 点击时间轴显示所处时期，含朝代交界；最早时期之前的渐隐轴线；时期更迭的菱形标记、主轴线半透明 |
 | `tests/progress-bar.spec.js` | 底部进度条的时期高亮与标签 |
 | `tests/header.spec.js` | 顶栏：标题中的当前时期、时期色条、标题字体、窄屏显示，点击标题回到开头 |
+| `tests/i18n.spec.js` | 界面语言：每条中文原文都有译文、英文界面没有残留中文（各个面板）、英文字体和年份格式、编辑页长度上限、调试模式的语言切换（电脑下拉菜单、手机“更多”菜单）；翻译的数据集与中文数据集对应（使用英文测试数据 `tests/data/cn_en-test.json`） |
 | `tests/wiki-import.spec.js` | 维基导入脚本：新增 / 更新、条目表、dry run、类型与重要程度的推断和指定、搜索与年份来源、限流重试、图片下载（使用模拟的维基接口，不访问外网） |
 | `tests/local-file.spec.js` | 本地文件模式：修改写回 JSON（含图片标题）、图片上传、按网址下载图片、写入接口的安全校验（使用临时数据副本） |
 
@@ -182,6 +194,7 @@ npm run test:report              # 查看上次的 HTML 报告（失败时含截
 - `index.html` 页面结构
 - `css/style.css` 样式
 - `js/app.js` 交互逻辑
+- `js/i18n/<语言>.js` 界面语言：译文、网站名称、年份格式、文字长度上限
 - `js/config.js` 网站配置（反馈服务的 Access Key）
 - `js/env.js` 运行环境：线上不提供调试模式，本地服务器改为提供
 - `js/vendor/` 第三方库（微信分享二维码 qrcodejs，MIT），保存在本地，`async` 加载不阻塞页面

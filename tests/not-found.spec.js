@@ -16,7 +16,8 @@ const luminance = (page, selector, prop) => page.evaluate(({ selector, prop }) =
 }, { selector, prop });
 const contrast = (a, b) => (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
 
-test.use({ viewport: { width: 1280, height: 800 } });
+// 文字按浏览器语言选择：默认用中文浏览器测试，英文见下面的“英文浏览器”
+test.use({ viewport: { width: 1280, height: 800 }, locale: 'zh-CN' });
 
 test('显示标题、说明和回到时间轴的链接', async ({ page }) => {
   await page.goto('/404.html');
@@ -101,3 +102,27 @@ for (const theme of ['light', 'dark']) {
     expect(contrast(await luminance(page, '.axis .q', 'color'), await luminance(page, '.axis .q', 'backgroundColor'))).toBeGreaterThan(3);
   });
 }
+
+test.describe('英文浏览器', () => {
+  test.use({ locale: 'en-US' });
+
+  test('显示英文文字和英文标题字体，链接打开英文数据集（cn_en）', async ({ page }) => {
+    // “随便看一个事件”取自英文数据集：去掉测试中的默认数据集替换，并把请求换成英文测试数据
+    await page.addInitScript(() => { delete window.TIMELINE_DATASET; });
+    await page.route('**/data/cn_en.json', (route) => route.fulfill({ path: path.join(__dirname, 'data', 'cn_en-test.json') }));
+    await page.goto('/404.html');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    await expect(page).toHaveTitle(/Page not found/);
+    await expect(page.locator('#heading')).toHaveText('This page is not on the timeline');
+    await expect(page.locator('#homeLink')).toHaveText('Back to the timeline');
+    expect(await page.locator('#homeLink').getAttribute('href')).toBe('/?data=cn_en');
+    expect(await page.locator('#brand').evaluate((el) => getComputedStyle(el).fontFamily)).toMatch(/^"?Cinzel/);
+    const text = (await page.locator('body').innerText()).replace('404', '');
+    expect(text).not.toMatch(/[\d\u3400-\u9fff]/);
+    const link = page.locator('#randomLink');
+    await expect(link).toBeVisible();
+    const url = new URL(await link.getAttribute('href'), 'http://x/');
+    expect(url.searchParams.get('data')).toBe('cn_en');
+    expect(url.searchParams.get('id')).toBeTruthy();
+  });
+});

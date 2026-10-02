@@ -15,7 +15,20 @@ const SITE_FILES = ['index.html', '404.html', 'css', 'js', 'data', 'images', 'au
 const DEFAULT_DATASET = 'cn_zh';
 // 与 js/app.js 的 DATASET_ID 相同：<国家>_<语言>[-变体]
 const DATASET_ID = /^[a-z]{2}_[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})?$/;
-const SITE_NAME = '时间上的中国';
+// 事件页的文字，按数据集的语言（cn_zh → zh，cn_en → en）选择，没有对应语言时用中文；与 js/i18n/ 中的界面文字一致
+const PAGE_STRINGS = {
+  zh: {
+    htmlLang: 'zh-CN', locale: 'zh_CN', siteName: '时间上的中国', wikipedia: '维基百科', open: '在时间轴中查看',
+    sources: '参考链接', note: '来自维基百科的文字与图片遵循 CC BY-SA 等相应许可', nav: '上一个 / 下一个事件',
+    prev: '上一个事件', next: '下一个事件', home: '返回首页',
+  },
+  en: {
+    htmlLang: 'en', locale: 'en_US', siteName: 'China Through Time', wikipedia: 'Wikipedia', open: 'View on the timeline',
+    sources: 'References', note: 'Text and images from Wikipedia are used under CC BY-SA and their respective licenses',
+    nav: 'Previous / next event', prev: 'Previous event', next: 'Next event', home: 'Back to home',
+  },
+};
+const pageStrings = (ds) => PAGE_STRINGS[ds.split('_')[1].split('-')[0]] || PAGE_STRINGS.zh;
 // 绝对地址（canonical、sitemap、og:image）取自 package.json 的 homepage，以 / 结尾
 const HOMEPAGE = require('../package.json').homepage.replace(/\/?$/, '/');
 
@@ -44,9 +57,11 @@ function eraOf(eras, y) {
   return eras[0];
 }
 const isWikipedia = (s) => /^https?:\/\/[^/]*wikipedia\.org\//.test(s.url);
-const sourceLabel = (s) => s.title || (isWikipedia(s) ? '维基百科' : s.url);
+const sourceLabel = (s, L) => s.title || (isWikipedia(s) ? L.wikipedia : s.url);
 
 function eventPage(ds, ev, eras, prev, next) {
+  const L = pageStrings(ds);
+  const SITE_NAME = L.siteName;
   const { up, query } = datasetPaths(ds);
   const home = up + (query ? `?${query}` : '');
   const url = HOMEPAGE + eventPath(ds, ev);
@@ -72,7 +87,7 @@ function eventPage(ds, ev, eras, prev, next) {
     ? `<a class="ev-${rel}" rel="${rel}" href="${encodeURIComponent(e.id)}.html"><span>${label}</span>${esc(e.title)}</a>`
     : '<span></span>';
   return `<!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="${L.htmlLang}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -81,7 +96,7 @@ function eventPage(ds, ev, eras, prev, next) {
   <link rel="canonical" href="${esc(url)}">
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="${SITE_NAME}">
-  <meta property="og:locale" content="zh_CN">
+  <meta property="og:locale" content="${L.locale}">
   <meta property="og:title" content="${esc(title)}">
   <meta property="og:description" content="${esc(desc)}">
   <meta property="og:url" content="${esc(url)}">${ogImage}
@@ -105,26 +120,26 @@ function eventPage(ds, ev, eras, prev, next) {
       <h1 class="ev-title">${esc(ev.title)}</h1>
       <p class="ev-date">${esc(ev.date)}${ev.transition ? ` · ${esc(ev.transition.from)} → ${esc(ev.transition.to)}` : ''}</p>
       <p class="ev-short">${esc(desc)}</p>
-      <a class="ev-open" href="${up}?${esc(query ? `${query}&` : '')}id=${encodeURIComponent(ev.id)}">在时间轴中查看</a>${images.slice(0, 1).map(figure).join('')}
+      <a class="ev-open" href="${up}?${esc(query ? `${query}&` : '')}id=${encodeURIComponent(ev.id)}">${L.open}</a>${images.slice(0, 1).map(figure).join('')}
       <div class="ev-detail">${paras.map((p) => `
         <p>${esc(p)}</p>`).join('')}
       </div>${images.length > 1 ? `
       <div class="ev-gallery">${images.slice(1).map(figure).join('')}
       </div>` : ''}${sources.length ? `
       <section class="ev-sources">
-        <h2>参考链接</h2>
+        <h2>${L.sources}</h2>
         <ul>${sources.map((s) => `
-          <li><a href="${esc(s.url)}" rel="noopener">${esc(sourceLabel(s))}</a></li>`).join('')}
+          <li><a href="${esc(s.url)}" rel="noopener">${esc(sourceLabel(s, L))}</a></li>`).join('')}
         </ul>${sources.some(isWikipedia) ? `
-        <p class="ev-note">来自维基百科的文字与图片遵循 CC BY-SA 等相应许可</p>` : ''}
+        <p class="ev-note">${L.note}</p>` : ''}
       </section>` : ''}
     </article>
-    <nav class="ev-nav" aria-label="上一个 / 下一个事件">
-      ${navLink(prev, 'prev', '上一个事件')}
-      ${navLink(next, 'next', '下一个事件')}
+    <nav class="ev-nav" aria-label="${L.nav}">
+      ${navLink(prev, 'prev', L.prev)}
+      ${navLink(next, 'next', L.next)}
     </nav>
   </main>
-  <footer class="ev-foot"><a href="${esc(home)}">返回首页 · ${SITE_NAME}</a></footer>
+  <footer class="ev-foot"><a href="${esc(home)}">${L.home} · ${SITE_NAME}</a></footer>
 </body>
 </html>
 `;
@@ -223,4 +238,4 @@ if (require.main === module) {
   console.log(`已生成 ${outDir}（事件页：${counts}）`, JSON.stringify(version));
 }
 
-module.exports = { build, buildEventPages, listDatasets, datasetPaths, eventPath, SITE_FILES, HOMEPAGE, DEFAULT_DATASET, DATASET_ID };
+module.exports = { build, buildEventPages, listDatasets, datasetPaths, eventPath, pageStrings, SITE_FILES, HOMEPAGE, DEFAULT_DATASET, DATASET_ID };

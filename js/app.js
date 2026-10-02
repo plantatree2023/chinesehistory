@@ -10,15 +10,73 @@
     return id && DATASET_ID.test(id) ? id : DEFAULT_DATASET;
   })();
   var STORAGE_KEY = 'zh-history-timeline:v1:' + dataset;
+
+  // ---------- 界面语言（i18n） ----------
+  // 语言由数据集名称中的语言部分决定（cn_zh → zh，cn_en → en）。界面文字以中文为原文写在 index.html 和本文件中，
+  // 其他语言在 js/i18n/<语言>.js 的 strings 中按中文原文给出译文；没有对应语言或译文时显示中文
+  var I18N = window.TIMELINE_I18N || {};
+  var LANG = (function () {
+    var lang = dataset.split('_')[1].split('-')[0];
+    return I18N[lang] ? lang : 'zh';
+  })();
+  var LOCALE = I18N[LANG] || {};
+  var LIMITS = LOCALE.limits || {};
+  // _('已删除“{title}”', { title: ... })：返回当前语言的文字，{名称} 替换为对应的值（与 gettext 的写法相同）
+  function _(text, vars) {
+    var strings = LOCALE.strings || {};
+    var out = Object.prototype.hasOwnProperty.call(strings, text) ? strings[text] : text;   // 译文可以是空字符串（如英文中不需要的“年”）
+    return vars ? out.replace(/\{(\w+)\}/g, function (m, k) { return vars[k] != null ? String(vars[k]) : m; }) : out;
+  }
+  // index.html 中的界面文字按中文原文查找译文：文字节点，以及 title、aria-label、placeholder 属性；
+  // 含有标签（链接、加粗等）的段落用 data-i18n 标出，按整段 innerHTML（空白合并为一个空格）查找译文
+  function translateStatic() {
+    var root = document.documentElement;
+    root.classList.remove('i18n-pending');
+    if (LANG === 'zh') return;
+    root.lang = LOCALE.htmlLang || LANG;
+    if (LOCALE.siteName) document.title = LOCALE.siteName;
+    var CJK = /[\u3400-\u9fff\uff01-\uff5e\u3001-\u303f]/;
+    document.querySelectorAll('[data-i18n]').forEach(function (node) {
+      node.innerHTML = _(node.innerHTML.replace(/\s+/g, ' ').trim());
+    });
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        var p = n.parentNode;
+        if (!CJK.test(n.nodeValue) || /^(SCRIPT|STYLE)$/.test(p.nodeName) || (p.closest && p.closest('[data-i18n]'))) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(function (n) {
+      var text = n.nodeValue.trim();
+      n.nodeValue = n.nodeValue.replace(text, _(text));
+    });
+    ['title', 'aria-label', 'placeholder'].forEach(function (attr) {
+      document.querySelectorAll('body [' + attr + ']').forEach(function (node) {
+        var v = node.getAttribute(attr);
+        if (CJK.test(v)) node.setAttribute(attr, _(v));
+      });
+    });
+  }
+  translateStatic();
   var LEGACY_STORAGE_KEY = 'zh-history-timeline:v1';   // 旧版本（仅中国数据）使用的键
   var MAX_IMAGES = 9;
-  var MAX_DETAIL = 600;
+  var MAX_DETAIL = LIMITS.maxDetail || 600;
   // 任意一屏宽度内最多显示的事件数：大屏幕（时间轴区域宽度不小于 LARGE_SCREEN_W）上放宽到 8 个，
   // 其余（笔记本、平板、手机）为 6 个。窗口大小变化时会重新排版
   var MAX_PER_SCREEN = 6, MAX_PER_SCREEN_LARGE = 8, LARGE_SCREEN_W = 1600;
   function maxPerScreen(width) { return width >= LARGE_SCREEN_W ? MAX_PER_SCREEN_LARGE : MAX_PER_SCREEN; }
-  var MAX_CAPTION = 60;     // 图片标题最多字数
-  var MIN_SUMMARY = 20;     // 卡片说明文字至少的字数（不计标点）
+  var MAX_CAPTION = LIMITS.maxCaption || 60;     // 图片标题最多字数
+  var MIN_SUMMARY = LIMITS.minSummary || 20;     // 卡片说明文字至少的字数（不计标点）
+  var SUMMARY_CUT = LIMITS.summaryCut || 60;     // 简要说明不足时从详细说明截取的长度
+  // 编辑页的长度上限按语言设置（index.html 中写的是中文的上限）
+  (function () {
+    var form = document.getElementById('editForm');
+    [['title', 'maxTitle'], ['date', 'maxDate'], ['short', 'maxShort'], ['detail', 'maxDetail']].forEach(function (p) {
+      if (form && LIMITS[p[1]]) form[p[0]].maxLength = LIMITS[p[1]];
+    });
+  })();
 
   // 朝代 / 时期色带（用于时间轴着色与“当前时代”提示），从数据集加载
   var ERAS = [];
@@ -43,19 +101,10 @@
   function uid() { return 'e' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
   function clone(o) { return JSON.parse(JSON.stringify(o)); }
 
-  function formatYear(y) {
-    if (y <= -10000) {
-      var wan = -y / 10000;
-      return '约' + (wan % 1 === 0 ? wan : wan.toFixed(1)) + '万年前';
-    }
-    if (y < 0) return '公元前' + (-y) + '年';
-    return '公元' + y + '年';
-  }
-  function tickLabel(y) {
-    if (y <= -10000) return (-y / 10000) + '万年前';
-    if (y < 0) return '前' + (-y);
-    return String(y);
-  }
+  // 年份的显示方式由当前语言决定（js/i18n/<语言>.js）
+  var ZH = I18N.zh || {};
+  function formatYear(y) { return (LOCALE.formatYear || ZH.formatYear)(y); }
+  function tickLabel(y) { return (LOCALE.tickLabel || ZH.tickLabel)(y); }
   function eraByName(name) {
     for (var i = 0; i < ERAS.length; i++) if (ERAS[i].name === name) return ERAS[i];
     return { name: name, color: '#8a8178' };
@@ -73,10 +122,10 @@
   function summaryOf(ev) {
     var short = (ev.short || '').trim();
     if (charCount(short) >= MIN_SUMMARY) return short;
-    var detail = (ev.detail || '').replace(/\s+/g, '');
+    var detail = (ev.detail || '').replace(/\s+/g, LANG === 'zh' ? '' : ' ').trim();   // 中文去掉空白，其他语言保留词间空格
     if (!detail) return short;
-    var text = short && detail.indexOf(short) === -1 ? short + detail : detail;
-    return text.length > 60 ? text.slice(0, 58) + '…' : text;
+    var text = short && detail.indexOf(short) === -1 ? short + (LANG === 'zh' ? '' : ' ') + detail : detail;
+    return text.length > SUMMARY_CUT ? text.slice(0, SUMMARY_CUT - 2) + '…' : text;
   }
 
   function transitionText(t) { return t.from + ' → ' + t.to; }
@@ -90,7 +139,7 @@
   function isWikipedia(s) { return /^https?:\/\/[^/]*wikipedia\.org\//.test(s.url); }
   function sourceLabel(s) {
     if (s.title) return s.title;
-    return isWikipedia(s) ? '维基百科' : s.url;
+    return isWikipedia(s) ? _('维基百科') : s.url;
   }
 
   // 事件类型：顺序和颜色来自数据集的 types；数据中出现但不在列表里的类型排在后面（灰色），没有类型的归为“未分类”
@@ -120,7 +169,7 @@
     Object.keys(counts).forEach(function (name) {
       if (name && !TYPES.some(function (t) { return t.name === name; })) out.push({ name: name, color: UNTYPED_COLOR });
     });
-    if (counts['']) out.push({ name: '', label: '未分类', color: UNTYPED_COLOR });
+    if (counts['']) out.push({ name: '', label: _('未分类'), color: UNTYPED_COLOR });
     return out;
   }
 
@@ -275,14 +324,14 @@
   }
   function save() {
     if (fileMode) {
-      saveToFile().catch(function (e) { toast('写入数据文件失败：' + e.message); });
+      saveToFile().catch(function (e) { toast(_('写入数据文件失败：{error}', { error: e.message })); });
       return true;
     }
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(diffFromDefaults()));
       return true;
     } catch (e) {
-      toast('浏览器存储空间不足，修改仅在本次访问中有效');
+      toast(_('浏览器存储空间不足，修改仅在本次访问中有效'));
       return false;
     }
   }
@@ -784,7 +833,7 @@
     if (todayX != null) {
       var today = el('div', 'tick tick-today');
       today.style.left = todayX + 'px';
-      today.appendChild(el('span', null, '今天'));
+      today.appendChild(el('span', null, _('今天')));
       ticks.appendChild(today);
     }
 
@@ -990,15 +1039,7 @@
   var tip = $('eraTip'), tipBox = tip.querySelector('.era-tip-box');
   var tipShown = false, tipPinned = false, hotEra = null;
 
-  function approxYear(y) {
-    if (y <= -10000) {
-      var wan = -y / 10000;
-      return '约' + (wan >= 10 ? Math.round(wan) : Math.round(wan * 10) / 10) + '万年前';
-    }
-    if (y < -3000) return '约公元前' + Math.round(-y / 100) * 100 + '年';
-    if (y < 0.5) return '约公元前' + Math.max(1, Math.round(-y)) + '年';
-    return '约公元' + Math.min(CURRENT_YEAR, Math.round(y)) + '年';
-  }
+  function approxYear(y) { return (LOCALE.approxYear || ZH.approxYear)(y, CURRENT_YEAR); }
 
   function showEraTip(clientX, pinned) {
     if (!layout.anchors.length) return;
@@ -1020,7 +1061,7 @@
     head.appendChild(el('span', 'era-tip-range', era.range));
     tipBox.appendChild(head);
     tipBox.appendChild(el('div', 'era-tip-desc', era.desc));
-    tipBox.appendChild(el('div', 'era-tip-year', '此处：' + (Math.round(y) === y && y > -10000 ? formatYear(y) : approxYear(y))));
+    tipBox.appendChild(el('div', 'era-tip-year', _('此处：{year}', { year: Math.round(y) === y && y > -10000 ? formatYear(y) : approxYear(y) })));
     tip.hidden = false;
     tip.style.left = vx + 'px';
     var bw = tipBox.offsetWidth;
@@ -1142,7 +1183,7 @@
       b.appendChild(el('span', 'era-swatch'));
       b.appendChild(el('span', 'era-name', era.name));
       if (era.range) b.appendChild(el('span', 'era-range', era.range));
-      b.title = era.name + (era.range ? '（' + era.range + '）' : '');
+      b.title = era.range ? _('{name}（{range}）', { name: era.name, range: era.range }) : era.name;
       b.addEventListener('click', function () { closeEraMenu(false); jumpToEra(era); });
       eraMenuList.appendChild(b);
     });
@@ -1345,7 +1386,7 @@
       tagBox.appendChild(tag);
     }
     $('detailTransition').hidden = !ev.transition;
-    $('detailTransition').textContent = ev.transition ? '时期更迭：' + transitionText(ev.transition) : '';
+    $('detailTransition').textContent = ev.transition ? _('时期更迭：{text}', { text: transitionText(ev.transition) }) : '';
     $('detailTitle').textContent = ev.title;
     $('detailText').textContent = ev.detail || ev.short || '';
     var g = $('detailGallery');
@@ -1362,7 +1403,7 @@
     src.innerHTML = '';
     var links = sourcesOf(ev);
     if (links.length) {
-      src.appendChild(el('span', 'source-label', '参考链接：'));
+      src.appendChild(el('span', 'source-label', _('参考链接：')));
       var ul = el('ul', 'source-list');
       links.forEach(function (s) {
         var li = el('li');
@@ -1372,7 +1413,7 @@
         ul.appendChild(li);
       });
       src.appendChild(ul);
-      if (links.some(isWikipedia)) src.appendChild(el('p', 'source-note', '来自维基百科的文字与图片遵循 CC BY-SA 等相应许可'));
+      if (links.some(isWikipedia)) src.appendChild(el('p', 'source-note', _('来自维基百科的文字与图片遵循 CC BY-SA 等相应许可')));
     }
     openModal('detailModal');
     $('detailModal').querySelector('.modal-card').scrollTop = 0;
@@ -1388,7 +1429,7 @@
     if (!debugMode) return;
     var ev = findEvent(id);
     if (!ev) return;
-    confirmDialog('确定要删除“' + ev.title + '”吗？此操作无法撤销。', function () {
+    confirmDialog(_('确定要删除“{title}”吗？此操作无法撤销。', { title: ev.title }), function () {
       events = events.filter(function (e) { return e.id !== id; });
       save();
       closeModal('detailModal');
@@ -1396,7 +1437,7 @@
       renderTimeline();
       setOffset(keep);
       renderList();
-      toast('已删除“' + ev.title + '”');
+      toast(_('已删除“{title}”', { title: ev.title }));
     });
   }
 
@@ -1414,7 +1455,7 @@
     if (lb.edit) {
       var isCover = lb.i === 0;
       $('lbCover').disabled = isCover;
-      $('lbCover').textContent = isCover ? '★ 已是代表图' : '★ 设为代表图';
+      $('lbCover').textContent = isCover ? _('★ 已是代表图') : _('★ 设为代表图');
     }
     var img = $('lightboxImg');
     img.src = im.src;
@@ -1472,7 +1513,7 @@
     editingId = mode ? null : (ev ? ev.id : null);
     form.classList.toggle('suggest-mode', !!mode);
     setSaveState(null);
-    $('editTitle').textContent = mode === 'suggest' ? '建议修改：' + ev.title : mode === 'propose' ? '建议新增事件' : ev ? '编辑事件' : '添加新事件';
+    $('editTitle').textContent = mode === 'suggest' ? _('建议修改：{title}', { title: ev.title }) : mode === 'propose' ? _('建议新增事件') : ev ? _('编辑事件') : _('添加新事件');
     form.reset();
     form.title.value = ev ? ev.title : '';
     var y = ev ? ev.year : 1980;
@@ -1486,7 +1527,7 @@
     form.majorScore.value = String(ev ? scoreOf(ev) : DEFAULT_SCORE);
     var typeSel = form.type;
     typeSel.innerHTML = '';
-    typeSel.appendChild(new Option('未分类', ''));
+    typeSel.appendChild(new Option(_('未分类'), ''));
     TYPES.forEach(function (t) { typeSel.appendChild(new Option(t.name, t.name)); });
     // 数据中出现、但不在类型列表里的类型也保留为选项，避免编辑时丢失
     if (ev && ev.type && !TYPES.some(function (t) { return t.name === ev.type; })) typeSel.appendChild(new Option(ev.type, ev.type));
@@ -1494,7 +1535,7 @@
     ['transitionFrom', 'transitionTo'].forEach(function (name, i) {
       var sel = form[name];
       sel.innerHTML = '';
-      sel.appendChild(new Option('无', ''));
+      sel.appendChild(new Option(_('无'), ''));
       ERAS.forEach(function (era) { sel.appendChild(new Option(era.name, era.name)); });
       sel.value = ev && ev.transition ? (i ? ev.transition.to : ev.transition.from) : '';
     });
@@ -1544,10 +1585,10 @@
     box.innerHTML = '';
     draftImages.forEach(function (im, i) {
       var slot = el('div', 'img-slot');
-      var pic = imageEl(im, '', '图');
+      var pic = imageEl(im, '', _('图'));
       // 点击缩略图放大查看，可左右切换、设为代表图或移除（建议模式不显示图片编辑）
       pic.classList.add('slot-zoom');
-      pic.title = i > 0 ? '点击放大；拖动调整顺序' : '点击放大';
+      pic.title = i > 0 ? _('点击放大；拖动调整顺序') : _('点击放大');
       pic.addEventListener('click', function () { openLightbox(draftImages, i, true); });
       slot.appendChild(pic);
       // 代表图后面的图片可以拖动排序（只在它们之间移动，代表图固定在第一张；用“★”或查看器中的“设为代表图”更换代表图）
@@ -1580,11 +1621,11 @@
           moveDraftImage(from, to);
         });
       }
-      if (i === 0) slot.appendChild(el('span', 'badge', '代表图'));
+      if (i === 0) slot.appendChild(el('span', 'badge', _('代表图')));
       var acts = el('div', 'slot-actions');
       if (i > 0) {
         var up = el('button', null, '★');
-        up.type = 'button'; up.title = '设为代表图';
+        up.type = 'button'; up.title = _('设为代表图');
         up.addEventListener('click', function () {
           draftImages.unshift(draftImages.splice(i, 1)[0]);
           renderImageEditor();
@@ -1592,7 +1633,7 @@
         acts.appendChild(up);
       }
       var rm = el('button', null, '✕');
-      rm.type = 'button'; rm.title = '移除';
+      rm.type = 'button'; rm.title = _('移除');
       rm.addEventListener('click', function () {
         draftImages.splice(i, 1);
         renderImageEditor();
@@ -1603,9 +1644,9 @@
       var cap = el('input', 'slot-caption');
       cap.type = 'text';
       cap.maxLength = MAX_CAPTION;
-      cap.placeholder = '图片标题';
+      cap.placeholder = _('图片标题');
       cap.value = im.caption || '';
-      cap.setAttribute('aria-label', '第 ' + (i + 1) + ' 张图片的标题');
+      cap.setAttribute('aria-label', _('第 {n} 张图片的标题', { n: i + 1 }));
       cap.title = im.caption || '';   // 悬停时显示完整标题（输入框可能显示不全）
       cap.addEventListener('input', function () { im.caption = cap.value; cap.title = cap.value; });
       slot.appendChild(cap);
@@ -1629,16 +1670,16 @@
       });
     }
     return fetch(url, { mode: 'cors' }).catch(function () {
-      throw new Error('该网站不允许直接下载图片，请先保存到电脑再上传');
+      throw new Error(_('该网站不允许直接下载图片，请先保存到电脑再上传'));
     }).then(function (res) {
-      if (!res.ok) throw new Error('网址返回 HTTP ' + res.status);
+      if (!res.ok) throw new Error(_('网址返回 HTTP {status}', { status: res.status }));
       return res.blob();
     }).then(function (blob) {
-      if (!/^image\//.test(blob.type)) throw new Error('该网址不是图片');
+      if (!/^image\//.test(blob.type)) throw new Error(_('该网址不是图片'));
       return new Promise(function (resolve, reject) {
         resizeFile(blob, 900, function (data, w, h) {
           if (data) resolve({ src: data, w: w, h: h });
-          else reject(new Error('无法识别该图片'));
+          else reject(new Error(_('无法识别该图片')));
         });
       });
     });
@@ -1647,10 +1688,10 @@
     var inp = $('imageUrlInput'), btn = $('imageUrlAdd');
     var url = inp.value.trim();
     if (!url || urlBusy) return;
-    if (!/^https?:\/\//i.test(url)) { $('formError').textContent = '请输入以 http:// 或 https:// 开头的图片网址'; return; }
-    if (draftImages.length >= MAX_IMAGES) { $('formError').textContent = '最多只能添加 9 张图片'; return; }
+    if (!/^https?:\/\//i.test(url)) { $('formError').textContent = _('请输入以 http:// 或 https:// 开头的图片网址'); return; }
+    if (draftImages.length >= MAX_IMAGES) { $('formError').textContent = _('最多只能添加 9 张图片'); return; }
     urlBusy = true;
-    btn.textContent = '下载中…';
+    btn.textContent = _('下载中…');
     $('formError').textContent = '';
     renderImageEditor();
     fetchImageUrl(url).then(function (img) {
@@ -1658,10 +1699,10 @@
       draftImages.push({ src: img.src, w: img.w, h: img.h, caption: '' });
       inp.value = '';
     }).catch(function (e) {
-      $('formError').textContent = '图片下载失败：' + e.message;
+      $('formError').textContent = _('图片下载失败：{error}', { error: e.message });
     }).then(function () {
       urlBusy = false;
-      btn.textContent = '添加网址';
+      btn.textContent = _('添加网址');
       renderImageEditor();
     });
   }
@@ -1703,7 +1744,7 @@
     var files = Array.prototype.slice.call(this.files || []);
     this.value = '';
     var room = MAX_IMAGES - draftImages.length;
-    if (files.length > room) $('formError').textContent = '最多只能添加 9 张图片，多余的已忽略';
+    if (files.length > room) $('formError').textContent = _('最多只能添加 9 张图片，多余的已忽略');
     files.slice(0, room).forEach(function (f) {
       if (!/^image\//.test(f.type)) return;
       resizeFile(f, 900, function (data, w, h) {
@@ -1743,14 +1784,14 @@
     url.type = 'url';
     url.placeholder = 'https://…';
     url.value = src.url || '';
-    url.setAttribute('aria-label', '第 ' + (i + 1) + ' 条参考链接的网址');
+    url.setAttribute('aria-label', _('第 {n} 条参考链接的网址', { n: i + 1 }));
     url.addEventListener('input', function () { src.url = url.value; addSpareSourceIfNeeded(); });
     var title = el('input', 'source-title');
     title.type = 'text';
-    title.maxLength = 60;
-    title.placeholder = '标题（可选）';
+    title.maxLength = LIMITS.maxSourceTitle || 60;
+    title.placeholder = _('标题（可选）');
     title.value = src.title || '';
-    title.setAttribute('aria-label', '第 ' + (i + 1) + ' 条参考链接的标题');
+    title.setAttribute('aria-label', _('第 {n} 条参考链接的标题', { n: i + 1 }));
     var hint = el('div', 'source-hint');
     title.addEventListener('input', function () {
       src.title = title.value;
@@ -1761,8 +1802,8 @@
     var open = el('a', 'icon-btn source-open', '↗');
     open.target = '_blank';
     open.rel = 'noopener';
-    open.title = '在新标签页中打开';
-    open.setAttribute('aria-label', '打开第 ' + (i + 1) + ' 条参考链接');
+    open.title = _('在新标签页中打开');
+    open.setAttribute('aria-label', _('打开第 {n} 条参考链接', { n: i + 1 }));
     var syncOpen = function () {
       var u = (src.url || '').trim();
       if (/^https?:\/\/\S+$/.test(u)) { open.href = u; open.removeAttribute('aria-disabled'); }
@@ -1775,8 +1816,8 @@
     url.addEventListener('change', function () { autoSourceTitle(src, title, hint); });
     var rm = el('button', 'icon-btn source-remove', '×');
     rm.type = 'button';
-    rm.title = '删除这条链接';
-    rm.setAttribute('aria-label', '删除第 ' + (i + 1) + ' 条参考链接');
+    rm.title = _('删除这条链接');
+    rm.setAttribute('aria-label', _('删除第 {n} 条参考链接', { n: i + 1 }));
     rm.addEventListener('click', function () {
       draftSources.splice(i, 1);
       renderSourceEditor();
@@ -1803,10 +1844,10 @@
   // 搜图：用编辑页中的“事件名称”在所选网站搜索图片（新标签页打开）；选择保存在浏览器中
   var IMAGE_SEARCH_KEY = 'zh-history-timeline:imageSearch';
   var IMAGE_SEARCH = [
-    { id: 'google', menu: 'Google 图片', label: 'Google 搜图', url: function (q) { return 'https://www.google.com/search?tbm=isch&q=' + encodeURIComponent(q); } },
-    { id: 'bing', menu: 'Bing 图片', label: 'Bing 搜图', url: function (q) { return 'https://www.bing.com/images/search?q=' + encodeURIComponent(q); } },
-    { id: 'baidu', menu: '百度图片', label: '百度搜图', url: function (q) { return 'https://image.baidu.com/search/index?tn=baiduimage&word=' + encodeURIComponent(q); } },
-    { id: 'commons', menu: 'Google · 维基共享资源', label: '维基共享资源', url: function (q) { return 'https://www.google.com/search?tbm=isch&q=' + encodeURIComponent(q + ' site:commons.wikimedia.org'); } }
+    { id: 'google', menu: _('Google 图片'), label: _('Google 搜图'), url: function (q) { return 'https://www.google.com/search?tbm=isch&q=' + encodeURIComponent(q); } },
+    { id: 'bing', menu: _('Bing 图片'), label: _('Bing 搜图'), url: function (q) { return 'https://www.bing.com/images/search?q=' + encodeURIComponent(q); } },
+    { id: 'baidu', menu: _('百度图片'), label: _('百度搜图'), url: function (q) { return 'https://image.baidu.com/search/index?tn=baiduimage&word=' + encodeURIComponent(q); } },
+    { id: 'commons', menu: _('Google · 维基共享资源'), label: _('维基共享资源'), url: function (q) { return 'https://www.google.com/search?tbm=isch&q=' + encodeURIComponent(q + ' site:commons.wikimedia.org'); } }
   ];
   var imageSearchId = 'google';
   try { var savedSearch = localStorage.getItem(IMAGE_SEARCH_KEY); if (IMAGE_SEARCH.some(function (e) { return e.id === savedSearch; })) imageSearchId = savedSearch; } catch (e) { /* noop */ }
@@ -1816,7 +1857,7 @@
     var eng = imageSearchEngine();
     $('imgSearchLabel').textContent = eng.label;
     var main = $('imgSearchMain');
-    main.title = q ? '用“' + q + '”搜索图片' : '请先填写事件名称';
+    main.title = q ? _('用“{q}”搜索图片', { q: q }) : _('请先填写事件名称');
     if (q) { main.href = eng.url(q); main.removeAttribute('aria-disabled'); }
     else { main.removeAttribute('href'); main.setAttribute('aria-disabled', 'true'); }
     var menu = $('imgSearchMenu');
@@ -1838,7 +1879,7 @@
   }
   form.title.addEventListener('input', updateImageSearch);
   $('imgSearchMain').addEventListener('click', function (e) {
-    if (!form.title.value.trim()) { e.preventDefault(); toast('请先填写事件名称'); }
+    if (!form.title.value.trim()) { e.preventDefault(); toast(_('请先填写事件名称')); }
   });
   $('imgSearchMore').addEventListener('click', function () { setImageSearchMenu($('imgSearchMenu').hidden); });
   // 选择网站：记住选择，并直接用该网站搜索（没有事件名称时只记住选择）
@@ -1847,7 +1888,7 @@
     if (!a) return;
     imageSearchId = a.dataset.engine;
     try { localStorage.setItem(IMAGE_SEARCH_KEY, imageSearchId); } catch (err) { /* noop */ }
-    if (!form.title.value.trim()) { e.preventDefault(); toast('请先填写事件名称'); }
+    if (!form.title.value.trim()) { e.preventDefault(); toast(_('请先填写事件名称')); }
     setImageSearchMenu(false);
     setTimeout(updateImageSearch, 0);   // 等链接打开后再更新菜单
   });
@@ -1871,15 +1912,15 @@
     if (/(^|\.)wikipedia\.org$/.test(host)) {
       m = x.pathname.match(/^\/(?:wiki|zh|zh-[a-z]+)\/(.+)$/);
       var raw = m ? m[1] : x.searchParams.get('title');
-      return { label: '维基百科', name: raw ? dec(raw).replace(/_/g, ' ').trim() : '' };
+      return { label: _('维基百科'), name: raw ? dec(raw).replace(/_/g, ' ').trim() : '' };
     }
     if (/(^|\.)baike\.baidu\.com$/.test(host)) {
       m = x.pathname.match(/^\/item\/([^\/?#]+)/);
-      return { label: '百度百科', name: m ? dec(m[1]).trim() : '' };
+      return { label: _('百度百科'), name: m ? dec(m[1]).trim() : '' };
     }
     return null;
   }
-  var SOURCE_HINTS = { loading: '⟳ 正在查询词条名…', done: '✓ 已自动填写标题（可修改）' };
+  var SOURCE_HINTS = { loading: _('⟳ 正在查询词条名…'), done: _('✓ 已自动填写标题（可修改）') };
   function showSourceHint(src, hint) {
     hint.textContent = SOURCE_HINTS[src._hint] || '';
     hint.hidden = !src._hint;
@@ -1916,7 +1957,7 @@
   }
   function sourcesError() {
     var bad = cleanSources().filter(function (s) { return !/^https?:\/\/\S+$/.test(s.url); });
-    return bad.length ? '参考链接必须以 http:// 或 https:// 开头：' + (bad[0].url || bad[0].title) : '';
+    return bad.length ? _('参考链接必须以 http:// 或 https:// 开头：{url}', { url: bad[0].url || bad[0].title }) : '';
   }
 
   // 保存按钮的状态：saving（转圈 + “保存中…”）→ saved（“✓ 已保存”）→ 恢复。
@@ -1927,8 +1968,8 @@
     form.setAttribute('aria-busy', state === 'saving' ? 'true' : 'false');
     $('saveBtn').disabled = !!state;
     $('saveBtn').querySelector('.btn-label').textContent = suggestMode
-      ? (state === 'saving' ? '提交中…' : state === 'saved' ? '✓ 已提交' : '提交建议')
-      : (state === 'saving' ? '保存中…' : state === 'saved' ? '✓ 已保存' : '保存');
+      ? (state === 'saving' ? _('提交中…') : state === 'saved' ? _('✓ 已提交') : _('提交建议'))
+      : (state === 'saving' ? _('保存中…') : state === 'saved' ? _('✓ 已保存') : _('保存'));
   }
   function afterPaint(fn) {
     requestAnimationFrame(function () { setTimeout(fn, 0); });
@@ -1942,15 +1983,15 @@
     var title = form.title.value.trim();
     var yAbs = parseInt(form.yearAbs.value, 10);
     var err = '';
-    if (!title) err = '请填写事件名称';
-    else if (!yAbs || yAbs < 1) err = '请填写有效的年份（正整数）';
-    else if (form.detail.value.length > MAX_DETAIL) err = '详细说明不能超过 ' + MAX_DETAIL + ' 字';
-    else if (charCount(form.short.value) < MIN_SUMMARY && charCount(form.detail.value) < MIN_SUMMARY) err = '请至少填写 20 字的说明（简要说明或详细说明），时间轴上会显示这段文字';
+    if (!title) err = _('请填写事件名称');
+    else if (!yAbs || yAbs < 1) err = _('请填写有效的年份（正整数）');
+    else if (form.detail.value.length > MAX_DETAIL) err = _('详细说明不能超过 {n} 字', { n: MAX_DETAIL });
+    else if (charCount(form.short.value) < MIN_SUMMARY && charCount(form.detail.value) < MIN_SUMMARY) err = _('请至少填写 {n} 字的说明（简要说明或详细说明），时间轴上会显示这段文字', { n: MIN_SUMMARY });
     var tFrom = form.transitionFrom.value, tTo = form.transitionTo.value;
     if (!err) err = sourcesError();
     if (!err && (tFrom || tTo)) {
-      if (!tFrom || !tTo) err = '时期更迭需要同时选择“从”和“到”';
-      else if (tFrom === tTo) err = '时期更迭的“从”和“到”不能相同';
+      if (!tFrom || !tTo) err = _('时期更迭需要同时选择“从”和“到”');
+      else if (tFrom === tTo) err = _('时期更迭的“从”和“到”不能相同');
     }
     if (err) { $('formError').textContent = err; return; }
     $('formError').textContent = '';
@@ -2003,14 +2044,14 @@
         setSaveState(null);
         closeModal('editModal');
         focusEvent(id);
-        toast(wasEditing ? '已保存修改' : '已添加新事件');
+        toast(wasEditing ? _('已保存修改') : _('已添加新事件'));
         if (wasEditing && openStack.indexOf('detailModal') < 0 && !sidebarOpen) openDetail(id);
       }, SAVED_PAUSE);
     }, function (e) {
       // 写入失败：修改仍保留在页面中，编辑页不关闭，可以再次保存
       setSaveState(null);
       editingId = id;
-      $('formError').textContent = '写入数据文件失败：' + e.message + '。修改仍保留在页面中，可以再次点击保存。';
+      $('formError').textContent = _('写入数据文件失败：{error}。修改仍保留在页面中，可以再次点击保存。', { error: e.message });
     });
   }
 
@@ -2035,7 +2076,7 @@
   function looksLikeEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
   // 发送到 Web3Forms。fields 的键名会原样显示在邮件中，因此用中文；botcheck 为防垃圾的隐藏字段（人不会填写）
   function sendFeedback(subject, fields, contact, botcheck) {
-    if (!FEEDBACK_CFG.accessKey) return Promise.reject(new Error('反馈服务尚未配置（缺少 Access Key）'));
+    if (!FEEDBACK_CFG.accessKey) return Promise.reject(new Error(_('反馈服务尚未配置（缺少 Access Key）')));
     var body = { access_key: FEEDBACK_CFG.accessKey, subject: '[' + SITE_NAME + '] ' + subject, from_name: SITE_NAME + ' 反馈', botcheck: botcheck || '' };
     Object.keys(fields).forEach(function (k) { if (fields[k] !== '' && fields[k] != null) body[k] = fields[k]; });
     if (contact) {
@@ -2060,7 +2101,8 @@
     if (noneLabel) sel.appendChild(new Option(noneLabel, ''));
     (ev && ev.images || []).forEach(function (im, i) {
       var cap = (im.caption || '').trim();
-      sel.appendChild(new Option('第 ' + (i + 1) + ' 张' + (cap ? '：' + (cap.length > 24 ? cap.slice(0, 24) + '…' : cap) : ''), String(i + 1)));
+      var n = _('第 {n} 张', { n: i + 1 });
+      sel.appendChild(new Option(cap ? _('{label}：{caption}', { label: n, caption: cap.length > 24 ? cap.slice(0, 24) + '…' : cap }) : n, String(i + 1)));
     });
   }
   function imageDesc(ev, n) {
@@ -2076,10 +2118,10 @@
     fbForm.reset();
     fbForm.classList.remove('saving', 'saved');
     $('feedbackSend').disabled = false;
-    $('feedbackSend').querySelector('.btn-label').textContent = '发送反馈';
+    $('feedbackSend').querySelector('.btn-label').textContent = _('发送反馈');
     $('feedbackError').textContent = '';
-    $('feedbackTitle').textContent = ev ? '反馈 / 建议修改' : '网站反馈';
-    $('feedbackTarget').textContent = ev ? (ev.date || formatYear(ev.year)) + ' · ' + ev.title : '对网站的问题或建议；也可以建议新增事件。';
+    $('feedbackTitle').textContent = ev ? _('反馈 / 建议修改') : _('网站反馈');
+    $('feedbackTarget').textContent = ev ? (ev.date || formatYear(ev.year)) + ' · ' + ev.title : _('对网站的问题或建议；也可以建议新增事件。');
     var box = $('feedbackKinds');
     box.innerHTML = '';
     (ev ? EVENT_KINDS : SITE_KINDS).forEach(function (k) {
@@ -2087,12 +2129,12 @@
       var r = document.createElement('input');
       r.type = 'radio'; r.name = 'kind'; r.value = k;
       lab.appendChild(r);
-      lab.appendChild(el('span', null, k));
+      lab.appendChild(el('span', null, _(k)));   // 显示译文，发送的值仍是中文（反馈邮件用中文）
       box.appendChild(lab);
     });
     var hasImages = !!(ev && ev.images && ev.images.length);
-    imageOptions(fbForm.image, ev, hasImages ? '' : '（这个事件没有图片）');
-    if (hasImages) fbForm.image.insertBefore(new Option('请选择', ''), fbForm.image.firstChild);
+    imageOptions(fbForm.image, ev, hasImages ? '' : _('（这个事件没有图片）'));
+    if (hasImages) fbForm.image.insertBefore(new Option(_('请选择'), ''), fbForm.image.firstChild);
     fbForm.image.value = '';
     $('feedbackImages').hidden = true;
     $('feedbackSuggestEdit').hidden = !ev;
@@ -2113,9 +2155,9 @@
     var imageN = parseInt(fbForm.image.value, 10) || 0;
     var imageUrl = fbForm.imageUrl.value.trim();
     var err = '';
-    if (!kind) err = '请选择反馈类型';
-    else if (!message) err = '请填写说明';
-    else if (kind === '图片有问题' && imageUrl && !isHttpUrl(imageUrl)) err = '图片网址必须以 http:// 或 https:// 开头';
+    if (!kind) err = _('请选择反馈类型');
+    else if (!message) err = _('请填写说明');
+    else if (kind === '图片有问题' && imageUrl && !isHttpUrl(imageUrl)) err = _('图片网址必须以 http:// 或 https:// 开头');
     if (err) { $('feedbackError').textContent = err; return; }
     $('feedbackError').textContent = '';
     var fields = { '反馈类型': kind, '说明': message };
@@ -2128,30 +2170,30 @@
       }
     }
     var subject = ev ? '事件反馈（' + kind + '）：' + ev.title : '网站反馈（' + kind + '）';
-    submitFeedback(fbForm, $('feedbackSend'), '发送反馈', $('feedbackError'), 'feedbackModal',
+    submitFeedback(fbForm, $('feedbackSend'), _('发送反馈'), $('feedbackError'), 'feedbackModal',
       sendFeedback(subject, fields, fbForm.contact.value.trim(), fbForm.botcheck.value));
   });
   // 发送中 / 已发送的按钮状态；成功后关闭弹窗并提示，失败时保留填写的内容并显示原因
   function submitFeedback(formEl, btn, label, errBox, modalId, request) {
     formEl.classList.add('saving');
     btn.disabled = true;
-    btn.querySelector('.btn-label').textContent = '发送中…';
+    btn.querySelector('.btn-label').textContent = _('发送中…');
     request.then(function () {
       formEl.classList.remove('saving');
       formEl.classList.add('saved');
-      btn.querySelector('.btn-label').textContent = '✓ 已发送';
+      btn.querySelector('.btn-label').textContent = _('✓ 已发送');
       setTimeout(function () {
         formEl.classList.remove('saved');
         btn.disabled = false;
         btn.querySelector('.btn-label').textContent = label;
         closeModal(modalId);
-        toast('已发送，谢谢你的反馈！');
+        toast(_('已发送，谢谢你的反馈！'));
       }, SAVED_PAUSE);
     }, function (e) {
       formEl.classList.remove('saving');
       btn.disabled = false;
       btn.querySelector('.btn-label').textContent = label;
-      errBox.textContent = '发送失败：' + e.message + '。填写的内容仍保留，可以稍后再试。';
+      errBox.textContent = _('发送失败：{error}。填写的内容仍保留，可以稍后再试。', { error: e.message });
     });
   }
   $('detailFeedback').addEventListener('click', function () { if (detailId) openFeedback(detailId); });
@@ -2168,13 +2210,13 @@
 
   // 编辑页的建议模式：填写图片相关的选项，说明在建议修改时必填、建议新增时选填
   function fillSuggestFields(ev) {
-    imageOptions(form.suggestImage, ev, '无');
+    imageOptions(form.suggestImage, ev, _('无'));
     $('suggestImageField').hidden = !(ev && ev.images && ev.images.length);
     form.suggestImageUrl.value = '';
     form.suggestNote.value = '';
     form.suggestContact.value = '';
     form.botcheck.value = '';
-    $('suggestNoteLabel').innerHTML = suggestMode === 'suggest' ? '修改说明 <em>*</em>' : '补充说明（可选）';
+    $('suggestNoteLabel').innerHTML = suggestMode === 'suggest' ? _('修改说明') + ' <em>*</em>' : _('补充说明（可选）');
   }
   // 建议修改涉及的字段：编辑页中的当前值（与数据中的写法一致，便于比较）
   var SUGGEST_FIELDS = [
@@ -2226,16 +2268,16 @@
     var ev = suggestBase;
     var imageN = parseInt(form.suggestImage.value, 10) || 0;
     var err = sourcesError();
-    if (!err && imageUrl && !isHttpUrl(imageUrl)) err = '图片网址必须以 http:// 或 https:// 开头';
+    if (!err && imageUrl && !isHttpUrl(imageUrl)) err = _('图片网址必须以 http:// 或 https:// 开头');
     var changes = [];
     if (!err && suggestMode === 'suggest') {
       changes = suggestChanges(ev, now);
-      if (!changes.length && !imageN && !imageUrl) err = '还没有修改任何内容';
-      else if (now.year == null) err = '请填写有效的年份（正整数）';
-      else if (!note) err = '请填写修改说明';
+      if (!changes.length && !imageN && !imageUrl) err = _('还没有修改任何内容');
+      else if (now.year == null) err = _('请填写有效的年份（正整数）');
+      else if (!note) err = _('请填写修改说明');
     } else if (!err) {
-      if (!now.title) err = '请填写事件名称';
-      else if (now.year == null) err = '请填写有效的年份（正整数）';
+      if (!now.title) err = _('请填写事件名称');
+      else if (now.year == null) err = _('请填写有效的年份（正整数）');
     }
     if (err) { $('formError').textContent = err; return; }
     $('formError').textContent = '';
@@ -2266,11 +2308,11 @@
       setTimeout(function () {
         setSaveState(null);
         closeModal('editModal');
-        toast('建议已提交，谢谢！');
+        toast(_('建议已提交，谢谢！'));
       }, SAVED_PAUSE);
     }, function (e) {
       setSaveState(null);
-      $('formError').textContent = '提交失败：' + e.message + '。填写的内容仍保留，可以稍后再试。';
+      $('formError').textContent = _('提交失败：{error}。填写的内容仍保留，可以稍后再试。', { error: e.message });
     });
   }
 
@@ -2421,12 +2463,12 @@
       kind: 'toggle',
       toParams: function (v, out) { if (v) out.push(['major', '1']); },
       fromParams: function (p) { return p.get('major') === '1'; },
-      label: '重大事件',
+      label: _('重大事件'),
       available: function (ctx) { return ctx.majorCount > 0; },
       initial: function () { return false; },
       isActive: function (v) { return v; },
       test: function (ev, v) { return !v || isMajor(ev); },
-      render: function (box, v, set, ctx) { toggleFilterUI('major', '只看重大事件（' + ctx.majorCount + '）')(box, v, set); }
+      render: function (box, v, set, ctx) { toggleFilterUI('major', _('只看重大事件（{n}）', { n: ctx.majorCount }))(box, v, set); }
     },
     {
       id: 'type',
@@ -2434,7 +2476,7 @@
       // 网址中使用类型的 key（如 war），与语言无关；“未分类”写作 none
       toParams: function (v, out) { if (v.length) out.push(['type', v.map(typeParamOf)]); },
       fromParams: function (p) { return listParam(p, 'type').map(typeNameOfParam).filter(function (x) { return x != null; }); },
-      label: '事件类型（可多选）',
+      label: _('事件类型（可多选）'),
       available: function (ctx) { return ctx.typesWithEvents.some(function (t) { return t.name; }); },   // 至少有一个事件有类型
       initial: function () { return []; },
       isActive: function (v) { return v.length > 0; },
@@ -2442,7 +2484,7 @@
       render: function (box, v, set, ctx) {
         box.appendChild(multiSelect('type', ctx.typesWithEvents.map(function (t) {
           return { value: t.name, label: t.label || t.name, color: t.color, count: ctx.typeCounts[t.name] };
-        }), v, set, '全部类型'));
+        }), v, set, _('全部类型')));
       }
     },
     {
@@ -2450,19 +2492,19 @@
       kind: 'toggle',
       toParams: function (v, out) { if (v) out.push(['transition', '1']); },
       fromParams: function (p) { return p.get('transition') === '1'; },
-      label: '时期更迭',
+      label: _('时期更迭'),
       available: function (ctx) { return ctx.transitionCount > 0; },
       initial: function () { return false; },
       isActive: function (v) { return v; },
       test: function (ev, v) { return !v || !!ev.transition; },
-      render: function (box, v, set, ctx) { toggleFilterUI('transition', '只看时期更迭的事件（' + ctx.transitionCount + '）')(box, v, set); }
+      render: function (box, v, set, ctx) { toggleFilterUI('transition', _('只看时期更迭的事件（{n}）', { n: ctx.transitionCount }))(box, v, set); }
     },
     {
       id: 'era',
       kind: 'select',
       toParams: function (v, out) { if (v.length) out.push(['era', v]); },
       fromParams: function (p) { return listParam(p, 'era').filter(function (n) { return ERAS.some(function (e) { return e.name === n; }); }); },
-      label: '朝代 / 时期（可多选）',
+      label: _('朝代 / 时期（可多选）'),
       available: function (ctx) { return ctx.erasWithEvents.length > 0; },
       initial: function () { return []; },
       isActive: function (v) { return v.length > 0; },
@@ -2470,7 +2512,7 @@
       render: function (box, v, set, ctx) {
         box.appendChild(multiSelect('era', ctx.erasWithEvents.map(function (era) {
           return { value: era.name, label: era.name, color: era.color, count: ctx.eraCounts[era.name] };
-        }), v, set, '全部朝代 / 时期'));
+        }), v, set, _('全部朝代 / 时期')));
       }
     },
     {
@@ -2484,7 +2526,7 @@
         var num = function (k) { var n = parseInt(p.get(k), 10); return isFinite(n) && n !== 0 ? n : null; };
         return { from: num('from'), to: num('to') };
       },
-      label: '时间范围',
+      label: _('时间范围'),
       available: function (ctx) { return ctx.events.length > 1; },
       initial: function () { return { from: null, to: null }; },
       isActive: function (v) { return v.from != null || v.to != null; },
@@ -2500,7 +2542,8 @@
           row.appendChild(el('span', 'filter-year-label', prefix));
           var era = el('select');
           era.dataset.range = key + '-era';
-          era.innerHTML = '<option value="bce">公元前</option><option value="ce">公元</option>';
+          era.appendChild(new Option(_('公元前'), 'bce'));
+          era.appendChild(new Option(_('公元'), 'ce'));
           var num = el('input');
           num.type = 'number';
           num.min = '1';
@@ -2516,19 +2559,19 @@
             next[key] = n > 0 ? (era.value === 'bce' ? -n : n) : null;
             v = Object.assign({}, v, next);
             warn.hidden = !(v.from != null && v.to != null && v.from > v.to);
-            warn.textContent = '起始年份晚于结束年份，没有符合的事件';
+            warn.textContent = _('起始年份晚于结束年份，没有符合的事件');
             set(v);
           };
           num.addEventListener('input', update);
           era.addEventListener('change', update);
           row.appendChild(era);
           row.appendChild(num);
-          row.appendChild(el('span', 'filter-year-label', '年'));
+          if (_('年')) row.appendChild(el('span', 'filter-year-label', _('年')));
           return row;
         };
-        box.appendChild(yearInput('from', '从', ctx.minYear));
-        box.appendChild(yearInput('to', '到', ctx.maxYear));
-        box.appendChild(el('p', 'filter-hint', '数据范围：' + formatYear(ctx.minYear) + ' — ' + formatYear(ctx.maxYear) + '；留空表示不限'));
+        box.appendChild(yearInput('from', _('从'), ctx.minYear));
+        box.appendChild(yearInput('to', _('到'), ctx.maxYear));
+        box.appendChild(el('p', 'filter-hint', _('数据范围：{from} — {to}；留空表示不限', { from: formatYear(ctx.minYear), to: formatYear(ctx.maxYear) })));
         box.appendChild(warn);
       }
     }
@@ -2591,7 +2634,7 @@
       }, ctx);
       panel.appendChild(section);
     });
-    var clear = el('button', 'btn btn-ghost btn-small filter-clear', '清除筛选');
+    var clear = el('button', 'btn btn-ghost btn-small filter-clear', _('清除筛选'));
     clear.type = 'button';
     clear.id = 'filterClear';
     clear.addEventListener('click', function () {
@@ -2617,7 +2660,7 @@
       return active.every(function (f) { return f.test(ev, filterState[f.id], ctx); });
     });
     var narrowed = q || active.length;
-    $('eventCount').textContent = narrowed ? '（' + list.length + ' / ' + events.length + '）' : '（' + events.length + '）';
+    $('eventCount').textContent = narrowed ? _('（{n} / {total}）', { n: list.length, total: events.length }) : _('（{total}）', { total: events.length });
     $('filterBadge').hidden = !active.length;
     $('filterBadge').textContent = active.length ? String(active.length) : '';
     $('filterToggle').classList.toggle('on', active.length > 0);
@@ -2625,7 +2668,7 @@
     var ol = $('eventList');
     ol.innerHTML = '';
     if (!list.length) {
-      ol.appendChild(el('li', 'list-empty', narrowed ? '没有符合条件的事件' : '暂无事件，点击右下角“+”添加'));
+      ol.appendChild(el('li', 'list-empty', narrowed ? _('没有符合条件的事件') : _('暂无事件，点击右下角“+”添加')));
       return;
     }
     list.forEach(function (ev) {
@@ -2654,13 +2697,13 @@
         // 按钮在事件右侧：第一行“查看详情”，第二行“编辑”“删除”（调试模式）
         li.classList.add('has-actions');
         var acts = el('div', 'list-actions');
-        var v = el('button', 'btn btn-ghost btn-small', '查看详情');
+        var v = el('button', 'btn btn-ghost btn-small', _('查看详情'));
         v.type = 'button';
         v.addEventListener('click', function () { openDetail(ev.id); });
-        var ed = el('button', 'btn btn-primary btn-small', '编辑');
+        var ed = el('button', 'btn btn-primary btn-small', _('编辑'));
         ed.type = 'button';
         ed.addEventListener('click', function () { openEditor(ev.id); });
-        var del = el('button', 'btn btn-danger btn-small', '删除');
+        var del = el('button', 'btn btn-danger btn-small', _('删除'));
         del.type = 'button';
         del.addEventListener('click', function () { askDelete(ev.id); });
         var editRow = el('div', 'list-actions-edit debug-only');
@@ -2673,13 +2716,13 @@
   }
 
   $('resetBtn').addEventListener('click', function () {
-    confirmDialog('恢复默认数据将清除你做的所有添加、修改和删除，确定吗？', function () {
+    confirmDialog(_('恢复默认数据将清除你做的所有添加、修改和删除，确定吗？'), function () {
       try { localStorage.removeItem(STORAGE_KEY); } catch (e) { /* noop */ }
       events = clone(defaultEvents);
       activeListId = null;
       renderTimeline();
       renderList();
-      toast('已恢复默认数据');
+      toast(_('已恢复默认数据'));
     });
   });
 
@@ -2687,10 +2730,10 @@
   var barsBtn = $('barsToggle');
   function setBarsHidden(hidden) {
     document.body.classList.toggle('bars-hidden', hidden);
-    var label = hidden ? '显示工具栏' : '隐藏工具栏';
+    var label = hidden ? _('显示工具栏') : _('隐藏工具栏');
     barsBtn.setAttribute('aria-pressed', hidden ? 'true' : 'false');
     barsBtn.setAttribute('aria-label', label);
-    barsBtn.title = label + '（H）';
+    barsBtn.title = _('{label}（H）', { label: label });
     if (hidden && sidebarOpen) closeSidebar();
     scheduleRelayout(true);
   }
@@ -2724,7 +2767,7 @@
     ptrEl.style.transform = 'translate(-50%, ' + (dist - 48) + 'px)';
     ptrEl.style.opacity = String(Math.min(1, dist / 40));
     ptrEl.classList.toggle('ready', ready);
-    ptrEl.querySelector('.ptr-text').textContent = ready ? '释放刷新' : '下拉刷新';
+    ptrEl.querySelector('.ptr-text').textContent = ready ? _('释放刷新') : _('下拉刷新');
   }
   function ptrReset() {
     ptr.state = null;
@@ -2755,7 +2798,7 @@
     if (ptr.dist >= PTR_THRESHOLD) {
       ptr.state = 'refreshing';
       ptrEl.classList.add('refreshing');
-      ptrEl.querySelector('.ptr-text').textContent = '正在刷新…';
+      ptrEl.querySelector('.ptr-text').textContent = _('正在刷新…');
       location.reload();
     } else {
       ptrReset();
@@ -2786,9 +2829,9 @@
   function updatePlayBtn() {
     playBtn.setAttribute('aria-pressed', playing ? 'true' : 'false');
     playBtn.dataset.speed = String(playSpeed);
-    var label = !playing ? '自动播放' : playSpeed === 2 ? '暂停自动播放（当前二倍速）' : '切换为二倍速播放';
+    var label = !playing ? _('自动播放') : playSpeed === 2 ? _('暂停自动播放（当前二倍速）') : _('切换为二倍速播放');
     playBtn.setAttribute('aria-label', label);
-    playBtn.title = label + (playing ? '（空格暂停）' : '（空格）');
+    playBtn.title = label + (playing ? _('（空格暂停）') : _('（空格）'));
   }
   function setPlaying(on, speed) {
     playing = on;
@@ -2908,7 +2951,7 @@
   }
   // 等待用户操作时，按钮的说明改为“轻触开始播放”
   function setMusicLabel() {
-    var label = !musicOn ? '开启背景音乐' : musicBtn.classList.contains('waiting') ? '开始播放背景音乐' : '关闭背景音乐';
+    var label = !musicOn ? _('开启背景音乐') : musicBtn.classList.contains('waiting') ? _('开始播放背景音乐') : _('关闭背景音乐');
     musicBtn.setAttribute('aria-label', label);
     musicBtn.title = label;
   }
@@ -2963,10 +3006,10 @@
   var themeBtn = $('themeToggle');
   function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
-    var label = theme === 'dark' ? '切换到浅色模式' : '切换到深色模式';
+    var label = theme === 'dark' ? _('切换到浅色模式') : _('切换到深色模式');
     themeBtn.setAttribute('aria-label', label);
     themeBtn.title = label;
-    $('moreThemeText').textContent = theme === 'dark' ? '浅色模式' : '深色模式';
+    $('moreThemeText').textContent = theme === 'dark' ? _('浅色模式') : _('深色模式');
   }
   applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
   themeBtn.addEventListener('click', function () {
@@ -2982,9 +3025,9 @@
   function openAbout() { updateAbout(); openModal('aboutModal'); }
   // 关于页中由数据决定的部分：事件数量、背景音乐来源（数据集的 music.title / music.credit，没有时不显示）
   function updateAbout() {
-    $('aboutSummary').textContent = '目前收录 ' + events.length + ' 个事件，';
-    var m = meta && meta.music, credit = m && [m.title, m.credit].filter(Boolean).join('，');
-    $('aboutMusic').textContent = credit ? '背景音乐：' + credit + '。' : '';
+    $('aboutSummary').textContent = _('目前收录 {n} 个事件，', { n: events.length });
+    var m = meta && meta.music, credit = m && [m.title, m.credit].filter(Boolean).join(_('，'));
+    $('aboutMusic').textContent = credit ? _('背景音乐：{credit}。', { credit: credit }) : '';
     $('aboutMusicHead').hidden = !credit;
   }
   var moreBtn = $('moreBtn'), moreMenu = $('moreMenu');
@@ -3006,6 +3049,58 @@
   $('moreTheme').addEventListener('click', function () { setMoreOpen(false); themeBtn.click(); });
   $('moreShare').addEventListener('click', function () { setMoreOpen(false); $('shareTimeline').click(); });
 
+  // ---------- 调试模式：切换语言 ----------
+  // 换成同一国家另一种语言的数据集（cn_zh → cn_en），语言列表来自 js/i18n/ 中加载的语言；
+  // 保留调试模式、打开的事件和时间位置，筛选条件不保留（各语言的取值不同）
+  var langBtn = $('langBtn'), langMenu = $('langMenu');
+  function langUrl(lang) {
+    var target = dataset.split('_')[0] + '_' + lang;
+    var params = new URLSearchParams(location.search), out = new URLSearchParams();
+    if (target !== DEFAULT_DATASET) out.set('data', target);
+    ['debugMode', 'id', 'at', 'browse'].forEach(function (k) { if (params.has(k)) out.set(k, params.get(k)); });
+    return location.pathname + (out.toString() ? '?' + out.toString().replace(/=(?=&|$)/g, '') : '') + location.hash;
+  }
+  function switchLang(lang) {
+    if (lang === LANG) return;
+    syncUrl();
+    location.href = langUrl(lang);
+  }
+  function setLangOpen(open) {
+    langMenu.hidden = !open;
+    langBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  $('langName').textContent = LOCALE.name || LANG;
+  Object.keys(I18N).forEach(function (lang) {
+    var name = I18N[lang].name || lang;
+    var item = document.createElement('button');
+    item.type = 'button';
+    item.setAttribute('role', 'menuitemradio');
+    item.setAttribute('aria-checked', lang === LANG ? 'true' : 'false');
+    item.dataset.lang = lang;
+    item.innerHTML = '<span></span><span class="lang-check" aria-hidden="true">✓</span>';
+    item.firstChild.textContent = name;
+    item.addEventListener('click', function () { setLangOpen(false); switchLang(lang); });
+    langMenu.appendChild(item);
+    var seg = document.createElement('button');
+    seg.type = 'button';
+    seg.setAttribute('role', 'radio');
+    seg.setAttribute('aria-checked', lang === LANG ? 'true' : 'false');
+    seg.dataset.lang = lang;
+    seg.textContent = I18N[lang].shortName || name;
+    seg.addEventListener('click', function () { setMoreOpen(false); switchLang(lang); });
+    $('langSeg').appendChild(seg);
+  });
+  langBtn.addEventListener('click', function () { setLangOpen(langMenu.hidden); });
+  document.addEventListener('pointerdown', function (e) {
+    if (!langMenu.hidden && !e.target.closest('.lang-wrap')) setLangOpen(false);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape' || langMenu.hidden) return;
+    e.stopImmediatePropagation();
+    setLangOpen(false);
+    langBtn.focus();
+  }, true);
+
   // ---------- 首次访问提示 ----------
   // 第一次打开网站时提示怎么用，只提示一次（记在当前浏览器中）：
   // 电脑上是分步指引（聚光灯依次指向时间轴、卡片、“浏览所有历史事件”按钮，可以回到上一步），打开期间自动播放停住；
@@ -3023,11 +3118,11 @@
 
   // 分步指引
   var TOUR_STEPS = [
-    { text: '<b>左右拖动</b>时间轴浏览，也可以用方向键或滚轮；右上角 ▶ 可以自动播放。', target: function () {
+    { text: _('<b>左右拖动</b>时间轴浏览，也可以用方向键或滚轮；右上角 ▶ 可以自动播放。'), target: function () {
       var st = stage.getBoundingClientRect(), ax = $('axis').getBoundingClientRect();
       return { left: st.left + 16, top: ax.top - 30, width: st.width - 32, height: ax.height + 60 };
     } },
-    { text: '<b>点卡片</b>看事件详情、图片和参考资料。', target: function () {
+    { text: _('<b>点卡片</b>看事件详情、图片和参考资料。'), target: function () {
       var st = stage.getBoundingClientRect();
       var cards = Array.prototype.filter.call(document.querySelectorAll('#events .card'), function (c) {
         var r = c.getBoundingClientRect();
@@ -3036,7 +3131,7 @@
       var c = cards[0] || document.querySelector('#events .card');
       return c && c.getBoundingClientRect();
     } },
-    { text: '点<b>“浏览所有历史事件”</b>可以搜索全部事件，并按类型、年代筛选。', target: function () { return $('browseBtn').getBoundingClientRect(); } },
+    { text: _('点<b>“浏览所有历史事件”</b>可以搜索全部事件，并按类型、年代筛选。'), target: function () { return $('browseBtn').getBoundingClientRect(); } },
   ];
   var tour = { open: false, step: 0 };
   function startTour() {
@@ -3050,7 +3145,7 @@
     var last = tour.step === TOUR_STEPS.length - 1;
     $('tourStep').textContent = (tour.step + 1) + ' / ' + TOUR_STEPS.length;
     $('tourText').innerHTML = TOUR_STEPS[tour.step].text;
-    $('tourNext').textContent = last ? '开始浏览' : '下一步';
+    $('tourNext').textContent = last ? _('开始浏览') : _('下一步');
     $('tourSkip').hidden = last;
     $('tourPrev').hidden = tour.step === 0;
     Array.prototype.forEach.call($('tourDots').children, function (d, i) { d.classList.toggle('on', i === tour.step); });
@@ -3170,7 +3265,7 @@
     var btn = $('clearCacheBtn');
     btn.classList.add('busy');
     btn.setAttribute('aria-busy', 'true');
-    toast('正在清除缓存、获取最新版本…');
+    toast(_('正在清除缓存、获取最新版本…'));
     var jobs = siteFiles().map(function (u) {
       return fetch(u, { cache: 'reload' }).catch(function () { /* 某个文件失败不影响其他文件和刷新 */ });
     });
@@ -3192,10 +3287,10 @@
       .then(function (v) {
         var when = v && formatTimestamp(v.updatedAt);
         var time = $('debugUpdated');
-        time.textContent = when || '未知';
+        time.textContent = when || _('未知');
         if (when) time.setAttribute('datetime', v.updatedAt); else time.removeAttribute('datetime');
         $('debugCommit').textContent = when && v.commit
-          ? '版本 ' + v.commit + (v.source === 'local' ? '（本地）' : '')
+          ? (v.source === 'local' ? _('版本 {commit}（本地）', { commit: v.commit }) : _('版本 {commit}', { commit: v.commit }))
           : '';
       });
     return versionRequest;
@@ -3207,7 +3302,7 @@
     var off = -d.getTimezoneOffset();
     var tz = 'UTC' + (off >= 0 ? '+' : '-') + Math.floor(Math.abs(off) / 60) + (Math.abs(off) % 60 ? ':' + pad(Math.abs(off) % 60) : '');
     return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' +
-      pad(d.getHours()) + ':' + pad(d.getMinutes()) + '（' + tz + '）';
+      pad(d.getHours()) + ':' + pad(d.getMinutes()) + _('（{tz}）', { tz: tz });
   }
 
   $('debugToggle').addEventListener('change', function (e) { setDebugMode(e.target.checked); });
@@ -3313,7 +3408,7 @@
         if ($('detailModal').hidden || detailId !== id) openDetail(id);
       } else {
         if (!$('detailModal').hidden) closeModal('detailModal');
-        if (id) toast('找不到该事件：' + id);
+        if (id) toast(_('找不到该事件：{id}', { id: id }));
       }
     } finally {
       applyingUrl = false;
@@ -3370,7 +3465,7 @@
       var ev = findEvent(id);
       if (!ev) return;
     }
-    $('shareTitle').textContent = shareType === 'timeline' ? '分享时间线' : '分享事件';
+    $('shareTitle').textContent = shareType === 'timeline' ? _('分享时间线') : _('分享事件');
     openModal('shareModal');
     $('shareQrcode').hidden = true;
     $('shareWechatGuide').hidden = true;
@@ -3410,7 +3505,7 @@
       }
 
       if (type === 'copy') {
-        copyText(url).then(function () { toast('链接已复制'); }, function () { toast('请复制链接：' + url); });
+        copyText(url).then(function () { toast(_('链接已复制')); }, function () { toast(_('请复制链接：{url}', { url: url })); });
         closeModal('shareModal');
       } else if (type === 'wechat-friend') {
         shareToWechat(url, title);
@@ -3466,15 +3561,15 @@
     var box = $('shareWechatGuide');
     var text = $('shareWechatGuideText');
     function show(copied) {
-      var head = copied ? '链接已复制。' : '请复制链接：' + url + '。';
-      text.textContent = head + '打开微信，粘贴发送给朋友。';
+      var head = copied ? _('链接已复制。') : _('请复制链接：{url}。', { url: url });
+      text.textContent = head + _('打开微信，粘贴发送给朋友。');
       box.hidden = false;
       if (box.scrollIntoView) box.scrollIntoView({ block: 'nearest' });   // 手机上分享面板较长，提示在底部
     }
     copyText(url).then(function () { show(true); }, function () { show(false); });
   }
   function showWechatTip() {
-    $('wechatTipText').textContent = '点击右上角 ··· 选择“发送给朋友”或“分享到朋友圈”';
+    $('wechatTipText').textContent = _('点击右上角 ··· 选择“发送给朋友”或“分享到朋友圈”');
     $('wechatTip').hidden = false;
   }
   $('wechatTip').addEventListener('click', function () { $('wechatTip').hidden = true; });
@@ -3496,12 +3591,12 @@
     var container = $('shareQrcodeContainer');
     container.innerHTML = '';
     container.dataset.url = url;
-    if (!window.QRCode) container.appendChild(el('p', 'qrcode-wait', '正在生成二维码…'));
+    if (!window.QRCode) container.appendChild(el('p', 'qrcode-wait', _('正在生成二维码…')));
     whenQrcodeReady(function (ok) {
       if (container.dataset.url !== url) return;   // 期间已关闭或换了链接
       container.innerHTML = '';
       if (!ok) {
-        container.appendChild(el('p', 'qrcode-wait', '二维码生成失败，请复制链接后在微信中发送：' + url));
+        container.appendChild(el('p', 'qrcode-wait', _('二维码生成失败，请复制链接后在微信中发送：{url}', { url: url })));
         return;
       }
       qrcodeInstance = new QRCode(container, { text: url, width: 200, height: 200, correctLevel: QRCode.CorrectLevel.H });
@@ -3511,17 +3606,17 @@
   // ---------- 启动 ----------
   function showLoadError(message) {
     var box = el('div', 'load-error');
-    box.appendChild(el('strong', null, '无法加载历史数据'));
+    box.appendChild(el('strong', null, _('无法加载历史数据')));
     box.appendChild(el('p', null, message));
     stage.appendChild(box);
   }
 
   function loadDataset() {
     return fetch('data/' + dataset + '.json', { cache: 'no-cache' }).then(function (res) {
-      if (!res.ok) throw new Error('找不到数据文件 data/' + dataset + '.json（HTTP ' + res.status + '）');
+      if (!res.ok) throw new Error(_('找不到数据文件 {file}（HTTP {status}）', { file: 'data/' + dataset + '.json', status: res.status }));
       return res.json();
     }).then(function (data) {
-      if (!data || !Array.isArray(data.events) || !Array.isArray(data.eras)) throw new Error('数据文件格式不正确');
+      if (!data || !Array.isArray(data.events) || !Array.isArray(data.eras)) throw new Error(_('数据文件格式不正确'));
       return data;
     });
   }
@@ -3557,8 +3652,8 @@
 
     $('resetBtn').hidden = fileMode;
     $('storageNote').textContent = fileMode
-      ? '本地文件模式：修改会直接写入 data/' + dataset + '.json'
-      : '修改保存在当前浏览器中';
+      ? _('本地文件模式：修改会直接写入 {file}', { file: 'data/' + dataset + '.json' })
+      : _('修改保存在当前浏览器中');
 
     ready = true;
     renderTimeline();
@@ -3575,7 +3670,7 @@
     });
   }).catch(function (e) {
     showLoadError(location.protocol === 'file:'
-      ? '请在项目目录运行 npm start，然后通过 http://127.0.0.1:4173/ 访问。'
+      ? _('请在项目目录运行 npm start，然后通过 http://127.0.0.1:4173/ 访问。')
       : e.message);
   });
 })();

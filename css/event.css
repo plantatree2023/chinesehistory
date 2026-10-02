@@ -13,7 +13,7 @@ body.event-page {
   background: var(--bar-bg);
 }
 .ev-home {
-  font: 26px/1.2 'Ma Shan Zheng Title', var(--font-serif);
+  font: 26px/1.2 var(--font-title);
   color: var(--ink);
   text-decoration: none;
 }

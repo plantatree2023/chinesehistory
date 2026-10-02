@@ -25,7 +25,8 @@ npm test
 - 调试模式：编辑功能（新增、编辑、删除、恢复默认数据）只在调试模式下显示，新增的编辑入口要加 `debug-only` 类；调试模式显示的网站更新时间来自部署时生成的 `version.json`（`tools/build-site.js`）。需要编辑的测试用 `test.use({ debugMode: true })`
 - 自动播放：网页加载后默认自动播放；测试中默认关闭（`tests/helpers.js` 设置 `window.TIMELINE_AUTOPLAY = false`），测试自动播放本身时用 `test.use({ autoplay: true })`
 - 首次访问提示（电脑分步指引、手机底部气泡）：测试中默认关闭（`window.TIMELINE_ONBOARDING = false`），测试提示本身时用 `test.use({ onboarding: true })`
-- 右上角按钮：电脑上依次是播放、音乐、深色模式、分享、关于、放大缩小；手机（≤640px）上深色模式、分享、关于收进“更多”菜单（`#moreBtn`）。新按钮放在放大缩小按钮左边
+- 界面语言（i18n）：语言由数据集名称的语言部分决定（`cn_zh` → 中文，`cn_en` → 英文）。界面文字以中文为原文写在 `index.html` 和 `js/app.js` 中；脚本中新增的界面文字都要写成 `_('中文原文', { 名称: 值 })`，并在 `js/i18n/en.js`（及其他语言文件）的 `strings` 中加译文；`index.html` 中的文字、`title` / `aria-label` / `placeholder` 按原文自动翻译，含标签的段落加 `data-i18n`（按整段 innerHTML 查找译文）。年份格式、文字长度上限也在语言文件中；英文字体在 `css/style.css` 的 `:root:lang(en)`。调试模式右上角有语言下拉菜单（手机在“更多”菜单中）。`tests/i18n.spec.js` 检查每条原文都有译文、英文界面没有残留中文。`cn_en` 是 `cn_zh` 的翻译，事件 id 相同；改动 `cn_zh` 不会自动同步到 `cn_en`
+- 右上角按钮：电脑上依次是播放、音乐、深色模式、分享、关于、（调试模式）语言、放大缩小；手机（≤640px）上深色模式、分享、关于收进“更多”菜单（`#moreBtn`）。新按钮放在放大缩小按钮左边
 - 配色：颜色都用 `css/style.css` 中 `:root` 的变量，深色模式在 `:root[data-theme="dark"]` 中重新定义；新增颜色要同时定义两套，`tests/theme.spec.js` 检查对比度
 - 侧栏筛选（`js/app.js` 中的 `FILTERS`）：**同类型的控件放在一起**（勾选框在最前，然后是下拉列表、范围输入）。新增筛选时写明 `kind`（`toggle` / `select` / `range`），面板按 `FILTER_KIND_ORDER` 自动分组；`tests/filters.spec.js` 会检查。每个筛选还要写 `toParams` / `fromParams`，把条件写进网址并能从网址恢复（见 `tests/url.spec.js`）
 - 反馈 / 建议修改：所有访问者可用，通过 Web3Forms 发送（`js/config.js` 中的 `accessKey`；`enabled: false` 时反馈入口带 `feedback-only` 类被隐藏，没有 `accessKey` 时提交提示尚未配置）；建议模式复用编辑页（`openEditor(id, 'suggest' | 'propose')`），不修改数据。测试替换 `js/config.js` 并拦截发送请求（`tests/feedback.spec.js`），不得真的发出

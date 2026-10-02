@@ -66,7 +66,7 @@
     .brand {
       display: inline-block;
       margin: 18px 28px;
-      font-family: 'Ma Shan Zheng Title', var(--font-serif);
+      font-family: var(--font-title, var(--font-serif));
       font-size: 26px;
       color: var(--red);
       text-decoration: none;
@@ -153,9 +153,23 @@
           message: '这个网址没有对应的页面，可能是地址写错了，或者页面已经移走。',
           home: '回到时间轴',
           random: '随便看一个事件',
-          dataset: 'cn_zh'
+          dataset: 'cn_zh',                 // “随便看一个事件”取自该数据集；不是网站默认数据集时链接带 ?data=
+          titleFont: ['Ma Shan Zheng Title', 'ma-shan-zheng-title.woff2']   // 标题字体与 css/fonts/ 中的文件
+        },
+        en: {
+          lang: 'en',
+          title: 'Page not found · China Through Time',
+          brand: 'China Through Time',
+          heading: 'This page is not on the timeline',
+          message: 'Nothing lives at this address. The link may be mistyped, or the page has moved.',
+          home: 'Back to the timeline',
+          random: 'Show me a random event',
+          dataset: 'cn_en',
+          titleFont: ['Cinzel', 'cinzel-latin-700.woff2'],
+          serif: "'EB Garamond', Garamond, Georgia, serif"
         }
       };
+      var DEFAULT_DATASET = 'cn_zh';
       var langs = (navigator.languages || [navigator.language || '']).map(function (l) { return String(l).toLowerCase().split('-')[0]; });
       var s = STRINGS[langs.filter(function (l) { return STRINGS[l]; })[0] || 'zh'];
 
@@ -164,8 +178,11 @@
       if (location.protocol === 'file:') root = './';
 
       var font = document.createElement('style');
-      font.textContent = "@font-face { font-family: 'Ma Shan Zheng Title'; src: url(" + root + "css/fonts/ma-shan-zheng-title.woff2) format('woff2'); font-display: swap; }";
+      font.textContent = "@font-face { font-family: '" + s.titleFont[0] + "'; src: url(" + root + 'css/fonts/' + s.titleFont[1] + ") format('woff2'); font-display: swap; }";
       document.head.appendChild(font);
+      document.documentElement.style.setProperty('--font-title', "'" + s.titleFont[0] + "', var(--font-serif)");
+      if (s.serif) document.documentElement.style.setProperty('--font-serif', s.serif);
+      var home = root + (s.dataset !== DEFAULT_DATASET ? '?data=' + s.dataset : '');
 
       document.documentElement.lang = s.lang;
       document.title = s.title;
@@ -174,10 +191,10 @@
         el.textContent = text;
         if (href) el.href = href;
       }
-      set('brand', s.brand, root);
+      set('brand', s.brand, home);
       set('heading', s.heading);
       set('message', s.message);
-      set('homeLink', s.home, root);
+      set('homeLink', s.home, home);
 
       // 随便看一个事件：从数据集中随机选一个，打开它的详情（测试通过 window.TIMELINE_DATASET 换成测试数据）
       fetch(root + 'data/' + (window.TIMELINE_DATASET || s.dataset) + '.json').then(function (res) {
@@ -187,7 +204,7 @@
         if (!events.length) return;
         var ev = events[Math.floor(Math.random() * events.length)];
         var link = document.getElementById('randomLink');
-        set('randomLink', s.random, root + '?id=' + encodeURIComponent(ev.id));
+        set('randomLink', s.random, root + '?' + (s.dataset !== DEFAULT_DATASET ? 'data=' + s.dataset + '&' : '') + 'id=' + encodeURIComponent(ev.id));
         link.hidden = false;
       }).catch(function () { /* 取不到数据时只显示“回到时间轴” */ });
     })();
