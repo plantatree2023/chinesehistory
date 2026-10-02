@@ -1,0 +1,5 @@
+# Cloudflare 的响应头规则（tools/build-site.js 复制到 _site/ 根目录）
+# images/ 下的事件图片按内容哈希命名，内容变了文件名就变，可以长期缓存；
+# images/share/ 等其他文件不匹配这条规则，沿用 Cloudflare 默认的每次验证（max-age=0, must-revalidate）
+/images/:file
+  Cache-Control: public, max-age=31536000, immutable

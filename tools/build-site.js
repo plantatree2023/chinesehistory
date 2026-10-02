@@ -20,6 +20,7 @@ function build(outDir) {
     fs.cpSync(path.join(ROOT, name), path.join(outDir, name), { recursive: true });
   }
   fs.writeFileSync(path.join(outDir, '.nojekyll'), '');
+  fs.copyFileSync(path.join(ROOT, '_headers'), path.join(outDir, '_headers'));
 
   // Cloudflare Pages 提供 CF_PAGES_COMMIT_SHA，GitHub Actions 提供 GITHUB_SHA
   const sha = process.env.CF_PAGES_COMMIT_SHA || process.env.GITHUB_SHA || git('rev-parse', 'HEAD');

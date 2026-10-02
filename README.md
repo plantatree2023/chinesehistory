@@ -186,5 +186,6 @@ npm run test:report              # 查看上次的 HTML 报告（失败时含截
 - `lib/images.js` 图片工具（识别格式与尺寸、下载、按内容哈希保存），服务器和导入脚本共用
 - `tools/wiki-import.js` 从维基百科导入 / 更新事件的命令行脚本
 - `tools/share-images.js` 生成社交分享封面图和 apple-touch-icon
+- `_headers` Cloudflare 的缓存规则：`images/` 下按内容哈希命名的图片缓存一年，其他文件每次验证
 - `tools/build-site.js` 生成部署用的 `_site/`（网站文件 + `version.json`），Cloudflare Pages 的构建命令
 - `tests/` 自动化测试（`helpers.js` 为共用工具）

@@ -228,7 +228,7 @@ test.describe('version.json 的来源', () => {
       env: { ...process.env, CF_PAGES_COMMIT_SHA: '0123456789abcdef0123456789abcdef01234567' },
       stdio: 'ignore',
     });
-    expect(fs.readdirSync(out).sort()).toEqual([...SITE_FILES, '.nojekyll', 'version.json'].sort());
+    expect(fs.readdirSync(out).sort()).toEqual([...SITE_FILES, '.nojekyll', '_headers', 'version.json'].sort());
     expect(fs.existsSync(path.join(out, 'js', 'app.js'))).toBe(true);
     const v = JSON.parse(fs.readFileSync(path.join(out, 'version.json'), 'utf8'));
     expect(v).toMatchObject({ commit: '0123456', source: 'deploy', commitAt: git('log', '-1', '--format=%cI') });
@@ -250,6 +250,15 @@ test.describe('version.json 的来源', () => {
     SITE_FILES.forEach((n) => walk(path.join(ROOT, n)));
     expect(tooLarge).toEqual([]);
   });
+});
+
+test('Cloudflare 缓存规则：只有按内容哈希命名的 images/ 文件长期缓存', async () => {
+  const rules = fs.readFileSync(path.join(ROOT, '_headers'), 'utf8').split('\n').filter((l) => l.trim() && !l.startsWith('#'));
+  expect(rules).toEqual(['/images/:file', '  Cache-Control: public, max-age=31536000, immutable']);
+  // :file 只匹配 images/ 下一层的文件（不含 images/share/），这些文件必须都是内容哈希命名，否则改了内容浏览器仍用旧缓存
+  const top = fs.readdirSync(path.join(ROOT, 'images'), { withFileTypes: true }).filter((d) => d.isFile()).map((d) => d.name);
+  expect(top.length).toBeGreaterThan(0);
+  expect(top.filter((n) => !/^[0-9a-f]{12,64}\.(jpg|jpeg|png|webp|gif|svg)$/.test(n))).toEqual([]);
 });
 
 test.describe('GitHub 仓库按钮', () => {
