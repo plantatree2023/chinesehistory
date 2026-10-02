@@ -690,6 +690,24 @@
     wash.style.backgroundImage = stops.length ? 'linear-gradient(to right, ' + stops.join(', ') + ')' : '';
   }
 
+  // 全屏模式下每个时期开始处左上角的时期名（只在 body.bars-hidden 时由 CSS 显示）。
+  // 时期太短、放不下名字时不显示，避免与下一个时期的名字重叠
+  function renderEraNames(W) {
+    var box = $('eraNames');
+    box.innerHTML = '';
+    var fontSize = window.matchMedia('(max-width: 640px)').matches ? 26 : 34;
+    ERAS.forEach(function (era) {
+      var x1 = clamp(xOfYear(era.start), 0, W);
+      var x2 = era.end == null ? W : clamp(xOfYear(era.end), 0, W);
+      if (x2 - x1 < era.name.length * fontSize + 24) return;
+      var d = el('div', 'era-start-name', era.name);
+      d.dataset.era = era.name;
+      d.style.left = x1 + 'px';
+      d.style.setProperty('--era-color', era.color);
+      box.appendChild(d);
+    });
+  }
+
   function renderTimeline() {
     ensureRatios();
     computeLayout();
@@ -736,6 +754,7 @@
       if (x2 - x1 > era.name.length * 12 + 6) d.appendChild(el('span', 'era-label', era.name));
       eras.appendChild(d);
     });
+    renderEraNames(W);
 
     // 刻度
     var ticks = $('ticks');
