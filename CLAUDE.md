@@ -32,7 +32,7 @@ npm test
 - 脚本都从本地加载（第三方库放在 `js/vendor/`），不阻塞页面的用 `async`；`tests/share-qrcode.spec.js` 检查页面不引用外部脚本
 - `lib/link-title.js`：维基百科 / 百度百科链接的词条名查询，本地服务器 `/api/link-title`（只读模式也提供）供编辑页自动填写参考链接标题；`tests/helpers.js` 默认拦截该请求，测试不访问外网
 - `lib/images.js`：图片工具（格式与尺寸识别、下载、按内容哈希保存到 `images/`），服务器和导入脚本共用
-- `tools/build-site.js`：生成部署用的 `_site/`（与 `deploy.yml` 复制相同的文件并写 `version.json`），Cloudflare Pages 的构建命令为 `node tools/build-site.js`、输出目录 `_site`；部署的文件列表改动时两边同步（`tests/debug.spec.js` 检查）
+- `tools/build-site.js`：生成部署用的 `_site/`（与 `deploy.yml` 复制相同的文件并写 `version.json`），Cloudflare 的构建命令为 `node tools/build-site.js`，部署命令 `npx wrangler deploy` 按 `wrangler.jsonc` 只上传 `_site`（单个文件不超过 25 MiB）；部署的文件列表改动时两边同步（`tests/debug.spec.js` 检查）
 - `tools/wiki-import.js`：从维基百科导入 / 更新事件（`npm run wiki -- --file data/cn_zh.json 关键词`），支持 `--list`、`--dry-run`、`--refresh-images`、`--type`、`--score`；图片总是下载到本地；自动推断事件类型（`type`）和估算重要程度（`majorScore`）
 - `audio/`：背景音乐（数据集的 `music` 字段引用，只从本地加载；部署时复制）。音乐按数据集配置，便于其他国家 / 语言使用各自的音乐
 - `textures/`：背景纹理（数据集的 `texture` 字段引用，只从本地加载；部署时复制）。纹理按数据集配置，图片只用作遮罩形状，颜色来自 `--texture-ink`
