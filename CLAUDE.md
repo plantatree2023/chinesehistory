@@ -36,6 +36,7 @@ npm test
 - `tools/wiki-import.js`：从维基百科导入 / 更新事件（`npm run wiki -- --file data/cn_zh.json 关键词`），支持 `--list`、`--dry-run`、`--refresh-images`、`--type`、`--score`；图片总是下载到本地；自动推断事件类型（`type`）和估算重要程度（`majorScore`）
 - `audio/`：背景音乐（数据集的 `music` 字段引用，只从本地加载；部署时复制）。音乐按数据集配置，便于其他国家 / 语言使用各自的音乐
 - `textures/`：背景纹理（数据集的 `texture` 字段引用，只从本地加载；部署时复制）。纹理按数据集配置，图片只用作遮罩形状，颜色来自 `--texture-ink`
+- 分享面板：只在手机上显示的按钮加 `mobile-only` 类（`js/app.js` 按 UA 判断手机，给 `body` 加 `mobile-device`；在微信内置浏览器中加 `in-wechat`）；微信好友 / 朋友圈见 `shareToWechat`，`tests/share-wechat.spec.js` 用手机 / 微信的 UA 测试
 - 社交分享卡片：`index.html` 中的 `og:` / `twitter:` 元数据用绝对地址（与 `package.json` 的 `homepage` 一致，换域名时一起改）；封面图和 apple-touch-icon 在 `images/share/`，由 `node tools/share-images.js` 生成；`tests/share-card.spec.js` 检查
 - `images/`：事件图片。**所有图片都从本地加载**：数据中的图片路径只能是 `images/<文件名>`，不引用外部地址；编辑页输入的图片网址会先下载到本地
 - `tests/`：Playwright 端到端测试，说明见 README
