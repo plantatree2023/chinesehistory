@@ -11122,31 +11122,13 @@
           "src": "images/5a76737c787589b6.jpg",
           "w": 500,
           "h": 367,
-          "caption": ""
+          "caption": "开国大典"
         },
         {
           "src": "images/e4ad2c21dc0d1125.jpg",
           "w": 500,
           "h": 348,
           "caption": "开国大典盛况"
-        },
-        {
-          "src": "images/61349288c37dbd18.jpg",
-          "w": 120,
-          "h": 80,
-          "caption": ""
-        },
-        {
-          "src": "images/5020f71ab660f35e.jpg",
-          "w": 120,
-          "h": 192,
-          "caption": ""
-        },
-        {
-          "src": "images/a6e00d57269aed22.jpg",
-          "w": 120,
-          "h": 80,
-          "caption": ""
         },
         {
           "src": "images/fb4244b0552295ce.jpg",
@@ -11158,10 +11140,6 @@
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%BC%80%E5%9B%BD%E5%A4%A7%E5%85%B8",
-          "title": "维基百科 - 中华人民共和国中央人民政府成立典礼"
-        },
-        {
-          "url": "https://zh.wikipedia.org/wiki/%E4%B8%AD%E8%8F%AF%E4%BA%BA%E6%B0%91%E5%85%B1%E5%92%8C%E5%9C%8B%E4%B8%AD%E5%A4%AE%E4%BA%BA%E6%B0%91%E6%94%BF%E5%BA%9C%E6%88%90%E7%AB%8B%E5%85%B8%E7%A6%AE",
           "title": "维基百科 - 中华人民共和国中央人民政府成立典礼"
         }
       ],
