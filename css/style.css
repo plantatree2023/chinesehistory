@@ -700,7 +700,7 @@ body.bars-hidden .era-names, body.bars-hidden .era-lines { display: block; }
 .btn-ghost { background: transparent; color: var(--ink-2); border-color: var(--line); }
 .btn-ghost:hover { border-color: var(--ink-2); }
 .btn-small { padding: 5px 10px; font-size: 12px; }
-.browse-btn { flex: none; padding: 6px 14px; font-size: 13px; box-shadow: var(--shadow); }
+.browse-btn { flex: none; padding: 6px 14px; font-size: 13px; box-shadow: var(--shadow); gap: 0; }
 
 .fab {
   position: fixed;
