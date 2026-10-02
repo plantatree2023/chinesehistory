@@ -186,5 +186,6 @@ npm run test:report              # 查看上次的 HTML 报告（失败时含截
 - `lib/images.js` 图片工具（识别格式与尺寸、下载、按内容哈希保存），服务器和导入脚本共用
 - `tools/wiki-import.js` 从维基百科导入 / 更新事件的命令行脚本
 - `tools/share-images.js` 生成社交分享封面图和 apple-touch-icon
+- `_headers` Cloudflare 的缓存规则：`images/` 下按内容哈希命名的图片缓存一年，其他文件每次验证
 - `tools/build-site.js` 生成部署用的 `_site/`（网站文件、`data/` 下每个数据集每个事件的静态页（默认数据集 `e/<事件id>.html`，其他 `e/<数据集>/<事件id>.html`）、`sitemap.xml`、`robots.txt`、`version.json`），GitHub Pages 和 Cloudflare Pages 共用的构建命令；事件静态页不依赖脚本，供搜索引擎收录，“在时间轴中查看”打开时间轴中的该事件（其他数据集带 `?data=`），样式在 `css/event.css`；每次部署时按当时的数据重新生成，新增 / 修改事件或新增数据集后推送即可，不需要改代码，生成的页面也不提交；本地预览先 `node tools/build-site.js`，再用静态服务器提供 `_site`（例如 `python -m http.server -d _site 8080`）
 - `tests/` 自动化测试（`helpers.js` 为共用工具）
