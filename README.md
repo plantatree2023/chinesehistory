@@ -152,6 +152,7 @@ npm run test:report              # 查看上次的 HTML 报告（失败时含截
 | `tests/share-qrcode.spec.js` | 微信分享二维码库：本地、async（页面加载时就下载）、下载很慢时页面照常显示并在打开时先提示等待、加载失败时提示复制链接 |
 | `tests/image-loading.spec.js` | 时间轴卡片的图片只在接近视野时加载（手机和桌面、两个数据集）；跳转时不加载一路经过的图片；重新排版后视野内图片仍显示 |
 | `tests/feedback.spec.js` | 反馈 / 建议修改：仓库配置（已填写 Access Key）、没有 Access Key 时提示尚未配置、关闭时不显示、详情中的事件反馈（类型、必填、图片问题、失败重试）、编辑页建议模式（预填、只发送改动）、侧栏的整站反馈和建议新增事件、窄屏（发送请求被拦截，不会真的发出） |
+| `tests/not-found.spec.js` | 404 页面：标题与链接、不写年份和时期、随机事件链接、取不到数据时的退路、手机布局、深浅配色对比度 |
 | `tests/debug.spec.js` | 调试模式：只在本地启动时提供（`js/env.js`、`--no-debug`）、默认隐藏全部编辑功能、开关显示 / 隐藏与保存、网站更新时间（本地 git、部署的 version.json、缺失时显示“未知”）、部署流程和 Cloudflare 构建脚本生成 version.json、GitHub 仓库按钮、清除缓存按钮 |
 | `tests/toolbar.spec.js` | 工具栏默认显示，按钮（全屏 / 退出全屏图标）/ H 键隐藏与恢复，切换瞬间时间轴不错位；添加按钮悬浮在底栏上方 |
 | `tests/storage.spec.js` | 浏览器模式的保存方式：只保存改动，数据文件更新后未改动的内容随之更新，旧版本快照的迁移 |
@@ -186,6 +187,7 @@ npm run test:report              # 查看上次的 HTML 报告（失败时含截
 - `lib/images.js` 图片工具（识别格式与尺寸、下载、按内容哈希保存），服务器和导入脚本共用
 - `tools/wiki-import.js` 从维基百科导入 / 更新事件的命令行脚本
 - `tools/share-images.js` 生成社交分享封面图和 apple-touch-icon
+- `404.html` 不存在的网址显示的页面（断开的时间轴），文字在脚本的 `STRINGS` 中，新增语言时加一项
 - `_headers` Cloudflare 的缓存规则：`images/` 下按内容哈希命名的图片缓存一年，其他文件每次验证
 - `tools/build-site.js` 生成部署用的 `_site/`（网站文件、`data/` 下每个数据集每个事件的静态页（默认数据集 `e/<事件id>.html`，其他 `e/<数据集>/<事件id>.html`）、`sitemap.xml`、`robots.txt`、`version.json`），GitHub Pages 和 Cloudflare Pages 共用的构建命令；事件静态页不依赖脚本，供搜索引擎收录，“在时间轴中查看”打开时间轴中的该事件（其他数据集带 `?data=`），样式在 `css/event.css`；每次部署时按当时的数据重新生成，新增 / 修改事件或新增数据集后推送即可，不需要改代码，生成的页面也不提交；本地预览先 `node tools/build-site.js`，再用静态服务器提供 `_site`（例如 `python -m http.server -d _site 8080`）
 - `tests/` 自动化测试（`helpers.js` 为共用工具）

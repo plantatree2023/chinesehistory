@@ -219,6 +219,7 @@ test.describe('version.json 的来源', () => {
     const cfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'wrangler.jsonc'), 'utf8'));
     expect(cfg.name).toBe('chinesehistory');
     expect(cfg.assets.directory).toBe('./_site');
+    expect(cfg.assets.not_found_handling, '不存在的网址显示 404.html').toBe('404-page');
     const { SITE_FILES } = require('../tools/build-site');
     const tooLarge = [];
     const walk = (p) => {

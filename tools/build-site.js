@@ -11,7 +11,7 @@ const path = require('path');
 const { execFileSync } = require('child_process');
 
 const ROOT = path.resolve(__dirname, '..');
-const SITE_FILES = ['index.html', 'css', 'js', 'data', 'images', 'audio', 'textures'];
+const SITE_FILES = ['index.html', '404.html', 'css', 'js', 'data', 'images', 'audio', 'textures'];
 const DEFAULT_DATASET = 'cn_zh';
 // 与 js/app.js 的 DATASET_ID 相同：<国家>_<语言>[-变体]
 const DATASET_ID = /^[a-z]{2}_[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})?$/;
