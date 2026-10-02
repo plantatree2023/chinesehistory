@@ -3049,7 +3049,7 @@
   $('moreTheme').addEventListener('click', function () { setMoreOpen(false); themeBtn.click(); });
   $('moreShare').addEventListener('click', function () { setMoreOpen(false); $('shareTimeline').click(); });
 
-  // ---------- 调试模式：切换语言 ----------
+  // ---------- 切换语言 ----------
   // 换成同一国家另一种语言的数据集（cn_zh → cn_en），语言列表来自 js/i18n/ 中加载的语言；
   // 保留调试模式、打开的事件和时间位置，筛选条件不保留（各语言的取值不同）
   var langBtn = $('langBtn'), langMenu = $('langMenu');

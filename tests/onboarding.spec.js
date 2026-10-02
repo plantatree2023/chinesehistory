@@ -171,7 +171,7 @@ test.describe('关于本站', () => {
   test.describe('电脑', () => {
     test.use({ viewport: DESKTOP });
 
-    test('ⓘ 按钮紧挨在放大缩小按钮左边，打开关于弹窗，显示事件数量和来源', async ({ page }) => {
+    test('ⓘ 按钮在语言菜单和放大缩小按钮左边，打开关于弹窗，显示事件数量和来源', async ({ page }) => {
       await openApp(page);
       await expect(page.locator('#moreBtn')).toBeHidden();
       await expect(page.locator('#themeToggle')).toBeVisible();
@@ -179,7 +179,7 @@ test.describe('关于本站', () => {
       const about = await page.locator('#aboutBtn').boundingBox();
       const bars = await page.locator('#barsToggle').boundingBox();
       const visible = await page.evaluate(() => [...document.querySelectorAll('.corner-btns > *')].filter((b) => b.offsetParent).map((b) => b.id));
-      expect(visible.slice(-2)).toEqual(['aboutBtn', 'barsToggle']);
+      expect(visible.slice(-3)).toEqual(['aboutBtn', 'langWrap', 'barsToggle']);
       expect(about.x + about.width).toBeLessThan(bars.x);
 
       await page.click('#aboutBtn');

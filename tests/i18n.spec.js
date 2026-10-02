@@ -1,5 +1,5 @@
 // 界面语言（i18n）：语言由数据集名称决定（cn_zh → 中文，cn_en → 英文），界面文字以中文为原文，
-// 其他语言在 js/i18n/<语言>.js 中按原文给出译文；调试模式右上角（手机在“更多”菜单中）可以切换语言。
+// 其他语言在 js/i18n/<语言>.js 中按原文给出译文；右上角的语言菜单（手机在“更多”菜单中）可以切换语言，所有访问者可用。
 // 界面测试使用固定的英文测试数据 tests/data/cn_en-test.json；数据完整性检查遍历 data/ 下的所有数据集
 const fs = require('fs');
 const path = require('path');
@@ -151,61 +151,91 @@ test.describe('英文界面', () => {
   });
 });
 
-test.describe('切换语言（调试模式）', () => {
+test.describe('切换语言（所有访问者可用）', () => {
   test.use({ viewport: DESKTOP });
 
-  test('不在调试模式时不显示语言切换', async ({ page }) => {
+  test('电脑：右上角下拉菜单列出所有语言并标出当前语言，选择后换成同一国家另一种语言的数据集，保留时间位置', async ({ page }) => {
+    // 切换后的真实数据集换成测试数据，测试不依赖 data/ 中的文件
+    await page.route('**/data/cn_en.json', (route) => route.fulfill({ path: EN_TEST_FILE }));
+    await page.goto('/?at=-500');
+    await expect(page.locator('.card').first()).toBeVisible();
+    await expect(page.locator('body')).not.toHaveClass(/debug-mode/);
+    const btn = page.locator('#langBtn');
+    await expect(btn).toBeVisible();
+    await expect(btn).toContainText('中文');
+    // 在放大缩小按钮左边
+    const box = await btn.boundingBox();
+    expect(box.x + box.width).toBeLessThanOrEqual((await page.locator('#barsToggle').boundingBox()).x);
+    await btn.click();
+    const items = page.locator('#langMenu [role=menuitemradio]');
+    await expect(items).toHaveCount(Object.keys(LOCALES).length);
+    await expect(page.locator('#langMenu [aria-checked=true]')).toHaveText(/中文/);
+    await page.keyboard.press('Escape');
+    await expect(page.locator('#langMenu')).toBeHidden();
+    await btn.click();
+    await page.locator('#langMenu [data-lang=en]').click();
+    await page.waitForURL(/data=cn_en(&|$)/);
+    const url = new URL(page.url());
+    expect(url.searchParams.get('at')).toBeTruthy();
+    expect(url.searchParams.has('debugMode')).toBe(false);
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    await expect(page.locator('#langBtn')).toContainText('English');
+  });
+
+  test('从英文切回中文：去掉英文数据集参数', async ({ page }) => {
+    await page.route('**/data/cn_zh.json', (route) => route.fulfill({ path: path.join(__dirname, 'data', 'cn_zh-test.json') }));
+    await openEnglish(page);
+    await page.click('#langBtn');
+    await expect(page.locator('#langMenu [aria-checked=true]')).toHaveText(/English/);
+    await page.locator('#langMenu [data-lang=zh]').click();
+    await page.waitForURL((u) => u.searchParams.get('data') !== EN_DATASET);
+    await expect(page.locator('html')).toHaveAttribute('lang', 'zh-CN');
+    await expect(page.locator('.card').first()).toBeVisible();
+  });
+
+  test('隐藏工具栏时不显示语言菜单', async ({ page }) => {
     await page.goto('/');
     await expect(page.locator('.card').first()).toBeVisible();
+    await page.click('#barsToggle');
     await expect(page.locator('#langBtn')).toBeHidden();
   });
 
-  test.describe('调试模式', () => {
-    test.use({ debugMode: true });
+  // 顶栏标题（含当前时期）不被右上角的按钮挡住：中英文、调试模式与否、几种窗口宽度
+  for (const width of [1400, 1024, 760]) {
+    for (const debug of [false, true]) {
+      test(`${width}px${debug ? '，调试模式' : ''}：中英文标题都不和右上角按钮重叠`, async ({ page }) => {
+        await page.setViewportSize({ width, height: 800 });
+        if (debug) await page.addInitScript(() => localStorage.setItem('zh-history-timeline:debug', '1'));
+        for (const url of ['/', `/?data=${EN_DATASET}`]) {
+          await page.goto(url);
+          await expect(page.locator('.card').first()).toBeVisible();
+          await page.evaluate(() => document.fonts.ready);
+          const b = await page.locator('.brand').boundingBox();
+          const c = await page.locator('.corner-btns').boundingBox();
+          expect(b.x + b.width, url).toBeLessThanOrEqual(c.x);
+        }
+      });
+    }
+  }
 
-    test('电脑：右上角下拉菜单列出所有语言并标出当前语言，选择后换成同一国家另一种语言的数据集，保留调试模式和时间位置', async ({ page }) => {
-      // 切换后的真实数据集换成测试数据，测试不依赖 data/ 中的文件
+  test('调试模式：切换语言时保留调试模式', async ({ page }) => {
+    await page.route('**/data/cn_en.json', (route) => route.fulfill({ path: EN_TEST_FILE }));
+    await page.addInitScript(() => localStorage.setItem('zh-history-timeline:debug', '1'));
+    await page.goto('/?debugMode');
+    await expect(page.locator('.card').first()).toBeVisible();
+    await page.click('#langBtn');
+    await page.locator('#langMenu [data-lang=en]').click();
+    await page.waitForURL(/data=cn_en(&|$)/);
+    expect(new URL(page.url()).searchParams.has('debugMode')).toBe(true);
+    await expect(page.locator('body')).toHaveClass(/debug-mode/);
+  });
+
+  test.describe('手机', () => {
+    test.use({ viewport: PHONE });
+
+    test('语言切换在“更多”菜单中', async ({ page }) => {
       await page.route('**/data/cn_en.json', (route) => route.fulfill({ path: EN_TEST_FILE }));
-      await page.goto('/?debugMode&at=-500');
-      await expect(page.locator('.card').first()).toBeVisible();
-      const btn = page.locator('#langBtn');
-      await expect(btn).toBeVisible();
-      await expect(btn).toContainText('中文');
-      // 在放大缩小按钮左边
-      const box = await btn.boundingBox();
-      expect(box.x + box.width).toBeLessThanOrEqual((await page.locator('#barsToggle').boundingBox()).x);
-      await btn.click();
-      const items = page.locator('#langMenu [role=menuitemradio]');
-      await expect(items).toHaveCount(Object.keys(LOCALES).length);
-      await expect(page.locator('#langMenu [aria-checked=true]')).toHaveText(/中文/);
-      await page.keyboard.press('Escape');
-      await expect(page.locator('#langMenu')).toBeHidden();
-      await btn.click();
-      await page.locator('#langMenu [data-lang=en]').click();
-      await page.waitForURL(/data=cn_en(&|$)/);
-      const url = new URL(page.url());
-      expect(url.searchParams.has('debugMode')).toBe(true);
-      expect(url.searchParams.get('at')).toBeTruthy();
-      await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-      await expect(page.locator('#langBtn')).toContainText('English');
-    });
-
-    test('从英文切回中文：去掉英文数据集参数', async ({ page }) => {
-      await page.route('**/data/cn_zh.json', (route) => route.fulfill({ path: path.join(__dirname, 'data', 'cn_zh-test.json') }));
-      await openEnglish(page, '&debugMode');
-      await page.click('#langBtn');
-      await expect(page.locator('#langMenu [aria-checked=true]')).toHaveText(/English/);
-      await page.locator('#langMenu [data-lang=zh]').click();
-      await page.waitForURL((u) => u.searchParams.get('data') !== EN_DATASET);
-      await expect(page.locator('html')).toHaveAttribute('lang', 'zh-CN');
-      await expect(page.locator('.card').first()).toBeVisible();
-      expect(new URL(page.url()).searchParams.has('debugMode')).toBe(true);
-    });
-
-    test('手机：语言切换在“更多”菜单中', async ({ page }) => {
-      await page.setViewportSize(PHONE);
-      await page.route('**/data/cn_en.json', (route) => route.fulfill({ path: EN_TEST_FILE }));
-      await page.goto('/?debugMode');
+      await page.goto('/');
       await expect(page.locator('.card').first()).toBeVisible();
       await expect(page.locator('#langBtn')).toBeHidden();
       await page.click('#moreBtn');
@@ -222,15 +252,17 @@ test.describe('切换语言（调试模式）', () => {
       await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     });
 
-    test('手机：英文标题完整显示，不和右上角按钮重叠', async ({ page }) => {
-      await page.setViewportSize(PHONE);
-      await openEnglish(page, '&debugMode');
-      const brand = page.locator('.brand');
-      expect(await brand.evaluate((el) => el.scrollWidth <= el.clientWidth + 1)).toBe(true);
-      const b = await brand.boundingBox();
-      const c = await page.locator('.corner-btns').boundingBox();
-      expect(b.x + b.width).toBeLessThanOrEqual(c.x);
-    });
+    for (const debug of [false, true]) {
+      test(`英文标题完整显示，不和右上角按钮重叠${debug ? '（调试模式）' : ''}`, async ({ page }) => {
+        if (debug) await page.addInitScript(() => localStorage.setItem('zh-history-timeline:debug', '1'));
+        await openEnglish(page);
+        const brand = page.locator('.brand');
+        expect(await brand.evaluate((el) => el.scrollWidth <= el.clientWidth + 1)).toBe(true);
+        const b = await brand.boundingBox();
+        const c = await page.locator('.corner-btns').boundingBox();
+        expect(b.x + b.width).toBeLessThanOrEqual(c.x);
+      });
+    }
   });
 });
 

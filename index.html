@@ -142,16 +142,16 @@
           <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M10 14a4.5 4.5 0 0 0 6.4 0l3.2-3.2a4.5 4.5 0 0 0-6.4-6.4L12 5.6M14 10a4.5 4.5 0 0 0-6.4 0l-3.2 3.2a4.5 4.5 0 0 0 6.4 6.4L12 18.4"/></svg>
           <span>分享时间线</span>
         </button>
-        <!-- 调试模式：切换语言（手机；电脑上见下面的语言下拉菜单） -->
-        <div class="more-lang debug-only" id="moreLang">
+        <!-- 切换语言（手机；电脑上见下面的语言下拉菜单） -->
+        <div class="more-lang" id="moreLang">
           <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></g></svg>
           <span>语言</span>
           <div class="lang-seg" id="langSeg" role="radiogroup" aria-label="语言"></div>
         </div>
       </div>
     </div>
-    <!-- 调试模式：切换语言（电脑），选项由 js/app.js 按 js/i18n/ 中的语言生成 -->
-    <div class="lang-wrap debug-only">
+    <!-- 切换语言（电脑），选项由 js/app.js 按 js/i18n/ 中的语言生成 -->
+    <div class="lang-wrap" id="langWrap">
       <button class="lang-btn" id="langBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langMenu" aria-label="切换语言" title="切换语言">
         <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></g></svg>
         <span id="langName"></span>

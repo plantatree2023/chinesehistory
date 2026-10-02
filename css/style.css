@@ -133,7 +133,7 @@ body:not(.feedback-on) .feedback-only { display: none !important; }
   align-items: center;
   gap: 16px;
   min-height: 52px;
-  padding: 6px 240px 6px 20px;   /* 右侧留给五个圆形按钮（36px，间距 8px）；调试模式另有两个 */
+  padding: 6px 400px 6px 20px;   /* 右侧留给六个圆形按钮（36px，间距 8px）和语言下拉菜单（英文时最宽，共约 385px）；调试模式另有两个按钮 */
   /* 下沿色条随当前时期变色（--era-color 由脚本设置） */
   border-bottom: 3px solid var(--era-color, var(--line));
   background: var(--bar-bg);
@@ -142,7 +142,7 @@ body:not(.feedback-on) .feedback-only { display: none !important; }
   transition: border-color .4s ease;
 }
 body.bars-hidden .topbar, body.bars-hidden .bottombar, body.bars-hidden .debug-bar { display: none; }
-body.debug-mode .topbar { padding-right: 440px; }   /* 调试模式多 GitHub、清除缓存两个按钮和语言下拉菜单 */
+body.debug-mode .topbar { padding-right: 488px; }   /* 调试模式多 GitHub、清除缓存两个按钮 */
 
 /* 调试模式：顶栏下方的网站更新时间 */
 .debug-bar {
@@ -246,7 +246,7 @@ body.bars-hidden .theme-toggle, body.bars-hidden .about-btn, body.bars-hidden .g
 .more-menu svg { flex: none; color: var(--ink-2); }
 .more-menu .icon-sun, [data-theme="dark"] .more-menu .icon-moon { display: none; }
 [data-theme="dark"] .more-menu .icon-sun { display: block; }
-/* 调试模式：语言切换（电脑上是右上角的下拉菜单，手机上在“更多”菜单中） */
+/* 语言切换（电脑上是右上角的下拉菜单，手机上在“更多”菜单中） */
 .lang-wrap { position: relative; flex: none; }
 .lang-btn {
   display: flex;
@@ -270,7 +270,7 @@ body.bars-hidden .theme-toggle, body.bars-hidden .about-btn, body.bars-hidden .g
 .lang-menu .lang-check { visibility: hidden; color: inherit; }
 .lang-menu button[aria-checked="true"] .lang-check { visibility: visible; }
 .more-menu .more-lang { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-top: 1px solid var(--line); color: var(--ink); font-size: 15px; }
-body.debug-mode .more-menu { width: max-content; min-width: 180px; }   /* 调试模式多一行语言切换 */
+.more-menu:not(.lang-menu) { width: max-content; min-width: 180px; }   /* 最后一行是语言切换 */
 .lang-seg { flex: none; display: flex; margin-left: auto; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
 .more-menu .lang-seg button { flex: none; width: auto; padding: 4px 10px; border: 0; border-radius: 0; font-size: 13px; }
 .more-menu .lang-seg button + button { border-left: 1px solid var(--line); }
