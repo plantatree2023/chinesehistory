@@ -256,6 +256,22 @@ body.bars-hidden .bars-toggle .icon-collapse { display: block; }
   color: color-mix(in srgb, var(--era-color, var(--red)) 82%, var(--era-text-mix));
   transition: color .4s ease;
 }
+.era-menu-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 26px; height: 26px;
+  margin-left: 6px;
+  padding: 0;
+  vertical-align: middle;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--card);
+  color: var(--ink-2);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+}
+.era-menu-btn:hover, .era-menu-btn[aria-expanded="true"] { color: var(--red); }
+.era-menu-btn svg { display: block; }
 .brand-era:not(:empty)::before {
   content: "·";
   margin: 0 .3em;
@@ -1264,3 +1280,93 @@ body.bars-hidden .fab { bottom: 18px; }
 .img-search-item:hover { background: var(--hover-tint); }
 .img-search-item.on { color: var(--red); }
 .img-search-item.on::before { content: "✓"; position: absolute; left: 10px; }
+
+/* ---------- 朝代 / 时期菜单 ---------- */
+/* 电脑：顶栏按钮下方的列表（色块、时期名、年代） */
+.era-menu {
+  position: fixed;
+  z-index: 60;
+  width: 300px;
+  max-height: min(560px, calc(100vh - 80px));
+  overflow-y: auto;
+  padding: 6px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  font-family: var(--font-sans);
+}
+.era-menu[hidden] { display: none; }
+.era-menu-grab, .era-menu-head { display: none; }
+.era-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 7px 10px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+.era-item:hover, .era-item:focus-visible { background: var(--hover-tint); outline: none; }
+.era-item.on { background: color-mix(in srgb, var(--red) 9%, var(--card)); }
+.era-item.on .era-name { color: var(--red); }
+.era-swatch { flex: none; width: 12px; height: 12px; border-radius: 3px; background: var(--era-c); }
+.era-name { font-weight: 600; white-space: nowrap; }
+.era-range { margin-left: auto; padding-left: 10px; color: var(--muted); font-size: 12px; white-space: nowrap; }
+.era-scrim { position: fixed; inset: 0; z-index: 59; background: rgba(0, 0, 0, .3); }
+.era-scrim[hidden] { display: none; }
+/* 手机：底栏左侧的“■ 唐 ▾”按钮（电脑上不显示） */
+.era-bar-btn { display: none; }
+@media (max-width: 640px) {
+  .era-menu-btn { display: none; }
+  .era-bar-btn {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    height: 36px;
+    padding: 0 10px 0 9px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--card);
+    color: var(--ink);
+    font: 600 15px var(--font-serif);
+    box-shadow: var(--shadow);
+    white-space: nowrap;
+  }
+  .era-bar-btn .era-swatch { width: 10px; height: 10px; }
+  #eraBarName { max-width: 7.2em; overflow: hidden; text-overflow: ellipsis; }
+  .era-bar-btn svg { color: var(--ink-2); }
+  .bottombar { gap: 10px; }
+  /* 手机：从底部弹出的色块面板 */
+  .era-menu.sheet {
+    left: 0; right: 0; bottom: 0; top: auto;
+    width: auto;
+    max-height: 62vh;
+    padding: 10px 14px calc(18px + env(safe-area-inset-bottom));
+    border-radius: 16px 16px 0 0;
+  }
+  .era-menu.sheet .era-menu-grab { display: block; width: 40px; height: 4px; margin: 0 auto 10px; border-radius: 2px; background: var(--line); }
+  .era-menu.sheet .era-menu-head { display: block; margin: 0 2px 10px; font-size: 14px; font-weight: 700; color: var(--ink); }
+  .era-menu.sheet .era-menu-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .era-menu.sheet .era-item {
+    justify-content: center;
+    padding: 10px 4px;
+    background: var(--era-c);
+    color: #fff;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+  }
+  .era-menu.sheet .era-item .era-swatch, .era-menu.sheet .era-item .era-range { display: none; }
+  .era-menu.sheet .era-item .era-name { overflow: hidden; text-overflow: ellipsis; }
+  .era-menu.sheet .era-item.on { outline: 2.5px solid var(--ink); outline-offset: 1.5px; }
+  .era-menu.sheet .era-item.on .era-name { color: #fff; }
+}
+/* 很窄的屏幕：底栏放了时期按钮，“浏览所有历史事件”缩短为“浏览事件” */
+@media (max-width: 360px) {
+  .browse-long { display: none; }
+}

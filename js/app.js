@@ -1070,6 +1070,7 @@
     if ((era ? era.name : '') !== headerEra) {
       headerEra = era ? era.name : '';
       $('currentEra').textContent = headerEra;
+      updateEraMenuCurrent(era);
       // 顶栏下沿色条与标题中的时期名使用该时期的颜色
       if (era) topbar.style.setProperty('--era-color', era.color);
       else topbar.style.removeProperty('--era-color');
@@ -1089,6 +1090,109 @@
     var cx = seg ? seg.offsetLeft + seg.offsetWidth / 2 : (left + width / 2) * mw;
     mmLabel.style.left = clamp(cx - lw / 2, 0, Math.max(0, mw - lw)) + 'px';
   }
+  // ---------- 朝代 / 时期菜单 ----------
+  // 电脑：顶栏时期名右侧的 ▾ 打开列表（色块、时期名、年代）；手机（窄屏）：底栏左侧的“■ 唐 ▾”打开底部色块面板。
+  // 选择后跳到该时期的第一个事件（没有事件的时期跳到其起始位置），关闭菜单。Esc、点外面或手机上向下滑动面板关闭。
+  var eraMenu = $('eraMenu'), eraMenuList = $('eraMenuList'), eraMenuTrigger = null;
+  function renderEraMenu() {
+    eraMenuList.innerHTML = '';
+    ERAS.forEach(function (era) {
+      var b = el('button', 'era-item');
+      b.type = 'button';
+      b.setAttribute('role', 'option');
+      b.dataset.era = era.name;
+      b.style.setProperty('--era-c', era.color);
+      b.appendChild(el('span', 'era-swatch'));
+      b.appendChild(el('span', 'era-name', era.name));
+      if (era.range) b.appendChild(el('span', 'era-range', era.range));
+      b.title = era.name + (era.range ? '（' + era.range + '）' : '');
+      b.addEventListener('click', function () { closeEraMenu(false); jumpToEra(era); });
+      eraMenuList.appendChild(b);
+    });
+    updateEraMenuCurrent(headerEra ? eraByName(headerEra) : null);
+  }
+  function updateEraMenuCurrent(era) {
+    $('eraBarName').textContent = era ? era.name : '';
+    $('eraBarSwatch').style.background = era ? era.color : 'transparent';
+    Array.prototype.forEach.call(eraMenuList.children, function (b) {
+      var on = !!era && b.dataset.era === era.name;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+  }
+  // 跳到时期：让该时期的第一个事件落在顶栏判断“当前时期”的参照点上（见 updateViewIndicators：
+  // 一般是视野中心，离开头 / 结尾不到半屏时参照点向两端移动），这样跳转后顶栏显示的就是所选时期
+  function jumpToEra(era) {
+    var i = layout.list.findIndex(function (e) { return eraOf(e.year) === era; });
+    var x = i >= 0 ? layout.xs[i] : xOfYear(era.start);
+    if (x == null) return;
+    var w = viewW(), half = w / 2, span = Math.max(0, layout.width - w);
+    var s = x - half;                                  // 参照点在中心
+    if (s < half) s = x / 2;                           // 开头附近：参照点 = 2 × 已滚动距离
+    else if (span - s < half) s = (x - w + span) / 2;  // 结尾附近
+    animateTo(-clamp(s, 0, span));
+  }
+  function isNarrow() { return window.matchMedia('(max-width: 640px)').matches; }
+  function openEraMenu(trigger) {
+    eraMenuTrigger = trigger;
+    eraMenu.hidden = false;
+    var narrow = isNarrow();
+    eraMenu.classList.toggle('sheet', narrow);
+    $('eraScrim').hidden = !narrow;
+    if (!narrow) {
+      var r = trigger.getBoundingClientRect();
+      eraMenu.style.left = Math.max(8, Math.min(r.left - 12, window.innerWidth - eraMenu.offsetWidth - 8)) + 'px';
+      eraMenu.style.top = (r.bottom + 8) + 'px';
+    } else {
+      eraMenu.style.left = eraMenu.style.top = '';
+    }
+    trigger.setAttribute('aria-expanded', 'true');
+    var cur = eraMenuList.querySelector('.era-item.on') || eraMenuList.firstChild;
+    if (cur) { cur.scrollIntoView({ block: 'nearest' }); cur.focus({ preventScroll: true }); }
+  }
+  function closeEraMenu(restoreFocus) {
+    if (eraMenu.hidden) return;
+    eraMenu.hidden = true;
+    $('eraScrim').hidden = true;
+    if (eraMenuTrigger) {
+      eraMenuTrigger.setAttribute('aria-expanded', 'false');
+      if (restoreFocus) eraMenuTrigger.focus();
+    }
+  }
+  function toggleEraMenu(trigger) {
+    if (!eraMenu.hidden) closeEraMenu(true); else openEraMenu(trigger);
+  }
+  $('eraMenuBtn').addEventListener('click', function () { toggleEraMenu(this); });
+  $('eraBarBtn').addEventListener('click', function () { toggleEraMenu(this); });
+  $('eraScrim').addEventListener('click', function () { closeEraMenu(false); });
+  document.addEventListener('pointerdown', function (e) {
+    if (eraMenu.hidden || eraMenu.contains(e.target) || e.target.closest('#eraMenuBtn, #eraBarBtn')) return;
+    closeEraMenu(false);
+  }, true);
+  // 菜单中的键盘操作：上下（手机面板为方向键）移动，Home / End，Esc 关闭；Enter / 空格选择（按钮本身的行为）
+  eraMenu.addEventListener('keydown', function (e) {
+    var items = Array.prototype.slice.call(eraMenuList.children);
+    var i = items.indexOf(document.activeElement);
+    var step = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
+    if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); closeEraMenu(true); return; }
+    var next = step ? clamp(i + step, 0, items.length - 1) : e.key === 'Home' ? 0 : e.key === 'End' ? items.length - 1 : null;
+    if (next == null) return;
+    e.preventDefault();
+    e.stopPropagation();   // 不让方向键同时平移时间轴
+    items[next].focus();
+  });
+  // 手机面板：从顶部把手向下滑动关闭
+  var sheetDrag = null;
+  eraMenu.addEventListener('touchstart', function (e) {
+    if (!eraMenu.classList.contains('sheet') || !e.target.closest('.era-menu-grab, .era-menu-head')) return;
+    sheetDrag = e.touches[0].clientY;
+  }, { passive: true });
+  eraMenu.addEventListener('touchend', function (e) {
+    if (sheetDrag != null && e.changedTouches[0].clientY - sheetDrag > 60) closeEraMenu(false);
+    sheetDrag = null;
+  });
+  window.addEventListener('resize', function () { closeEraMenu(false); });
+
   var mmDown = false;
   function minimapJump(e) {
     var r = minimap.getBoundingClientRect();
@@ -3174,6 +3278,7 @@
     meta = {};
     Object.keys(data).forEach(function (k) { if (k !== 'events') meta[k] = data[k]; });
     ERAS = data.eras;
+    renderEraMenu();
     setupMusic(data.music);
     setupTexture(data.texture);
     TYPES = Array.isArray(data.types) ? data.types.filter(function (t) { return t && t.name; }) : [];
