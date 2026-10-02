@@ -85,7 +85,7 @@ git add data images && git commit -m "更新历史事件" && git push
 
 **网站更新时间**：调试模式下顶栏下方显示“网站最近更新”的时间（按浏览器所在时区）和版本号，来自网站根目录的 `version.json`。
 该文件由部署流程（`.github/workflows/deploy.yml`）在每次 push 到 `main` 时生成，记录部署时间、提交哈希和提交时间，不需要手工维护，也不提交到仓库；
-部署到 Cloudflare Pages 时由构建脚本 `tools/build-site.js` 生成（构建命令 `node tools/build-site.js`，输出目录 `_site`）；
+部署到 Cloudflare 时由构建脚本 `tools/build-site.js` 生成（构建命令 `node tools/build-site.js`，部署命令 `npx wrangler deploy` 按 `wrangler.jsonc` 只上传 `_site`）；
 本地运行时由 `server.js` 根据 git 最近一次提交生成（显示“本地”）。
 
 **社交分享卡片**：`index.html` 中有全站的 `og:` / `twitter:` 元数据（标题、简介、封面图），在微信、微博、Telegram、X 中分享链接会显示卡片；

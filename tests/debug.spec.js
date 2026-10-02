@@ -235,6 +235,21 @@ test.describe('version.json 的来源', () => {
     expect(v.updatedAt).toMatch(/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/);
     expect(Math.abs(Date.parse(v.updatedAt) - before)).toBeLessThan(60_000);
   });
+
+  test('Cloudflare 的 wrangler 部署只上传 _site，且每个文件不超过 25 MiB', async () => {
+    const cfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'wrangler.jsonc'), 'utf8'));
+    expect(cfg.name).toBe('chinesehistory');
+    expect(cfg.assets.directory).toBe('./_site');
+    const { SITE_FILES } = require('../tools/build-site');
+    const tooLarge = [];
+    const walk = (p) => {
+      const st = fs.statSync(p);
+      if (st.isDirectory()) fs.readdirSync(p).forEach((n) => walk(path.join(p, n)));
+      else if (st.size > 25 * 1024 * 1024) tooLarge.push(path.relative(ROOT, p));
+    };
+    SITE_FILES.forEach((n) => walk(path.join(ROOT, n)));
+    expect(tooLarge).toEqual([]);
+  });
 });
 
 test.describe('GitHub 仓库按钮', () => {
