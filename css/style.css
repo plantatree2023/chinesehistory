@@ -256,21 +256,24 @@ body.bars-hidden .bars-toggle .icon-collapse { display: block; }
   color: color-mix(in srgb, var(--era-color, var(--red)) 82%, var(--era-text-mix));
   transition: color .4s ease;
 }
+/* 时期名右侧的 ▾：只显示图标（不是按钮外观），颜色跟随当前时期；点击区域比图标大一些 */
 .era-menu-btn {
   display: inline-grid;
   place-items: center;
-  width: 26px; height: 26px;
-  margin-left: 6px;
+  width: 24px; height: 24px;
+  margin-left: 2px;
   padding: 0;
   vertical-align: middle;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  background: var(--card);
-  color: var(--ink-2);
-  box-shadow: var(--shadow);
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: color-mix(in srgb, var(--era-color, var(--red)) 82%, var(--era-text-mix));
   cursor: pointer;
+  transition: color .4s ease, transform .15s;
 }
-.era-menu-btn:hover, .era-menu-btn[aria-expanded="true"] { color: var(--red); }
+.era-menu-btn:hover { color: var(--red); }
+.era-menu-btn[aria-expanded="true"] { color: var(--red); transform: rotate(180deg); }
+.era-menu-btn:focus-visible { outline: 2px solid var(--red); outline-offset: 1px; }
 .era-menu-btn svg { display: block; }
 .brand-era:not(:empty)::before {
   content: "·";

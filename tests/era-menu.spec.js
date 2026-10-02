@@ -17,6 +17,9 @@ test.describe('电脑', () => {
     const b = await btn.boundingBox();
     expect(b.x).toBeGreaterThan(era.x + era.width - 1);
     expect(Math.abs((b.y + b.height / 2) - (era.y + era.height / 2))).toBeLessThanOrEqual(4);
+    // 图标样式，不是按钮外观：没有边框、背景和阴影
+    const look = await btn.evaluate((e) => { const c = getComputedStyle(e); return { border: c.borderTopStyle, bg: c.backgroundColor, shadow: c.boxShadow }; });
+    expect(look).toEqual({ border: 'none', bg: 'rgba(0, 0, 0, 0)', shadow: 'none' });
     await btn.click();
     await expect(page.locator('#eraMenu')).toBeVisible();
     await expect(btn).toHaveAttribute('aria-expanded', 'true');
