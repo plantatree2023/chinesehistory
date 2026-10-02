@@ -6,11 +6,11 @@ const path = require('path');
 const crypto = require('crypto');
 const { createServer } = require('../server');
 const http = require('http');
-const { test, expect, makePng, centerOnCard, DATASET, DEFAULT_EVENT_COUNT } = require('./helpers');
+const { test, expect, makePng, centerOnCard, DATASET, DEFAULT_EVENT_COUNT, TEST_DATA_FILE } = require('./helpers');
 const { imageSize } = require('../lib/images');
 
 const ROOT = path.resolve(__dirname, '..');
-const REPO_DATA = path.join(ROOT, 'data', `${DATASET}.json`);
+const REPO_DATA = TEST_DATA_FILE;
 const sha256 = (file) => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 
 // 编辑功能只在调试模式下显示

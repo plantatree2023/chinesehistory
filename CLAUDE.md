@@ -19,8 +19,8 @@ npm test
 ## 结构
 
 - `index.html`、`css/style.css`、`js/app.js`：纯静态前端，无构建步骤
-- `data/<国家>_<语言>.json`：数据集（如 `cn_zh.json`），包含时期划分 `eras` 与事件 `events`；字段说明见 `data/README.md`，改动字段时同步更新
-- `server.js`：本地服务器；`npm start` 为可写模式（网页中的修改写回数据文件），`--readonly` 供测试使用；没有 `version.json` 文件时根据 git 最近一次提交生成
+- `data/<国家>_<语言>.json`：数据集（如 `cn_zh.json`），包含时期划分 `eras` 与事件 `events`；字段说明见 `data/README.md`，改动字段时同步更新。默认数据集是 `cn_zh`（`js/app.js` 的 `DEFAULT_DATASET` 与 `tools/build-site.js` 的 `DEFAULT_DATASET` 一致），旧版数据为 `cn_zh-v0`
+- `server.js`：本地服务器；`npm start` 为可写模式（网页中的修改写回数据文件），`--readonly` 供测试使用（测试还带 `--test-data tests/data`，见下面的测试数据）；没有 `version.json` 文件时根据 git 最近一次提交生成
 - 调试模式只在本地启动时提供：仓库中的 `js/env.js`（部署版本）为 `debugAvailable: false`，`server.js` 默认改为返回 `true`，`--no-debug`（`npm run start:public`）时原样返回；网址带 `debugMode` 参数时也提供（`buildQuery` 保留该参数，`shareUrl` 和 `timelineShareUrl` 不带）；测试服务器提供调试模式
 - 调试模式：编辑功能（新增、编辑、删除、恢复默认数据）只在调试模式下显示，新增的编辑入口要加 `debug-only` 类；调试模式显示的网站更新时间来自部署时生成的 `version.json`（`tools/build-site.js`）。需要编辑的测试用 `test.use({ debugMode: true })`
 - 自动播放：网页加载后默认自动播放；测试中默认关闭（`tests/helpers.js` 设置 `window.TIMELINE_AUTOPLAY = false`），测试自动播放本身时用 `test.use({ autoplay: true })`
@@ -42,3 +42,4 @@ npm test
 - 社交分享卡片：`index.html` 中的 `og:` / `twitter:` 元数据用绝对地址（与 `package.json` 的 `homepage` 一致，换域名时一起改）；封面图和 apple-touch-icon 在 `images/share/`，由 `node tools/share-images.js` 生成；`tests/share-card.spec.js` 检查
 - `images/`：事件图片。**所有图片都从本地加载**：数据中的图片路径只能是 `images/<文件名>`，不引用外部地址；编辑页输入的图片网址会先下载到本地
 - `tests/`：Playwright 端到端测试，说明见 README
+- 测试数据：界面测试使用固定的 `tests/data/cn_zh-test.json`（`tests/helpers.js` 的 `DATASET`、`DATA_URL`、`loadDataset`、`readTestData`），不要在测试中写死 `data/` 下的文件；页面通过 `window.TIMELINE_DATASET` 把它当作默认数据集（需要真实默认数据时在测试中删掉这个变量）。检查数据完整性的测试遍历 `data/` 下的所有数据集（`REAL_DATASETS`、`readRealDataset`）。改动真实数据不需要改测试数据

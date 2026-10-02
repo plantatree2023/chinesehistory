@@ -4,6 +4,7 @@
 //   node server.js                 可写模式（npm start），修改会写入仓库中的数据文件和 images/
 //   node server.js --readonly      只读模式，不提供写入接口（与 GitHub Pages 行为一致，供自动化测试使用）
 //   node server.js --port 8080     指定端口，默认 4173
+//   node server.js --test-data tests/data   测试用：/data/<id>.json 先在该目录中查找（测试数据 cn_zh-test 放在 tests/data/）
 //   node server.js --no-debug      不提供调试模式（网页不显示“调试模式”开关，与线上一致）；默认提供
 //
 // 接口（仅可写模式）：
@@ -165,9 +166,10 @@ function saveUploaded(getBuffer, imagesDir) {
   }
 }
 
-function createServer({ root = __dirname, writeDir = root, readonly = false, debug = true, linkTitleOptions = {} } = {}) {
+function createServer({ root = __dirname, writeDir = root, testDataDir = null, readonly = false, debug = true, linkTitleOptions = {} } = {}) {
   root = path.resolve(root);
   writeDir = path.resolve(writeDir);
+  if (testDataDir) testDataDir = path.resolve(testDataDir);
 
   // 把请求路径解析为某个目录下的文件，拒绝 ../ 越界
   function resolveIn(dir, pathname) {
@@ -247,15 +249,16 @@ function createServer({ root = __dirname, writeDir = root, readonly = false, deb
   function serveStatic(req, res, pathname) {
     if (req.method !== 'GET' && req.method !== 'HEAD') throw new HttpError(405, 'Method Not Allowed');
     if (pathname.endsWith('/')) pathname += 'index.html';
-    // 可写目录优先（测试时可写目录是临时副本），其次是项目目录
-    const candidates = [resolveIn(writeDir, pathname), resolveIn(root, pathname)].filter(Boolean);
-    if (!candidates.length) throw new HttpError(403, 'Forbidden');
+    // 可写目录优先（测试时可写目录是临时副本），其次是项目目录；测试数据目录中的数据集最优先
+    const candidates = [resolveIn(writeDir, pathname), resolveIn(root, pathname)];
+    if (testDataDir && pathname.startsWith('/data/')) candidates.unshift(resolveIn(testDataDir, pathname.slice('/data'.length)));
+    if (!candidates.some(Boolean)) throw new HttpError(403, 'Forbidden');
     if (debug && pathname === '/js/env.js') {
       res.writeHead(200, { 'Content-Type': 'text/javascript; charset=utf-8', 'Cache-Control': 'no-store' });
       res.end(req.method === 'HEAD' ? undefined : '// 本地服务器生成：提供调试模式\nwindow.TIMELINE_ENV = { debugAvailable: true, local: true };\n');
       return;
     }
-    const file = candidates.find((f) => fs.existsSync(f) && fs.statSync(f).isFile());
+    const file = candidates.find((f) => f && fs.existsSync(f) && fs.statSync(f).isFile());
     if (!file && pathname === '/version.json') {
       const version = localVersion();
       if (!version) throw new HttpError(404, 'Not Found');
@@ -299,7 +302,9 @@ if (require.main === module) {
   const debug = !args.includes('--no-debug');
   const portArg = args.indexOf('--port');
   const port = portArg >= 0 ? Number(args[portArg + 1]) : Number(process.env.PORT) || 4173;
-  createServer({ readonly, debug }).listen(port, '127.0.0.1', () => {
+  const testDataArg = args.indexOf('--test-data');
+  const testDataDir = testDataArg >= 0 ? args[testDataArg + 1] : null;
+  createServer({ readonly, debug, testDataDir }).listen(port, '127.0.0.1', () => {
     console.log(`时间上的中国：http://127.0.0.1:${port}/  （${readonly ? '只读模式' : '可写模式：修改会写入 data/ 与 images/'}；${debug ? '提供调试模式' : '不提供调试模式'}）`);
   });
 }

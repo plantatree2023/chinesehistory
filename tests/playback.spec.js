@@ -2,7 +2,7 @@
 // 以及点击底部进度条后可以继续用键盘浏览。
 const fs = require('fs');
 const path = require('path');
-const { test, expect, openApp, trackOffset, loadDataset, DATA_URL } = require('./helpers');
+const { test, expect, openApp, trackOffset, loadDataset, DATA_URL, REAL_DATASETS, readRealDataset } = require('./helpers');
 
 const ROOT = path.resolve(__dirname, '..');
 test.use({ viewport: { width: 1440, height: 860 } });
@@ -438,8 +438,13 @@ test.describe('背景音乐', () => {
     expect((await audioState(page)).srcAttr).toBeNull();
   });
 
-  test('音乐文件在本地 audio/ 下、是有效的 MP3，大小适中；部署时会一起发布', async ({ request }) => {
-    const data = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'cn_zh.json'), 'utf8'));
+  // data/ 下每个配置了音乐的数据集（音乐是可选的）；默认数据集一定配置了音乐
+  test('默认数据集 cn_zh 配置了背景音乐', () => {
+    expect(readRealDataset('cn_zh').music).toBeTruthy();
+  });
+
+  for (const id of REAL_DATASETS.filter((ds) => readRealDataset(ds).music)) test(`${id}：音乐文件在本地 audio/ 下、是有效的 MP3，大小适中；部署时会一起发布`, async ({ request }) => {
+    const data = readRealDataset(id);
     expect(data.music.src).toMatch(/^audio\/[A-Za-z0-9._-]+\.mp3$/);
     const buf = fs.readFileSync(path.join(ROOT, data.music.src));
     // ID3 标签或 MPEG 帧同步头

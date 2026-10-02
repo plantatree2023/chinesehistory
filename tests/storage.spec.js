@@ -1,6 +1,6 @@
 // 浏览器模式的保存方式：只保存访问者自己的改动（相对数据文件的差异），
 // 数据文件以后的更新（新增字段如 transition、修改文字、新事件）对没有改动过的内容仍然生效。
-const { test, expect, loadDataset, waitForStableLayout, DEFAULT_EVENT_COUNT, STORAGE_KEY } = require('./helpers');
+const { test, expect, loadDataset, waitForStableLayout, DEFAULT_EVENT_COUNT, STORAGE_KEY, DATA_URL } = require('./helpers');
 
 test.use({ viewport: { width: 1440, height: 860 }, debugMode: true });
 
@@ -44,7 +44,7 @@ test('数据文件更新后，没有改动过的事件和字段显示新内容�
   await editTitle(page, '贞观之治', '贞观之治（改）');
 
   // 模拟之后部署的新数据：贞观之治的说明、另一个事件的标题都有更新，另有一个新事件
-  await page.route('**/data/cn_zh.json', async (route) => {
+  await page.route(`**${DATA_URL}`, async (route) => {
     const data = await (await route.fetch()).json();
     const z = data.events.find((e) => e.id === zg.id);
     z.short = '数据文件中更新后的说明文字，用于验证未改动的字段会跟随数据更新。';

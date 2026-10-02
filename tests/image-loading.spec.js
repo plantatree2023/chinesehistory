@@ -1,6 +1,6 @@
 // 时间轴卡片的图片只在接近视野时加载（视野及左右各约 1.5 屏），不会一次加载全部图片。
 // 不依赖浏览器的 loading="lazy"：它对横向平移的时间轴不可靠，曾在手机宽度下一次加载全部图片（几十 MB）。
-const { test, expect, openApp, waitForStableLayout, trackOffset } = require('./helpers');
+const { test, expect, openApp, waitForStableLayout, trackOffset, DATASET } = require('./helpers');
 
 // 记录卡片图片的请求
 function trackImages(page) {
@@ -23,9 +23,10 @@ const cardImages = (page) => page.evaluate(() => {
   });
 });
 
-for (const dataset of ['', 'cn_zh-v2']) {
+// '' 为测试数据（默认），cn_zh 为事件更多的真实数据
+for (const dataset of ['', 'cn_zh']) {
   for (const viewport of [{ width: 390, height: 780 }, { width: 1440, height: 860 }]) {
-    test.describe(`${dataset || 'cn_zh'} ${viewport.width}×${viewport.height}`, () => {
+    test.describe(`${dataset || DATASET} ${viewport.width}×${viewport.height}`, () => {
       test.use({ viewport });
 
       test('只加载视野附近卡片的图片；视野内的图片都已显示；远处的不加载', async ({ page }) => {

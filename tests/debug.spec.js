@@ -5,7 +5,7 @@ const os = require('os');
 const path = require('path');
 const { execFileSync } = require('child_process');
 const { createServer } = require('../server');
-const { test, expect, openApp, waitForStableLayout, layoutMetrics, MAX_PER_SCREEN, DEBUG_KEY, DEFAULT_EVENT_COUNT } = require('./helpers');
+const { test, expect, openApp, waitForStableLayout, layoutMetrics, MAX_PER_SCREEN, DEBUG_KEY, DEFAULT_EVENT_COUNT, DATA_URL } = require('./helpers');
 
 const ROOT = path.resolve(__dirname, '..');
 const git = (...args) => execFileSync('git', args, { cwd: ROOT, encoding: 'utf8' }).trim();
@@ -351,7 +351,7 @@ test.describe('清除缓存按钮', () => {
       // 已经刷新（页面中的变量不在了）
       expect(await page.evaluate(() => window.__beforeReload)).toBeUndefined();
       const refetched = await page.evaluate(() => JSON.parse(sessionStorage.getItem('__refetch') || '[]'));
-      for (const f of ['/', '/css/style.css', '/js/app.js', '/data/cn_zh.json', '/version.json']) {
+      for (const f of ['/', '/css/style.css', '/js/app.js', DATA_URL, '/version.json']) {
         expect(refetched, f).toContain(f);
       }
       // 图片、音乐不重新下载

@@ -1,5 +1,5 @@
 // 首次访问提示（电脑：分步指引；手机：底部气泡）、“关于本站”弹窗、手机上的“更多”菜单。
-const { test, expect, openApp, DEFAULT_EVENT_COUNT } = require('./helpers');
+const { test, expect, openApp, loadDataset, DEFAULT_EVENT_COUNT } = require('./helpers');
 
 const ONBOARD_KEY = 'zh-history-timeline:onboarded';
 const DESKTOP = { width: 1440, height: 860 };
@@ -111,7 +111,7 @@ test.describe('首次访问提示', () => {
     });
 
     test('通过分享链接打开详情时不显示，下次访问再提示', async ({ page }) => {
-      const id = (await (await page.request.get('/data/cn_zh.json')).json()).events[5].id;
+      const id = (await loadDataset(page)).events[5].id;
       await page.goto('/?id=' + id);
       await expect(page.locator('#detailModal')).toBeVisible();
       await page.waitForTimeout(1200);

@@ -1,9 +1,10 @@
 // 数据集字段检查：事件类型（type）、重要程度（majorScore）与参考链接（sources）。其他字段见 cover-images、filters 等测试。
-const { test, expect, loadDataset } = require('./helpers');
+// 数据完整性检查 data/ 下的所有数据集；服务器校验规则用测试数据（tests/data/）检查。
+const { test, expect, loadDataset, DATASET, DATA_URL, REAL_DATASETS, readRealDataset, readTestData } = require('./helpers');
 const { validateDataset } = require('../server');
 
-test('每个事件都有类型和重要程度：类型在 types 列表中，重要程度为 1–10 的整数；不再使用旧的 major 字段', async ({ page }) => {
-  const data = await loadDataset(page);
+for (const id of REAL_DATASETS) test(`${id}：每个事件都有类型和重要程度：类型在 types 列表中，重要程度为 1–10 的整数；不再使用旧的 major 字段`, () => {
+  const data = readRealDataset(id);
   const names = data.types.map((t) => t.name);
   expect(new Set(names).size).toBe(names.length);
   // 类型颜色用作标签的文字和描边（浅色背景上），对比度至少 4.5
@@ -30,10 +31,15 @@ test('每个事件都有类型和重要程度：类型在 types 列表中，重�
   expect([...tiers].sort()).toEqual([1, 2, 3]);
 });
 
+test('data/ 下的所有数据集都通过服务器校验', () => {
+  expect(REAL_DATASETS).toContain('cn_zh');
+  for (const id of REAL_DATASETS) expect(() => validateDataset(id, readRealDataset(id)), id).not.toThrow();
+});
+
 test('服务器校验类型、重要程度和参考链接', async ({ page }) => {
   const data = await loadDataset(page);
   const clone = () => JSON.parse(JSON.stringify(data));
-  expect(() => validateDataset('cn_zh', data)).not.toThrow();
+  expect(() => validateDataset(DATASET, data)).not.toThrow();
   const bad = [
     ['重要程度超出范围', (d) => { d.events[0].majorScore = 11; }, 'majorScore'],
     ['重要程度不是整数', (d) => { d.events[0].majorScore = 5.5; }, 'majorScore'],
@@ -49,12 +55,21 @@ test('服务器校验类型、重要程度和参考链接', async ({ page }) => 
   for (const [what, mutate, msg] of bad) {
     const d = clone();
     mutate(d);
-    expect(() => validateDataset('cn_zh', d), what).toThrow(msg);
+    expect(() => validateDataset(DATASET, d), what).toThrow(msg);
   }
   // 两个字段都是可选的：缺少时网页按“未分类”、重要程度 5 显示
   const d = clone();
   delete d.events[0].type;
   delete d.events[0].majorScore;
   delete d.types;
-  expect(() => validateDataset('cn_zh', d)).not.toThrow();
+  expect(() => validateDataset(DATASET, d)).not.toThrow();
+});
+
+test('测试服务器同时提供测试数据（tests/data/）和 data/ 下的真实数据，测试页面默认使用测试数据', async ({ page, request }) => {
+  const served = await (await request.get(DATA_URL)).json();
+  expect(served.id).toBe(DATASET);
+  expect(served).toEqual(readTestData());
+  for (const id of REAL_DATASETS) expect((await (await request.get(`/data/${id}.json`)).json()).id, id).toBe(id);
+  await page.goto('/');
+  expect(await page.evaluate(() => window.TIMELINE_DATASET)).toBe(DATASET);
 });

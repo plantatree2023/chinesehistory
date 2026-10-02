@@ -9,11 +9,12 @@ const crypto = require('crypto');
 const { execFile } = require('child_process');
 const { validateDataset } = require('../server');
 const { imageSize } = require('../tools/wiki-import');
-const { makePng: png } = require('./helpers');
+const { makePng: png, TEST_DATA_FILE } = require('./helpers');
 
 const ROOT = path.resolve(__dirname, '..');
 const SCRIPT = path.join(ROOT, 'tools', 'wiki-import.js');
-const REPO_DATA = path.join(ROOT, 'data', 'cn_zh.json');
+// 用测试数据（tests/data/cn_zh-test.json）的副本做导入；副本命名为 cn_zh.json，因为维基语言由文件名决定
+const REPO_DATA = TEST_DATA_FILE;
 const sha256 = (file) => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const LONG_TEXT = '这是一段很长的维基百科简介文字，用来检验详细说明会在句末截断并控制在六百字以内。'.repeat(20);
 
@@ -73,7 +74,7 @@ function mockWiki(pages, entities, { searchMap = {}, rateLimitOnce = [], files =
   return { server, hits };
 }
 
-let tmp, dataFile, repoHash, wiki;
+let tmp, dataFile, repoHash, copyHash, wiki;
 // 仓库数据中的事件数（导入前）
 const REPO_EVENTS = JSON.parse(fs.readFileSync(REPO_DATA, 'utf8')).events;
 const REPO_COUNT = REPO_EVENTS.length;
@@ -86,14 +87,15 @@ test.beforeEach(() => {
   // 与仓库相同的目录结构：<根目录>/data/cn_zh.json，下载的图片存到 <根目录>/images/
   dataFile = path.join(tmp, 'data', 'cn_zh.json');
   fs.mkdirSync(path.dirname(dataFile));
-  fs.copyFileSync(REPO_DATA, dataFile);
+  fs.writeFileSync(dataFile, JSON.stringify({ ...JSON.parse(fs.readFileSync(REPO_DATA, 'utf8')), id: 'cn_zh' }, null, 2) + '\n');
+  copyHash = sha256(dataFile);
 });
 
 test.afterEach(async () => {
   if (wiki) await new Promise((r) => wiki.server.close(r));
   wiki = null;
   fs.rmSync(tmp, { recursive: true, force: true });
-  expect(sha256(REPO_DATA), '仓库中的真实数据文件不应被测试改动').toBe(repoHash);
+  expect(sha256(REPO_DATA), '仓库中的测试数据文件不应被测试改动').toBe(repoHash);
 });
 
 // pages 可以是函数：参数为模拟服务的地址，便于让图片地址指向模拟服务
@@ -284,7 +286,7 @@ test.describe('单个关键词', () => {
     const r = await run(['--file', dataFile, '乱码关键词'], base);
     expect(r.code).toBe(1);
     expect(r.stdout).toContain('✗ 乱码关键词：维基百科中找不到对应条目');
-    expect(sha256(dataFile)).toBe(repoHash);
+    expect(sha256(dataFile)).toBe(copyHash);
   });
 
   test('年份来源：Wikidata 精度与远古年份、简介文字，以及无法确定时报错', async () => {

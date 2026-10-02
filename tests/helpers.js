@@ -1,4 +1,6 @@
 // 各测试共用的夹具（fixture）与工具函数。
+const fs = require('fs');
+const path = require('path');
 const zlib = require('zlib');
 const base = require('@playwright/test');
 
@@ -10,8 +12,16 @@ const MAX_PER_SCREEN_LARGE = 8;    // 大屏幕：时间轴区域宽度不小于
 const LARGE_SCREEN_W = 1600;
 const maxPerScreenFor = (stageWidth) => (stageWidth >= LARGE_SCREEN_W ? MAX_PER_SCREEN_LARGE : MAX_PER_SCREEN);
 const MIN_SUMMARY = 20;
-const DATASET = 'cn_zh';
+// 界面测试使用固定的测试数据 tests/data/cn_zh-test.json（旧版中国数据的副本），不随 data/ 中的真实数据变化：
+// 测试服务器以 --test-data tests/data 提供 /data/cn_zh-test.json，页面通过 window.TIMELINE_DATASET 把它当作默认数据集
+const DATASET = 'cn_zh-test';
+const TEST_DATA_FILE = path.join(__dirname, 'data', `${DATASET}.json`);
 const DATA_URL = `/data/${DATASET}.json`;
+// data/ 下的真实数据集（默认数据集 cn_zh 在最前）：检查数据完整性的测试遍历这些数据集
+const DATA_DIR = path.join(__dirname, '..', 'data');
+const REAL_DATASETS = require('../tools/build-site').listDatasets(DATA_DIR);
+const readTestData = () => JSON.parse(fs.readFileSync(TEST_DATA_FILE, 'utf8'));
+const readRealDataset = (id) => JSON.parse(fs.readFileSync(path.join(DATA_DIR, `${id}.json`), 'utf8'));
 const STORAGE_KEY = `zh-history-timeline:v1:${DATASET}`;
 const DEBUG_KEY = 'zh-history-timeline:debug';
 const DEFAULT_EVENT_COUNT = 104;
@@ -46,6 +56,7 @@ const test = base.test.extend({
     if (debugMode) await page.addInitScript((key) => localStorage.setItem(key, '1'), DEBUG_KEY);
     if (!autoplay) await page.context().addInitScript(() => { window.TIMELINE_AUTOPLAY = false; });
     if (!onboarding) await page.context().addInitScript(() => { window.TIMELINE_ONBOARDING = false; });
+    await page.context().addInitScript((id) => { window.TIMELINE_DATASET = id; }, DATASET);
     await use(page);
     expect(errors, '页面不应出现脚本错误').toEqual([]);
   },
@@ -73,7 +84,7 @@ async function openApp(page) {
   await waitForStableLayout(page);
 }
 
-// 读取默认数据集（data/cn_zh.json）
+// 通过测试服务器读取测试数据集（tests/data/cn_zh-test.json）
 async function loadDataset(page) {
   const res = await page.request.get(DATA_URL);
   expect(res.ok(), `无法读取 ${DATA_URL}`).toBeTruthy();
@@ -194,6 +205,7 @@ module.exports = {
   DEBUG_KEY,
   test, expect,
   MAX_PER_SCREEN, MAX_PER_SCREEN_LARGE, LARGE_SCREEN_W, maxPerScreenFor, MIN_SUMMARY, DATASET, DATA_URL, STORAGE_KEY, DEFAULT_EVENT_COUNT,
+  TEST_DATA_FILE, REAL_DATASETS, readTestData, readRealDataset,
   makePng,
   openApp, loadDataset, seedEvents, waitForStableLayout, trackOffset, centerOnTrackX, centerOnCard, layoutMetrics,
 };

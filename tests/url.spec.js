@@ -1,6 +1,6 @@
 // 网址与浏览记录：详情（id）、侧栏（browse）、搜索与筛选、时间轴位置（at）都记录在网址中，
 // 可以直接打开、刷新、分享；浏览器的返回 / 前进依次关闭 / 重新打开详情和侧栏；分享链接；浏览器标题。
-const { test, expect, openApp, loadDataset, trackOffset } = require('./helpers');
+const { test, expect, openApp, loadDataset, trackOffset, DATASET } = require('./helpers');
 
 test.use({ viewport: { width: 1440, height: 860 } });
 
@@ -145,11 +145,11 @@ test('时间轴位置写进网址（at=年份），直接打开时恢复到该�
 
 test('网址中保留数据集参数 data', async ({ page }) => {
   const { events } = await loadDataset(page);
-  await page.goto('/?data=cn_zh');
+  await page.goto(`/?data=${DATASET}`);
   await expect(page.locator('.card').first()).toBeVisible();
   await page.click('#browseBtn');
-  expect(query(page)).toBe('?data=cn_zh&browse');
-  await page.goto(`/?data=cn_zh&id=${events[5].id}`);
+  expect(query(page)).toBe(`?data=${DATASET}&browse`);
+  await page.goto(`/?data=${DATASET}&id=${events[5].id}`);
   await expect(page.locator('#detailModal')).toBeVisible();
 });
 
@@ -172,7 +172,7 @@ test.describe('分享链接', () => {
   });
 
   test('分享时间线复制当前网址（数据集、位置等参数），不带 debugMode', async ({ page }) => {
-    await page.goto('/?data=cn_zh&debugMode&at=755');
+    await page.goto(`/?data=${DATASET}&debugMode&at=755`);
     await expect(page.locator('.card').first()).toBeVisible();
     await page.click('#shareTimeline');
     await page.click('.share-btn[data-share="copy"]');
@@ -180,7 +180,7 @@ test.describe('分享链接', () => {
     const expected = new URL(page.url());
     expected.searchParams.delete('debugMode');
     expect(copied.searchParams.has('debugMode')).toBe(false);
-    expect(copied.searchParams.get('data')).toBe('cn_zh');
+    expect(copied.searchParams.get('data')).toBe(DATASET);
     expect(Math.abs(Number(copied.searchParams.get('at')) - 755)).toBeLessThan(5);
     expect(copied.href).toBe(expected.href);
   });

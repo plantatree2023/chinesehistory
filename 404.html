@@ -179,8 +179,8 @@
       set('message', s.message);
       set('homeLink', s.home, root);
 
-      // 随便看一个事件：从数据集中随机选一个，打开它的详情
-      fetch(root + 'data/' + s.dataset + '.json').then(function (res) {
+      // 随便看一个事件：从数据集中随机选一个，打开它的详情（测试通过 window.TIMELINE_DATASET 换成测试数据）
+      fetch(root + 'data/' + (window.TIMELINE_DATASET || s.dataset) + '.json').then(function (res) {
         return res.ok ? res.json() : Promise.reject(res.status);
       }).then(function (data) {
         var events = (data.events || []).filter(function (e) { return e && e.id; });

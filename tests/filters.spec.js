@@ -1,7 +1,7 @@
 // 侧栏筛选：重大事件（重要程度 8–10）、事件类型（下拉多选）、时期更迭、朝代 / 时期（下拉多选）、时间范围；
 // 可选项由数据决定，与搜索组合使用。
 // 以及时期更迭字段（transition）的显示、编辑和数据一致性。
-const { test, expect, openApp, loadDataset, DATA_URL } = require('./helpers');
+const { test, expect, openApp, loadDataset, DATA_URL, DATASET } = require('./helpers');
 
 test.use({ viewport: { width: 1440, height: 860 } });
 
@@ -396,7 +396,7 @@ test.describe('调试模式', () => {
 test('可选项完全由数据集决定（使用另一份数据）', async ({ page }) => {
   // 用一份只有两个有事件的时期、没有重大事件和时期更迭的数据替换默认数据集
   const custom = {
-    id: 'cn_zh', country: 'cn', language: 'zh',
+    id: DATASET, country: 'cn', language: 'zh',
     eras: [
       { name: '甲时期', start: 100, end: 199, color: '#336699', range: '100年—199年', desc: '测试时期甲' },
       { name: '乙时期', start: 200, end: null, color: '#993366', range: '200年至今', desc: '测试时期乙' },

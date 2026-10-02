@@ -2,10 +2,12 @@
 // 提供“回到时间轴”和“随便看一个事件”；深浅两种配色下文字有足够对比度；部署时由 Cloudflare / GitHub Pages 用于不存在的网址
 const fs = require('fs');
 const path = require('path');
-const { test, expect } = require('./helpers');
+const { test, expect, readTestData, readRealDataset, REAL_DATASETS } = require('./helpers');
 
 const ROOT = path.resolve(__dirname, '..');
-const data = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'cn_zh.json'), 'utf8'));
+// “随便看一个事件”在测试中取自测试数据；时期名检查覆盖测试数据和 data/ 下的所有数据集
+const data = readTestData();
+const allEras = [data, ...REAL_DATASETS.map(readRealDataset)].flatMap((d) => d.eras.map((e) => e.name));
 
 const luminance = (page, selector, prop) => page.evaluate(({ selector, prop }) => {
   const m = getComputedStyle(document.querySelector(selector))[prop].match(/[\d.]+/g).map(Number);
@@ -32,7 +34,7 @@ test('不写具体年份和时期名，文字都在 STRINGS 中', async ({ page 
   await expect(page.locator('#heading')).not.toBeEmpty();
   const text = (await page.locator('body').innerText()).replace('404', '');
   expect(text).not.toMatch(/\d/);
-  for (const era of data.eras) expect(text, `不应出现时期名“${era.name}”`).not.toContain(era.name);
+  for (const name of new Set(allEras)) expect(text, `不应出现时期名“${name}”`).not.toContain(name);
   // 页面中的文字都来自脚本中的 STRINGS，HTML 里没有写死的中文
   const html = fs.readFileSync(path.join(ROOT, '404.html'), 'utf8').replace(/<script>[\s\S]*?<\/script>/g, '').replace(/<!--[\s\S]*?-->/g, '').replace(/<style>[\s\S]*?<\/style>/g, '');
   expect(html).not.toMatch(/[一-鿿]/);

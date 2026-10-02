@@ -1,6 +1,6 @@
 // 反馈 / 建议修改：所有访问者可用（不需要调试模式），通过 Web3Forms 发送到维护者邮箱。
 // 测试中替换 js/config.js 为测试用的 Access Key，并拦截发送请求（不会真的发出）。
-const { test, expect, openApp, loadDataset } = require('./helpers');
+const { test, expect, openApp, loadDataset, DATASET } = require('./helpers');
 
 test.use({ viewport: { width: 1440, height: 860 } });
 
@@ -123,7 +123,7 @@ test.describe('已配置', () => {
       '说明': '第二段的“节度史”应为“节度使”。',
       '联系方式': 'reader@example.com',
       email: 'reader@example.com',   // 邮箱可以直接回复
-      '数据集': 'cn_zh',
+      '数据集': DATASET,
     });
     expect(body['页面']).toContain('id=');
   });

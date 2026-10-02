@@ -74,8 +74,8 @@ test.describe('电脑', () => {
     await expect(page.locator('#currentEra')).toHaveText(target);
   });
 
-  test('另一份数据（cn_zh-v2）：开头附近的时期也能跳准', async ({ page }) => {
-    await page.goto('/?data=cn_zh-v2');
+  test('另一份数据（真实数据 cn_zh）：开头附近的时期也能跳准', async ({ page }) => {
+    await page.goto('/?data=cn_zh');
     await expect(page.locator('.card').first()).toBeVisible();
     for (const n of ['新石器时代', '夏', '中华民国', '旧石器时代']) {
       await page.click('#eraMenuBtn');

@@ -3,12 +3,13 @@
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
-const { test, expect } = require('./helpers');
+const { test, expect, readRealDataset } = require('./helpers');
 const { buildRedirect } = require('../tools/build-redirect');
 const { build, HOMEPAGE } = require('../tools/build-site');
 
 const OLD = 'https://plantatree2023.github.io/chinesehistory/';
-const data = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'cn_zh.json'), 'utf8'));
+// 跳转网站和正式网站都按 data/ 中的真实数据生成，事件取自默认数据集
+const data = readRealDataset('cn_zh');
 
 let outDir;
 test.beforeAll(() => {
@@ -38,8 +39,8 @@ test('旧首页带着参数和 # 跳到新首页（已分享的链接仍然有�
   const ev = data.events[0];
   await page.goto(`${OLD}?id=${ev.id}&at=-200#x`);
   await page.waitForURL(`${HOMEPAGE}?id=${ev.id}&at=-200#x`);
-  await page.goto(`${OLD}index.html?data=cn_zh-v2`);
-  await page.waitForURL(`${HOMEPAGE}?data=cn_zh-v2`);
+  await page.goto(`${OLD}index.html?data=cn_zh-v0`);
+  await page.waitForURL(`${HOMEPAGE}?data=cn_zh-v0`);
 });
 
 test('旧事件页跳到新地址的同一事件页', async ({ page }) => {

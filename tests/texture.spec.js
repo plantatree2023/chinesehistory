@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const { validateDataset } = require('../server');
-const { test, expect, openApp, loadDataset, trackOffset, DATA_URL } = require('./helpers');
+const { test, expect, openApp, loadDataset, trackOffset, DATA_URL, DATASET, REAL_DATASETS, readRealDataset, readTestData } = require('./helpers');
 
 const ROOT = path.resolve(__dirname, '..');
 test.use({ viewport: { width: 1440, height: 860 } });
@@ -87,8 +87,9 @@ test('其他数据集可以使用自己的纹理；没有配置时不显示', as
 });
 
 test('服务器校验纹理：只能是 textures/ 下的本地图片，大小、不透明度在范围内', async () => {
-  const data = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'cn_zh.json'), 'utf8'));
-  expect(() => validateDataset('cn_zh', data)).not.toThrow();
+  for (const id of REAL_DATASETS) expect(() => validateDataset(id, readRealDataset(id)), id).not.toThrow();
+  const data = readTestData();
+  expect(() => validateDataset(DATASET, data)).not.toThrow();
   const bad = [
     [{ src: 'https://example.com/a.svg' }, 'texture.src'],
     [{ src: 'images/a.svg' }, 'texture.src'],
@@ -101,15 +102,19 @@ test('服务器校验纹理：只能是 textures/ 下的本地图片，大小、
     [{ src: 'textures/a.svg', opacity: -0.1 }, 'texture.opacity'],
   ];
   for (const [texture, msg] of bad) {
-    expect(() => validateDataset('cn_zh', { ...data, texture }), JSON.stringify(texture)).toThrow(msg);
+    expect(() => validateDataset(DATASET, { ...data, texture }), JSON.stringify(texture)).toThrow(msg);
   }
   const { texture, ...noTexture } = data;
-  expect(() => validateDataset('cn_zh', noTexture)).not.toThrow();
+  expect(() => validateDataset(DATASET, noTexture)).not.toThrow();
 });
 
 test('纹理文件：数据引用的文件存在；都是不引用外部资源的 SVG，体积小；部署时会一起发布', async () => {
-  const data = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'cn_zh.json'), 'utf8'));
-  expect(fs.existsSync(path.join(ROOT, data.texture.src))).toBe(true);
+  // data/ 下每个配置了纹理的数据集（纹理是可选的）；默认数据集一定配置了纹理
+  expect(readRealDataset('cn_zh').texture).toBeTruthy();
+  for (const id of REAL_DATASETS) {
+    const { texture } = readRealDataset(id);
+    if (texture) expect(fs.existsSync(path.join(ROOT, texture.src)), `${id}：${texture.src}`).toBe(true);
+  }
   const files = fs.readdirSync(path.join(ROOT, 'textures'));
   expect(files.length).toBeGreaterThan(0);
   for (const f of files) {

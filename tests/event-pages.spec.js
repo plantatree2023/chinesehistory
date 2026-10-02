@@ -46,10 +46,11 @@ test.afterAll(async () => {
 test('构建脚本处理 data/ 下所有数据集，命名规则与网页（js/app.js）相同，默认数据集在最前', () => {
   const app = fs.readFileSync(path.join(ROOT, 'js', 'app.js'), 'utf8');
   expect(app).toContain(`var DATASET_ID = ${DATASET_ID.toString()};`);
+  expect(app).toContain(`var DEFAULT_DATASET = window.TIMELINE_DATASET || '${DEFAULT_DATASET}';`);
   const files = fs.readdirSync(DATA_DIR).filter((f) => f.endsWith('.json')).map((f) => f.slice(0, -5));
   expect([...DATASETS].sort()).toEqual(files.filter((f) => DATASET_ID.test(f)).sort());
   expect(DATASETS[0]).toBe(DEFAULT_DATASET);
-  expect(DATASETS).toContain('cn_zh-v2');
+  expect(DATASETS).toContain('cn_zh-v0');
 });
 
 for (const ds of DATASETS) {
@@ -203,6 +204,8 @@ for (const ds of DATASETS) {
       const ev = loadData(ds).events.find((e) => e.id === 'e052') || loadData(ds).events[0];
       const query = ds === DEFAULT_DATASET ? '' : `data=${ds}&`;
       const pageUrl = `${origin}${base}${eventPath(ds, ev)}`;
+      // 构建出的网站用 data/ 中的真实数据：去掉测试中的默认数据集替换（window.TIMELINE_DATASET）
+      await page.addInitScript(() => { delete window.TIMELINE_DATASET; });
       // 时间轴会在网址中补上 at（当前年份）等参数
       const at = (rest) => (url) => url.href.startsWith(origin + base) && new RegExp(rest).test(url.href.slice((origin + base).length));
       await page.goto(pageUrl);

@@ -3,7 +3,7 @@
 // 比例取自事件数据中记录的图片尺寸，并用实际加载后的像素尺寸复核，全程离线。
 const fs = require('fs');
 const path = require('path');
-const { test, expect, openApp, loadDataset } = require('./helpers');
+const { test, expect, openApp, loadDataset, REAL_DATASETS, readRealDataset } = require('./helpers');
 const { imageSize } = require('../tools/wiki-import');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -89,8 +89,8 @@ for (const [viewport, minLarge] of [[{ width: 1440, height: 860 }, 88000], [{ wi
   });
 }
 
-test('数据中的图片都是 images/ 下的本地文件：文件存在、可访问、尺寸与记录一致，没有外部地址', async ({ page, request }) => {
-  const { events } = await loadDataset(page);
+for (const id of REAL_DATASETS) test(`${id}：数据中的图片都是 images/ 下的本地文件：文件存在、可访问、尺寸与记录一致，没有外部地址`, async ({ request }) => {
+  const { events } = readRealDataset(id);
   const images = events.flatMap((e) => e.images.map((img) => ({ ...img, title: e.title })));
   expect(images.length).toBeGreaterThan(0);
   const problems = [];

@@ -2,11 +2,12 @@
   'use strict';
 
   // 数据集：data/<国家>_<语言>.json（国家为 ISO 3166 代码，语言为 ISO 639 代码），
-  // 可通过网址参数 ?data=jp_ja 切换，默认 cn_zh（中国 · 中文）
+  // 可通过网址参数 ?data=jp_ja 切换，默认 cn_zh（中国 · 中文）；测试通过 window.TIMELINE_DATASET 换成测试数据
   var DATASET_ID = /^[a-z]{2}_[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})?$/;
+  var DEFAULT_DATASET = window.TIMELINE_DATASET || 'cn_zh';
   var dataset = (function () {
     var id = new URLSearchParams(location.search).get('data');
-    return id && DATASET_ID.test(id) ? id : 'cn_zh';
+    return id && DATASET_ID.test(id) ? id : DEFAULT_DATASET;
   })();
   var STORAGE_KEY = 'zh-history-timeline:v1:' + dataset;
   var LEGACY_STORAGE_KEY = 'zh-history-timeline:v1';   // 旧版本（仅中国数据）使用的键
@@ -253,7 +254,7 @@
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
       // 迁移旧版本保存的修改（旧版本只有中国数据）
-      if (!raw && dataset === 'cn_zh') {
+      if (!raw && dataset === DEFAULT_DATASET) {
         raw = localStorage.getItem(LEGACY_STORAGE_KEY);
         if (raw) localStorage.removeItem(LEGACY_STORAGE_KEY);
       }
