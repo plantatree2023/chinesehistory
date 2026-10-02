@@ -1372,6 +1372,26 @@
   }
   form.addEventListener('input', updateCounters);
 
+  // 拖动排序（代表图之后的图片）：from 移到 to 之前的位置（to 为移动前的下标），不会移到第一张
+  var dragImageFrom = null;
+  function dropAfter(slot, e) {
+    var r = slot.getBoundingClientRect();
+    return e.clientX > r.left + r.width / 2;
+  }
+  function clearImageDropMarks(except) {
+    Array.prototype.forEach.call($('imageEditor').querySelectorAll('.drop-before, .drop-after, .dragging'), function (s) {
+      if (s !== except) s.classList.remove('drop-before', 'drop-after', 'dragging');
+    });
+    if (except) except.classList.remove('drop-before', 'drop-after');
+  }
+  function moveDraftImage(from, to) {
+    if (from < 1 || from >= draftImages.length) return;
+    to = Math.max(1, Math.min(draftImages.length, to));
+    var item = draftImages.splice(from, 1)[0];
+    if (to > from) to--;
+    draftImages.splice(to, 0, item);
+    renderImageEditor();
+  }
   function renderImageEditor() {
     var box = $('imageEditor');
     box.innerHTML = '';
@@ -1380,9 +1400,39 @@
       var pic = imageEl(im, '', '图');
       // 点击缩略图放大查看，可左右切换、设为代表图或移除（建议模式不显示图片编辑）
       pic.classList.add('slot-zoom');
-      pic.title = '点击放大';
+      pic.title = i > 0 ? '点击放大；拖动调整顺序' : '点击放大';
       pic.addEventListener('click', function () { openLightbox(draftImages, i, true); });
       slot.appendChild(pic);
+      // 代表图后面的图片可以拖动排序（只在它们之间移动，代表图固定在第一张；用“★”或查看器中的“设为代表图”更换代表图）
+      if (i > 0) {
+        slot.dataset.index = String(i);
+        pic.draggable = true;
+        pic.addEventListener('dragstart', function (e) {
+          dragImageFrom = i;
+          e.dataTransfer.effectAllowed = 'move';
+          e.dataTransfer.setData('text/plain', String(i));
+          slot.classList.add('dragging');
+        });
+        pic.addEventListener('dragend', function () { dragImageFrom = null; clearImageDropMarks(); });
+        slot.addEventListener('dragover', function (e) {
+          if (dragImageFrom == null) return;
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+          clearImageDropMarks(slot);
+          slot.classList.add(dropAfter(slot, e) ? 'drop-after' : 'drop-before');
+        });
+        slot.addEventListener('dragleave', function (e) {
+          if (!slot.contains(e.relatedTarget)) slot.classList.remove('drop-before', 'drop-after');
+        });
+        slot.addEventListener('drop', function (e) {
+          if (dragImageFrom == null) return;
+          e.preventDefault();
+          var from = dragImageFrom;
+          var to = i + (dropAfter(slot, e) ? 1 : 0);   // 放在目标图片之前 / 之后
+          dragImageFrom = null;
+          moveDraftImage(from, to);
+        });
+      }
       if (i === 0) slot.appendChild(el('span', 'badge', '代表图'));
       var acts = el('div', 'slot-actions');
       if (i > 0) {
@@ -1409,7 +1459,8 @@
       cap.placeholder = '图片标题';
       cap.value = im.caption || '';
       cap.setAttribute('aria-label', '第 ' + (i + 1) + ' 张图片的标题');
-      cap.addEventListener('input', function () { im.caption = cap.value; });
+      cap.title = im.caption || '';   // 悬停时显示完整标题（输入框可能显示不全）
+      cap.addEventListener('input', function () { im.caption = cap.value; cap.title = cap.value; });
       slot.appendChild(cap);
       box.appendChild(slot);
     });
@@ -1468,6 +1519,16 @@
     });
   }
   $('imageUrlAdd').addEventListener('click', addImageUrl);
+  // 点进“粘贴图片网址”输入框时，如果框是空的、剪贴板里是网址，自动粘贴进来（浏览器可能先询问是否允许读取剪贴板；
+  // 不允许或剪贴板不是网址时什么也不做）
+  $('imageUrlInput').addEventListener('focus', function () {
+    var inp = this;
+    if (inp.value.trim() || !navigator.clipboard || !navigator.clipboard.readText) return;
+    navigator.clipboard.readText().then(function (text) {
+      text = (text || '').trim();
+      if (!inp.value.trim() && /^https?:\/\/\S+$/i.test(text)) { inp.value = text; inp.select(); }
+    }, function () { /* 没有权限：忽略 */ });
+  });
   $('imageUrlInput').addEventListener('keydown', function (e) {
     if (e.key === 'Enter') { e.preventDefault(); addImageUrl(); }
   });
@@ -2755,7 +2816,12 @@
   var versionRequest = null;
 
   // 调试模式只在本地启动时提供（js/env.js，见 server.js）；线上不显示开关，浏览器中保存的开启状态也不起作用
-  var debugAvailable = !!(window.TIMELINE_ENV && window.TIMELINE_ENV.debugAvailable);
+  // 网址带 debugMode 参数（如 ?debugMode 或 ?debugMode=1）时线上也提供；该参数在浏览过程中保留，但不会出现在分享链接里
+  var debugParam = (function () {
+    var p = new URLSearchParams(location.search);
+    return p.has('debugMode') && !/^(0|false|off|no)$/i.test(p.get('debugMode'));
+  })();
+  var debugAvailable = debugParam || !!(window.TIMELINE_ENV && window.TIMELINE_ENV.debugAvailable);
   document.body.classList.toggle('debug-available', debugAvailable);
   function setDebugMode(on, save) {
     if (!debugAvailable) on = false;
@@ -2863,6 +2929,7 @@
   function buildQuery() {
     var out = [];
     if (keepDataParam) out.push(['data', dataset]);
+    if (debugParam) out.push(['debugMode', '']);
     if (!$('detailModal').hidden && detailId && findEvent(detailId)) out.push(['id', detailId]);
     if (sidebarOpen) {
       out.push(['browse', '']);

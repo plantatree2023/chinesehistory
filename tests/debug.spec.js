@@ -398,3 +398,42 @@ test.describe('只有本地启动时提供调试模式', () => {
     expect(await page.evaluate((k) => localStorage.getItem(k), DEBUG_KEY)).toBe('1');
   });
 });
+
+test.describe('网址中的 debugMode 参数', () => {
+  const STATIC_ENV = fs.readFileSync(path.join(ROOT, 'js', 'env.js'), 'utf8');
+  const asPublic = (page) => page.route('**/js/env.js', (route) => route.fulfill({ contentType: 'text/javascript', body: STATIC_ENV }));
+
+  test('线上带 ?debugMode 时显示调试模式开关；浏览中网址保留该参数，分享链接不带', async ({ page, context }) => {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+    await asPublic(page);
+    await page.goto('/?debugMode');
+    await expect(page.locator('.card').first()).toBeVisible();
+    await page.click('#browseBtn');
+    await expect(page.locator('.switch')).toBeVisible();
+    await page.locator('.switch').click();
+    await expect(page.locator('#debugToggle')).toBeChecked();
+    await expect(page.locator('#addBtn')).toBeVisible();
+    // 打开详情：网址仍带 debugMode
+    await page.fill('#searchInput', '贞观之治');
+    await page.locator('.list-row').first().click();
+    await page.click('.list-actions .btn-ghost');
+    await expect.poll(() => new URL(page.url()).searchParams.has('debugMode')).toBe(true);
+    expect(new URL(page.url()).searchParams.get('id')).toBeTruthy();
+    // 分享链接不带
+    await page.click('#detailShare');
+    await page.click('.share-btn[data-share="copy"]');
+    const shared = await page.evaluate(() => navigator.clipboard.readText());
+    expect(shared).toContain('id=');
+    expect(shared).not.toContain('debugMode');
+  });
+
+  test('?debugMode=0 或没有该参数时，线上不显示开关', async ({ page }) => {
+    await asPublic(page);
+    for (const url of ['/?debugMode=0', '/']) {
+      await page.goto(url);
+      await expect(page.locator('.card').first()).toBeVisible();
+      await page.click('#browseBtn');
+      await expect(page.locator('.switch'), url).toBeHidden();
+    }
+  });
+});

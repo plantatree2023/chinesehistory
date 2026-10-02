@@ -1057,6 +1057,8 @@ body.bars-hidden .fab { bottom: 18px; }
 #shareQrcodeCanvas { border: 1px solid var(--line); border-radius: 4px; padding: 4px; background: white; }
 
 .edit-card { padding: 22px 26px 24px; }
+/* 编辑页比其他弹窗宽一些（图片、参考链接一行能放下更多） */
+#editForm { width: min(1080px, 100%); }
 .edit-card h2 { margin: 0 0 14px; font-family: var(--font-serif); }
 .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; font-size: 13px; color: var(--ink-2); }
 .field em { color: var(--red); font-style: normal; }
@@ -1085,6 +1087,12 @@ body.bars-hidden .fab { bottom: 18px; }
 }
 .image-editor:empty::before { content: "暂无图片"; color: var(--muted); font-size: 12px; }
 .img-slot { position: relative; border-radius: 6px; overflow: hidden; background: var(--paper-2); }
+/* 拖动排序：被拖的图片变淡，放下的位置显示竖线 */
+.img-slot[data-index] .slot-zoom { cursor: grab; }
+.img-slot.dragging { opacity: .4; }
+.img-slot.drop-before::after, .img-slot.drop-after::after { content: ""; position: absolute; top: 0; bottom: 0; width: 4px; background: var(--red); z-index: 3; }
+.img-slot.drop-before::after { left: 0; }
+.img-slot.drop-after::after { right: 0; }
 .img-slot img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
 .img-slot .slot-caption {
   display: block;

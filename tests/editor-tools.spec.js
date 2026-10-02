@@ -335,3 +335,75 @@ test.describe('词条名查询（lib/link-title.js 与 /api/link-title）', () =
     }
   });
 });
+
+test.describe('编辑页（续）', () => {
+  test.use({ debugMode: true });
+
+  test('悬停图片标题时显示完整标题（随输入更新）', async ({ page }) => {
+    const { events } = await loadDataset(page);
+    const ev = events.find((e) => e.title === '安史之乱');
+    await openEditorOf(page, '安史之乱');
+    const caps = page.locator('#imageEditor .slot-caption');
+    await expect(caps.nth(1)).toHaveAttribute('title', ev.images[1].caption);
+    const long = '这是一个很长的图片标题，输入框里显示不完整，悬停时应能看到全部内容';
+    await caps.nth(1).fill(long);
+    await expect(caps.nth(1)).toHaveAttribute('title', long);
+  });
+
+  test('点进“粘贴图片网址”输入框时，自动粘贴剪贴板中的网址；不是网址或框里已有内容时不粘贴', async ({ page, context }) => {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+    await openEditorOf(page, '安史之乱');
+    const inp = page.locator('#imageUrlInput');
+    const setClipboard = (t) => page.evaluate((t) => navigator.clipboard.writeText(t), t);
+    const blur = () => page.locator('#editForm [name=title]').focus();
+    await setClipboard('https://example.org/pic.jpg');
+    await inp.click();
+    await expect(inp).toHaveValue('https://example.org/pic.jpg');
+    // 已有内容：不覆盖
+    await blur();
+    await setClipboard('https://example.org/other.jpg');
+    await inp.click();
+    await expect(inp).toHaveValue('https://example.org/pic.jpg');
+    // 剪贴板不是网址：不粘贴
+    await inp.fill('');
+    await blur();
+    await setClipboard('一段普通文字');
+    await inp.click();
+    await expect(inp).toHaveValue('');
+  });
+
+  test('拖动排序代表图后面的图片；代表图固定在第一张', async ({ page }) => {
+    const { events } = await loadDataset(page);
+    const ev = events.find((e) => e.title === '安史之乱');
+    expect(ev.images.length).toBeGreaterThanOrEqual(4);
+    const srcs = () => page.locator('#imageEditor .img-slot img.slot-zoom').evaluateAll((els) => els.map((e) => e.getAttribute('src')));
+    await openEditorOf(page, '安史之乱');
+    const imgs = page.locator('#imageEditor .img-slot img.slot-zoom');
+    await expect(imgs.first()).not.toHaveAttribute('draggable', 'true');   // 代表图不能拖
+    await expect(imgs.nth(1)).toHaveAttribute('draggable', 'true');
+    const orig = ev.images.map((i) => i.src);
+    // 第二张拖到第四张的右半边（之后）
+    const target = await page.locator('#imageEditor .img-slot').nth(3).boundingBox();
+    await imgs.nth(1).dragTo(page.locator('#imageEditor .img-slot').nth(3), { targetPosition: { x: target.width * 0.8, y: target.height / 3 } });
+    await expect.poll(srcs).toEqual([orig[0], orig[2], orig[3], orig[1], ...orig.slice(4)]);
+    // 拖到代表图上：不移动
+    await imgs.nth(3).dragTo(page.locator('#imageEditor .img-slot').nth(0));
+    await expect.poll(srcs).toEqual([orig[0], orig[2], orig[3], orig[1], ...orig.slice(4)]);
+    // 保存后写入
+    await page.click('#editForm button[type=submit]');
+    await expect(page.locator('#editModal')).toBeHidden();
+    const stored = await page.evaluate((k) => JSON.parse(localStorage.getItem(k)), STORAGE_KEY);
+    expect(stored.changed[ev.id].images.map((i) => i.src)).toEqual([orig[0], orig[2], orig[3], orig[1], ...orig.slice(4)]);
+  });
+
+  for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 780 }]) {
+    test(`${viewport.width}：编辑页比其他弹窗宽，不超出屏幕`, async ({ page }) => {
+      await page.setViewportSize(viewport);
+      await openEditorOf(page, '安史之乱');
+      const w = (await page.locator('#editForm').boundingBox()).width;
+      if (viewport.width >= 1200) expect(w).toBeGreaterThanOrEqual(1000);
+      expect(w).toBeLessThanOrEqual(viewport.width - 16);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(viewport.width);
+    });
+  }
+});
