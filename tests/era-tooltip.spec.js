@@ -88,6 +88,34 @@ test('最早时期之前留有一段渐隐的轴线：表示更早的年代，�
   await expect(tipName(page)).toHaveText('旧石器时代');
 });
 
+test('点击轴线高亮时期色带时，色带下方的时期名等比放大（横向与纵向同步），不被拉伸变形', async ({ page }) => {
+  await page.goto('/?at=700');
+  await expect(page.locator('.card').first()).toBeVisible();
+  const band = page.locator('.era[data-era="唐"]');
+  const label = band.locator('.era-label');
+  const before = await label.boundingBox();
+  const bb = await band.boundingBox();
+  await page.mouse.click(before.x + before.width / 2 + 120, bb.y + bb.height / 2);
+  await expect(band).toHaveClass(/hot/);
+  await page.waitForTimeout(300);   // 等放大动画结束
+  const scale = await band.evaluate((b) => new DOMMatrix(getComputedStyle(b).transform).d);
+  expect(scale).toBeGreaterThan(1.3);
+  const after = await label.boundingBox();
+  // 时期名的宽、高按同一倍数放大
+  expect(after.height / before.height).toBeCloseTo(scale, 1);
+  expect(after.width / before.width).toBeCloseTo(scale, 1);
+  // 仍水平居中在色带下方
+  const nb = await band.boundingBox();
+  expect(Math.abs((after.x + after.width / 2) - (nb.x + nb.width / 2))).toBeLessThanOrEqual(1);
+  // 取消高亮后恢复原样
+  await page.mouse.click(400, 120);
+  await expect(band).not.toHaveClass(/hot/);
+  await page.waitForTimeout(300);
+  const back = await label.boundingBox();
+  expect(back.width).toBeCloseTo(before.width, 0);
+  expect(back.height).toBeCloseTo(before.height, 0);
+});
+
 test('第一个时期之前有引导段：颜色由透明渐变为第一个时期的颜色、由细渐粗，与第一个时期的色带无缝衔接', async ({ page }) => {
   const { eras } = await loadDataset(page);
   await openApp(page);

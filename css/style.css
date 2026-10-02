@@ -391,6 +391,9 @@ body.bars-hidden .era-names { display: block; }
 }
 .era { transition: transform .15s, box-shadow .15s; }
 .era.hot { transform: scaleY(1.7); box-shadow: 0 0 0 2px color-mix(in srgb, var(--card) 85%, transparent); opacity: 1; }
+/* 色带纵向放大时，下方的时期名随父元素被纵向拉伸；横向同步放大同样倍数，文字等比放大、不变形 */
+.era-label { transition: transform .15s; }
+.era.hot .era-label { transform: translateX(-50%) scaleX(1.7); }
 /* 时间轴感应区：悬浮或点击显示所处时期 */
 .axis-hit {
   position: absolute;
