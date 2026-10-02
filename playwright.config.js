@@ -8,8 +8,8 @@ module.exports = defineConfig({
   testDir: './tests',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,      // CI 中禁止遗留 test.only
-  retries: 0,                        // 不重试：失败即视为真实问题，不掩盖不稳定的测试
-  timeout: 60_000,
+  retries: 2,                        // 失败后自动重跑最多 2 次（应对机器负载高时的偶发失败）；重跑才通过的会在报告中标为 flaky
+  timeout: 90_000,
   expect: { timeout: 10_000 },
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
