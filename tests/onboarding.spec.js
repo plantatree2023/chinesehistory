@@ -24,6 +24,7 @@ test.describe('首次访问提示', () => {
 
       await expect(page.locator('#tourStep')).toHaveText('1 / 3');
       await expect(page.locator('#tourText')).toContainText('左右拖动');
+      await expect(page.locator('#tourPrev'), '第一步没有“上一步”').toBeHidden();
       await page.waitForTimeout(400);   // 聚光灯移动的过渡动画
       const axis = await page.locator('#axis').boundingBox();
       const spot1 = await page.locator('#tourSpot').boundingBox();
@@ -33,6 +34,22 @@ test.describe('首次访问提示', () => {
       await page.click('#tourNext');
       await expect(page.locator('#tourStep')).toHaveText('2 / 3');
       await expect(page.locator('#tourText')).toContainText('点卡片');
+      // “上一步”回到第一步，再前进
+      await expect(page.locator('#tourPrev')).toBeVisible();
+      await page.click('#tourPrev');
+      await expect(page.locator('#tourStep')).toHaveText('1 / 3');
+      await expect(page.locator('#tourPrev')).toBeHidden();
+      await page.click('#tourNext');
+      await expect(page.locator('#tourStep')).toHaveText('2 / 3');
+      // 跳过、上一步、下一步排在一行，不溢出说明框（等说明框移动的过渡动画结束）
+      await page.waitForTimeout(400);
+      const tip = await page.locator('#tourTip').boundingBox();
+      const btns = [];
+      for (const id of ['#tourSkip', '#tourPrev', '#tourNext']) btns.push(await page.locator(id).boundingBox());
+      for (const b of btns) {
+        expect(b.y).toBeCloseTo(btns[0].y, 0);
+        expect(b.x + b.width).toBeLessThanOrEqual(tip.x + tip.width);
+      }
       await page.waitForTimeout(400);
       const spot2 = await page.locator('#tourSpot').boundingBox();
       const cards = await page.locator('#events .card').evaluateAll((els) => els.map((e) => e.getBoundingClientRect().toJSON()));
@@ -42,6 +59,7 @@ test.describe('首次访问提示', () => {
       await expect(page.locator('#tourStep')).toHaveText('3 / 3');
       await expect(page.locator('#tourNext')).toHaveText('开始浏览');
       await expect(page.locator('#tourSkip')).toBeHidden();
+      await expect(page.locator('#tourPrev')).toBeVisible();
       await page.waitForTimeout(400);
       expect(contains(await page.locator('#tourSpot').boundingBox(), await page.locator('#browseBtn').boundingBox())).toBe(true);
       // 说明框完整显示在窗口内
@@ -171,8 +189,21 @@ test.describe('关于本站', () => {
       await expect(modal).toContainText('CC BY-SA 4.0');
       await expect(modal).toContainText('维基共享资源');
       await expect(modal.locator('a[href*="creativecommons.org/licenses/by-sa/4.0"]')).toHaveAttribute('target', '_blank');
+      // GitHub 源代码链接只在调试模式下显示
+      await expect(modal.locator('#aboutGithub')).toBeHidden();
       await page.keyboard.press('Escape');
       await expect(modal).toBeHidden();
+    });
+
+    test.describe('调试模式', () => {
+      test.use({ debugMode: true });
+      test('关于页显示 GitHub 源代码链接', async ({ page }) => {
+        await openApp(page);
+        await page.click('#aboutBtn');
+        const link = page.locator('#aboutGithub');
+        await expect(link).toBeVisible();
+        await expect(link).toHaveAttribute('href', 'https://github.com/plantatree2023/chinesehistory');
+      });
     });
 
     test('隐藏工具栏时关于按钮一同隐藏', async ({ page }) => {

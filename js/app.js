@@ -3007,7 +3007,7 @@
 
   // ---------- 首次访问提示 ----------
   // 第一次打开网站时提示怎么用，只提示一次（记在当前浏览器中）：
-  // 电脑上是分步指引（聚光灯依次指向时间轴、卡片、“浏览所有历史事件”按钮），打开期间自动播放停住；
+  // 电脑上是分步指引（聚光灯依次指向时间轴、卡片、“浏览所有历史事件”按钮，可以回到上一步），打开期间自动播放停住；
   // 手机上（≤640px）是底部的气泡，不挡时间轴，点“知道了”、点别处或滑动时间轴时收起。
   // 通过分享链接直接打开详情等情况下不提示（下次访问再提示）。测试可以通过 window.TIMELINE_ONBOARDING = false 关闭
   var ONBOARD_KEY = 'zh-history-timeline:onboarded';
@@ -3051,6 +3051,7 @@
     $('tourText').innerHTML = TOUR_STEPS[tour.step].text;
     $('tourNext').textContent = last ? '开始浏览' : '下一步';
     $('tourSkip').hidden = last;
+    $('tourPrev').hidden = tour.step === 0;
     Array.prototype.forEach.call($('tourDots').children, function (d, i) { d.classList.toggle('on', i === tour.step); });
     placeTour();
     $('tourNext').focus({ preventScroll: true });
@@ -3077,7 +3078,13 @@
     showTourStep();
   }
   $('tourNext').addEventListener('click', tourNext);
+  function tourPrev() {
+    if (tour.step === 0) return;
+    tour.step--;
+    showTourStep();
+  }
   $('tourSkip').addEventListener('click', closeTour);
+  $('tourPrev').addEventListener('click', tourPrev);
   window.addEventListener('resize', function () { if (tour.open) placeTour(); });
   // 打开期间：→ / Enter 下一步，← 上一步（不移动时间轴）；Esc 由弹窗通用逻辑关闭
   document.addEventListener('keydown', function (e) {
@@ -3086,7 +3093,7 @@
     if (e.key === 'Tab') return;
     if ((e.key === 'Enter' || e.key === ' ') && e.target.closest && e.target.closest('#tour button')) return;   // 按钮自己处理
     if (e.key === 'ArrowRight' || e.key === 'Enter') tourNext();
-    else if (e.key === 'ArrowLeft' && tour.step > 0) { tour.step--; showTourStep(); }
+    else if (e.key === 'ArrowLeft') tourPrev();
     e.preventDefault();
     e.stopImmediatePropagation();
   }, true);
