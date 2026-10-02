@@ -170,4 +170,25 @@ test.describe('分享链接', () => {
     await page.click('#shareModal .modal-close');
     await expect(page.locator('#shareModal')).toHaveAttribute('hidden');
   });
+
+  test('分享时间线复制当前网址（数据集、位置等参数），不带 debugMode', async ({ page }) => {
+    await page.goto('/?data=cn_zh&debugMode&at=755');
+    await expect(page.locator('.card').first()).toBeVisible();
+    await page.click('#shareTimeline');
+    await page.click('.share-btn[data-share="copy"]');
+    const copied = new URL(await page.evaluate(() => navigator.clipboard.readText()));
+    const expected = new URL(page.url());
+    expected.searchParams.delete('debugMode');
+    expect(copied.searchParams.has('debugMode')).toBe(false);
+    expect(copied.searchParams.get('data')).toBe('cn_zh');
+    expect(Math.abs(Number(copied.searchParams.get('at')) - 755)).toBeLessThan(5);
+    expect(copied.href).toBe(expected.href);
+  });
+
+  test('没有任何浏览状态时，分享时间线的链接就是首页地址', async ({ page }) => {
+    await openApp(page);
+    await page.click('#shareTimeline');
+    await page.click('.share-btn[data-share="copy"]');
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(new URL('/', page.url()).href);
+  });
 });

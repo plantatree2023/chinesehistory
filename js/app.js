@@ -3231,10 +3231,11 @@
     var y = yearOfX(-offset + viewW() / 2);
     return y == null ? null : Math.round(y);
   }
-  function buildQuery() {
+  // forShare：用于分享链接，不带 debugMode
+  function buildQuery(forShare) {
     var out = [];
     if (keepDataParam) out.push(['data', dataset]);
-    if (debugParam) out.push(['debugMode', '']);
+    if (debugParam && !forShare) out.push(['debugMode', '']);
     if (!$('detailModal').hidden && detailId && findEvent(detailId)) out.push(['id', detailId]);
     if (sidebarOpen) {
       out.push(['browse', '']);
@@ -3324,7 +3325,12 @@
     syncUrl(false);
   });
 
-  // 分享链接：只包含事件（和数据集），不带侧栏、筛选等当前浏览状态
+  // 分享时间线：当前网址的全部状态（侧栏、搜索、筛选、位置、打开的事件等），只去掉 debugMode
+  function timelineShareUrl() {
+    var q = buildQuery(true);
+    return location.origin + location.pathname + (q ? '?' + q : '');
+  }
+  // 分享事件：只包含事件（和数据集），不带侧栏、筛选等当前浏览状态
   function shareUrl(id) {
     var q = (keepDataParam ? 'data=' + encodeURIComponent(dataset) + '&' : '') + 'id=' + encodeURIComponent(id);
     return location.origin + location.pathname + '?' + q;
@@ -3393,7 +3399,7 @@
       var url, title;
 
       if (shareType === 'timeline') {
-        url = location.origin + location.pathname;
+        url = timelineShareUrl();
         title = BASE_TITLE;
       } else {
         var ev = findEvent(shareId);
