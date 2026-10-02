@@ -232,7 +232,7 @@ test.describe('version.json 的来源', () => {
 });
 
 test('Cloudflare 缓存规则：只有按内容哈希命名的 images/ 文件长期缓存', async () => {
-  const rules = fs.readFileSync(path.join(ROOT, '_headers'), 'utf8').split('\n').filter((l) => l.trim() && !l.startsWith('#'));
+  const rules = fs.readFileSync(path.join(ROOT, '_headers'), 'utf8').split(/\r?\n/).filter((l) => l.trim() && !l.startsWith('#'));
   expect(rules).toEqual(['/images/:file', '  Cache-Control: public, max-age=31536000, immutable']);
   // :file 只匹配 images/ 下一层的文件（不含 images/share/），这些文件必须都是内容哈希命名，否则改了内容浏览器仍用旧缓存
   const top = fs.readdirSync(path.join(ROOT, 'images'), { withFileTypes: true }).filter((d) => d.isFile()).map((d) => d.name);
