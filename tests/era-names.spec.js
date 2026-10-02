@@ -37,7 +37,7 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 390, height: 780 
         range.selectNodeContents(e);
         const text = range.getBoundingClientRect();
         return {
-          era: e.dataset.era, left: r.left, top: r.top, bandLeft: band.left, textRight: text.right,
+          era: e.dataset.era, left: r.left, top: r.top, bandLeft: band.left, textRight: text.right, textTop: text.top,
           color: s.getPropertyValue('--era-color').trim(), opacity: +s.opacity, pointer: s.pointerEvents,
         };
       }));
@@ -47,6 +47,7 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 390, height: 780 
         expect(byName[it.era], it.era).toBeTruthy();
         expect(Math.abs(it.left - it.bandLeft), `${it.era} 在时期起点`).toBeLessThanOrEqual(1);
         expect(Math.abs(it.top - stage.y), `${it.era} 在舞台顶部`).toBeLessThanOrEqual(1);
+        expect(it.textTop - stage.y, `${it.era} 文字紧贴顶部`).toBeLessThanOrEqual(8);
         expect(it.color.toLowerCase(), it.era).toBe(byName[it.era].color.toLowerCase());
         expect(it.opacity).toBeGreaterThan(0.2);
         expect(it.opacity).toBeLessThan(0.8);

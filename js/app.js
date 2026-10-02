@@ -696,7 +696,7 @@
     var box = $('eraNames'), lines = $('eraLines');
     box.innerHTML = '';
     lines.innerHTML = '';
-    var fontSize = window.matchMedia('(max-width: 640px)').matches ? 26 : 34;
+    var fontSize = window.matchMedia('(max-width: 640px)').matches ? 22 : 29;   // 与 css 中 .era-start-name 的字号一致
     ERAS.forEach(function (era) {
       var x1 = clamp(xOfYear(era.start), 0, W);
       var x2 = era.end == null ? W : clamp(xOfYear(era.end), 0, W);

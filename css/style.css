@@ -382,16 +382,16 @@ body.bars-hidden .era-names, body.bars-hidden .era-lines { display: block; }
 .era-start-name {
   position: absolute;
   top: 0;
-  padding: 10px 0 0 10px;
+  padding: 4px 0 0 9px;
   font-family: 'Ma Shan Zheng Title', var(--font-serif);
-  font-size: 34px;
-  line-height: 1.2;
+  font-size: 29px;
+  line-height: 1;
   white-space: nowrap;
   color: color-mix(in srgb, var(--era-color) 82%, var(--era-text-mix));
   opacity: .55;
 }
 @media (max-width: 640px) {
-  .era-start-name { font-size: 26px; padding: 8px 0 0 8px; }
+  .era-start-name { font-size: 22px; padding: 3px 0 0 7px; }
 }
 .era { transition: transform .15s, box-shadow .15s; }
 .era.hot { transform: scaleY(1.7); box-shadow: 0 0 0 2px color-mix(in srgb, var(--card) 85%, transparent); opacity: 1; }
