@@ -3336,6 +3336,13 @@
       if (ok) resolve(); else reject(new Error('copy failed'));
     });
   }
+  // 微信分享（好友 / 朋友圈）只在手机上提供：按 UA 判断手机（含 iPadOS 的桌面版 UA），以及是否在微信内置浏览器中
+  var UA = navigator.userAgent || '';
+  var IS_MOBILE = /Android|iPhone|iPad|iPod|HarmonyOS|Mobile/i.test(UA) || (/Macintosh/.test(UA) && navigator.maxTouchPoints > 1);
+  var IN_WECHAT = /MicroMessenger/i.test(UA);
+  document.body.classList.toggle('mobile-device', IS_MOBILE);
+  document.body.classList.toggle('in-wechat', IN_WECHAT);
+
   // 分享菜单
   var shareId = null;
   var qrcodeInstance = null;
@@ -3349,8 +3356,10 @@
       var ev = findEvent(id);
       if (!ev) return;
     }
+    $('shareTitle').textContent = shareType === 'timeline' ? '分享时间线' : '分享事件';
     openModal('shareModal');
     $('shareQrcode').hidden = true;
+    $('shareWechatGuide').hidden = true;
     // 清空上次的二维码
     if (qrcodeInstance) {
       $('shareQrcodeContainer').innerHTML = '';
@@ -3389,7 +3398,10 @@
       if (type === 'copy') {
         copyText(url).then(function () { toast('链接已复制'); }, function () { toast('请复制链接：' + url); });
         closeModal('shareModal');
+      } else if (type === 'wechat-friend' || type === 'wechat-moments') {
+        shareToWechat(type === 'wechat-moments' ? 'moments' : 'friend', url, title);
       } else if (type === 'wechat') {
+        $('shareWechatGuide').hidden = true;
         showWechatQrcode(url);
       } else if (type === 'weibo') {
         window.open('https://service.weibo.com/share/share.php?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title), '_blank');
@@ -3414,6 +3426,49 @@
       }
     });
   });
+
+  // 分享到微信好友 / 朋友圈。网页不能直接调起微信的分享（需要公众号的 JS-SDK），因此：
+  // - 在微信内置浏览器中：提示点右上角 ··· 发送给朋友 / 分享到朋友圈；
+  // - 其他浏览器中发给好友：有系统分享面板（navigator.share）时用它，用户在面板里选微信；
+  // - 否则（以及朋友圈，微信不接受其他应用直接发网页到朋友圈）：复制链接，提示到微信中发送，并提供“打开微信”。
+  function shareToWechat(target, url, title) {
+    if (IN_WECHAT) {
+      closeModal('shareModal');
+      showWechatTip(target);
+      return;
+    }
+    if (target === 'friend' && navigator.share) {
+      navigator.share({ title: title, url: url }).then(function () {
+        closeModal('shareModal');
+      }, function (e) {
+        if (!e || e.name !== 'AbortError') showWechatGuide(target, url);   // 用户取消时什么也不做
+      });
+      return;
+    }
+    showWechatGuide(target, url);
+  }
+  function showWechatGuide(target, url) {
+    $('shareQrcode').hidden = true;
+    var box = $('shareWechatGuide');
+    var text = $('shareWechatGuideText');
+    function show(copied) {
+      var head = copied ? '链接已复制。' : '请复制链接：' + url + '。';
+      text.textContent = target === 'moments'
+        ? head + '打开微信，把链接发给自己（如“文件传输助手”）并点开，再点右上角 ··· 选择“分享到朋友圈”。'
+        : head + '打开微信，粘贴发送给朋友。';
+      box.hidden = false;
+      if (box.scrollIntoView) box.scrollIntoView({ block: 'nearest' });   // 手机上分享面板较长，提示在底部
+    }
+    copyText(url).then(function () { show(true); }, function () { show(false); });
+  }
+  function showWechatTip(target) {
+    $('wechatTipText').textContent = '点击右上角 ··· 选择' + (target === 'moments' ? '“分享到朋友圈”' : '“发送给朋友”');
+    $('wechatTip').hidden = false;
+  }
+  $('wechatTip').addEventListener('click', function () { $('wechatTip').hidden = true; });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !$('wechatTip').hidden) { e.stopPropagation(); $('wechatTip').hidden = true; }
+  }, true);
 
   // 二维码库异步加载（index.html 中的 #qrcodeLib）：已加载时立即调用，否则等加载完成；加载失败时 cb(false)
   function whenQrcodeReady(cb) {
