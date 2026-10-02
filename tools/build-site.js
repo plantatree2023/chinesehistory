@@ -21,11 +21,15 @@ const PAGE_STRINGS = {
     htmlLang: 'zh-CN', locale: 'zh_CN', siteName: '时间上的中国', wikipedia: '维基百科', open: '在时间轴中查看',
     sources: '参考链接', note: '来自维基百科的文字与图片遵循 CC BY-SA 等相应许可', nav: '上一个 / 下一个事件',
     prev: '上一个事件', next: '下一个事件', home: '返回首页',
+    by: '图：', original: '原图', publicDomain: '公有领域', sourceSite: '图片来源：', unknownLicense: '作者与许可不详',
+    unknownSource: '图片来源网络，作者不详', unknownSourceBy: '图片来源网络，作者：',
   },
   en: {
     htmlLang: 'en', locale: 'en_US', siteName: 'China Through Time', wikipedia: 'Wikipedia', open: 'View on the timeline',
     sources: 'References', note: 'Text and images from Wikipedia are used under CC BY-SA and their respective licenses',
     nav: 'Previous / next event', prev: 'Previous event', next: 'Next event', home: 'Back to home',
+    by: 'Image: ', original: 'Original', publicDomain: 'Public domain', sourceSite: 'Image source: ', unknownLicense: 'author and license unknown',
+    unknownSource: 'Image from the web, author unknown', unknownSourceBy: 'Image from the web, by ',
   },
 };
 const pageStrings = (ds) => PAGE_STRINGS[ds.split('_')[1].split('-')[0]] || PAGE_STRINGS.zh;
@@ -58,6 +62,32 @@ function eraOf(eras, y) {
 }
 const isWikipedia = (s) => /^https?:\/\/[^/]*wikipedia\.org\//.test(s.url);
 const sourceLabel = (s, L) => s.title || (isWikipedia(s) ? L.wikipedia : s.url);
+// 图片署名（与 js/app.js 的 creditParts 相同的规则）：有许可证时“图：作者 · 许可证 · 原图”，
+// 许可不详时写来源网站或“图片来源网络，作者不详”；没有填写版权信息时返回空字符串
+const UNKNOWN_LICENSE = 'unknown';
+function licenseUrl(l) {
+  const m = /^CC (BY(?:-SA)?) (\d\.\d)$/.exec(l || '');
+  if (m) return `https://creativecommons.org/licenses/${m[1].toLowerCase()}/${m[2]}/`;
+  return l === 'CC0' ? 'https://creativecommons.org/publicdomain/zero/1.0/' : '';
+}
+const extLink = (text, href) => `<a href="${esc(href)}" rel="noopener">${esc(text)}</a>`;
+const httpUrl = (u) => typeof u === 'string' && /^https?:\/\/\S+$/.test(u);
+function creditHtml(im, L) {
+  const source = httpUrl(im.sourceUrl) ? im.sourceUrl : '';
+  if (im.license && im.license !== UNKNOWN_LICENSE) {
+    const name = im.license === 'Public domain' ? L.publicDomain : im.license;
+    const lu = licenseUrl(im.license);
+    return [im.author ? esc(L.by + im.author) : '', lu ? extLink(name, lu) : esc(name), source ? extLink(L.original, source) : '']
+      .filter(Boolean).join(' · ');
+  }
+  if (im.license !== UNKNOWN_LICENSE && !im.author && !source) return '';
+  if (source) {
+    let host = source;
+    try { host = new URL(source).hostname.replace(/^www\./, ''); } catch { /* 保留原网址 */ }
+    return `${esc(L.sourceSite)}${extLink(host, source)} · ${esc(im.author ? im.author : L.unknownLicense)}`;
+  }
+  return esc(im.author ? L.unknownSourceBy + im.author : L.unknownSource);
+}
 
 function eventPage(ds, ev, eras, prev, next) {
   const L = pageStrings(ds);
@@ -78,11 +108,15 @@ function eventPage(ds, ev, eras, prev, next) {
   <meta name="twitter:image" content="${esc(HOMEPAGE + images[0].src)}">`
     : `
   <meta name="twitter:card" content="summary">`;
-  const figure = (im) => `
+  const figure = (im) => {
+    const credit = creditHtml(im, L);
+    const cap = [im.caption ? esc(im.caption) : '', credit ? `<small class="ev-credit">${credit}</small>` : ''].filter(Boolean).join('<br>');
+    return `
       <figure class="ev-figure">
-        <img src="${up}${esc(im.src)}"${im.w && im.h ? ` width="${im.w}" height="${im.h}"` : ''} alt="${esc(im.caption || ev.title)}" loading="lazy" decoding="async">${im.caption ? `
-        <figcaption>${esc(im.caption)}</figcaption>` : ''}
+        <img src="${up}${esc(im.src)}"${im.w && im.h ? ` width="${im.w}" height="${im.h}"` : ''} alt="${esc(im.caption || ev.title)}" loading="lazy" decoding="async">${cap ? `
+        <figcaption>${cap}</figcaption>` : ''}
       </figure>`;
+  };
   const navLink = (e, rel, label) => e
     ? `<a class="ev-${rel}" rel="${rel}" href="${encodeURIComponent(e.id)}.html"><span>${label}</span>${esc(e.title)}</a>`
     : '<span></span>';

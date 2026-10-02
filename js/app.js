@@ -1415,6 +1415,7 @@
       src.appendChild(ul);
       if (links.some(isWikipedia)) src.appendChild(el('p', 'source-note', _('来自维基百科的文字与图片遵循 CC BY-SA 等相应许可')));
     }
+    renderDetailCredits(ev);
     openModal('detailModal');
     $('detailModal').querySelector('.modal-card').scrollTop = 0;
     if (wasOpen) syncUrl(false); else onLayerOpened('detail');
@@ -1441,6 +1442,105 @@
     });
   }
 
+  // ---------- 图片版权（署名） ----------
+  // 每张图片可以记录 author（作者）、license（许可证）、sourceUrl（来源网址，维基共享资源的文件页或图片所在的网页）。
+  // license 为 'unknown' 表示已确认作者和许可不详（网上找的图片）；三项都没有时表示还没有填写，不显示署名。
+  // 版权信息与语言无关：同一国家各语言的数据集中，同一张图片的这三项保持一致（编辑页保存时同步，见 saveSiblings）。
+  var UNKNOWN_LICENSE = 'unknown';
+  var PUBLIC_DOMAIN = 'Public domain';
+  var LICENSE_OPTIONS = ['CC BY-SA 4.0', 'CC BY-SA 3.0', 'CC BY-SA 2.5', 'CC BY-SA 2.0', 'CC BY 4.0', 'CC BY 3.0', 'CC BY 2.5', 'CC BY 2.0', 'CC0', PUBLIC_DOMAIN];
+  var MAX_AUTHOR = 200, MAX_LICENSE = 60;
+  function licenseLabel(l) {
+    return l === PUBLIC_DOMAIN ? _('公有领域') : l === UNKNOWN_LICENSE ? _('不详') : l;
+  }
+  // 知识共享许可证的说明页；其他许可证没有链接
+  function licenseUrl(l) {
+    var m = /^CC (BY(?:-SA)?) (\d\.\d)$/.exec(l || '');
+    if (m) return 'https://creativecommons.org/licenses/' + m[1].toLowerCase() + '/' + m[2] + '/';
+    return l === 'CC0' ? 'https://creativecommons.org/publicdomain/zero/1.0/' : '';
+  }
+  // 署名的三种情况：known 有许可证；site 许可不详但知道来源网址；unknown 来源网络、作者不详；没有填写时为 ''
+  function creditKind(im) {
+    if (!im) return '';
+    if (im.license && im.license !== UNKNOWN_LICENSE) return 'known';
+    if (im.license === UNKNOWN_LICENSE || im.author || im.sourceUrl) return im.sourceUrl ? 'site' : 'unknown';
+    return '';
+  }
+  function urlHost(u) {
+    try { return new URL(u).hostname.replace(/^www\./, ''); } catch (e) { return u; }
+  }
+  function extLink(text, href) {
+    var a = el('a', null, text);
+    a.href = href; a.target = '_blank'; a.rel = 'noopener';
+    return a;
+  }
+  // 署名的各部分（文字或链接），用“ · ”连接显示；withContact 为 true 时，作者不详的图片带“联系我们”（打开反馈）
+  function creditParts(im, withContact, onContact) {
+    var kind = creditKind(im), parts = [];
+    if (kind === 'known') {
+      if (im.author) parts.push(_('图：{author}', { author: im.author }));
+      var lu = licenseUrl(im.license);
+      parts.push(lu ? extLink(licenseLabel(im.license), lu) : licenseLabel(im.license));
+      if (im.sourceUrl) parts.push(extLink(_('原图 ↗'), im.sourceUrl));
+      return parts;
+    }
+    if (kind === 'site') {
+      var p = document.createDocumentFragment();
+      p.appendChild(document.createTextNode(_('图片来源：')));
+      p.appendChild(extLink(urlHost(im.sourceUrl) + ' ↗', im.sourceUrl));
+      parts.push(p);
+      parts.push(im.author ? _('作者：{author}，许可不详', { author: im.author }) : _('作者与许可不详'));
+      if (withContact && onContact) parts.push(contactLink(_('版权问题请联系我们'), onContact));
+      return parts;
+    }
+    if (kind === 'unknown') {
+      parts.push(im.author ? _('图片来源网络，作者：{author}', { author: im.author }) : _('图片来源网络，作者不详'));
+      if (withContact && onContact) parts.push(contactLink(_('如您是作者，请联系我们'), onContact));
+    }
+    return parts;
+  }
+  function contactLink(text, onContact) {
+    var a = el('a', 'credit-contact', text);
+    a.href = '#';
+    a.addEventListener('click', function (e) { e.preventDefault(); onContact(); });
+    return a;
+  }
+  function fillCredit(box, parts) {
+    box.innerHTML = '';
+    parts.forEach(function (p, i) {
+      if (i) box.appendChild(document.createTextNode(' · '));
+      box.appendChild(typeof p === 'string' ? document.createTextNode(p) : p);
+    });
+    box.hidden = !parts.length;
+  }
+  // 详情页底部的“图片来源”：列出每张图片的署名（没有任何图片填写版权信息时不显示）
+  function renderDetailCredits(ev) {
+    var box = $('detailCredits');
+    var imgs = ev.images || [];
+    var any = imgs.some(creditKind);
+    box.hidden = !any;
+    if (!any) return;
+    $('detailCreditsTitle').textContent = _('图片来源（{n} 张）', { n: imgs.length });
+    var ol = $('detailCreditsList');
+    ol.innerHTML = '';
+    imgs.forEach(function (im) {
+      var li = el('li');
+      var parts = creditParts(im, false);
+      if (parts.length) fillCredit(li, parts); else li.textContent = _('未注明');
+      ol.appendChild(li);
+    });
+    var vague = imgs.some(function (im) { var k = creditKind(im); return k === 'site' || k === 'unknown'; });
+    var note = $('detailCreditsNote');
+    note.hidden = !vague;
+    note.innerHTML = '';
+    if (vague) {
+      note.appendChild(document.createTextNode(_('部分图片来自网络、作者不详，如有侵权请')));
+      if (feedbackOn) note.appendChild(contactLink(_('联系我们'), function () { openFeedback(ev.id, 0); }));
+      else note.appendChild(document.createTextNode(_('联系我们')));
+      note.appendChild(document.createTextNode(_('删除。')));
+    }
+  }
+
   // ---------- 图片查看 ----------
   // edit 为 true 时从编辑页打开：imgs 是编辑中的图片（draftImages），显示“设为代表图”“从本事件移除”
   var lb = { imgs: [], i: 0, edit: false };
@@ -1461,6 +1561,12 @@
     img.src = im.src;
     img.alt = im.caption || '';
     $('lightboxCaption').textContent = (im.caption || '') + (lb.imgs.length > 1 ? '  (' + (lb.i + 1) + '/' + lb.imgs.length + ')' : '');
+    // 署名：从详情打开时，作者不详的图片带“联系我们”（打开这张图片的反馈）
+    var evId = lb.edit ? null : detailId, n = lb.i + 1;
+    fillCredit($('lightboxCredit'), creditParts(im, !!(evId && feedbackOn), function () {
+      closeLightbox();
+      openFeedback(evId, n);
+    }));
     var many = lb.imgs.length > 1;
     document.querySelector('.lb-prev').hidden = !many;
     document.querySelector('.lb-next').hidden = !many;
@@ -1541,6 +1647,9 @@
     });
     draftImages = ev ? clone(ev.images || []) : [];
     $('imageUrlInput').value = '';
+    resetNewCredit();
+    $('imageInfo').open = false;   // 图片信息表默认折叠
+    loadSiblings(mode ? null : (ev ? ev.id : null), !mode);
     $('formError').textContent = '';
     if (mode) fillSuggestFields(mode === 'suggest' ? ev : null);
     setImageSearchMenu(false);
@@ -1622,6 +1731,9 @@
         });
       }
       if (i === 0) slot.appendChild(el('span', 'badge', _('代表图')));
+      // 版权标签：绿色有许可证，灰色只知道来源网站，橙色来源不详；没有填写时不显示
+      var kind = creditKind(im);
+      if (kind) slot.appendChild(el('span', 'credit-chip credit-' + kind, kind === 'known' ? licenseLabel(im.license) : kind === 'site' ? urlHost(im.sourceUrl) : _('? 来源不详')));
       var acts = el('div', 'slot-actions');
       if (i > 0) {
         var up = el('button', null, '★');
@@ -1648,7 +1760,12 @@
       cap.value = im.caption || '';
       cap.setAttribute('aria-label', _('第 {n} 张图片的标题', { n: i + 1 }));
       cap.title = im.caption || '';   // 悬停时显示完整标题（输入框可能显示不全）
-      cap.addEventListener('input', function () { im.caption = cap.value; cap.title = cap.value; });
+      cap.dataset.index = String(i);
+      cap.addEventListener('input', function () {
+        im.caption = cap.value; cap.title = cap.value;
+        syncCaptionInput('#imageInfoRows .info-caption', i, cap.value);
+        updateLangCounts();
+      });
       slot.appendChild(cap);
       box.appendChild(slot);
     });
@@ -1656,6 +1773,7 @@
     $('imageUrlInput').disabled = full || urlBusy;
     $('imageUrlAdd').disabled = full || urlBusy;
     $('imageFileInput').disabled = full;
+    renderImageInfo();
   }
 
 
@@ -1684,6 +1802,8 @@
       });
     });
   }
+  // 维基共享资源的文件页网址（如 https://commons.wikimedia.org/wiki/File:xxx.jpg）不是图片本身：
+  // 先查询这张图片的作者、许可证和图片地址，再下载图片；直接的图片地址（upload.wikimedia.org）也会查询版权信息
   function addImageUrl() {
     var inp = $('imageUrlInput'), btn = $('imageUrlAdd');
     var url = inp.value.trim();
@@ -1694,10 +1814,23 @@
     btn.textContent = _('下载中…');
     $('formError').textContent = '';
     renderImageEditor();
-    fetchImageUrl(url).then(function (img) {
-      if (draftImages.length >= MAX_IMAGES) return;
-      draftImages.push({ src: img.src, w: img.w, h: img.h, caption: '' });
-      inp.value = '';
+    var file = commonsFileName(url), page = file && !isCommonsUpload(url);
+    var info = !file ? Promise.resolve(null) : commonsInfoFor(url).then(function (r) {
+      fillNewCredit(r, url);
+      return r;
+    }, function (e) {
+      if (page) throw new Error(_('无法读取维基共享资源的图片信息：{error}', { error: e.message }));
+      return null;   // 直接的图片地址：查不到版权信息也照常下载
+    });
+    info.then(function (r) {
+      return fetchImageUrl(page ? r.imageUrl : url).then(function (img) {
+        if (draftImages.length >= MAX_IMAGES) return;
+        var im = Object.assign({ src: img.src, w: img.w, h: img.h, caption: '' }, takeNewCredit(r ? r.sourceUrl : url));
+        im._new = true;
+        draftImages.push(im);
+        inp.value = '';
+        resetNewCredit();
+      });
     }).catch(function (e) {
       $('formError').textContent = _('图片下载失败：{error}', { error: e.message });
     }).then(function () {
@@ -1744,16 +1877,434 @@
     var files = Array.prototype.slice.call(this.files || []);
     this.value = '';
     var room = MAX_IMAGES - draftImages.length;
+    // 上传的图片使用“这张图的版权”一行填写的信息（同时上传多张时每张都用这一份），然后清空这一行
+    var credit = takeNewCredit('');
+    if (files.length) resetNewCredit();
     if (files.length > room) $('formError').textContent = _('最多只能添加 9 张图片，多余的已忽略');
     files.slice(0, room).forEach(function (f) {
       if (!/^image\//.test(f.type)) return;
       resizeFile(f, 900, function (data, w, h) {
         if (!data || draftImages.length >= MAX_IMAGES) return;
-        draftImages.push({ src: data, w: w, h: h, caption: f.name.replace(/\.[^.]+$/, '') });
+        var im = Object.assign({ src: data, w: w, h: h, caption: f.name.replace(/\.[^.]+$/, '') }, credit);
+        im._new = true;
+        draftImages.push(im);
         renderImageEditor();
       });
     });
   });
+
+  // ---------- 编辑页：图片版权与多语言标题 ----------
+  // “这张图的版权”一行：添加网址或上传图片时写入新图片，然后清空；粘贴维基共享资源的网址时自动填写（可以再改）。
+  // 新图片的许可证默认为“不详”（网站上显示“来源网络，作者不详”）；来源网址留空时用粘贴的图片网址
+  function licenseOptions(sel, value, withEmpty) {
+    sel.innerHTML = '';
+    if (withEmpty) sel.appendChild(new Option(_('未填写'), ''));
+    sel.appendChild(new Option(licenseLabel(UNKNOWN_LICENSE), UNKNOWN_LICENSE));
+    LICENSE_OPTIONS.forEach(function (l) { sel.appendChild(new Option(licenseLabel(l), l)); });
+    // 数据中的其他许可证（如 GFDL）也保留为选项，编辑时不丢失
+    if (value && value !== UNKNOWN_LICENSE && LICENSE_OPTIONS.indexOf(value) < 0) sel.appendChild(new Option(value, value));
+    sel.value = value || '';
+  }
+  var newCreditFor = '';   // 自动填写的版权信息对应的网址（网址改了就清掉自动填写的内容）
+  function setNewCreditHint(text, cls) {
+    var h = $('newCreditHint');
+    h.textContent = text || '';
+    h.className = 'new-credit-hint' + (cls ? ' ' + cls : '');
+    h.hidden = !text;
+  }
+  function resetNewCredit() {
+    $('newCreditAuthor').value = '';
+    licenseOptions($('newCreditLicense'), UNKNOWN_LICENSE, false);
+    $('newCreditSource').value = '';
+    $('newCredit').classList.remove('auto');
+    newCreditFor = '';
+    setNewCreditHint('');
+  }
+  function fillNewCredit(info, url) {
+    $('newCreditAuthor').value = info.author || '';
+    licenseOptions($('newCreditLicense'), info.license || UNKNOWN_LICENSE, false);
+    $('newCreditSource').value = info.sourceUrl || '';
+    $('newCredit').classList.add('auto');
+    newCreditFor = url;
+  }
+  // 取出“这张图的版权”一行的内容（作为新图片的 author / license / sourceUrl）
+  function takeNewCredit(defaultSource) {
+    var out = {};
+    var author = $('newCreditAuthor').value.trim().slice(0, MAX_AUTHOR);
+    var source = $('newCreditSource').value.trim() || defaultSource || '';
+    if (author) out.author = author;
+    out.license = $('newCreditLicense').value || UNKNOWN_LICENSE;
+    if (/^https?:\/\/\S+$/i.test(source)) out.sourceUrl = source;
+    return out;
+  }
+  // 保存前去掉编辑页内部使用的字段，整理版权信息（空的不保存）
+  function cleanImage(im) {
+    var out = {};
+    Object.keys(im).forEach(function (k) { if (k.charAt(0) !== '_') out[k] = im[k]; });
+    out.caption = (im.caption || '').trim();
+    ['author', 'license', 'sourceUrl'].forEach(function (k) {
+      var v = typeof out[k] === 'string' ? out[k].trim() : '';
+      if (v) out[k] = v; else delete out[k];
+    });
+    if (out.sourceUrl && !/^https?:\/\/\S+$/i.test(out.sourceUrl)) delete out.sourceUrl;
+    return out;
+  }
+
+  // 维基共享资源：从网址中取出文件名。支持文件页（/wiki/File:xxx、?title=File:xxx、维基百科的 #/media/File:xxx）
+  // 和图片地址（upload.wikimedia.org/wikipedia/commons/…）
+  function commonsFileName(u) {
+    var url;
+    try { url = new URL(u); } catch (e) { return null; }
+    var dec = function (x) { try { return decodeURIComponent(x); } catch (e) { return x; } };
+    var FILE = /^(?:File|Image|文件|檔案|图像|圖像):(.+)$/i, m;
+    if (/(^|\.)(wikimedia|wikipedia)\.org$/.test(url.hostname)) {
+      var hash = dec(url.hash).match(/^#\/media\/(.+)$/);
+      if (hash && (m = FILE.exec(hash[1]))) return m[1];
+      var wiki = dec(url.pathname).match(/^\/wiki\/(.+)$/);
+      if (wiki && (m = FILE.exec(wiki[1]))) return m[1];
+      if ((m = FILE.exec(url.searchParams.get('title') || ''))) return m[1];
+    }
+    if (url.hostname === 'upload.wikimedia.org' && (m = /^\/wikipedia\/commons\/(?:thumb\/)?[0-9a-f]\/[0-9a-f]{2}\/([^/]+)/.exec(url.pathname))) return dec(m[1]);
+    return null;
+  }
+  function isCommonsUpload(u) { return /^https?:\/\/upload\.wikimedia\.org\//i.test(u); }
+  function htmlText(html) {
+    // DOMParser 解析的文档不执行脚本、不加载图片
+    var doc = new DOMParser().parseFromString('<body>' + (html || '') + '</body>', 'text/html');
+    return (doc.body.textContent || '').replace(/\s+/g, ' ').trim();
+  }
+  function normalizeLicense(name) {
+    name = (name || '').trim();
+    if (!name) return '';
+    if (/^(public domain|pd\b|pd-)/i.test(name)) return PUBLIC_DOMAIN;
+    if (/^cc0/i.test(name)) return 'CC0';
+    return name.slice(0, MAX_LICENSE);
+  }
+  // 查询维基共享资源（浏览器直接访问其 API，支持跨域）：返回作者、许可证、文件页网址和用于下载的图片地址（宽不超过 1200）
+  function lookupCommons(file) {
+    var q = new URLSearchParams({
+      action: 'query', format: 'json', origin: '*', prop: 'imageinfo',
+      iiprop: 'url|extmetadata', iiurlwidth: '1200', titles: 'File:' + file
+    });
+    return fetch('https://commons.wikimedia.org/w/api.php?' + q.toString()).then(function (res) {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    }).then(function (json) {
+      var pages = (json && json.query && json.query.pages) || {};
+      var page = pages[Object.keys(pages)[0]];
+      var ii = page && page.imageinfo && page.imageinfo[0];
+      if (!ii) throw new Error(_('维基共享资源中找不到这张图片'));
+      var md = ii.extmetadata || {};
+      var val = function (k) { return md[k] && md[k].value; };
+      return {
+        author: htmlText(val('Artist')).slice(0, MAX_AUTHOR),
+        license: normalizeLicense(htmlText(val('LicenseShortName'))) || UNKNOWN_LICENSE,
+        sourceUrl: ii.descriptionurl || ('https://commons.wikimedia.org/wiki/File:' + encodeURIComponent(file.replace(/ /g, '_'))),
+        imageUrl: ii.thumburl || ii.url
+      };
+    });
+  }
+  var commonsCache = {};
+  function commonsInfoFor(url) {
+    var file = commonsFileName(url);
+    if (!file) return Promise.reject(new Error(_('不是维基共享资源的网址')));
+    var key = file.replace(/_/g, ' ');
+    if (!commonsCache[key]) {
+      commonsCache[key] = lookupCommons(file);
+      commonsCache[key].catch(function () { delete commonsCache[key]; });
+    }
+    return commonsCache[key];
+  }
+  // 粘贴或输入网址后：维基共享资源的网址自动填写版权（停顿 400 毫秒后查询，网址改了就作废）
+  var urlTimer = null;
+  function onNewImageUrl() {
+    var url = $('imageUrlInput').value.trim();
+    if (newCreditFor && newCreditFor !== url) resetNewCredit();
+    clearTimeout(urlTimer);
+    if (!commonsFileName(url) || newCreditFor === url) return;
+    urlTimer = setTimeout(function () {
+      setNewCreditHint(_('⟳ 正在读取维基共享资源的图片信息…'));
+      commonsInfoFor(url).then(function (info) {
+        if ($('imageUrlInput').value.trim() !== url) return;
+        fillNewCredit(info, url);
+        setNewCreditHint(_('✓ 已从维基共享资源读取作者和许可证，点“添加网址”下载图片'), 'ok');
+      }, function (e) {
+        if ($('imageUrlInput').value.trim() !== url) return;
+        setNewCreditHint(_('无法读取维基共享资源的图片信息：{error}', { error: e.message }), 'warn');
+      });
+    }, 400);
+  }
+  $('imageUrlInput').addEventListener('input', onNewImageUrl);
+  $('imageUrlInput').addEventListener('change', onNewImageUrl);
+  $('newCredit').addEventListener('input', function () { $('newCredit').classList.remove('auto'); });
+
+  // ---------- 图片信息表 ----------
+  // 每张图一行：缩略图、当前语言的标题、对照语言的标题、作者、许可证、来源网址。默认折叠，表头显示缺少的信息。
+  // 对照语言是同一国家其他语言的数据集（cn_zh → cn_en，测试数据 cn_zh-test → cn_en-test），编辑页打开时加载；
+  // 保存时把图片（及对照语言的标题、版权信息）同步到这些数据集中的同一事件（事件不存在时不同步）
+  var siblings = {};      // 语言 → { id, lang, name, maxCaption, ev（该数据集中的同一事件，没有时为 null）, defaults }
+  var siblingToken = 0;
+  var COMPARE_KEY = 'zh-history-timeline:compareLang';
+  var compareLang = (function () { try { return localStorage.getItem(COMPARE_KEY) || ''; } catch (e) { return ''; } })();
+  function siblingId(lang) { return dataset.replace(/^([a-z]{2})_[a-z]{2,3}/, '$1_' + lang); }
+  function storageKeyOf(id) { return 'zh-history-timeline:v1:' + id; }
+  // 浏览器模式下该数据集保存的改动（{ changed, deleted }），没有或格式不对时返回空
+  function storedChanges(id) {
+    try {
+      var data = JSON.parse(localStorage.getItem(storageKeyOf(id)) || 'null');
+      if (data && data.version === 2 && data.changed && typeof data.changed === 'object') return data;
+    } catch (e) { /* 忽略 */ }
+    return null;
+  }
+  function eventWithChanges(defs, id, stored) {
+    var def = defs.filter(function (e) { return e.id === id; })[0];
+    if (stored && (stored.deleted || []).indexOf(id) >= 0) return null;
+    var ch = stored && stored.changed[id];
+    if (!def) return ch && ch.title ? clone(ch) : null;
+    var ev = clone(def);
+    if (ch) Object.keys(ch).forEach(function (k) { if (ch[k] === null) delete ev[k]; else ev[k] = clone(ch[k]); });
+    return ev;
+  }
+  function loadSiblings(id, enabled) {
+    var token = ++siblingToken;
+    siblings = {};
+    if (!enabled) return;
+    Object.keys(I18N).filter(function (l) { return l !== LANG; }).forEach(function (lang) {
+      var sid = siblingId(lang);
+      if (sid === dataset || !DATASET_ID.test(sid)) return;
+      fetch('data/' + sid + '.json', { cache: 'no-cache' }).then(function (res) {
+        return res.ok ? res.json() : null;
+      }).then(function (data) {
+        if (token !== siblingToken || !data || !Array.isArray(data.events)) return;
+        var ev = id ? eventWithChanges(data.events, id, fileMode ? null : storedChanges(sid)) : null;
+        siblings[lang] = {
+          id: sid, lang: lang, name: I18N[lang].name || lang,
+          maxCaption: (I18N[lang].limits && I18N[lang].limits.maxCaption) || 60,
+          ev: ev, defaults: data.events
+        };
+        renderImageInfo();
+      }).catch(function () { /* 没有该语言的数据集：不显示对照 */ });
+    });
+  }
+  // 对照语言的标题：第一次用到时取该语言数据集中同一张图片（按 src）的标题
+  function trOf(im, lang) {
+    im._tr = im._tr || {};
+    if (!(lang in im._tr)) {
+      var s = siblings[lang], m = s && s.ev && (s.ev.images || []).filter(function (x) { return x.src === im.src; })[0];
+      im._tr[lang] = m ? (m.caption || '') : '';
+    }
+    return im._tr[lang];
+  }
+  function missingCaptions(lang) {
+    return draftImages.filter(function (im) { return (im.caption || '').trim() && !trOf(im, lang).trim(); }).length;
+  }
+  function availableLangs() {
+    return Object.keys(siblings).filter(function (l) { return siblings[l].ev; });
+  }
+  function syncCaptionInput(selector, i, value) {
+    var other = document.querySelector(selector + '[data-index="' + i + '"]');
+    if (other && other.value !== value) { other.value = value; other.title = value; }
+  }
+  // 表头和缩略图标签：缺少许可信息的数量、各语言缺少的标题数
+  function updateInfoSummary() {
+    var missing = draftImages.filter(function (im) { return creditKind(im) !== 'known'; }).length;
+    var t = $('imageInfoTitle');
+    t.textContent = _('图片信息 · {n} 张', { n: draftImages.length });
+    if (missing) {
+      t.appendChild(document.createTextNode(_('，')));
+      t.appendChild(el('span', 'info-warn', _('{n} 张缺少许可信息', { n: missing })));
+    }
+    var canAuto = draftImages.some(needsCommonsFill);
+    $('imageInfoAuto').hidden = !canAuto;
+  }
+  function updateLangCounts() {
+    var box = $('imageInfoLangs');
+    var langs = Object.keys(siblings);
+    box.hidden = !langs.length;
+    box.innerHTML = '';
+    if (!langs.length) return;
+    box.appendChild(el('span', null, _('其他语言的标题：')));
+    langs.forEach(function (lang) {
+      // 语言名称单独放在一个元素中（各语言用自己的名称，如“English”“中文”），后面是缺少的数量
+      var s = siblings[lang], b = el('button', 'lang-count');
+      b.type = 'button';
+      b.dataset.lang = lang;
+      b.appendChild(el('span', 'lang-name', s.name));
+      var n = s.ev ? missingCaptions(lang) : 0;
+      b.appendChild(document.createTextNode(!s.ev ? _('：没有这个事件') : n ? _(' 缺 {n} 张', { n: n }) : _(' ✓ 齐全')));
+      b.classList.toggle('missing', n > 0);
+      b.classList.toggle('on', lang === compareLang);
+      b.disabled = !s.ev;
+      b.addEventListener('click', function () { setCompareLang(lang); });
+      box.appendChild(b);
+    });
+  }
+  function setCompareLang(lang) {
+    compareLang = lang;
+    try { localStorage.setItem(COMPARE_KEY, lang); } catch (e) { /* 忽略 */ }
+    renderImageInfo();
+  }
+  function needsCommonsFill(im) {
+    return !!(im.sourceUrl && commonsFileName(im.sourceUrl) && (!im.author || creditKind(im) !== 'known'));
+  }
+  function renderImageInfo() {
+    var head = $('imageInfoHead'), rows = $('imageInfoRows');
+    var langs = availableLangs();
+    var cmp = langs.indexOf(compareLang) >= 0 ? compareLang : langs[0];
+    var table = $('imageInfo');
+    table.classList.toggle('with-compare', !!cmp);
+    head.innerHTML = '';
+    rows.innerHTML = '';
+    head.appendChild(el('span'));
+    head.appendChild(el('span', null, _('标题（{lang}）', { lang: LOCALE.name || LANG })));
+    if (cmp) {
+      var cmpHead = el('span', 'compare-head', _('对照：'));
+      var sel = document.createElement('select');
+      sel.className = 'compare-select';
+      sel.setAttribute('aria-label', _('对照语言'));
+      langs.forEach(function (l) { sel.appendChild(new Option(siblings[l].name, l)); });
+      sel.value = cmp;
+      sel.addEventListener('change', function () { setCompareLang(sel.value); });
+      cmpHead.appendChild(sel);
+      head.appendChild(cmpHead);
+    }
+    [_('作者'), _('许可证'), _('来源网址')].forEach(function (t) { head.appendChild(el('span', null, t)); });
+    draftImages.forEach(function (im, i) {
+      var row = el('div', 'info-row' + (im._new ? ' new' : ''));
+      var n = { n: i + 1 };
+      row.appendChild(imageEl(im, 'info-thumb', _('图')));
+      var cap = el('input', 'info-caption');
+      cap.type = 'text'; cap.maxLength = MAX_CAPTION; cap.placeholder = _('图片标题');
+      cap.value = im.caption || ''; cap.title = cap.value; cap.dataset.index = String(i);
+      cap.setAttribute('aria-label', _('第 {n} 张图片的标题', n));
+      cap.addEventListener('input', function () {
+        im.caption = cap.value; cap.title = cap.value;
+        syncCaptionInput('#imageEditor .slot-caption', i, cap.value);
+        updateLangCounts();
+      });
+      row.appendChild(cap);
+      if (cmp) {
+        var s = siblings[cmp], tr = el('input', 'info-compare');
+        tr.type = 'text'; tr.maxLength = s.maxCaption;
+        tr.placeholder = _('未翻译');
+        tr.value = trOf(im, cmp);
+        tr.lang = I18N[cmp].htmlLang || cmp;
+        tr.setAttribute('aria-label', _('第 {n} 张图片的对照语言标题', n));
+        var markTr = function () { tr.classList.toggle('warn', !!(im.caption || '').trim() && !tr.value.trim()); };
+        markTr();
+        tr.addEventListener('input', function () { im._tr[cmp] = tr.value; markTr(); updateLangCounts(); });
+        row.appendChild(tr);
+      }
+      var author = el('input', 'info-author');
+      author.type = 'text'; author.maxLength = MAX_AUTHOR; author.placeholder = _('作者（不知道可以留空）');
+      author.value = im.author || '';
+      author.setAttribute('aria-label', _('第 {n} 张图片的作者', n));
+      author.addEventListener('input', function () { im.author = author.value; creditChanged(i); });
+      row.appendChild(author);
+      var lic = document.createElement('select');
+      lic.className = 'info-license';
+      lic.setAttribute('aria-label', _('第 {n} 张图片的许可证', n));
+      licenseOptions(lic, im.license || '', true);
+      var markLic = function () { lic.classList.toggle('warn', creditKind(im) !== 'known'); };
+      markLic();
+      lic.addEventListener('change', function () { if (lic.value) im.license = lic.value; else delete im.license; markLic(); creditChanged(i); });
+      row.appendChild(lic);
+      var src = el('input', 'info-source');
+      src.type = 'url'; src.placeholder = _('来源网址');
+      src.value = im.sourceUrl || '';
+      src.setAttribute('aria-label', _('第 {n} 张图片的来源网址', n));
+      src.addEventListener('input', function () { im.sourceUrl = src.value.trim(); markLic(); creditChanged(i); });
+      row.appendChild(src);
+      if (im._new) row.appendChild(el('div', 'info-note', im.license && im.license !== UNKNOWN_LICENSE
+        ? _('✓ 刚添加的图片，版权信息来自上面的版权栏') : _('刚添加的图片：可以在这里补充作者和许可证')));
+      rows.appendChild(row);
+    });
+    updateInfoSummary();
+    updateLangCounts();
+  }
+  // 版权信息改动后：更新这张图的缩略图标签和表头（不重建输入框，保持光标）
+  function creditChanged(i) {
+    var slot = $('imageEditor').querySelectorAll('.img-slot')[i], im = draftImages[i];
+    if (slot) {
+      var old = slot.querySelector('.credit-chip');
+      if (old) old.remove();
+      var kind = creditKind(im);
+      if (kind) slot.insertBefore(el('span', 'credit-chip credit-' + kind, kind === 'known' ? licenseLabel(im.license) : kind === 'site' ? urlHost(im.sourceUrl) : _('? 来源不详')), slot.querySelector('.slot-caption'));
+    }
+    updateInfoSummary();
+  }
+  // “从维基共享资源自动填写”：来源网址是维基共享资源、但缺少作者或许可证的图片，查询后补上（已填写的作者不覆盖）
+  $('imageInfoAuto').addEventListener('click', function (e) {
+    e.preventDefault();   // 按钮在 summary 中，不切换折叠
+    var btn = this, list = draftImages.filter(needsCommonsFill);
+    if (!list.length || btn.disabled) return;
+    btn.disabled = true;
+    btn.textContent = _('查询中…');
+    Promise.all(list.map(function (im) {
+      return commonsInfoFor(im.sourceUrl).then(function (info) {
+        if (!im.author && info.author) im.author = info.author;
+        if (creditKind(im) !== 'known') im.license = info.license;
+        im.sourceUrl = info.sourceUrl || im.sourceUrl;
+        return true;
+      }, function () { return false; });
+    })).then(function (ok) {
+      btn.disabled = false;
+      btn.textContent = _('从维基共享资源自动填写');
+      var failed = ok.filter(function (x) { return !x; }).length;
+      if (failed) $('formError').textContent = _('有 {n} 张图片没有查到维基共享资源的信息', { n: failed });
+      renderImageEditor();
+    });
+  });
+
+  // 保存后同步其他语言的数据集：同一事件的图片换成当前的图片（顺序、尺寸、版权信息），标题用对照语言的标题
+  // （没有编辑过的取该语言原来的标题，新图片为空）。内容没有变化时不写入
+  function saveSiblings(id, images, trs) {
+    var jobs = Object.keys(siblings).map(function (lang) {
+      var s = siblings[lang];
+      if (!s.ev || s.ev.id !== id) return null;
+      var old = s.ev.images || [];
+      var next = images.map(function (im, i) {
+        var o = clone(im);
+        var tr = trs[i] && trs[i][lang];
+        if (tr == null) {
+          var m = old.filter(function (x) { return x.src === im.src; })[0];
+          tr = m ? m.caption || '' : '';
+        }
+        o.caption = String(tr).trim();
+        return o;
+      });
+      if (canonical(next) === canonical(old)) return null;
+      return writeSiblingImages(s, id, next).then(function () { s.ev.images = clone(next); });
+    }).filter(Boolean);
+    return Promise.all(jobs);
+  }
+  function writeSiblingImages(s, id, images) {
+    if (fileMode) {
+      return fetch('data/' + s.id + '.json', { cache: 'no-store' }).then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      }).then(function (data) {
+        var ev = data.events.filter(function (e) { return e.id === id; })[0];
+        if (!ev) return null;
+        ev.images = images;
+        return requestJson('api/data/' + s.id, 'PUT', data);
+      });
+    }
+    // 浏览器模式：写入该数据集在当前浏览器中保存的改动（只记录与数据文件不同的字段）
+    var stored = storedChanges(s.id) || { version: 2, changed: {}, deleted: [] };
+    var cur = eventWithChanges(s.defaults, id, stored);
+    if (!cur) return Promise.resolve();
+    cur.images = images;
+    var def = s.defaults.filter(function (e) { return e.id === id; })[0];
+    var ch = def ? eventDiff(cur, def) : cur;
+    if (ch) stored.changed[id] = ch; else delete stored.changed[id];
+    try {
+      localStorage.setItem(storageKeyOf(s.id), JSON.stringify(stored));
+    } catch (e) {
+      return Promise.reject(new Error(_('浏览器存储空间不足')));
+    }
+    return Promise.resolve();
+  }
 
   // ---------- 编辑页：参考链接（可增删改） ----------
   var draftSources = [];
@@ -2009,9 +2560,7 @@
       date: form.date.value.trim() || formatYear(year),
       short: form.short.value.trim(),
       detail: form.detail.value.trim(),
-      images: draftImages.slice(0, MAX_IMAGES).map(function (im) {
-        return Object.assign({}, im, { caption: (im.caption || '').trim() });
-      }),
+      images: draftImages.slice(0, MAX_IMAGES).map(cleanImage),
       sources: cleanSources(),
       majorScore: parseInt(form.majorScore.value, 10) || DEFAULT_SCORE
     };
@@ -2030,8 +2579,16 @@
       data.id = id = uid();
       events.push(data);
     }
-    // 本地文件模式等待写入完成；浏览器模式直接保存到 localStorage
-    return { id: id, wasEditing: !!editingId, written: fileMode ? saveToFile() : Promise.resolve(save()) };
+    // 本地文件模式等待写入完成；浏览器模式直接保存到 localStorage。
+    // 然后把图片（版权信息、对照语言的标题）同步到其他语言的数据集（上传的图片先保存为文件，路径确定后再同步）
+    var trs = draftImages.slice(0, MAX_IMAGES).map(function (im) { return im._tr || null; });
+    var written = (fileMode ? saveToFile() : Promise.resolve(save())).then(function (r) {
+      var saved = findEvent(id);
+      return saveSiblings(id, saved ? saved.images || [] : [], trs).catch(function (e) {
+        toast(_('其他语言的数据写入失败：{error}', { error: e.message }));
+      }).then(function () { return r; });
+    });
+    return { id: id, wasEditing: !!editingId, written: written };
   }
 
   function finishEdit(saved) {
@@ -2111,7 +2668,8 @@
   }
 
   // 反馈弹窗：eventId 为空时是整站反馈
-  function openFeedback(eventId) {
+  // imageNo：从图片署名的“联系我们”打开时，预先选好“图片有问题”和第几张图（0 表示不指定哪一张）
+  function openFeedback(eventId, imageNo) {
     if (!feedbackOn) return;
     var ev = eventId ? findEvent(eventId) : null;
     fbEventId = ev ? ev.id : null;
@@ -2139,6 +2697,12 @@
     $('feedbackImages').hidden = true;
     $('feedbackSuggestEdit').hidden = !ev;
     $('feedbackProposeNew').hidden = !!ev;
+    if (ev && imageNo != null) {
+      var imgKind = box.querySelector('input[value="图片有问题"]');
+      if (imgKind) imgKind.checked = true;
+      $('feedbackImages').hidden = false;
+      if (imageNo > 0 && hasImages) fbForm.image.value = String(imageNo);
+    }
     openModal('feedbackModal');
     setTimeout(function () { var first = box.querySelector('input'); if (first) first.focus(); }, 50);
   }

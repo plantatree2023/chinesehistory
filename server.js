@@ -158,6 +158,10 @@ function validateDataset(id, data) {
       if (im.src.startsWith('data:')) fail(`${where} 含未上传的内嵌图片`);
       // 图片一律保存在本地 images/ 目录，网站不从外部地址加载图片
       if (!LOCAL_IMAGE.test(im.src)) fail(`${where} 的图片必须是 images/ 下的本地文件：${im.src}`);
+      // 图片版权（可选）：作者、许可证为文字，来源网址以 http:// 或 https:// 开头
+      if (im.author != null && (typeof im.author !== 'string' || im.author.length > 200)) fail(`${where} 的图片作者必须是不超过 200 字的文字`);
+      if (im.license != null && (typeof im.license !== 'string' || !im.license.trim() || im.license.length > 60)) fail(`${where} 的图片许可证必须是不超过 60 字的文字`);
+      if (im.sourceUrl != null && (typeof im.sourceUrl !== 'string' || !/^https?:\/\/\S+$/.test(im.sourceUrl))) fail(`${where} 的图片来源网址必须以 http:// 或 https:// 开头`);
     });
   });
 }

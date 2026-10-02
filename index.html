@@ -223,6 +223,12 @@
         <p class="detail-text" id="detailText"></p>
         <div class="gallery" id="detailGallery"></div>
         <div class="detail-source" id="detailSource"></div>
+        <!-- 图片来源（署名）：有图片填写了版权信息时显示 -->
+        <details class="detail-credits" id="detailCredits" open hidden>
+          <summary id="detailCreditsTitle"></summary>
+          <ol id="detailCreditsList"></ol>
+          <p class="credits-note" id="detailCreditsNote" hidden></p>
+        </details>
         <div class="detail-share">
           <button type="button" class="btn btn-ghost btn-small" id="detailShare">
             <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M10 14a4.5 4.5 0 0 0 6.4 0l3.2-3.2a4.5 4.5 0 0 0-6.4-6.4L12 5.6M14 10a4.5 4.5 0 0 0-6.4 0l-3.2 3.2a4.5 4.5 0 0 0 6.4 6.4L12 18.4"/></svg>
@@ -310,13 +316,29 @@
         </div>
         <div class="image-editor" id="imageEditor"></div>
         <div class="image-add">
-          <input type="url" id="imageUrlInput" placeholder="粘贴图片网址，自动下载到本地">
+          <input type="url" id="imageUrlInput" placeholder="粘贴图片网址或维基共享资源的图片页面网址，自动下载到本地">
           <button type="button" class="btn btn-ghost btn-small" id="imageUrlAdd">添加网址</button>
           <label class="btn btn-ghost btn-small file-btn">
             上传图片
             <input type="file" id="imageFileInput" accept="image/*" multiple hidden>
           </label>
         </div>
+        <!-- 新图片的版权：点“添加网址”或“上传图片”时写入新图片，然后清空；粘贴维基共享资源的网址时自动填写 -->
+        <div class="new-credit" id="newCredit">
+          <span class="new-credit-label">这张图的版权：</span>
+          <input type="text" id="newCreditAuthor" maxlength="200" placeholder="作者（不知道可以留空）" aria-label="新图片的作者">
+          <select id="newCreditLicense" aria-label="新图片的许可证"></select>
+          <input type="url" id="newCreditSource" placeholder="来源网址（默认用图片网址）" aria-label="新图片的来源网址">
+        </div>
+        <p class="new-credit-hint" id="newCreditHint" hidden></p>
+        <!-- 图片信息表：每张图的标题（当前语言和对照语言）、作者、许可证、来源网址；默认折叠 -->
+        <details class="image-info" id="imageInfo">
+          <summary><span class="image-info-title" id="imageInfoTitle"></span><button type="button" class="btn btn-ghost btn-small" id="imageInfoAuto" hidden>从维基共享资源自动填写</button></summary>
+          <div class="image-info-langs" id="imageInfoLangs" hidden></div>
+          <div class="info-head" id="imageInfoHead"></div>
+          <div id="imageInfoRows"></div>
+          <p class="image-info-foot">作者不知道可以留空；许可证选“不详”时，网站上显示“来源网络，作者不详”。</p>
+        </details>
       </div>
       <div class="field">
         <span>参考链接（可选，最多 10 条；标题留空时，维基百科链接显示为“维基百科”，其他链接显示网址）</span>
@@ -411,6 +433,7 @@
     <figure>
       <img id="lightboxImg" alt="">
       <figcaption id="lightboxCaption"></figcaption>
+      <div class="lb-credit" id="lightboxCredit" hidden></div>
       <!-- 从编辑页打开时：管理编辑中的图片（只改编辑页中的草稿，点“保存”后才生效） -->
       <div class="lb-actions" id="lbActions" hidden>
         <button type="button" id="lbCover">★ 设为代表图</button>

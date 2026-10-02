@@ -52,6 +52,8 @@ body.event-page {
 .ev-gallery .ev-figure { margin: 0; }
 .ev-gallery .ev-figure img { max-height: 260px; }
 .ev-figure figcaption { margin-top: 6px; font-size: 13px; color: var(--muted); }
+.ev-credit { font-size: 11px; }
+.ev-credit a { color: inherit; }
 .ev-detail { margin-top: 18px; }
 .ev-detail p { margin: 0 0 1em; text-indent: 2em; color: var(--ink); }
 

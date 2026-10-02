@@ -96,7 +96,7 @@ for (const id of REAL_DATASETS) test(`${id}：数据中的图片都是 images/ �
   const problems = [];
   for (const img of images) {
     if (!/^images\/[A-Za-z0-9._-]+$/.test(img.src)) { problems.push(`${img.title}：不是本地图片 ${img.src}`); continue; }
-    const extra = Object.keys(img).filter((k) => !['src', 'w', 'h', 'caption', 'title'].includes(k));
+    const extra = Object.keys(img).filter((k) => !['src', 'w', 'h', 'caption', 'author', 'license', 'sourceUrl', 'title'].includes(k));
     if (extra.length) problems.push(`${img.title}：多余字段 ${extra.join(',')}`);
     const file = path.join(ROOT, img.src);
     if (!fs.existsSync(file)) { problems.push(`${img.title}：文件不存在 ${img.src}`); continue; }
