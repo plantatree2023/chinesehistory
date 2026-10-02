@@ -184,13 +184,12 @@ test.describe('version.json 的来源', () => {
     }
   });
 
-  // GitHub Pages（deploy.yml）和 Cloudflare Pages 用同一个构建脚本，部署的文件两边一致
-  test('部署流程每次都用 tools/build-site.js 生成网站（在上传网站之前）', async () => {
+  // 网站部署在 Cloudflare（tools/build-site.js）；GitHub Pages 每次 push 到 main 时部署跳转到新地址的网站（tools/build-redirect.js）
+  test('GitHub Pages 部署流程生成跳转网站（在上传之前）', async () => {
     const yml = fs.readFileSync(path.join(ROOT, '.github', 'workflows', 'deploy.yml'), 'utf8');
-    // 部署在每次 push 到 main 时运行
     expect(yml).toMatch(/on:\s*\n\s*push:\s*\n\s*branches:\s*\[main\]/);
-    expect(yml).toMatch(/- name: Build site\n\s*run: node tools\/build-site\.js _site\n/);
-    expect(yml.indexOf('Build site')).toBeLessThan(yml.indexOf('upload-pages-artifact'));
+    expect(yml).toMatch(/- name: Build redirect site\n\s*run: node tools\/build-redirect\.js _site\n/);
+    expect(yml.indexOf('Build redirect site')).toBeLessThan(yml.indexOf('upload-pages-artifact'));
     expect(yml).not.toMatch(/cp -r/);
   });
 

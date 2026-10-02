@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy redirect to GitHub Pages
 
 on:
   push:
@@ -25,10 +25,10 @@ jobs:
       - uses: actions/configure-pages@v5
         with:
           enablement: true
-      # 复制网页文件、生成事件静态页（e/）、sitemap.xml、robots.txt，以及调试模式显示“网站最近更新”时间用的
-      # version.json：与 Cloudflare Pages 用同一个脚本（tools/build-site.js），每次部署（每次 push 到 main）都重新生成
-      - name: Build site
-        run: node tools/build-site.js _site
+      # 网站已迁到 Cloudflare（package.json 的 homepage）。GitHub Pages 只保留跳转：旧地址的每个网页（首页、事件页）
+      # 带着网址参数跳到新地址的同一页，其他地址由 404.html 按路径跳转（tools/build-redirect.js）
+      - name: Build redirect site
+        run: node tools/build-redirect.js _site
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site

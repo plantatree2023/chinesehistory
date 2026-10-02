@@ -9,7 +9,7 @@ npm install                      # 首次
 npm test
 ```
 
-- 全部通过才能提交和推送；推送到 `main` 会自动部署到 GitHub Pages。
+- 全部通过才能提交和推送；推送到 `main` 会自动部署：网站在 Cloudflare（https://history.zhongshutime.com/ ），GitHub Pages 的旧地址只保留跳转。
 - **例外**：只改了数据文件（`data/*.json`）和 / 或只新增了图片（`images/`）时，不需要运行测试，可以直接提交推送。事件静态页和 sitemap 在部署时由 `tools/build-site.js` 按数据自动重新生成，不需要另外处理。改动涉及任何其他文件（代码、样式、测试、配置等）时仍要运行完整测试。
 - 测试失败时先判断是应用的问题还是测试本身的问题，修复后重新运行完整测试。
 - 新增或修改功能时，同步在 `tests/` 中补充或更新对应的测试。
@@ -22,7 +22,7 @@ npm test
 - `data/<国家>_<语言>.json`：数据集（如 `cn_zh.json`），包含时期划分 `eras` 与事件 `events`；字段说明见 `data/README.md`，改动字段时同步更新
 - `server.js`：本地服务器；`npm start` 为可写模式（网页中的修改写回数据文件），`--readonly` 供测试使用；没有 `version.json` 文件时根据 git 最近一次提交生成
 - 调试模式只在本地启动时提供：仓库中的 `js/env.js`（部署版本）为 `debugAvailable: false`，`server.js` 默认改为返回 `true`，`--no-debug`（`npm run start:public`）时原样返回；网址带 `debugMode` 参数时也提供（`buildQuery` 保留该参数，`shareUrl` 不带）；测试服务器提供调试模式
-- 调试模式：编辑功能（新增、编辑、删除、恢复默认数据）只在调试模式下显示，新增的编辑入口要加 `debug-only` 类；调试模式显示的网站更新时间来自部署时生成的 `version.json`（`.github/workflows/deploy.yml`）。需要编辑的测试用 `test.use({ debugMode: true })`
+- 调试模式：编辑功能（新增、编辑、删除、恢复默认数据）只在调试模式下显示，新增的编辑入口要加 `debug-only` 类；调试模式显示的网站更新时间来自部署时生成的 `version.json`（`tools/build-site.js`）。需要编辑的测试用 `test.use({ debugMode: true })`
 - 自动播放：网页加载后默认自动播放；测试中默认关闭（`tests/helpers.js` 设置 `window.TIMELINE_AUTOPLAY = false`），测试自动播放本身时用 `test.use({ autoplay: true })`
 - 首次访问提示（电脑分步指引、手机底部气泡）：测试中默认关闭（`window.TIMELINE_ONBOARDING = false`），测试提示本身时用 `test.use({ onboarding: true })`
 - 右上角按钮：电脑上依次是播放、音乐、深色模式、分享、关于、放大缩小；手机（≤640px）上深色模式、分享、关于收进“更多”菜单（`#moreBtn`）。新按钮放在放大缩小按钮左边
@@ -32,8 +32,9 @@ npm test
 - 脚本都从本地加载（第三方库放在 `js/vendor/`），不阻塞页面的用 `async`；`tests/share-qrcode.spec.js` 检查页面不引用外部脚本
 - `lib/link-title.js`：维基百科 / 百度百科链接的词条名查询，本地服务器 `/api/link-title`（只读模式也提供）供编辑页自动填写参考链接标题；`tests/helpers.js` 默认拦截该请求，测试不访问外网
 - `lib/images.js`：图片工具（格式与尺寸识别、下载、按内容哈希保存到 `images/`），服务器和导入脚本共用
-- `404.html`：不存在的网址显示的页面（Cloudflare 由 `wrangler.jsonc` 的 `not_found_handling`、GitHub Pages 自动使用）。样式内联，网址由脚本按网站根目录生成；文字全部在脚本的 `STRINGS` 中（按浏览器语言选择，默认中文），不写具体年份和时期，新增语言时加一项；`tests/not-found.spec.js` 检查
-- `tools/build-site.js`：生成部署用的 `_site/`（复制 `SITE_FILES`，为 `data/` 下每个数据集（文件名符合 `DATASET_ID`）的每个事件生成静态页：默认数据集 `e/<事件id>.html`，其他数据集 `e/<数据集>/<事件id>.html`（链接带 `?data=`）；每次部署时按当时的数据重新生成，新增事件或数据集不需要改代码，生成的页面不提交（样式 `css/event.css`，不依赖脚本，地址都用相对路径，绝对地址取自 `package.json` 的 `homepage`），写 `sitemap.xml`、`robots.txt`、`version.json`，复制 `_headers`；`tests/event-pages.spec.js` 检查），GitHub Pages 的 `deploy.yml` 也调用它，Cloudflare 的构建命令为 `node tools/build-site.js`，部署命令 `npx wrangler deploy` 按 `wrangler.jsonc` 只上传 `_site`（单个文件不超过 25 MiB）；缓存规则在根目录的 `_headers`（构建时复制进 `_site/`）：`images/` 下一层按内容哈希命名的图片缓存一年，其他文件沿用 Cloudflare 默认的每次验证，所以 `images/` 下一层不能放非哈希命名的文件；两边部署的文件因此一致（`tests/debug.spec.js` 检查）
+- `404.html`：不存在的网址显示的页面（Cloudflare 由 `wrangler.jsonc` 的 `not_found_handling` 使用）。样式内联，网址由脚本按网站根目录生成；文字全部在脚本的 `STRINGS` 中（按浏览器语言选择，默认中文），不写具体年份和时期，新增语言时加一项；`tests/not-found.spec.js` 检查
+- `tools/build-site.js`：生成部署用的 `_site/`（复制 `SITE_FILES`，为 `data/` 下每个数据集（文件名符合 `DATASET_ID`）的每个事件生成静态页：默认数据集 `e/<事件id>.html`，其他数据集 `e/<数据集>/<事件id>.html`（链接带 `?data=`）；每次部署时按当时的数据重新生成，新增事件或数据集不需要改代码，生成的页面不提交（样式 `css/event.css`，不依赖脚本，地址都用相对路径，绝对地址取自 `package.json` 的 `homepage`），写 `sitemap.xml`、`robots.txt`、`version.json`，复制 `_headers`；`tests/event-pages.spec.js` 检查），Cloudflare 的构建命令为 `node tools/build-site.js`，部署命令 `npx wrangler deploy` 按 `wrangler.jsonc` 只上传 `_site`（单个文件不超过 25 MiB）；缓存规则在根目录的 `_headers`（构建时复制进 `_site/`）：`images/` 下一层按内容哈希命名的图片缓存一年，其他文件沿用 Cloudflare 默认的每次验证，所以 `images/` 下一层不能放非哈希命名的文件（`tests/debug.spec.js` 检查）
+- `tools/build-redirect.js`：GitHub Pages 旧地址（`plantatree2023.github.io/chinesehistory/`）的跳转网站，由 `deploy.yml` 调用：正式网站的每个网页（首页、事件页）都有同名跳转页，带着网址参数和 # 跳到 `homepage` 的同一页（canonical + meta refresh），其他地址由跳转网站的 404.html 按路径跳转；`tests/redirect.spec.js` 检查
 - `tools/wiki-import.js`：从维基百科导入 / 更新事件（`npm run wiki -- --file data/cn_zh.json 关键词`），支持 `--list`、`--dry-run`、`--refresh-images`、`--type`、`--score`；图片总是下载到本地；自动推断事件类型（`type`）和估算重要程度（`majorScore`）
 - `audio/`：背景音乐（数据集的 `music` 字段引用，只从本地加载；部署时复制）。音乐按数据集配置，便于其他国家 / 语言使用各自的音乐
 - `textures/`：背景纹理（数据集的 `texture` 字段引用，只从本地加载；部署时复制）。纹理按数据集配置，图片只用作遮罩形状，颜色来自 `--texture-ink`

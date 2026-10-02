@@ -14,7 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/plantatree2023/chinesehistory.git"
   },
-  "homepage": "https://plantatree2023.github.io/chinesehistory/",
+  "homepage": "https://history.zhongshutime.com/",
   "engines": {
     "node": ">=18"
   },

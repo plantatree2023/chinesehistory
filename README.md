@@ -2,7 +2,7 @@
 
 一个可拖拽浏览的中国历史时间轴网页应用，收录从古人类时期（约170万年前）到 1980 年的 104 个重大历史事件。
 
-在线访问：https://plantatree2023.github.io/chinesehistory/
+在线访问：https://history.zhongshutime.com/ （部署在 Cloudflare；旧地址 https://plantatree2023.github.io/chinesehistory/ 会带着参数自动跳转到新地址）
 
 ## 功能
 
@@ -65,7 +65,7 @@ npm run start:public    # 同上，但不提供调试模式，看到的与线上
 ```
 
 编辑功能只在**调试模式**下显示：打开“浏览所有历史事件”侧栏，打开底部的“调试模式”开关。
-**“调试模式”开关只在本地启动时显示**：线上（GitHub Pages）和 `--no-debug` 时不显示，浏览器中保存的开启状态也不起作用。
+**“调试模式”开关只在本地启动时显示**：线上和 `--no-debug` 时不显示，浏览器中保存的开启状态也不起作用。
 例外：网址带 `debugMode` 参数（如 `…/?debugMode`）时线上也显示开关（线上的修改只保存在当前浏览器中）；浏览过程中网址保留该参数，分享链接不带。
 原理：仓库中的 `js/env.js`（部署到线上的版本）为 `debugAvailable: false`，本地服务器默认改为返回 `true`。
 
@@ -80,17 +80,17 @@ git add data images && git commit -m "更新历史事件" && git push
 本地文件模式下由本地服务器下载并保存到 `images/`；浏览器模式下由浏览器下载（需要对方网站允许跨域下载，
 例如维基共享资源），压缩后与上传的图片一样保存在当前浏览器中；不允许的网站会提示先保存到电脑再上传。
 
-**浏览器模式**：在 GitHub Pages 等静态托管上没有写入接口，访问者的修改只保存在其浏览器的 localStorage 中（只保存改动过的字段和删除的事件，数据文件以后的更新对没有改动过的内容仍然生效），
+**浏览器模式**：在 Cloudflare、GitHub Pages 等静态托管上没有写入接口，访问者的修改只保存在其浏览器的 localStorage 中（只保存改动过的字段和删除的事件，数据文件以后的更新对没有改动过的内容仍然生效），
 不会影响仓库数据；侧栏底部可“恢复默认数据”。
 
 **网站更新时间**：调试模式下顶栏下方显示“网站最近更新”的时间（按浏览器所在时区）和版本号，来自网站根目录的 `version.json`。
-该文件由构建脚本 `tools/build-site.js` 在每次部署时生成（GitHub Pages 的部署流程 `.github/workflows/deploy.yml` 在每次 push 到 `main` 时调用），记录部署时间、提交哈希和提交时间，不需要手工维护，也不提交到仓库；
+该文件由构建脚本 `tools/build-site.js` 在每次部署时生成（Cloudflare 在每次 push 到 `main` 时运行构建命令 `node tools/build-site.js`），记录部署时间、提交哈希和提交时间，不需要手工维护，也不提交到仓库；
 部署到 Cloudflare 时用同一个脚本（构建命令 `node tools/build-site.js`，部署命令 `npx wrangler deploy` 按 `wrangler.jsonc` 只上传 `_site`）；
 本地运行时由 `server.js` 根据 git 最近一次提交生成（显示“本地”）。
 
 **社交分享卡片**：`index.html` 中有全站的 `og:` / `twitter:` 元数据（标题、简介、封面图），在微信、微博、Telegram、X 中分享链接会显示卡片；
 封面图 `images/share/cover.png`（1200×630）和主屏幕图标 `images/share/apple-touch-icon.png`（180×180）由 `node tools/share-images.js` 生成（标题字体、纹理和时期配色取自网站）。
-`og:url`、`og:image` 必须是绝对地址，目前写的是 GitHub Pages 地址（与 `package.json` 的 `homepage` 一致，`tests/share-card.spec.js` 检查），换域名时两处一起改。
+`og:url`、`og:image` 必须是绝对地址，目前写的是 https://history.zhongshutime.com/ （与 `package.json` 的 `homepage` 一致，`tests/share-card.spec.js` 检查），换域名时两处一起改。
 
 ## 从维基百科导入事件
 
@@ -152,6 +152,7 @@ npm run test:report              # 查看上次的 HTML 报告（失败时含截
 | `tests/share-qrcode.spec.js` | 微信分享二维码库：本地、async（页面加载时就下载）、下载很慢时页面照常显示并在打开时先提示等待、加载失败时提示复制链接 |
 | `tests/image-loading.spec.js` | 时间轴卡片的图片只在接近视野时加载（手机和桌面、两个数据集）；跳转时不加载一路经过的图片；重新排版后视野内图片仍显示 |
 | `tests/feedback.spec.js` | 反馈 / 建议修改：仓库配置（已填写 Access Key）、没有 Access Key 时提示尚未配置、关闭时不显示、详情中的事件反馈（类型、必填、图片问题、失败重试）、编辑页建议模式（预填、只发送改动）、侧栏的整站反馈和建议新增事件、窄屏（发送请求被拦截，不会真的发出） |
+| `tests/redirect.spec.js` | 旧地址跳转：首页和事件页带参数跳到新地址的同一页，其他地址按路径跳转，跳转页带 canonical |
 | `tests/not-found.spec.js` | 404 页面：标题与链接、不写年份和时期、随机事件链接、取不到数据时的退路、手机布局、深浅配色对比度 |
 | `tests/debug.spec.js` | 调试模式：只在本地启动时提供（`js/env.js`、`--no-debug`）、默认隐藏全部编辑功能、开关显示 / 隐藏与保存、网站更新时间（本地 git、部署的 version.json、缺失时显示“未知”）、部署流程和 Cloudflare 构建脚本生成 version.json、GitHub 仓库按钮、清除缓存按钮 |
 | `tests/toolbar.spec.js` | 工具栏默认显示，按钮（全屏 / 退出全屏图标）/ H 键隐藏与恢复，切换瞬间时间轴不错位；添加按钮悬浮在底栏上方 |
@@ -189,5 +190,6 @@ npm run test:report              # 查看上次的 HTML 报告（失败时含截
 - `tools/share-images.js` 生成社交分享封面图和 apple-touch-icon
 - `404.html` 不存在的网址显示的页面（断开的时间轴），文字在脚本的 `STRINGS` 中，新增语言时加一项
 - `_headers` Cloudflare 的缓存规则：`images/` 下按内容哈希命名的图片缓存一年，其他文件每次验证
-- `tools/build-site.js` 生成部署用的 `_site/`（网站文件、`data/` 下每个数据集每个事件的静态页（默认数据集 `e/<事件id>.html`，其他 `e/<数据集>/<事件id>.html`）、`sitemap.xml`、`robots.txt`、`version.json`），GitHub Pages 和 Cloudflare Pages 共用的构建命令；事件静态页不依赖脚本，供搜索引擎收录，“在时间轴中查看”打开时间轴中的该事件（其他数据集带 `?data=`），样式在 `css/event.css`；每次部署时按当时的数据重新生成，新增 / 修改事件或新增数据集后推送即可，不需要改代码，生成的页面也不提交；本地预览先 `node tools/build-site.js`，再用静态服务器提供 `_site`（例如 `python -m http.server -d _site 8080`）
+- `tools/build-redirect.js` 生成 GitHub Pages 旧地址的跳转网站（`.github/workflows/deploy.yml` 调用）：首页和每个事件页带着网址参数跳到新地址的同一页，其他地址按路径跳转
+- `tools/build-site.js` 生成部署用的 `_site/`（网站文件、`data/` 下每个数据集每个事件的静态页（默认数据集 `e/<事件id>.html`，其他 `e/<数据集>/<事件id>.html`）、`sitemap.xml`、`robots.txt`、`version.json`），Cloudflare 的构建命令；事件静态页不依赖脚本，供搜索引擎收录，“在时间轴中查看”打开时间轴中的该事件（其他数据集带 `?data=`），样式在 `css/event.css`；每次部署时按当时的数据重新生成，新增 / 修改事件或新增数据集后推送即可，不需要改代码，生成的页面也不提交；本地预览先 `node tools/build-site.js`，再用静态服务器提供 `_site`（例如 `python -m http.server -d _site 8080`）
 - `tests/` 自动化测试（`helpers.js` 为共用工具）
