@@ -1155,7 +1155,7 @@ body.bars-hidden .fab { bottom: 18px; }
   margin-top: 18px;
 }
 .share-qrcode p { margin: 0; font-size: 12px; color: var(--ink-2); }
-/* 微信好友 / 朋友圈只在手机上显示 */
+/* 微信好友只在手机上显示 */
 body:not(.mobile-device) .mobile-only { display: none !important; }
 .share-wechat-guide {
   display: flex;
