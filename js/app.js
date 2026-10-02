@@ -1191,7 +1191,13 @@
     if (sheetDrag != null && e.changedTouches[0].clientY - sheetDrag > 60) closeEraMenu(false);
     sheetDrag = null;
   });
-  window.addEventListener('resize', function () { closeEraMenu(false); });
+  // 只在宽度变化（如横竖屏切换）时关闭：手机浏览器地址栏收起 / 展开只改变高度，不能让刚打开的菜单一闪就消失
+  var eraMenuW = window.innerWidth;
+  window.addEventListener('resize', function () {
+    if (window.innerWidth === eraMenuW) return;
+    eraMenuW = window.innerWidth;
+    closeEraMenu(false);
+  });
 
   var mmDown = false;
   function minimapJump(e) {

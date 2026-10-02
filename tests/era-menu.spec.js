@@ -124,6 +124,21 @@ test.describe('手机', () => {
     await expect(page.locator('#eraScrim')).toBeHidden();
   });
 
+  test('地址栏收起 / 展开（只改变高度）时面板不关闭；横竖屏切换（宽度变化）时关闭', async ({ page }) => {
+    await openApp(page);
+    await page.click('#eraBarBtn');
+    const sheet = page.locator('#eraMenu');
+    await expect(sheet).toBeVisible();
+    await page.setViewportSize({ width: 390, height: 840 });   // 地址栏收起
+    await page.setViewportSize({ width: 390, height: 780 });   // 地址栏展开
+    await page.waitForTimeout(300);
+    await expect(sheet).toBeVisible();
+    await expect(page.locator('#eraScrim')).toBeVisible();
+    await page.setViewportSize({ width: 780, height: 390 });   // 横屏
+    await expect(sheet).toBeHidden();
+    await expect(page.locator('#eraScrim')).toBeHidden();
+  });
+
   test('每个时期都能跳准', async ({ page }) => {
     await openApp(page);
     for (const n of await eraNames(page)) {
