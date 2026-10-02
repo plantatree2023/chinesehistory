@@ -67,6 +67,22 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 390, height: 780 
       expect(m.overlaps).toBe(0);
     });
 
+    test('浏览按钮的文字连续，字之间没有间隔；图标与文字之间留空', async ({ page }) => {
+      await openApp(page);
+      const m = await page.locator('#browseBtn').evaluate((btn) => {
+        const svg = btn.querySelector('svg').getBoundingClientRect();
+        const label = btn.querySelector(':scope > span');
+        const range = document.createRange();
+        range.selectNodeContents(label);
+        const rects = [...range.getClientRects()].filter((r) => r.width > 0);
+        let maxGap = 0;
+        for (let i = 1; i < rects.length; i++) maxGap = Math.max(maxGap, rects[i].left - rects[i - 1].right);
+        return { maxGap, iconGap: rects[0].left - svg.right };
+      });
+      expect(m.maxGap).toBeLessThanOrEqual(1);
+      expect(m.iconGap).toBeGreaterThanOrEqual(4);
+    });
+
     test.describe('调试模式', () => {
       test.use({ debugMode: true });
 
