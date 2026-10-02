@@ -1539,7 +1539,9 @@ body.bars-hidden .hint-bubble { display: none; }
 .era-menu {
   position: fixed;
   z-index: 60;
-  width: 300px;
+  width: max-content;   /* 英文时期名较长：按最长一项加宽，年代不被截掉 */
+  min-width: 300px;
+  max-width: calc(100vw - 16px);
   max-height: min(560px, calc(100vh - 80px));
   overflow-y: auto;
   padding: 6px;
@@ -1569,7 +1571,9 @@ body.bars-hidden .hint-bubble { display: none; }
 .era-item.on { background: color-mix(in srgb, var(--red) 9%, var(--card)); }
 .era-item.on .era-name { color: var(--red); }
 .era-swatch { flex: none; width: 12px; height: 12px; border-radius: 3px; background: var(--era-c); }
-.era-name { font-weight: 600; white-space: nowrap; }
+/* 时期名用顶栏时期名（时期按钮）的字体，与按钮一致 */
+.era-name { font-family: var(--font-title); font-weight: 400; font-size: 1.15em; white-space: nowrap; }
+:lang(en) .era-name { font-weight: 700; }   /* 英文顶栏标题为粗体 */
 .era-range { margin-left: auto; padding-left: 10px; color: var(--muted); font-size: 12px; white-space: nowrap; }
 .era-scrim { position: fixed; inset: 0; z-index: 59; background: rgba(0, 0, 0, .3); }
 .era-scrim[hidden] { display: none; }
@@ -1600,14 +1604,16 @@ body.bars-hidden .hint-bubble { display: none; }
   /* 手机：从底部弹出的色块面板 */
   .era-menu.sheet {
     left: 0; right: 0; bottom: 0; top: auto;
-    width: auto;
+    width: auto; min-width: 0; max-width: none;
     max-height: 62vh;
     padding: 10px 14px calc(18px + env(safe-area-inset-bottom));
     border-radius: 16px 16px 0 0;
   }
   .era-menu.sheet .era-menu-grab { display: block; width: 40px; height: 4px; margin: 0 auto 10px; border-radius: 2px; background: var(--line); }
+  /* 手机：时期名用底栏时期按钮的字体，与按钮一致 */
+  .era-menu.sheet .era-name { font-family: var(--font-serif); font-weight: 600; font-size: 15px; }
   .era-menu.sheet .era-menu-head { display: block; margin: 0 2px 10px; font-size: 14px; font-weight: 700; color: var(--ink); }
-  .era-menu.sheet .era-menu-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .era-menu.sheet .era-menu-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
   .era-menu.sheet .era-item {
     justify-content: center;
     padding: 10px 4px;
@@ -1616,7 +1622,7 @@ body.bars-hidden .hint-bubble { display: none; }
     text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
   }
   .era-menu.sheet .era-item .era-swatch, .era-menu.sheet .era-item .era-range { display: none; }
-  .era-menu.sheet .era-item .era-name { overflow: hidden; text-overflow: ellipsis; }
+  .era-menu.sheet .era-item .era-name { min-width: 0; overflow: hidden; white-space: normal; text-align: center; line-height: 1.25; overflow-wrap: anywhere; }   /* 英文长时期名换行，三列等宽 */
   .era-menu.sheet .era-item.on { outline: 2.5px solid var(--ink); outline-offset: 1.5px; }
   .era-menu.sheet .era-item.on .era-name { color: #fff; }
 }

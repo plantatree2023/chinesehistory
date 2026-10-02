@@ -184,3 +184,58 @@ test.describe('320 宽', () => {
     expect(await page.locator('#eraBarName').evaluate((n) => n.scrollWidth <= n.clientWidth + 1), '时期名完整显示').toBe(true);
   });
 });
+
+// 选择列表中的时期名使用时期按钮（电脑：顶栏的时期名；手机：底栏按钮）的字体
+const fontOf = (loc) => loc.evaluate((e) => { const s = getComputedStyle(e); return { family: s.fontFamily, weight: s.fontWeight }; });
+
+test.describe('选择列表中的时期名使用时期按钮的字体', () => {
+  test('电脑：列表中的时期名与顶栏时期名字体相同（书法标题字体）', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 860 });
+    await openApp(page);
+    await page.click('#eraMenuBtn');
+    const btn = await fontOf(page.locator('#currentEra'));
+    expect(btn.family).toContain('Ma Shan Zheng Title');   // 按钮保持原来的字体
+    expect(await fontOf(page.locator('#eraMenuList .era-name').first())).toEqual(btn);
+  });
+
+  test('手机：面板中的时期名与底栏时期按钮字体相同', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 780 });
+    await openApp(page);
+    await page.click('#eraBarBtn');
+    const btn = await fontOf(page.locator('#eraBarName'));
+    expect(btn.family).toContain('Noto Serif SC');   // 按钮保持原来的字体
+    expect(await fontOf(page.locator('#eraMenuList .era-name').first())).toEqual(btn);
+  });
+});
+
+// 英文时期名较长：电脑上列表加宽，年代完整显示；手机上面板三列等宽、不横向溢出，长名字换行完整显示
+test.describe('英文时期名', () => {
+  test('电脑：列表中每一项的年代都完整显示在列表内', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 860 });
+    await page.goto('/?data=cn_en-test');
+    await expect(page.locator('.card').first()).toBeVisible();
+    await page.click('#eraMenuBtn');
+    expect(await fontOf(page.locator('#eraMenuList .era-name').first())).toEqual(await fontOf(page.locator('#currentEra')));
+    const clipped = await page.locator('#eraMenuList .era-item').evaluateAll((items) => items
+      .filter((it) => { const r = it.querySelector('.era-range').getBoundingClientRect(), b = it.getBoundingClientRect(); return r.right > b.right + 1; })
+      .map((it) => it.dataset.era));
+    expect(clipped).toEqual([]);
+  });
+
+  test('手机：面板不横向溢出，三列等宽，最长的时期名完整显示', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 780 });
+    await page.goto('/?data=cn_en-test');
+    await expect(page.locator('.card').first()).toBeVisible();
+    await page.click('#eraBarBtn');
+    const sheet = page.locator('#eraMenu');
+    await expect(sheet).toBeVisible();
+    expect(await sheet.evaluate((s) => s.scrollWidth <= s.clientWidth + 1)).toBe(true);
+    const boxes = await page.locator('#eraMenuList .era-item').evaluateAll((els) => els.map((e) => e.getBoundingClientRect().toJSON()));
+    for (const b of boxes) {
+      expect(b.width).toBeCloseTo(boxes[0].width, 0);
+      expect(b.right).toBeLessThanOrEqual(390);
+    }
+    const name = page.locator('#eraMenuList .era-item[data-era="Five Dynasties and Ten Kingdoms"] .era-name');
+    expect(await name.evaluate((n) => n.scrollWidth <= n.clientWidth + 1 && n.scrollHeight <= n.clientHeight + 1)).toBe(true);
+  });
+});
