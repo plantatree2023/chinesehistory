@@ -156,14 +156,19 @@ test.describe('网站上的署名', () => {
 test.describe('编辑页', () => {
   test.use({ debugMode: true });
 
-  test('缩略图显示版权标签，图片信息表默认折叠，表头统计缺少许可信息的图片', async ({ page }) => {
+  test('缩略图显示版权标签（缺少来源或许可证的标红），图片信息表默认折叠，表头统计缺少许可信息的图片', async ({ page }) => {
     await seedEvents(page, withCredits);
     await openEditor(page);
     const chips = page.locator('#imageEditor .img-slot .credit-chip');
-    await expect(chips).toHaveCount(3);
+    await expect(chips).toHaveCount(6);
     await expect(chips.nth(0)).toHaveText('CC BY-SA 4.0');
     await expect(chips.nth(1)).toHaveText('example.com');
-    await expect(chips.nth(2)).toHaveText('? 来源不详');
+    await expect(chips.nth(2)).toHaveText('⚠ 缺来源');
+    await expect(chips.nth(3)).toHaveText('⚠ 缺来源和许可证');
+    await expect(page.locator('#imageEditor .credit-chip.credit-missing')).toHaveCount(4);
+    // 预览图足够大
+    const thumb = await page.locator('#imageEditor .img-slot img').first().boundingBox();
+    expect(thumb.width).toBeGreaterThanOrEqual(130);
     // 标签在图片底边、标题栏上方，不挡住标题
     const chipBox = await chips.nth(0).boundingBox();
     const capBox = await page.locator('#imageEditor .slot-caption').nth(0).boundingBox();
@@ -189,6 +194,7 @@ test.describe('编辑页', () => {
     await expect(page.locator('#imageEditor .slot-caption').nth(0)).toHaveValue('新的图片标题');
     await row.locator('.info-author').fill('张三');
     await row.locator('.info-license').selectOption('CC BY 3.0');
+    await expect(page.locator('#imageEditor .img-slot').nth(0).locator('.credit-chip')).toHaveText('⚠ 缺来源');
     await row.locator('.info-source').fill('https://commons.wikimedia.org/wiki/File:B.jpg');
     await expect(page.locator('#imageEditor .img-slot').nth(0).locator('.credit-chip')).toHaveText('CC BY 3.0');
     await page.click('#editForm button[type=submit]');
@@ -315,12 +321,54 @@ test.describe('图片信息表：对照语言', () => {
     expect(imgs[2].caption).toBe('EN caption 3');
   });
 
+  test('添加图片时可以填写各语言的标题，写入新图片和其他语言的数据', async ({ page }) => {
+    await mockSibling(page);
+    const url = 'https://www.example.com/photos/d.png';
+    await page.route(url, (route) => route.fulfill({ body: makePng(50, 30, 90), contentType: 'image/png', headers: { 'access-control-allow-origin': '*' } }));
+    await openEditor(page);
+    const inputs = page.locator('#newCaptionInputs .new-caption-input');
+    await expect(inputs).toHaveCount(2);   // 中文和 English
+    await expect(page.locator('#newCaptionInputs .lang-name')).toHaveText(['中文', 'English']);
+    await expect(inputs.nth(1)).toHaveAttribute('lang', 'en');
+    await inputs.nth(0).fill('新图片');
+    await inputs.nth(1).fill('New picture');
+    await page.fill('#imageUrlInput', url);
+    await page.click('#imageUrlAdd');
+    await expect(page.locator('#imageEditor .img-slot')).toHaveCount(7);
+    await expect(page.locator('#imageEditor .slot-caption').nth(6)).toHaveValue('新图片');
+    await expect(inputs.nth(0)).toHaveValue('');   // 添加后清空
+    await expect(inputs.nth(1)).toHaveValue('');
+    await page.click('#imageInfo > summary');
+    await expect(page.locator('#imageInfoRows .info-compare').nth(6)).toHaveValue('New picture');
+
+    // 上传图片：标题留空时用文件名
+    const file = path.join(os.tmpdir(), `caption-upload-${process.pid}.png`);
+    fs.writeFileSync(file, makePng(40, 40, 30));
+    try {
+      await page.setInputFiles('#imageFileInput', file);
+      await expect(page.locator('#imageEditor .img-slot')).toHaveCount(8);
+    } finally {
+      fs.rmSync(file, { force: true });
+    }
+    await expect(page.locator('#imageEditor .slot-caption').nth(7)).toHaveValue(`caption-upload-${process.pid}`);
+
+    await page.click('#editForm button[type=submit]');
+    await expect(page.locator('#editModal')).toBeHidden();
+    const saved = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)), STORAGE_KEY);
+    expect(saved.changed[EVENT_ID].images[6].caption).toBe('新图片');
+    await expect.poll(() => page.evaluate((key) => localStorage.getItem(key), SIBLING_KEY)).not.toBeNull();
+    const sib = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)), SIBLING_KEY);
+    expect(sib.changed[EVENT_ID].images[6].caption).toBe('New picture');
+    expect(sib.changed[EVENT_ID].images[7].caption).toBe('');
+  });
+
   test('其他语言的数据中没有这个事件时不显示对照栏，也不写入', async ({ page }) => {
     await mockSibling(page, (data) => { data.events = []; });
     await openEditor(page);
     await page.click('#imageInfo > summary');
     await expect(page.locator('#imageInfoLangs .lang-count')).toHaveText('English：没有这个事件');
     await expect(page.locator('#imageInfoRows .info-compare')).toHaveCount(0);
+    await expect(page.locator('#newCaptionInputs .new-caption-input')).toHaveCount(1);   // 只有当前语言
     await page.click('#editForm button[type=submit]');
     await expect(page.locator('#editModal')).toBeHidden();
     expect(await page.evaluate((key) => localStorage.getItem(key), SIBLING_KEY)).toBeNull();

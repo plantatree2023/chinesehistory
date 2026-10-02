@@ -42,7 +42,7 @@ npm test
 - 分享面板：只在手机上显示的按钮加 `mobile-only` 类（`js/app.js` 按 UA 判断手机，给 `body` 加 `mobile-device`；在微信内置浏览器中加 `in-wechat`）；微信好友见 `shareToWechat`，`tests/share-wechat.spec.js` 用手机 / 微信的 UA 测试
 - 网站简介：来自数据集的 `description` 字段（按国家 / 语言各写一份，不写具体数字）；`index.html` 中只放不提国家的通用文字，部署时 `tools/build-site.js` 换成默认数据集的简介，网页加载数据后 `js/app.js` 换成当前数据集的简介（`tests/share-card.spec.js`、`tests/event-pages.spec.js`、`tests/data.spec.js` 检查）
 - 社交分享卡片：`index.html` 中的 `og:` / `twitter:` 元数据用绝对地址（与 `package.json` 的 `homepage` 一致，换域名时一起改）；封面图和 apple-touch-icon 在 `images/share/`，由 `node tools/share-images.js` 生成；`tests/share-card.spec.js` 检查
-- 图片版权：图片可带 `author`、`license`（`unknown` 表示不详）、`sourceUrl`（见 `data/README.md`）。网站在图片查看器（`#lightboxCredit`）、详情页“图片来源”（`#detailCredits`）和事件静态页显示署名；编辑页有“这张图的版权”一行（`#newCredit`，维基共享资源网址由浏览器查询其 API 自动填写）和默认折叠的“图片信息”表（`#imageInfo`，含对照语言的标题）。保存时把图片同步到同一国家其他语言的数据集（`saveSiblings`）。测试拦截维基共享资源的请求（`tests/image-credits.spec.js`）
+- 图片版权：图片可带 `author`、`license`（`unknown` 表示不详）、`sourceUrl`（见 `data/README.md`）。网站在图片查看器（`#lightboxCredit`）、详情页“图片来源”（`#detailCredits`）和事件静态页显示署名；编辑页有“这张图的标题”一行（`#newCaption`，当前语言和其他语言各一个输入框）、“这张图的版权”一行（`#newCredit`，维基共享资源网址由浏览器查询其 API 自动填写）和默认折叠的“图片信息”表（`#imageInfo`，含对照语言的标题）；缩略图上的标签缺少来源网址或许可证时标红。保存时把图片同步到同一国家其他语言的数据集（`saveSiblings`）。测试拦截维基共享资源的请求（`tests/image-credits.spec.js`）
 - `images/`：事件图片。**所有图片都从本地加载**：数据中的图片路径只能是 `images/<文件名>`，不引用外部地址；编辑页输入的图片网址会先下载到本地
 - `tests/`：Playwright 端到端测试，说明见 README
 - 测试数据：界面测试使用固定的 `tests/data/cn_zh-test.json`（`tests/helpers.js` 的 `DATASET`、`DATA_URL`、`loadDataset`、`readTestData`），不要在测试中写死 `data/` 下的文件；页面通过 `window.TIMELINE_DATASET` 把它当作默认数据集（需要真实默认数据时在测试中删掉这个变量）。检查数据完整性的测试遍历 `data/` 下的所有数据集（`REAL_DATASETS`、`readRealDataset`）。改动真实数据不需要改测试数据

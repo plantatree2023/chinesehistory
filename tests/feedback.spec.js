@@ -190,7 +190,7 @@ test.describe('已配置', () => {
     await expect(f.locator('[name=short]')).toHaveValue(target.short);
     await expect(f.locator('[name=detail]')).toHaveValue(target.detail);
     await expect(f.locator('[name=type]')).toHaveValue(target.type);
-    await expect(f.locator('#sourceEditor .source-row')).toHaveCount(target.sources.length);
+    await expect(f.locator('#sourceEditor .source-row')).toHaveCount(target.sources.length + 1);   // 末尾预留一个空行
     // 只供维护者的字段不显示；图片不能上传
     await expect(f.locator('[name=majorScore]')).toBeHidden();
     await expect(f.locator('[name=transitionFrom]')).toBeHidden();
@@ -206,7 +206,6 @@ test.describe('已配置', () => {
     // 修改简要说明、年份，添加参考链接；说明必填
     await f.locator('[name=short]').fill('唐朝由盛转衰的转折点，安禄山、史思明先后起兵，历时七年余。');
     await f.locator('[name=yearAbs]').fill('756');
-    await page.click('#sourceAdd');
     await f.locator('#sourceEditor .source-row').last().locator('.source-url').fill('https://example.org/anshi');
     await page.fill('#editForm [name=suggestNote]', '');
     await page.click('#saveBtn');

@@ -1466,6 +1466,17 @@
     if (im.license === UNKNOWN_LICENSE || im.author || im.sourceUrl) return im.sourceUrl ? 'site' : 'unknown';
     return '';
   }
+  // 编辑页缩略图上的版权标签：缺少来源网址或许可证时显示红色提示（许可证选“不详”算已填写）；
+  // 都有时绿色显示许可证，许可证不详时灰色显示来源网站
+  function creditChip(im) {
+    var noSource = !im.sourceUrl, noLicense = !im.license;
+    if (noSource || noLicense) {
+      return el('span', 'credit-chip credit-missing', noSource && noLicense ? _('⚠ 缺来源和许可证') : noSource ? _('⚠ 缺来源') : _('⚠ 缺许可证'));
+    }
+    return im.license === UNKNOWN_LICENSE
+      ? el('span', 'credit-chip credit-site', urlHost(im.sourceUrl))
+      : el('span', 'credit-chip credit-known', licenseLabel(im.license));
+  }
   function urlHost(u) {
     try { return new URL(u).hostname.replace(/^www\./, ''); } catch (e) { return u; }
   }
@@ -1731,9 +1742,7 @@
         });
       }
       if (i === 0) slot.appendChild(el('span', 'badge', _('代表图')));
-      // 版权标签：绿色有许可证，灰色只知道来源网站，橙色来源不详；没有填写时不显示
-      var kind = creditKind(im);
-      if (kind) slot.appendChild(el('span', 'credit-chip credit-' + kind, kind === 'known' ? licenseLabel(im.license) : kind === 'site' ? urlHost(im.sourceUrl) : _('? 来源不详')));
+      slot.appendChild(creditChip(im));
       var acts = el('div', 'slot-actions');
       if (i > 0) {
         var up = el('button', null, '★');
@@ -1825,8 +1834,10 @@
     info.then(function (r) {
       return fetchImageUrl(page ? r.imageUrl : url).then(function (img) {
         if (draftImages.length >= MAX_IMAGES) return;
-        var im = Object.assign({ src: img.src, w: img.w, h: img.h, caption: '' }, takeNewCredit(r ? r.sourceUrl : url));
+        var cap = takeNewCaption();
+        var im = Object.assign({ src: img.src, w: img.w, h: img.h, caption: cap.caption }, takeNewCredit(r ? r.sourceUrl : url));
         im._new = true;
+        im._tr = cap.tr;
         draftImages.push(im);
         inp.value = '';
         resetNewCredit();
@@ -1878,15 +1889,16 @@
     this.value = '';
     var room = MAX_IMAGES - draftImages.length;
     // 上传的图片使用“这张图的版权”一行填写的信息（同时上传多张时每张都用这一份），然后清空这一行
-    var credit = takeNewCredit('');
+    var credit = takeNewCredit(''), newCap = takeNewCaption();
     if (files.length) resetNewCredit();
     if (files.length > room) $('formError').textContent = _('最多只能添加 9 张图片，多余的已忽略');
     files.slice(0, room).forEach(function (f) {
       if (!/^image\//.test(f.type)) return;
       resizeFile(f, 900, function (data, w, h) {
         if (!data || draftImages.length >= MAX_IMAGES) return;
-        var im = Object.assign({ src: data, w: w, h: h, caption: f.name.replace(/\.[^.]+$/, '') }, credit);
+        var im = Object.assign({ src: data, w: w, h: h, caption: newCap.caption || f.name.replace(/\.[^.]+$/, '').slice(0, MAX_CAPTION) }, credit);
         im._new = true;
+        im._tr = Object.assign({}, newCap.tr);
         draftImages.push(im);
         renderImageEditor();
       });
@@ -1912,7 +1924,42 @@
     h.className = 'new-credit-hint' + (cls ? ' ' + cls : '');
     h.hidden = !text;
   }
+  // “这张图的标题”一行：当前语言和其他语言（数据集中有这个事件的语言，与图片信息表的对照语言相同）各一个输入框。
+  // 输入的内容保存在 newCaptions 中；语言不变时不重建输入框（保持光标）
+  var newCaptions = {}, newCaptionLangs = null;
+  function renderNewCaption() {
+    var langs = [LANG].concat(availableLangs());
+    var key = langs.join(',');
+    if (key === newCaptionLangs) return;
+    newCaptionLangs = key;
+    var box = $('newCaptionInputs');
+    box.innerHTML = '';
+    langs.forEach(function (lang) {
+      var s = siblings[lang];
+      // 语言名称单独放在一个元素中（各语言用自己的名称），输入框由外层 label 关联
+      var item = el('label', 'new-caption-item');
+      item.appendChild(el('span', 'lang-name', s ? s.name : (LOCALE.name || LANG)));
+      var input = el('input', 'new-caption-input');
+      input.type = 'text';
+      input.maxLength = s ? s.maxCaption : MAX_CAPTION;
+      input.placeholder = lang === LANG ? _('图片标题（上传时留空用文件名）') : _('未翻译');
+      input.lang = (I18N[lang] && I18N[lang].htmlLang) || lang;
+      input.dataset.lang = lang;
+      input.value = newCaptions[lang] || '';
+      input.addEventListener('input', function () { newCaptions[lang] = input.value; });
+      item.appendChild(input);
+      box.appendChild(item);
+    });
+  }
+  // 取出“这张图的标题”一行的内容：{ caption, tr（其他语言的标题） }
+  function takeNewCaption() {
+    var tr = {};
+    availableLangs().forEach(function (lang) { tr[lang] = (newCaptions[lang] || '').trim(); });
+    return { caption: (newCaptions[LANG] || '').trim().slice(0, MAX_CAPTION), tr: tr };
+  }
   function resetNewCredit() {
+    newCaptions = {};
+    Array.prototype.forEach.call($('newCaptionInputs').querySelectorAll('input'), function (input) { input.value = ''; });
     $('newCreditAuthor').value = '';
     licenseOptions($('newCreditLicense'), UNKNOWN_LICENSE, false);
     $('newCreditSource').value = '';
@@ -2221,6 +2268,7 @@
     });
     updateInfoSummary();
     updateLangCounts();
+    renderNewCaption();
   }
   // 版权信息改动后：更新这张图的缩略图标签和表头（不重建输入框，保持光标）
   function creditChanged(i) {
@@ -2228,8 +2276,7 @@
     if (slot) {
       var old = slot.querySelector('.credit-chip');
       if (old) old.remove();
-      var kind = creditKind(im);
-      if (kind) slot.insertBefore(el('span', 'credit-chip credit-' + kind, kind === 'known' ? licenseLabel(im.license) : kind === 'site' ? urlHost(im.sourceUrl) : _('? 来源不详')), slot.querySelector('.slot-caption'));
+      slot.insertBefore(creditChip(im), slot.querySelector('.slot-caption'));
     }
     updateInfoSummary();
   }
@@ -2309,9 +2356,9 @@
   // ---------- 编辑页：参考链接（可增删改） ----------
   var draftSources = [];
   // 编辑模式下末尾总保留一个空行（预留的添加位置）；在最后一行填入内容后自动再预留一个。
-  // 空行不保存（见 cleanSources）。建议模式不预留，保持“添加参考链接”按钮添加。
+  // 空行不保存（见 cleanSources）。建议模式同样预留。
   function needsSpareSource() {
-    if (suggestMode || draftSources.length >= MAX_SOURCES) return false;
+    if (draftSources.length >= MAX_SOURCES) return false;
     var last = draftSources[draftSources.length - 1];
     return !last || !!((last.url || '').trim() || (last.title || '').trim());
   }
@@ -2320,14 +2367,12 @@
     var spare = { url: '', title: '' };
     draftSources.push(spare);
     $('sourceEditor').appendChild(sourceRow(spare, draftSources.length - 1));   // 只追加一行，不重绘（保留光标和正在进行的查询）
-    $('sourceAdd').disabled = draftSources.length >= MAX_SOURCES;
   }
   function renderSourceEditor() {
     var box = $('sourceEditor');
     box.innerHTML = '';
     if (needsSpareSource()) draftSources.push({ url: '', title: '' });
     draftSources.forEach(function (src, i) { box.appendChild(sourceRow(src, i)); });
-    $('sourceAdd').disabled = draftSources.length >= MAX_SOURCES;
   }
   function sourceRow(src, i) {
     var li = el('li', 'source-row');
@@ -2381,17 +2426,6 @@
     showSourceHint(src, hint);
     return li;
   }
-  $('sourceAdd').addEventListener('click', function () {
-    var last = draftSources[draftSources.length - 1];
-    var inputs = $('sourceEditor').querySelectorAll('.source-url');
-    // 末尾已有空行（预留的位置）时直接把光标放到那里
-    if (last && !(last.url || '').trim() && !(last.title || '').trim() && inputs.length) { inputs[inputs.length - 1].focus(); return; }
-    if (draftSources.length >= MAX_SOURCES) return;
-    draftSources.push({ url: '', title: '' });
-    renderSourceEditor();
-    inputs = $('sourceEditor').querySelectorAll('.source-url');
-    inputs[inputs.length - 1].focus();
-  });
   // 搜图：用编辑页中的“事件名称”在所选网站搜索图片（新标签页打开）；选择保存在浏览器中
   var IMAGE_SEARCH_KEY = 'zh-history-timeline:imageSearch';
   var IMAGE_SEARCH = [

@@ -237,10 +237,8 @@ test.describe('事件详情', () => {
     await expect(rows).toHaveCount(2);
     await expect(rows.nth(0).locator('.source-url')).toHaveValue(wiki);
     await expect(rows.nth(1).locator('.source-url')).toHaveValue('');
-    // 添加两条：一条带标题，一条不带。“添加参考链接”把光标放到预留的空行；填入后自动再预留一行
-    await page.click('#sourceAdd');
-    await expect(rows).toHaveCount(2);
-    await expect(rows.nth(1).locator('.source-url')).toBeFocused();
+    // 添加两条：一条带标题，一条不带。在预留的空行中填写；填入后自动再预留一行（没有“添加参考链接”按钮）
+    await expect(page.locator('#sourceAdd')).toHaveCount(0);
     await rows.nth(1).locator('.source-url').fill(' https://example.org/anshi ');
     await expect(rows).toHaveCount(3);
     await expect(rows.nth(2).locator('.source-url')).toHaveValue('');
@@ -299,10 +297,9 @@ test.describe('事件详情', () => {
     await rows.nth(0).locator('.source-title').fill('只有标题');
     await page.click('#editForm button[type=submit]');
     await expect(page.locator('#formError')).toContainText('只有标题');
-    // 最多 10 条：填满后不再预留空行，“添加参考链接”不可用
+    // 最多 10 条：填满后不再预留空行
     for (let i = 1; i < 10; i++) await rows.nth(i).locator('.source-url').fill(`https://example.org/${i}`);
     await expect(rows).toHaveCount(10);
-    await expect(page.locator('#sourceAdd')).toBeDisabled();
   });
 
   test('点击保存后立即显示“保存中”，完成后显示“已保存”再关闭编辑页', async ({ page }) => {

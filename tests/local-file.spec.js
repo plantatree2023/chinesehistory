@@ -169,7 +169,6 @@ test.describe('界面', () => {
     await page.fill('#searchInput', '贞观之治');
     await page.locator('.list-row').first().click();
     await page.click('.list-actions .btn-primary');
-    await page.click('#sourceAdd');
     const rows = page.locator('#sourceEditor .source-row');
     await rows.nth(1).locator('.source-url').fill('https://example.org/zhenguan');
     await rows.nth(1).locator('.source-title').fill('贞观政要');

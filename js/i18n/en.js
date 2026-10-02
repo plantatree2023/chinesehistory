@@ -230,7 +230,9 @@
     '部分图片来自网络、作者不详，如有侵权请': 'Some images come from the web and their authors are unknown. If an image infringes your rights, please ',
     '联系我们': 'contact us',
     '删除。': ' and we will remove it.',
-    '? 来源不详': '? Unknown source',
+    '⚠ 缺来源和许可证': '⚠ No source or license',
+    '⚠ 缺来源': '⚠ No source',
+    '⚠ 缺许可证': '⚠ No license',
     '无法读取维基共享资源的图片信息：{error}': 'Could not read the image information from Wikimedia Commons: {error}',
     '未填写': 'Not filled in',
     '维基共享资源中找不到这张图片': 'This image was not found on Wikimedia Commons',
@@ -265,6 +267,8 @@
     // ---------- index.html ----------
     // 图片版权
     '这张图的版权：': 'Copyright of this image:',
+    '这张图的标题：': 'Caption of this image:',
+    '图片标题（上传时留空用文件名）': 'Caption (file name if left empty when uploading)',
     '新图片的作者': 'Author of the new image',
     '新图片的许可证': 'License of the new image',
     '来源网址（默认用图片网址）': 'Source URL (defaults to the image URL)',
@@ -306,7 +310,6 @@
     '图片（最多 9 张，第一张为代表图；上传后保存在本地；可在每张图下方填写标题）': 'Images (up to 9; the first is the cover; uploads are stored locally; add a caption under each)',
     '上传图片': 'Upload images',
     '参考链接（可选，最多 10 条；标题留空时，维基百科链接显示为“维基百科”，其他链接显示网址）': 'References (optional, up to 10; with no title, Wikipedia links show “Wikipedia” and others show the URL)',
-    '＋ 添加参考链接': '+ Add reference',
     '有问题的图片': 'Image with the problem',
     '建议的图片网址（可选，不开放上传）': 'Suggested image URL (optional; no uploads)',
     '联系方式（选填，仅用于回复你）': 'Contact (optional, only used to reply to you)',

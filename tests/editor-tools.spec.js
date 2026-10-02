@@ -280,8 +280,7 @@ test.describe('建议模式不提供这些功能', () => {
     await expect(page.locator('#imgSearch')).toBeHidden();
     await expect(page.locator('#imageEditor')).toBeHidden();
     await expect(page.locator('#sourceEditor .source-open').first()).toBeHidden();
-    await page.click('#sourceAdd');
-    const row = page.locator('#sourceEditor .source-row').last();   // 建议模式：按钮添加的新行
+    const row = page.locator('#sourceEditor .source-row').last();   // 建议模式同样在末尾预留空行
     await row.locator('.source-url').fill('https://zh.wikipedia.org/wiki/唐朝');
     await row.locator('.source-url').dispatchEvent('change');
     await page.waitForTimeout(200);
