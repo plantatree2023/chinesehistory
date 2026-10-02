@@ -38,7 +38,7 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 390, height: 780 
         const text = range.getBoundingClientRect();
         return {
           era: e.dataset.era, left: r.left, top: r.top, bandLeft: band.left, textRight: text.right,
-          color: s.getPropertyValue('--era-color').trim(), border: s.borderLeftStyle, opacity: +s.opacity, pointer: s.pointerEvents,
+          color: s.getPropertyValue('--era-color').trim(), opacity: +s.opacity, pointer: s.pointerEvents,
         };
       }));
       expect(items.length).toBeGreaterThan(eras.length / 2);
@@ -48,7 +48,6 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 390, height: 780 
         expect(Math.abs(it.left - it.bandLeft), `${it.era} 在时期起点`).toBeLessThanOrEqual(1);
         expect(Math.abs(it.top - stage.y), `${it.era} 在舞台顶部`).toBeLessThanOrEqual(1);
         expect(it.color.toLowerCase(), it.era).toBe(byName[it.era].color.toLowerCase());
-        expect(it.border, '左侧竖线').toBe('solid');
         expect(it.opacity).toBeGreaterThan(0.2);
         expect(it.opacity).toBeLessThan(0.8);
         expect(it.pointer).toBe('none');
@@ -58,10 +57,20 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 390, height: 780 
         expect(items[i].left, `${items[i - 1].era} → ${items[i].era}`).toBeGreaterThan(items[i - 1].left);
         expect(items[i - 1].textRight, `${items[i - 1].era} 与 ${items[i].era} 不重叠`).toBeLessThan(items[i].left);
       }
-      // 竖线的颜色就是时期颜色
-      const first = names(page).first();
-      const era = byName[await first.getAttribute('data-era')];
-      expect(await first.evaluate((e) => getComputedStyle(e).borderLeftColor)).toBe(hexToRgb(era.color));
+      // 每个名字都有一条起点竖线：位于时期起点，从舞台顶部到轴线，时期颜色从顶部一直渐隐到透明（没有实心段）
+      const lines = await page.locator('#eraLines .era-start-line').evaluateAll((els) => els.map((e) => {
+        const r = e.getBoundingClientRect(), s = getComputedStyle(e);
+        return { era: e.dataset.era, left: r.left, top: r.top, bottom: r.bottom, width: r.width, bg: s.backgroundImage };
+      }));
+      expect(lines.map((l) => l.era)).toEqual(items.map((it) => it.era));
+      const axisY = (await page.locator('#axis').boundingBox()).y;
+      for (const [i, l] of lines.entries()) {
+        expect(Math.abs(l.left - items[i].bandLeft), `${l.era} 竖线在时期起点`).toBeLessThanOrEqual(1);
+        expect(Math.abs(l.top - stage.y), `${l.era} 竖线从舞台顶部开始`).toBeLessThanOrEqual(1);
+        expect(Math.abs(l.bottom - axisY), `${l.era} 竖线到轴线`).toBeLessThanOrEqual(4);
+        expect(l.width).toBeLessThanOrEqual(3);
+        expect(l.bg, `${l.era} 竖线渐变`).toBe(`linear-gradient(${hexToRgb(byName[l.era].color)}, rgba(0, 0, 0, 0))`);
+      }
     });
   });
 }
@@ -88,6 +97,40 @@ test.describe('1440×860', () => {
       hiddenSomewhere += r.filter((e) => !e.fits).length;
     }
     expect(hiddenSomewhere, '至少有一种屏幕尺寸下有放不下名字的短时期，规则确实起作用').toBeGreaterThan(0);
+  });
+
+  test('起点竖线在卡片下层：与卡片重叠处显示的是卡片', async ({ page }) => {
+    await openApp(page);
+    await enterFullscreen(page);
+    let checked = 0;
+    for (let step = 0; step < 6 && checked < 3; step++) {
+      checked += await page.evaluate(() => {
+        // 竖线不响应鼠标，elementFromPoint 会跳过它；检查时临时打开命中检测，看重叠处最上层的是竖线还是卡片
+        const box = document.getElementById('eraLines');
+        box.style.pointerEvents = 'auto';
+        box.querySelectorAll('.era-start-line').forEach((l) => { l.style.pointerEvents = 'auto'; });
+        let n = 0;
+        const cards = [...document.querySelectorAll('.card')].map((c) => c.getBoundingClientRect());
+        for (const line of document.querySelectorAll('#eraLines .era-start-line')) {
+          const l = line.getBoundingClientRect();
+          if (l.left < 0 || l.left > innerWidth) continue;
+          for (const c of cards) {
+            if (l.left <= c.left + 2 || l.left >= c.right - 2 || c.bottom <= l.top || c.top >= l.bottom) continue;
+            const y = (Math.max(c.top, l.top) + Math.min(c.bottom, l.bottom)) / 2;
+            const hit = document.elementFromPoint(l.left + 1, y);
+            if (!hit || !hit.closest('.card')) throw new Error(`${line.dataset.era} 的竖线横穿卡片`);
+            n++;
+          }
+        }
+        box.style.pointerEvents = '';
+        box.querySelectorAll('.era-start-line').forEach((l) => { l.style.pointerEvents = ''; });
+        return n;
+      });
+      await page.locator('#stage').focus();
+      await page.keyboard.press('ArrowRight');   // 向右翻 0.6 屏
+      await page.waitForTimeout(600);
+    }
+    expect(checked, '至少检查到几处竖线与卡片重叠').toBeGreaterThan(0);
   });
 
   test('名字压在卡片上层，但点击会穿过名字落到下面的元素', async ({ page }) => {

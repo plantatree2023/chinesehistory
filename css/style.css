@@ -366,25 +366,29 @@ body.bars-hidden .bars-toggle .icon-collapse { display: block; }
   pointer-events: none;
   opacity: .85;
 }
-/* 全屏模式（隐藏工具栏）：每个时期开始处的左上角显示时期名，左侧一条时期色竖线从顶部向下渐隐，标出时期的起点。
-   名字和竖线用该时期的颜色、偏低的不透明度，压在卡片上层但不响应鼠标 */
-.era-names { display: none; position: absolute; left: 0; top: 0; height: 100%; z-index: 4; pointer-events: none; }
-body.bars-hidden .era-names { display: block; }
+/* 全屏模式（隐藏工具栏）：每个时期开始处的左上角显示时期名，并有一条时期色竖线从顶部一直渐隐到轴线，标出时期的起点。
+   名字压在卡片上层（不响应鼠标）；竖线在卡片下层，不横穿卡片 */
+.era-names, .era-lines { display: none; position: absolute; left: 0; top: 0; height: 100%; pointer-events: none; }
+.era-names { z-index: 4; }
+body.bars-hidden .era-names, body.bars-hidden .era-lines { display: block; }
+.era-start-line {
+  position: absolute;
+  top: 0;
+  width: 2px;
+  height: 50%;
+  background: linear-gradient(to bottom, var(--era-color), transparent);
+  opacity: .55;
+}
 .era-start-name {
   position: absolute;
   top: 0;
-  height: 50%;
   padding: 10px 0 0 10px;
-  border-left: 2px solid var(--era-color);
-  box-sizing: border-box;
   font-family: 'Ma Shan Zheng Title', var(--font-serif);
   font-size: 34px;
   line-height: 1.2;
   white-space: nowrap;
   color: color-mix(in srgb, var(--era-color) 82%, var(--era-text-mix));
   opacity: .55;
-  -webkit-mask-image: linear-gradient(to bottom, #000 60px, rgba(0, 0, 0, .25) 61px, transparent);
-  mask-image: linear-gradient(to bottom, #000 60px, rgba(0, 0, 0, .25) 61px, transparent);
 }
 @media (max-width: 640px) {
   .era-start-name { font-size: 26px; padding: 8px 0 0 8px; }

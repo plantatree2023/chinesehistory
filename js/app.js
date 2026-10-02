@@ -690,11 +690,12 @@
     wash.style.backgroundImage = stops.length ? 'linear-gradient(to right, ' + stops.join(', ') + ')' : '';
   }
 
-  // 全屏模式下每个时期开始处左上角的时期名（只在 body.bars-hidden 时由 CSS 显示）。
+  // 全屏模式下每个时期开始处左上角的时期名和起点竖线（只在 body.bars-hidden 时由 CSS 显示）。
   // 时期太短、放不下名字时不显示，避免与下一个时期的名字重叠
   function renderEraNames(W) {
-    var box = $('eraNames');
+    var box = $('eraNames'), lines = $('eraLines');
     box.innerHTML = '';
+    lines.innerHTML = '';
     var fontSize = window.matchMedia('(max-width: 640px)').matches ? 26 : 34;
     ERAS.forEach(function (era) {
       var x1 = clamp(xOfYear(era.start), 0, W);
@@ -705,6 +706,12 @@
       d.style.left = x1 + 'px';
       d.style.setProperty('--era-color', era.color);
       box.appendChild(d);
+      // 起点竖线放在卡片下层（#eraLines 在 #events 之前），不横穿卡片
+      var line = el('div', 'era-start-line');
+      line.dataset.era = era.name;
+      line.style.left = x1 + 'px';
+      line.style.setProperty('--era-color', era.color);
+      lines.appendChild(line);
     });
   }
 
