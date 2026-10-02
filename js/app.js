@@ -713,6 +713,15 @@
     $('axis').style.background = firstX > 0 ? 'linear-gradient(to right, transparent, var(--axis) ' + Math.round(firstX) + 'px)' : '';
     var eras = $('eras');
     eras.innerHTML = '';
+    // 第一个时期之前的引导段：从轴线起点到第一个时期，颜色由透明渐变为该时期的颜色、由细渐粗，
+    // 与第一个时期的色带（左端改为直角）无缝衔接，不是突然出现一段色带
+    if (firstX > 0 && ERAS.length) {
+      var lead = el('div', 'era-leadin');
+      lead.setAttribute('aria-hidden', 'true');
+      lead.style.width = firstX + 'px';
+      lead.style.setProperty('--lead-color', ERAS[0].color);
+      eras.appendChild(lead);
+    }
     var minX = 0, maxX = W;
     ERAS.forEach(function (era) {
       var x1 = clamp(xOfYear(era.start), minX, maxX);

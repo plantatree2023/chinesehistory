@@ -337,6 +337,23 @@ body.bars-hidden .bars-toggle .icon-collapse { display: block; }
   border-radius: 5px;
   opacity: .9;
 }
+/* 第一个时期之前的引导段：颜色从透明渐变为第一个时期的颜色，形状由细渐粗，
+   右端与第一个时期的色带（左端为直角）无缝衔接 */
+.era-leadin {
+  position: absolute;
+  left: 0;
+  top: -5px;
+  height: 10px;
+  opacity: .9;
+  pointer-events: none;
+  background: linear-gradient(to right,
+    color-mix(in srgb, var(--lead-color) 0%, transparent) 0%,
+    color-mix(in srgb, var(--lead-color) 18%, transparent) 35%,
+    color-mix(in srgb, var(--lead-color) 55%, transparent) 70%,
+    var(--lead-color) 100%);
+  clip-path: polygon(0 42%, 100% 0, 100% 100%, 0 58%);
+}
+.era-leadin + .era { border-top-left-radius: 0; border-bottom-left-radius: 0; }
 .era-label {
   position: absolute;
   top: 9px;

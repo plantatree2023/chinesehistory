@@ -88,6 +88,34 @@ test('最早时期之前留有一段渐隐的轴线：表示更早的年代，�
   await expect(tipName(page)).toHaveText('旧石器时代');
 });
 
+test('第一个时期之前有引导段：颜色由透明渐变为第一个时期的颜色、由细渐粗，与第一个时期的色带无缝衔接', async ({ page }) => {
+  const { eras } = await loadDataset(page);
+  await openApp(page);
+  const info = await page.evaluate(() => {
+    const lead = document.querySelector('#eras .era-leadin');
+    const first = document.querySelector('#eras .era');
+    const cs = getComputedStyle(lead), fs = getComputedStyle(first);
+    return {
+      leadLeft: lead.offsetLeft, leadRight: lead.offsetLeft + lead.offsetWidth, eraLeft: first.offsetLeft,
+      leadTop: lead.offsetTop, leadH: lead.offsetHeight, eraTop: first.offsetTop, eraH: first.offsetHeight,
+      bg: cs.backgroundImage, clip: cs.clipPath, pointer: cs.pointerEvents,
+      firstRadius: [fs.borderTopLeftRadius, fs.borderBottomLeftRadius, fs.borderTopRightRadius],
+      dataEra: lead.dataset.era,
+    };
+  });
+  expect(info.leadLeft).toBe(0);
+  expect(Math.abs(info.leadRight - info.eraLeft)).toBeLessThanOrEqual(1);   // 右端接上第一个时期
+  expect([info.leadTop, info.leadH]).toEqual([info.eraTop, info.eraH]);    // 与色带同高、同一位置
+  expect(info.bg).toMatch(/^linear-gradient/);
+  const rgb = `rgb(${[1, 3, 5].map((i) => parseInt(eras[0].color.slice(i, i + 2), 16)).join(', ')})`;
+  expect(info.bg, '渐变终点是第一个时期的颜色').toContain(rgb);
+  expect(info.clip).toMatch(/^polygon/);                                     // 由细渐粗
+  expect(info.firstRadius.slice(0, 2), '第一个时期的色带左端为直角').toEqual(['0px', '0px']);
+  expect(info.firstRadius[2]).not.toBe('0px');                               // 右端仍是圆角
+  expect(info.pointer).toBe('none');
+  expect(info.dataEra).toBeUndefined();                                     // 不是一个时期
+});
+
 test('时期更迭事件在轴线上用菱形标记（新时期的颜色），轴线附近不显示“从 → 到”文字；主轴线半透明', async ({ page }) => {
   await openApp(page);
   const { events, eras } = await loadDataset(page);
