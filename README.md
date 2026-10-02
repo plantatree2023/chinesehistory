@@ -84,8 +84,8 @@ git add data images && git commit -m "更新历史事件" && git push
 不会影响仓库数据；侧栏底部可“恢复默认数据”。
 
 **网站更新时间**：调试模式下顶栏下方显示“网站最近更新”的时间（按浏览器所在时区）和版本号，来自网站根目录的 `version.json`。
-该文件由部署流程（`.github/workflows/deploy.yml`）在每次 push 到 `main` 时生成，记录部署时间、提交哈希和提交时间，不需要手工维护，也不提交到仓库；
-部署到 Cloudflare 时由构建脚本 `tools/build-site.js` 生成（构建命令 `node tools/build-site.js`，部署命令 `npx wrangler deploy` 按 `wrangler.jsonc` 只上传 `_site`）；
+该文件由构建脚本 `tools/build-site.js` 在每次部署时生成（GitHub Pages 的部署流程 `.github/workflows/deploy.yml` 在每次 push 到 `main` 时调用），记录部署时间、提交哈希和提交时间，不需要手工维护，也不提交到仓库；
+部署到 Cloudflare 时用同一个脚本（构建命令 `node tools/build-site.js`，部署命令 `npx wrangler deploy` 按 `wrangler.jsonc` 只上传 `_site`）；
 本地运行时由 `server.js` 根据 git 最近一次提交生成（显示“本地”）。
 
 **社交分享卡片**：`index.html` 中有全站的 `og:` / `twitter:` 元数据（标题、简介、封面图），在微信、微博、Telegram、X 中分享链接会显示卡片；
@@ -186,5 +186,5 @@ npm run test:report              # 查看上次的 HTML 报告（失败时含截
 - `lib/images.js` 图片工具（识别格式与尺寸、下载、按内容哈希保存），服务器和导入脚本共用
 - `tools/wiki-import.js` 从维基百科导入 / 更新事件的命令行脚本
 - `tools/share-images.js` 生成社交分享封面图和 apple-touch-icon
-- `tools/build-site.js` 生成部署用的 `_site/`（网站文件 + `version.json`），Cloudflare Pages 的构建命令
+- `tools/build-site.js` 生成部署用的 `_site/`（网站文件、`data/` 下每个数据集每个事件的静态页（默认数据集 `e/<事件id>.html`，其他 `e/<数据集>/<事件id>.html`）、`sitemap.xml`、`robots.txt`、`version.json`），GitHub Pages 和 Cloudflare Pages 共用的构建命令；事件静态页不依赖脚本，供搜索引擎收录，“在时间轴中查看”打开时间轴中的该事件（其他数据集带 `?data=`），样式在 `css/event.css`；每次部署时按当时的数据重新生成，新增 / 修改事件或新增数据集后推送即可，不需要改代码，生成的页面也不提交；本地预览先 `node tools/build-site.js`，再用静态服务器提供 `_site`（例如 `python -m http.server -d _site 8080`）
 - `tests/` 自动化测试（`helpers.js` 为共用工具）

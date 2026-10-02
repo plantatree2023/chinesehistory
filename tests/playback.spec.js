@@ -448,8 +448,7 @@ test.describe('背景音乐', () => {
     const res = await request.get('/' + data.music.src);
     expect(res.ok()).toBe(true);
     expect(res.headers()['content-type']).toBe('audio/mpeg');
-    const workflow = fs.readFileSync(path.join(ROOT, '.github', 'workflows', 'deploy.yml'), 'utf8');
-    expect(workflow).toMatch(/cp -r [^\n]*\baudio\b[^\n]*_site/);
+    expect(require('../tools/build-site').SITE_FILES).toContain('audio');   // 部署时复制（tools/build-site.js）
   });
 });
 

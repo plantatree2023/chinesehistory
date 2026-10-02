@@ -9,14 +9,6 @@ const { test, expect, openApp, waitForStableLayout, layoutMetrics, MAX_PER_SCREE
 
 const ROOT = path.resolve(__dirname, '..');
 const git = (...args) => execFileSync('git', args, { cwd: ROOT, encoding: 'utf8' }).trim();
-// 执行部署脚本用的 bash：Windows 上 Git Bash 通常不在 PATH 中，从 git 的安装目录找
-// （git --exec-path 为 <Git>/mingw64/libexec/git-core，bash 在 <Git>/bin/bash.exe）
-function bashPath() {
-  if (process.platform !== 'win32') return 'bash';
-  const gitRoot = path.resolve(git('--exec-path'), '..', '..', '..');
-  return [path.join(gitRoot, 'bin', 'bash.exe'), path.join(gitRoot, 'usr', 'bin', 'bash.exe')].find((p) => fs.existsSync(p)) || 'bash';
-}
-
 test.use({ viewport: { width: 1440, height: 860 } });
 
 // 编辑功能的所有入口
@@ -192,49 +184,36 @@ test.describe('version.json 的来源', () => {
     }
   });
 
-  test('部署流程每次都生成 version.json（在上传网站之前）', async () => {
+  // GitHub Pages（deploy.yml）和 Cloudflare Pages 用同一个构建脚本，部署的文件两边一致
+  test('部署流程每次都用 tools/build-site.js 生成网站（在上传网站之前）', async () => {
     const yml = fs.readFileSync(path.join(ROOT, '.github', 'workflows', 'deploy.yml'), 'utf8');
     // 部署在每次 push 到 main 时运行
     expect(yml).toMatch(/on:\s*\n\s*push:\s*\n\s*branches:\s*\[main\]/);
-    const step = yml.match(/- name: Write version info\n\s*run: \|\n((?:\s{10}.*\n)+)/);
-    expect(step, '缺少生成 version.json 的步骤').not.toBeNull();
-    expect(yml.indexOf('Write version info')).toBeGreaterThan(yml.indexOf('Prepare site'));
-    expect(yml.indexOf('Write version info')).toBeLessThan(yml.indexOf('upload-pages-artifact'));
-
-    // 在临时目录中执行该步骤的脚本，检查生成的内容
-    const script = step[1].replace(/^ {10}/gm, '');
-    fs.mkdirSync(path.join(tmpDir, '_site'));
-    const before = Date.now();
-    execFileSync(bashPath(), ['-e', '-c', script], {
-      cwd: tmpDir,
-      env: { ...process.env, GITHUB_SHA: 'a1b2c3d4e5f60718293a4b5c6d7e8f9012345678', GIT_DIR: path.join(ROOT, '.git') },
-      stdio: 'ignore',
-    });
-    const v = JSON.parse(fs.readFileSync(path.join(tmpDir, '_site', 'version.json'), 'utf8'));
-    expect(v).toMatchObject({ commit: 'a1b2c3d', source: 'deploy', commitAt: git('log', '-1', '--format=%cI') });
-    expect(v.updatedAt).toMatch(/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/);
-    expect(Math.abs(Date.parse(v.updatedAt) - before)).toBeLessThan(60_000);
+    expect(yml).toMatch(/- name: Build site\n\s*run: node tools\/build-site\.js _site\n/);
+    expect(yml.indexOf('Build site')).toBeLessThan(yml.indexOf('upload-pages-artifact'));
+    expect(yml).not.toMatch(/cp -r/);
   });
 
-  test('Cloudflare Pages 构建脚本只输出网站文件，并生成 version.json', async () => {
-    const yml = fs.readFileSync(path.join(ROOT, '.github', 'workflows', 'deploy.yml'), 'utf8');
-    const copied = yml.match(/cp -r (.+) _site\//)[1].split(/\s+/);
-    const { SITE_FILES } = require('../tools/build-site');
-    expect(SITE_FILES, '与 GitHub Pages 部署的文件一致').toEqual(copied);
-
-    const out = path.join(tmpDir, 'site');
-    const before = Date.now();
-    execFileSync(process.execPath, [path.join(ROOT, 'tools', 'build-site.js'), out], {
-      env: { ...process.env, CF_PAGES_COMMIT_SHA: '0123456789abcdef0123456789abcdef01234567' },
-      stdio: 'ignore',
+  for (const [platform, env, commit] of [
+    ['GitHub Actions', { GITHUB_SHA: 'a1b2c3d4e5f60718293a4b5c6d7e8f9012345678' }, 'a1b2c3d'],
+    ['Cloudflare Pages', { CF_PAGES_COMMIT_SHA: '0123456789abcdef0123456789abcdef01234567' }, '0123456'],
+  ]) {
+    test(`构建脚本（${platform}）只输出网站文件，并生成 version.json`, async () => {
+      const { SITE_FILES } = require('../tools/build-site');
+      const out = path.join(tmpDir, 'site');
+      const before = Date.now();
+      const baseEnv = { ...process.env };
+      delete baseEnv.GITHUB_SHA;
+      delete baseEnv.CF_PAGES_COMMIT_SHA;
+      execFileSync(process.execPath, [path.join(ROOT, 'tools', 'build-site.js'), out], { env: { ...baseEnv, ...env }, stdio: 'ignore' });
+      expect(fs.readdirSync(out).sort()).toEqual([...SITE_FILES, '.nojekyll', 'version.json', 'e', 'sitemap.xml', 'robots.txt'].sort());
+      expect(fs.existsSync(path.join(out, 'js', 'app.js'))).toBe(true);
+      const v = JSON.parse(fs.readFileSync(path.join(out, 'version.json'), 'utf8'));
+      expect(v).toMatchObject({ commit, source: 'deploy', commitAt: git('log', '-1', '--format=%cI') });
+      expect(v.updatedAt).toMatch(/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/);
+      expect(Math.abs(Date.parse(v.updatedAt) - before)).toBeLessThan(60_000);
     });
-    expect(fs.readdirSync(out).sort()).toEqual([...SITE_FILES, '.nojekyll', 'version.json'].sort());
-    expect(fs.existsSync(path.join(out, 'js', 'app.js'))).toBe(true);
-    const v = JSON.parse(fs.readFileSync(path.join(out, 'version.json'), 'utf8'));
-    expect(v).toMatchObject({ commit: '0123456', source: 'deploy', commitAt: git('log', '-1', '--format=%cI') });
-    expect(v.updatedAt).toMatch(/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/);
-    expect(Math.abs(Date.parse(v.updatedAt) - before)).toBeLessThan(60_000);
-  });
+  }
 
   test('Cloudflare 的 wrangler 部署只上传 _site，且每个文件不超过 25 MiB', async () => {
     const cfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'wrangler.jsonc'), 'utf8'));
@@ -391,8 +370,7 @@ test.describe('只有本地启动时提供调试模式', () => {
 
   test('仓库中的 js/env.js（部署到线上的版本）不提供调试模式', async () => {
     expect(STATIC_ENV).toMatch(/debugAvailable:\s*false/);
-    const yml = fs.readFileSync(path.join(ROOT, '.github', 'workflows', 'deploy.yml'), 'utf8');
-    expect(yml).toMatch(/cp -r [^\n]*\bjs\b[^\n]*_site/);   // 原样部署
+    expect(require('../tools/build-site').SITE_FILES).toContain('js');   // 原样部署（tools/build-site.js）
     const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
     expect(pkg.scripts.start).toBe('node server.js');
     expect(pkg.scripts['start:public']).toBe('node server.js --no-debug');

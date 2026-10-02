@@ -25,17 +25,10 @@ jobs:
       - uses: actions/configure-pages@v5
         with:
           enablement: true
-      - name: Prepare site
-        run: |
-          mkdir -p _site
-          cp -r index.html css js data images audio textures _site/
-          touch _site/.nojekyll
-      # 网页调试模式显示的“网站最近更新”时间：每次部署（每次 push 到 main）都会重新生成
-      - name: Write version info
-        run: |
-          printf '{"updatedAt":"%s","commit":"%s","commitAt":"%s","source":"deploy"}\n' \
-            "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "${GITHUB_SHA::7}" "$(git log -1 --format=%cI)" > _site/version.json
-          cat _site/version.json
+      # 复制网页文件、生成事件静态页（e/）、sitemap.xml、robots.txt，以及调试模式显示“网站最近更新”时间用的
+      # version.json：与 Cloudflare Pages 用同一个脚本（tools/build-site.js），每次部署（每次 push 到 main）都重新生成
+      - name: Build site
+        run: node tools/build-site.js _site
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site

@@ -10,7 +10,7 @@ npm test
 ```
 
 - 全部通过才能提交和推送；推送到 `main` 会自动部署到 GitHub Pages。
-- **例外**：只改了数据文件（`data/*.json`）和 / 或只新增了图片（`images/`）时，不需要运行测试，可以直接提交推送。改动涉及任何其他文件（代码、样式、测试、配置等）时仍要运行完整测试。
+- **例外**：只改了数据文件（`data/*.json`）和 / 或只新增了图片（`images/`）时，不需要运行测试，可以直接提交推送。事件静态页和 sitemap 在部署时由 `tools/build-site.js` 按数据自动重新生成，不需要另外处理。改动涉及任何其他文件（代码、样式、测试、配置等）时仍要运行完整测试。
 - 测试失败时先判断是应用的问题还是测试本身的问题，修复后重新运行完整测试。
 - 新增或修改功能时，同步在 `tests/` 中补充或更新对应的测试。
 - 不要通过跳过、删除或放宽测试来让测试通过。
@@ -32,7 +32,7 @@ npm test
 - 脚本都从本地加载（第三方库放在 `js/vendor/`），不阻塞页面的用 `async`；`tests/share-qrcode.spec.js` 检查页面不引用外部脚本
 - `lib/link-title.js`：维基百科 / 百度百科链接的词条名查询，本地服务器 `/api/link-title`（只读模式也提供）供编辑页自动填写参考链接标题；`tests/helpers.js` 默认拦截该请求，测试不访问外网
 - `lib/images.js`：图片工具（格式与尺寸识别、下载、按内容哈希保存到 `images/`），服务器和导入脚本共用
-- `tools/build-site.js`：生成部署用的 `_site/`（与 `deploy.yml` 复制相同的文件并写 `version.json`），Cloudflare 的构建命令为 `node tools/build-site.js`，部署命令 `npx wrangler deploy` 按 `wrangler.jsonc` 只上传 `_site`（单个文件不超过 25 MiB）；部署的文件列表改动时两边同步（`tests/debug.spec.js` 检查）
+- `tools/build-site.js`：生成部署用的 `_site/`（复制 `SITE_FILES`，为 `data/` 下每个数据集（文件名符合 `DATASET_ID`）的每个事件生成静态页：默认数据集 `e/<事件id>.html`，其他数据集 `e/<数据集>/<事件id>.html`（链接带 `?data=`）；每次部署时按当时的数据重新生成，新增事件或数据集不需要改代码，生成的页面不提交（样式 `css/event.css`，不依赖脚本，地址都用相对路径，绝对地址取自 `package.json` 的 `homepage`），写 `sitemap.xml`、`robots.txt`、`version.json`；`tests/event-pages.spec.js` 检查），GitHub Pages 的 `deploy.yml` 也调用它，Cloudflare 的构建命令为 `node tools/build-site.js`，部署命令 `npx wrangler deploy` 按 `wrangler.jsonc` 只上传 `_site`（单个文件不超过 25 MiB）；两边部署的文件因此一致（`tests/debug.spec.js` 检查）
 - `tools/wiki-import.js`：从维基百科导入 / 更新事件（`npm run wiki -- --file data/cn_zh.json 关键词`），支持 `--list`、`--dry-run`、`--refresh-images`、`--type`、`--score`；图片总是下载到本地；自动推断事件类型（`type`）和估算重要程度（`majorScore`）
 - `audio/`：背景音乐（数据集的 `music` 字段引用，只从本地加载；部署时复制）。音乐按数据集配置，便于其他国家 / 语言使用各自的音乐
 - `textures/`：背景纹理（数据集的 `texture` 字段引用，只从本地加载；部署时复制）。纹理按数据集配置，图片只用作遮罩形状，颜色来自 `--texture-ink`

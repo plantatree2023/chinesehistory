@@ -119,6 +119,5 @@ test('纹理文件：数据引用的文件存在；都是不引用外部资源�
     expect(svg.replace('http://www.w3.org/2000/svg', ''), `${f} 不引用外部资源`).not.toMatch(/https?:|href=/);
     expect(svg.length, f).toBeLessThan(20 * 1024);
   }
-  const workflow = fs.readFileSync(path.join(ROOT, '.github', 'workflows', 'deploy.yml'), 'utf8');
-  expect(workflow).toMatch(/cp -r [^\n]*\btextures\b[^\n]*_site/);
+  expect(require('../tools/build-site').SITE_FILES).toContain('textures');   // 部署时复制（tools/build-site.js）
 });
