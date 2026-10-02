@@ -39,6 +39,7 @@
   --toast-ink: #fff;
   --axis: #4a423b;                             /* 时间轴线（时期色带以外的部分） */
   --ok-fill: #2f7d4f;                          /* “已保存”按钮底色（上面是白字） */
+  --tour-dim: rgba(20, 12, 6, .55);            /* 首次访问分步指引：聚光灯以外的遮罩 */
   --type-lighten: 0%;                          /* 类型标签：类型色与白色混合的比例（深色模式下调亮以保证对比度） */
   color-scheme: light;
   --radius: 10px;
@@ -78,6 +79,7 @@
   --debug-stripe-b: #332c1e;
   --era-text-mix: #fff;
   --toast-bg: #ece4d6;
+  --tour-dim: rgba(0, 0, 0, .62);
   --toast-ink: #1b1815;
   --axis: #6f655a;
   --ok-fill: #2d7449;
@@ -194,7 +196,40 @@ body.debug-mode .topbar { padding-right: 328px; }   /* 调试模式多 GitHub、
 }
 .corner-btn:hover { color: var(--red); }
 .corner-btn svg { display: block; }
-body.bars-hidden .theme-toggle, body.bars-hidden .github-link, body.bars-hidden .clear-cache { display: none; }      /* 隐藏工具栏时不显示深色模式按钮，播放、音乐、恢复按钮保留 */
+body.bars-hidden .theme-toggle, body.bars-hidden .about-btn, body.bars-hidden .github-link, body.bars-hidden .clear-cache { display: none; }      /* 隐藏工具栏时不显示深色模式、关于按钮，播放、音乐、分享、恢复按钮保留 */
+/* “更多”菜单只在手机上使用（见自适应部分）：手机上深色模式、分享、关于收进菜单 */
+.more-wrap { position: relative; display: none; }
+.more-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 30;
+  width: 180px;
+  padding: 4px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  animation: pop .15s ease;
+}
+.more-menu button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--ink);
+  font-size: 15px;
+  text-align: left;
+}
+.more-menu button + button { border-top: 1px solid var(--line); border-radius: 0; }
+.more-menu button:hover, .more-menu button:focus-visible { background: var(--hover-tint); }
+.more-menu svg { flex: none; color: var(--ink-2); }
+.more-menu .icon-sun, [data-theme="dark"] .more-menu .icon-moon { display: none; }
+[data-theme="dark"] .more-menu .icon-sun { display: block; }
 /* 播放按钮：图标表示点击后的动作。暂停时 ▶；一倍速播放时 ⏩（切换二倍速）；二倍速时 ⏸，角上显示“2×” */
 .play-toggle { position: relative; }
 .play-toggle .icon-pause, .play-toggle .icon-fast, .play-toggle[aria-pressed="true"] .icon-play { display: none; }
@@ -1258,6 +1293,81 @@ body.bars-hidden .fab { bottom: 18px; }
 }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
+/* ---------- 关于本站 ---------- */
+.about-card { width: min(640px, 100%); }
+.about-body { padding: 26px 30px 24px; color: var(--ink-2); }
+.about-body h2 { margin: 0; padding-right: 36px; font-family: var(--font-serif); font-size: 28px; color: var(--red); letter-spacing: .04em; }
+.about-lead { margin: 8px 0 6px; font-family: var(--font-serif); font-size: 16px; line-height: 1.8; }
+.about-body h3 { margin: 18px 0 6px; padding-left: 10px; border-left: 3px solid var(--red); font-family: var(--font-serif); font-size: 15px; color: var(--ink); }
+.about-body p, .about-body li { margin: 0; font-size: 14px; line-height: 1.75; }
+.about-body ul { margin: 0; padding-left: 20px; }
+.about-body a:not(.btn) { color: var(--red); }
+.about-foot { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--line); }
+.about-foot .btn { text-decoration: none; }
+
+/* ---------- 首次访问提示 ---------- */
+/* 电脑：分步指引。聚光灯（tour-spot）用超大的阴影把其余部分调暗；tour-catch 挡住时间轴上的操作 */
+.tour { position: fixed; inset: 0; z-index: 45; }
+.tour-catch { position: absolute; inset: 0; }
+.tour-spot {
+  position: fixed;
+  border-radius: 12px;
+  box-shadow: 0 0 0 9999px var(--tour-dim);
+  pointer-events: none;
+  transition: left .3s ease, top .3s ease, width .3s ease, height .3s ease;
+}
+.tour-tip {
+  position: fixed;
+  width: 280px;
+  padding: 14px 16px 12px;
+  background: var(--card);
+  color: var(--ink-2);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: var(--shadow-lg);
+  transition: left .3s ease, top .3s ease;
+}
+.tour-step { font-size: 12px; color: var(--muted); }
+.tour-tip p { margin: 2px 0 0; font-size: 14px; line-height: 1.65; }
+.tour-tip b, .hint-bubble b { color: var(--ink); font-weight: 600; }
+.tour-row, .hint-row { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-top: 12px; }
+.tour-dots { display: flex; gap: 5px; margin-right: auto; }
+.tour-dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--line); }
+.tour-dots i.on { background: var(--red); }
+/* 手机：底部气泡，指向“浏览所有历史事件”；不挡时间轴，自动播放照常进行 */
+.hint-bubble {
+  position: fixed;
+  left: 16px; right: 16px;
+  bottom: calc(var(--bottombar-h) + 14px);
+  z-index: 40;
+  padding: 16px 18px 14px;
+  background: var(--card);
+  color: var(--ink-2);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: var(--shadow-lg);
+  animation: pop .25s ease;
+}
+.hint-bubble::after {
+  content: "";
+  position: absolute;
+  right: var(--hint-arrow-right, 25%);
+  bottom: -8px;
+  width: 14px; height: 14px;
+  background: var(--card);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  transform: rotate(45deg);
+}
+.hint-bubble h3 { margin: 0 0 12px; padding-right: 28px; font-family: var(--font-serif); font-size: 15px; color: var(--ink); }
+.hint-bubble ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.hint-bubble li { display: flex; align-items: center; gap: 10px; font-size: 14px; line-height: 1.45; }
+.hint-ico { flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--paper-2); color: var(--red); }
+.hint-ico svg { display: block; }
+.hint-close { position: absolute; top: 6px; right: 6px; }
+.hint-note { margin-right: auto; font-size: 12px; color: var(--muted); }
+body.bars-hidden .hint-bubble { display: none; }
+
 /* ---------- 自适应 ---------- */
 @media (max-width: 640px) {
   .topbar { padding: 6px 216px 6px 16px; }   /* 五个按钮（34px，间距 6px）占右侧约 194px */
@@ -1267,6 +1377,9 @@ body.bars-hidden .fab { bottom: 18px; }
   body.debug-mode .corner-btn { width: 30px; height: 30px; }
   .corner-btns { right: 12px; gap: 6px; top: 9px; }
   .corner-btn { width: 34px; height: 34px; }
+  /* 手机：深色模式、分享、关于收进“更多”菜单 */
+  .theme-toggle, .share-timeline, .about-btn { display: none; }
+  .more-wrap { display: block; }
   /* 窄屏：标题和当前时期分两行，最长的时期名也能完整显示 */
   .brand { font-size: clamp(15px, 5vw, 21px); letter-spacing: .04em; }
   .brand-home { display: flex; flex-direction: column; line-height: 1.15; }

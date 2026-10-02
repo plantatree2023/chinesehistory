@@ -6,6 +6,8 @@ const stageHeight = (page) => page.evaluate(() => document.getElementById('stage
 for (const viewport of [{ width: 1440, height: 860 }, { width: 390, height: 780 }]) {
   test.describe(`${viewport.width}×${viewport.height}`, () => {
     test.use({ viewport });
+    // 手机上深色模式按钮收进了“更多”菜单，改用“更多”按钮
+    const themeBtn = viewport.width <= 640 ? '#moreBtn' : '#themeToggle';
 
     test('默认显示工具栏，按钮可隐藏和恢复', async ({ page }) => {
       await openApp(page);
@@ -137,7 +139,7 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 390, height: 780 
       await openApp(page);
       const bar = await page.locator('.topbar').boundingBox();
       const boxes = [];
-      for (const id of ['#themeToggle', '#barsToggle']) {
+      for (const id of [themeBtn, '#barsToggle']) {
         const btn = await page.locator(id).boundingBox();
         expect(btn.y).toBeGreaterThanOrEqual(bar.y);
         expect(btn.y + btn.height).toBeLessThanOrEqual(bar.y + bar.height);
@@ -157,10 +159,10 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 390, height: 780 
       await expect(btn.locator('.icon-collapse')).toBeVisible();
       await expect(btn).toHaveAttribute('aria-label', '显示工具栏');
       expect(await btn.evaluate((b) => getComputedStyle(b).transform)).toBe('none');   // 不再旋转
-      await expect(page.locator('#themeToggle')).toBeHidden();                         // 隐藏时只留恢复按钮
+      if (viewport.width > 640) await expect(page.locator('#themeToggle')).toBeHidden();   // 电脑：隐藏时不显示深色模式按钮
       await btn.click();
       await expect(btn.locator('.icon-expand')).toBeVisible();
-      await expect(page.locator('#themeToggle')).toBeVisible();
+      await expect(page.locator(themeBtn)).toBeVisible();
     });
 
     test('刷新后恢复默认显示', async ({ page }) => {

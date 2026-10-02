@@ -24,6 +24,8 @@ npm test
 - 调试模式只在本地启动时提供：仓库中的 `js/env.js`（部署版本）为 `debugAvailable: false`，`server.js` 默认改为返回 `true`，`--no-debug`（`npm run start:public`）时原样返回；网址带 `debugMode` 参数时也提供（`buildQuery` 保留该参数，`shareUrl` 不带）；测试服务器提供调试模式
 - 调试模式：编辑功能（新增、编辑、删除、恢复默认数据）只在调试模式下显示，新增的编辑入口要加 `debug-only` 类；调试模式显示的网站更新时间来自部署时生成的 `version.json`（`.github/workflows/deploy.yml`）。需要编辑的测试用 `test.use({ debugMode: true })`
 - 自动播放：网页加载后默认自动播放；测试中默认关闭（`tests/helpers.js` 设置 `window.TIMELINE_AUTOPLAY = false`），测试自动播放本身时用 `test.use({ autoplay: true })`
+- 首次访问提示（电脑分步指引、手机底部气泡）：测试中默认关闭（`window.TIMELINE_ONBOARDING = false`），测试提示本身时用 `test.use({ onboarding: true })`
+- 右上角按钮：电脑上依次是播放、音乐、深色模式、分享、关于、放大缩小；手机（≤640px）上深色模式、分享、关于收进“更多”菜单（`#moreBtn`）。新按钮放在放大缩小按钮左边
 - 配色：颜色都用 `css/style.css` 中 `:root` 的变量，深色模式在 `:root[data-theme="dark"]` 中重新定义；新增颜色要同时定义两套，`tests/theme.spec.js` 检查对比度
 - 侧栏筛选（`js/app.js` 中的 `FILTERS`）：**同类型的控件放在一起**（勾选框在最前，然后是下拉列表、范围输入）。新增筛选时写明 `kind`（`toggle` / `select` / `range`），面板按 `FILTER_KIND_ORDER` 自动分组；`tests/filters.spec.js` 会检查。每个筛选还要写 `toParams` / `fromParams`，把条件写进网址并能从网址恢复（见 `tests/url.spec.js`）
 - 反馈 / 建议修改：所有访问者可用，通过 Web3Forms 发送（`js/config.js` 中的 `accessKey`；`enabled: false` 时反馈入口带 `feedback-only` 类被隐藏，没有 `accessKey` 时提交提示尚未配置）；建议模式复用编辑页（`openEditor(id, 'suggest' | 'propose')`），不修改数据。测试替换 `js/config.js` 并拦截发送请求（`tests/feedback.spec.js`），不得真的发出

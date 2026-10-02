@@ -80,8 +80,11 @@ for (const viewport of [{ width: 390, height: 780 }, { width: 320, height: 640 }
       await page.keyboard.press('End');
       await expect(page.locator('#currentEra')).toHaveText('中华人民共和国');
       const brand = await page.locator('.brand').boundingBox();
-      // 右上角最左边的按钮是深色模式切换按钮
-      const btn = await page.locator('#themeToggle').boundingBox();
+      // 右上角最左边的可见按钮（手机上深色模式、分享收进了“更多”菜单）
+      const btn = await page.evaluate(() => {
+        const xs = [...document.querySelectorAll('.corner-btns > *')].filter((b) => b.offsetParent).map((b) => b.getBoundingClientRect());
+        return xs.sort((a, b) => a.x - b.x)[0].toJSON();
+      });
       expect(btn.x).toBeLessThan((await page.locator('#barsToggle').boundingBox()).x);
       expect(brand.x + brand.width, '标题不应伸到按钮下方').toBeLessThanOrEqual(btn.x);
       const truncated = await page.locator('.brand').evaluate((el) => el.scrollWidth > el.clientWidth);

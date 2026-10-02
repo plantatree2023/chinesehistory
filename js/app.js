@@ -720,6 +720,7 @@
     computeLayout();
     pendingImages = [];   // 卡片重新生成，旧的待加载列表作废（已加载过的图片浏览器有缓存）
     track.dataset.renders = (+track.dataset.renders || 0) + 1;   // 排版次数，供自动化测试判断排版是否稳定
+    if (tour && tour.open) setTimeout(placeTour, 0);   // 分步指引打开时，聚光灯跟随重新排版后的位置
     var W = layout.width;
     track.style.width = W + 'px';
     // 时间轴高度固定为排版时的高度，并在舞台中垂直居中：舞台高度变化（如隐藏工具栏）到重新排版之间，
@@ -2964,6 +2965,7 @@
     var label = theme === 'dark' ? '切换到浅色模式' : '切换到深色模式';
     themeBtn.setAttribute('aria-label', label);
     themeBtn.title = label;
+    $('moreThemeText').textContent = theme === 'dark' ? '浅色模式' : '深色模式';
   }
   applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
   themeBtn.addEventListener('click', function () {
@@ -2971,6 +2973,137 @@
     applyTheme(next);
     try { localStorage.setItem(THEME_KEY, next); } catch (e) { /* 只在本次访问中生效 */ }
   });
+
+  // ---------- 关于本站、手机“更多”菜单 ----------
+  // 电脑上右上角的 ⓘ 按钮打开“关于本站”；手机上（≤640px）深色模式、分享、关于收进“更多”菜单（样式见 CSS 自适应部分）
+  $('aboutBtn').addEventListener('click', openAbout);
+  $('aboutFeedback').addEventListener('click', function () { closeModal('aboutModal'); openFeedback(null); });
+  function openAbout() { updateAbout(); openModal('aboutModal'); }
+  // 关于页中由数据决定的部分：事件数量、背景音乐来源（数据集的 music.title / music.credit，没有时不显示）
+  function updateAbout() {
+    $('aboutSummary').textContent = '目前收录 ' + events.length + ' 个事件，';
+    var m = meta && meta.music, credit = m && [m.title, m.credit].filter(Boolean).join('，');
+    $('aboutMusic').textContent = credit ? '背景音乐：' + credit + '。' : '';
+    $('aboutMusicHead').hidden = !credit;
+  }
+  var moreBtn = $('moreBtn'), moreMenu = $('moreMenu');
+  function setMoreOpen(open) {
+    moreMenu.hidden = !open;
+    moreBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  moreBtn.addEventListener('click', function () { setMoreOpen(moreMenu.hidden); });
+  document.addEventListener('pointerdown', function (e) {
+    if (!moreMenu.hidden && !e.target.closest('.more-wrap')) setMoreOpen(false);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape' || moreMenu.hidden) return;
+    e.stopImmediatePropagation();
+    setMoreOpen(false);
+    moreBtn.focus();
+  }, true);
+  $('moreAbout').addEventListener('click', function () { setMoreOpen(false); openAbout(); });
+  $('moreTheme').addEventListener('click', function () { setMoreOpen(false); themeBtn.click(); });
+  $('moreShare').addEventListener('click', function () { setMoreOpen(false); $('shareTimeline').click(); });
+
+  // ---------- 首次访问提示 ----------
+  // 第一次打开网站时提示怎么用，只提示一次（记在当前浏览器中）：
+  // 电脑上是分步指引（聚光灯依次指向时间轴、卡片、“浏览所有历史事件”按钮），打开期间自动播放停住；
+  // 手机上（≤640px）是底部的气泡，不挡时间轴，点“知道了”、点别处或滑动时间轴时收起。
+  // 通过分享链接直接打开详情等情况下不提示（下次访问再提示）。测试可以通过 window.TIMELINE_ONBOARDING = false 关闭
+  var ONBOARD_KEY = 'zh-history-timeline:onboarded';
+  var narrowScreen = window.matchMedia('(max-width: 640px)');
+  function maybeShowOnboarding() {
+    if (window.TIMELINE_ONBOARDING === false) return;
+    try { if (localStorage.getItem(ONBOARD_KEY)) return; } catch (e) { return; }   // 无法记住时不提示，免得每次都出现
+    if (openStack.length || sidebarOpen || !$('lightbox').hidden || document.body.classList.contains('bars-hidden')) return;
+    try { localStorage.setItem(ONBOARD_KEY, '1'); } catch (e) { /* noop */ }
+    if (narrowScreen.matches) showHint(); else startTour();
+  }
+
+  // 分步指引
+  var TOUR_STEPS = [
+    { text: '<b>左右拖动</b>时间轴浏览，也可以用方向键或滚轮；右上角 ▶ 可以自动播放。', target: function () {
+      var st = stage.getBoundingClientRect(), ax = $('axis').getBoundingClientRect();
+      return { left: st.left + 16, top: ax.top - 30, width: st.width - 32, height: ax.height + 60 };
+    } },
+    { text: '<b>点卡片</b>看事件详情、图片和参考资料。', target: function () {
+      var st = stage.getBoundingClientRect();
+      var cards = Array.prototype.filter.call(document.querySelectorAll('#events .card'), function (c) {
+        var r = c.getBoundingClientRect();
+        return r.width && r.left >= st.left + 8 && r.right <= st.right - 8 && r.top >= st.top && r.bottom <= st.bottom;
+      });
+      var c = cards[0] || document.querySelector('#events .card');
+      return c && c.getBoundingClientRect();
+    } },
+    { text: '点<b>“浏览所有历史事件”</b>可以搜索全部事件，并按类型、年代筛选。', target: function () { return $('browseBtn').getBoundingClientRect(); } },
+  ];
+  var tour = { open: false, step: 0 };
+  function startTour() {
+    tour.step = 0;
+    tour.open = true;
+    $('tourDots').innerHTML = TOUR_STEPS.map(function () { return '<i></i>'; }).join('');
+    openModal('tour');
+    showTourStep();
+  }
+  function showTourStep() {
+    var last = tour.step === TOUR_STEPS.length - 1;
+    $('tourStep').textContent = (tour.step + 1) + ' / ' + TOUR_STEPS.length;
+    $('tourText').innerHTML = TOUR_STEPS[tour.step].text;
+    $('tourNext').textContent = last ? '开始浏览' : '下一步';
+    $('tourSkip').hidden = last;
+    Array.prototype.forEach.call($('tourDots').children, function (d, i) { d.classList.toggle('on', i === tour.step); });
+    placeTour();
+    $('tourNext').focus({ preventScroll: true });
+  }
+  function placeTour() {
+    if (!tour.open || $('tour').hidden) return;
+    var r = TOUR_STEPS[tour.step].target();
+    if (!r) return;
+    var pad = 6, spot = $('tourSpot'), tip = $('tourTip');
+    spot.style.left = (r.left - pad) + 'px';
+    spot.style.top = (r.top - pad) + 'px';
+    spot.style.width = (r.width + pad * 2) + 'px';
+    spot.style.height = (r.height + pad * 2) + 'px';
+    var vw = window.innerWidth, vh = window.innerHeight, tw = tip.offsetWidth, th = tip.offsetHeight, gap = 14;
+    var top = r.top + r.height + pad + gap;
+    if (top + th > vh - 8) top = Math.max(8, r.top - pad - gap - th);   // 下方放不下时放在上方
+    tip.style.left = Math.min(Math.max(16, r.left), vw - tw - 16) + 'px';
+    tip.style.top = top + 'px';
+  }
+  function closeTour() { tour.open = false; closeModal('tour'); }
+  function tourNext() {
+    if (tour.step >= TOUR_STEPS.length - 1) { closeTour(); return; }
+    tour.step++;
+    showTourStep();
+  }
+  $('tourNext').addEventListener('click', tourNext);
+  $('tourSkip').addEventListener('click', closeTour);
+  window.addEventListener('resize', function () { if (tour.open) placeTour(); });
+  // 打开期间：→ / Enter 下一步，← 上一步（不移动时间轴）；Esc 由弹窗通用逻辑关闭
+  document.addEventListener('keydown', function (e) {
+    if (!tour.open || $('tour').hidden) { tour.open = false; return; }
+    if (e.key === 'Escape') { tour.open = false; return; }
+    if (e.key === 'Tab') return;
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.closest && e.target.closest('#tour button')) return;   // 按钮自己处理
+    if (e.key === 'ArrowRight' || e.key === 'Enter') tourNext();
+    else if (e.key === 'ArrowLeft' && tour.step > 0) { tour.step--; showTourStep(); }
+    e.preventDefault();
+    e.stopImmediatePropagation();
+  }, true);
+
+  // 手机：底部气泡，箭头指向“浏览所有历史事件”按钮
+  var hint = $('hintBubble');
+  function showHint() {
+    hint.hidden = false;
+    var b = $('browseBtn').getBoundingClientRect();
+    hint.style.setProperty('--hint-arrow-right', Math.max(16, window.innerWidth - 16 - (b.left + b.width / 2) - 8) + 'px');
+  }
+  function closeHint() { hint.hidden = true; }
+  $('hintOk').addEventListener('click', closeHint);
+  $('hintClose').addEventListener('click', closeHint);
+  document.addEventListener('pointerdown', function (e) {
+    if (!hint.hidden && !e.target.closest('#hintBubble')) closeHint();
+  }, true);
 
   // ---------- 调试模式（默认关闭） ----------
   // 开启后在顶栏下方显示网站最近更新时间，并显示全部编辑功能（新增、编辑、删除、恢复默认数据）。
@@ -3359,6 +3492,11 @@
     urlReady = true;
     syncUrl(false);   // 规范化网址（例如去掉找不到的 id）
     if (autoplayAllowed()) setPlaying(true);   // 加载后默认自动播放
+    updateAbout();
+    // 首次访问提示：等字体加载、排版稳定后再显示，聚光灯的位置才准确
+    (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function () {
+      setTimeout(maybeShowOnboarding, 400);
+    });
   }).catch(function (e) {
     showLoadError(location.protocol === 'file:'
       ? '请在项目目录运行 npm start，然后通过 http://127.0.0.1:4173/ 访问。'

@@ -461,9 +461,14 @@ test.describe('右上角按钮', () => {
       const bar = await page.locator('.topbar').boundingBox();
       const brand = await page.locator('.brand').boundingBox();
       const boxes = [];
-      // 手机竖屏也显示分享按钮
-      await expect(page.locator('#shareTimeline')).toBeVisible();
-      for (const id of ['#playToggle', '#musicToggle', '#themeToggle', '#shareTimeline', '#barsToggle']) boxes.push(await page.locator(id).boundingBox());
+      // 电脑上依次是播放、音乐、深色模式、分享、关于、放大缩小；手机上深色模式、分享、关于收进“更多”菜单
+      const ids = viewport.width > 640
+        ? ['#playToggle', '#musicToggle', '#themeToggle', '#shareTimeline', '#aboutBtn', '#barsToggle']
+        : ['#playToggle', '#musicToggle', '#moreBtn', '#barsToggle'];
+      for (const id of ids) {
+        await expect(page.locator(id)).toBeVisible();
+        boxes.push(await page.locator(id).boundingBox());
+      }
       for (let i = 0; i < boxes.length; i++) {
         expect(boxes[i].y).toBeGreaterThanOrEqual(bar.y);
         expect(boxes[i].y + boxes[i].height).toBeLessThanOrEqual(bar.y + bar.height);
