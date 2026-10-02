@@ -139,6 +139,25 @@ test.describe('手机', () => {
     await expect(page.locator('#eraScrim')).toBeHidden();
   });
 
+  test('切换时期时底栏两个按钮的宽度不变，高度一致', async ({ page }) => {
+    await openApp(page);
+    const boxes = async () => ({
+      era: await page.locator('#eraBarBtn').boundingBox(),
+      browse: await page.locator('#browseBtn').boundingBox(),
+    });
+    const first = await boxes();
+    expect(Math.abs(first.era.height - first.browse.height)).toBeLessThanOrEqual(1);
+    for (const n of await eraNames(page)) {
+      await page.click('#eraBarBtn');
+      await page.click(`#eraMenuList .era-item[data-era="${n}"]`);
+      await expect(page.locator('#eraBarBtn'), n).toContainText(n);
+      const b = await boxes();
+      expect(b.era.width, n).toBeCloseTo(first.era.width, 0);
+      expect(b.browse.width, n).toBeCloseTo(first.browse.width, 0);
+      expect(b.browse.x, n).toBeCloseTo(first.browse.x, 0);
+    }
+  });
+
   test('每个时期都能跳准', async ({ page }) => {
     await openApp(page);
     for (const n of await eraNames(page)) {

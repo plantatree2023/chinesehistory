@@ -1467,7 +1467,8 @@ body.bars-hidden .hint-bubble { display: none; }
   :root { --bottombar-h: 50px; }
   .bottombar { padding: 7px 16px; }
   .minimap { display: none; }
-  .browse-btn { flex: 1; }
+  /* 浏览按钮按文字宽度固定，时期按钮占满剩下的空间：切换时期时两个按钮的宽度都不变 */
+  .browse-btn { flex: none; height: 36px; }
   .fab { right: 16px; bottom: calc(var(--bottombar-h) + 12px); width: 52px; height: 52px; }
   body.bars-hidden .fab { bottom: 14px; }
   .nav-arrow { display: none; }
@@ -1567,7 +1568,8 @@ body.bars-hidden .hint-bubble { display: none; }
 @media (max-width: 640px) {
   .era-menu-btn { display: none; }
   .era-bar-btn {
-    flex: none;
+    flex: 1 1 0;
+    min-width: 0;
     display: inline-flex;
     align-items: center;
     gap: 5px;
@@ -1582,8 +1584,8 @@ body.bars-hidden .hint-bubble { display: none; }
     white-space: nowrap;
   }
   .era-bar-btn .era-swatch { width: 10px; height: 10px; }
-  #eraBarName { max-width: 7.2em; overflow: hidden; text-overflow: ellipsis; }
-  .era-bar-btn svg { color: var(--ink-2); }
+  #eraBarName { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  .era-bar-btn svg { flex: none; margin-left: auto; color: var(--ink-2); }
   .bottombar { gap: 10px; }
   /* 手机：从底部弹出的色块面板 */
   .era-menu.sheet {
