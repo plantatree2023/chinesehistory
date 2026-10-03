@@ -22,8 +22,10 @@
   var LOCALE = I18N[LANG] || {};
   var LIMITS = LOCALE.limits || {};
   // _('已删除“{title}”', { title: ... })：返回当前语言的文字，{名称} 替换为对应的值（与 gettext 的写法相同）
-  function _(text, vars) {
-    var strings = LOCALE.strings || {};
+  function _(text, vars) { return _in(LANG, text, vars); }
+  // 指定语言的文字（参考链接同步到其他语言的数据集时用）
+  function _in(lang, text, vars) {
+    var strings = (I18N[lang] || {}).strings || {};
     var out = Object.prototype.hasOwnProperty.call(strings, text) ? strings[text] : text;   // 译文可以是空字符串（如英文中不需要的“年”）
     return vars ? out.replace(/\{(\w+)\}/g, function (m, k) { return vars[k] != null ? String(vars[k]) : m; }) : out;
   }
@@ -2028,6 +2030,7 @@
     form.short.value = ev ? (ev.short || '') : '';
     form.detail.value = ev ? (ev.detail || '') : '';
     draftSources = ev ? clone(sourcesOf(ev)) : [];
+    openedSourceUrls = draftSources.map(function (x) { return x.url; });
     renderSourceEditor();
     form.majorScore.value = String(ev ? scoreOf(ev) : DEFAULT_SCORE);
     var typeSel = form.type;
@@ -2243,16 +2246,21 @@
     });
   }
   $('imageUrlAdd').addEventListener('click', addImageUrl);
-  // 点进“粘贴图片网址”输入框时，如果框是空的、剪贴板里是网址，自动粘贴进来（浏览器可能先询问是否允许读取剪贴板；
-  // 不允许或剪贴板不是网址时什么也不做）
-  $('imageUrlInput').addEventListener('focus', function () {
-    var inp = this;
-    if (inp.value.trim() || !navigator.clipboard || !navigator.clipboard.readText) return;
-    navigator.clipboard.readText().then(function (text) {
-      text = (text || '').trim();
-      if (!inp.value.trim() && /^https?:\/\/\S+$/i.test(text)) { inp.value = text; inp.select(); onNewImageUrl(); }   // 和手动粘贴一样自动填写标题和版权
-    }, function () { /* 没有权限：忽略 */ });
-  });
+  // 点进网址输入框（“粘贴图片网址”、参考链接）时，如果框是空的、剪贴板里是网址，自动粘贴进来，再调用 onPaste
+  // （浏览器可能先询问是否允许读取剪贴板；不允许或剪贴板不是网址时什么也不做）。skip(网址) 为真时不粘贴
+  function pasteUrlOnFocus(inp, onPaste, skip) {
+    inp.addEventListener('focus', function () {
+      if (inp.value.trim() || !navigator.clipboard || !navigator.clipboard.readText) return;
+      navigator.clipboard.readText().then(function (text) {
+        text = (text || '').trim();
+        if (inp.value.trim() || !/^https?:\/\/\S+$/i.test(text) || (skip && skip(text))) return;
+        inp.value = text;
+        inp.select();
+        onPaste();
+      }, function () { /* 没有权限：忽略 */ });
+    });
+  }
+  pasteUrlOnFocus($('imageUrlInput'), onNewImageUrl);   // 和手动粘贴一样自动填写标题和版权
   $('imageUrlInput').addEventListener('keydown', function (e) {
     if (e.key === 'Enter') { e.preventDefault(); addImageUrl(); }
   });
@@ -2368,14 +2376,26 @@
   // 翻译（本地服务器的 /api/translate；线上网站没有这个接口，翻译不了时返回 null）
   // 翻译不了时在标题栏下方说明原因：没有翻译接口（线上网站，或本地服务器还是旧版本）/ 连不上翻译网站
   function translateCaption(text, from, to) {
-    var q = new URLSearchParams({ text: text, from: from, to: to });
-    return fetch('api/translate?' + q.toString()).then(function (res) {
+    return requestTranslation(text, from, to).then(function (res) {
       if (!res.ok) { setCaptionHint(_('自动翻译需要在本地用 npm start 启动网站（更新代码后要重新启动）')); return null; }
       return res.json().then(function (r) {
         var t = r && typeof r.text === 'string' && r.text.trim() ? r.text.trim() : null;
         setCaptionHint(t ? '' : _('自动翻译失败：连不上翻译网站，请手动填写'));
         return t;
       });
+    }).catch(function () { return null; });
+  }
+  function requestTranslation(text, from, to) {
+    var q = new URLSearchParams({ text: text, from: from, to: to });
+    return fetch('api/translate?' + q.toString());
+  }
+  // 不显示提示的翻译（参考链接的标题用）：翻译不了时返回 null
+  function translateText(text, from, to) {
+    if (from === to) return Promise.resolve(text);
+    return requestTranslation(text, from, to).then(function (res) {
+      return res.ok ? res.json() : null;
+    }).then(function (r) {
+      return r && typeof r.text === 'string' && r.text.trim() ? r.text.trim() : null;
     }).catch(function () { return null; });
   }
   function setCaptionHint(text) {
@@ -2933,8 +2953,9 @@
   });
 
   // 保存后同步其他语言的数据集：同一事件的图片换成当前的图片（顺序、尺寸、版权信息），标题用对照语言的标题
-  // （没有编辑过的取该语言原来的标题，新图片为空）。内容没有变化时不写入
-  function saveSiblings(id, images, trs) {
+  // （没有编辑过的取该语言原来的标题，新图片为空）；这次新增的参考链接（该语言中还没有的网址）加在末尾，
+  // 标题翻译成该语言（见 siblingSourceTitle），最多 MAX_SOURCES 条。内容没有变化时不写入
+  function saveSiblings(id, images, trs, newSources) {
     var jobs = Object.keys(siblings).map(function (lang) {
       var s = siblings[lang];
       if (!s.ev || s.ev.id !== id) return null;
@@ -2949,13 +2970,26 @@
         o.caption = String(tr).trim();
         return o;
       });
-      if (canonical(next) === canonical(old)) return null;
-      var time = nowSeconds();
-      return writeSiblingImages(s, id, next, time).then(function () { s.ev.images = clone(next); s.ev.updatedAt = time; });
+      var oldSources = sourcesOf(s.ev);
+      var have = oldSources.map(function (x) { return x.url; });
+      var add = (newSources || []).filter(function (x) { return have.indexOf(x.url) < 0; }).slice(0, Math.max(0, MAX_SOURCES - oldSources.length));
+      var patch = {};
+      if (canonical(next) !== canonical(old)) patch.images = next;
+      if (!add.length && !patch.images) return null;
+      patch.updatedAt = nowSeconds();
+      return Promise.all(add.map(function (x) {
+        return siblingSourceTitle(x, lang).then(function (t) { return t ? { url: x.url, title: t } : { url: x.url }; });
+      })).then(function (added) {
+        if (added.length) patch.sources = clone(oldSources).concat(added);
+        return writeSiblingEvent(s, id, patch);
+      }).then(function () {
+        Object.keys(patch).forEach(function (k) { s.ev[k] = clone(patch[k]); });
+      });
     }).filter(Boolean);
     return Promise.all(jobs);
   }
-  function writeSiblingImages(s, id, images, time) {
+  // 把 patch 中的字段（images、sources、updatedAt）写入该语言数据集中的同一事件
+  function writeSiblingEvent(s, id, patch) {
     if (fileMode) {
       return fetch('data/' + s.id + '.json', { cache: 'no-store' }).then(function (res) {
         if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -2963,8 +2997,7 @@
       }).then(function (data) {
         var ev = data.events.filter(function (e) { return e.id === id; })[0];
         if (!ev) return null;
-        ev.images = images;
-        ev.updatedAt = time;
+        Object.assign(ev, patch);
         return requestJson('api/data/' + s.id, 'PUT', data);
       });
     }
@@ -2972,8 +3005,7 @@
     var stored = storedChanges(s.id) || { version: 2, changed: {}, deleted: [] };
     var cur = eventWithChanges(s.defaults, id, stored);
     if (!cur) return Promise.resolve();
-    cur.images = images;
-    cur.updatedAt = time;
+    Object.assign(cur, patch);
     var def = s.defaults.filter(function (e) { return e.id === id; })[0];
     var ch = def ? eventDiff(cur, def) : cur;
     if (ch) stored.changed[id] = ch; else delete stored.changed[id];
@@ -2987,6 +3019,7 @@
 
   // ---------- 编辑页：参考链接（可增删改） ----------
   var draftSources = [];
+  var openedSourceUrls = [];   // 打开编辑页时已有的参考链接；保存时其余的（新增的）同步到其他语言的数据集
   // 编辑模式下末尾总保留一个空行（预留的添加位置）；在最后一行填入内容后自动再预留一个。
   // 空行不保存（见 cleanSources）。建议模式同样预留。
   function needsSpareSource() {
@@ -3042,6 +3075,13 @@
     // 维基百科 / 百度百科链接：粘贴后或离开输入框时自动填写标题（建议模式不自动填写）
     url.addEventListener('paste', function () { setTimeout(function () { autoSourceTitle(src, title, hint); }, 0); });
     url.addEventListener('change', function () { autoSourceTitle(src, title, hint); });
+    // 点进空的网址框时自动粘贴剪贴板中的网址（和“粘贴图片网址”一样）；已在其他行中的网址不再粘贴
+    pasteUrlOnFocus(url, function () {
+      url.dispatchEvent(new Event('input', { bubbles: true }));
+      autoSourceTitle(src, title, hint);
+    }, function (text) {
+      return draftSources.some(function (x) { return x !== src && (x.url || '').trim() === text; });
+    });
     var rm = el('button', 'icon-btn source-remove', '×');
     rm.type = 'button';
     rm.title = _('删除这条链接');
@@ -3118,29 +3158,59 @@
 
   // 参考链接的自动标题：维基百科 / 百度百科链接先按链接中的词条名立即填写“维基百科 - 词条名”，
   // 再请本地服务器查询（跟随重定向、取简体标题；百度百科读取网页标题）后更新；查询失败时保留按链接填写的标题。
+  // 词条的语言（维基百科按子域名，百度百科是中文）与数据集的语言不同时，网站名后注明词条的语言，
+  // 词条名翻译成数据集的语言（本地服务器的 /api/translate），如英文数据集中的中文维基百科：
+  // “Wikipedia (Chinese) - Battle of Red Cliffs”；翻译不了时保留原文的词条名。
   // 只在标题为空、或仍是上次自动填写的内容时填写，不覆盖手动输入的标题。
   // _auto、_hint 只在编辑页中使用，保存时由 cleanSources 去掉。
+  // 返回 { site: 'wikipedia' | 'baidu', lang（词条的语言）, name（链接中的词条名，可能为空） }，不是这两个网站时返回 null
   function parseEncyclopediaLink(u) {
     var x;
     try { x = new URL(u); } catch (e) { return null; }
     if (!/^https?:$/.test(x.protocol)) return null;
     var dec = function (s) { try { return decodeURIComponent(s); } catch (e) { return s; } };
     var host = x.hostname.toLowerCase(), m;
-    if (/(^|\.)wikipedia\.org$/.test(host)) {
+    var wiki = host.match(/^(?:([a-z-]+)\.)?(?:m\.)?wikipedia\.org$/);
+    if (wiki) {
       m = x.pathname.match(/^\/(?:wiki|zh|zh-[a-z]+)\/(.+)$/);
       var raw = m ? m[1] : x.searchParams.get('title');
-      return { label: _('维基百科'), name: raw ? dec(raw).replace(/_/g, ' ').trim() : '' };
+      var wl = wiki[1] && wiki[1] !== 'www' && wiki[1] !== 'm' ? wiki[1] : 'zh';
+      return { site: 'wikipedia', lang: wl, name: raw ? dec(raw).replace(/_/g, ' ').trim() : '' };
     }
     if (/(^|\.)baike\.baidu\.com$/.test(host)) {
       m = x.pathname.match(/^\/item\/([^\/?#]+)/);
-      return { label: _('百度百科'), name: m ? dec(m[1]).trim() : '' };
+      return { site: 'baidu', lang: 'zh', name: m ? dec(m[1]).trim() : '' };
     }
     return null;
   }
+  // 语言名称（用 lang 这种语言写），如 en 中的 zh → “Chinese”
+  function languageName(code, lang) {
+    try { return new Intl.DisplayNames([langCode(lang)], { type: 'language' }).of(code) || code; } catch (e) { return code; }
+  }
+  // lang 这种语言的数据集中的标题：“维基百科 - 词条名”“Wikipedia (Chinese) - 词条名”
+  function encyclopediaTitle(info, name, lang) {
+    var site = _in(lang, info.site === 'baidu' ? '百度百科' : '维基百科');
+    if (info.site === 'wikipedia' && info.lang !== lang) site = _in(lang, '{site}（{lang}）', { site: site, lang: languageName(info.lang, lang) });
+    var max = ((I18N[lang] || {}).limits || {}).maxSourceTitle || 60;
+    return (site + ' - ' + name).slice(0, max);
+  }
+  // 本地服务器查询到的标题（“维基百科 - 词条名”）中的词条名
+  function lookupName(title) {
+    var i = (title || '').indexOf(' - ');
+    return i > 0 ? title.slice(i + 3).trim() : '';
+  }
+  // 词条的语言代码，用于翻译（中文是 zh-CN）
+  function articleLangCode(code) { return I18N[code] ? langCode(code) : code; }
   var SOURCE_HINTS = { loading: _('⟳ 正在查询词条名…'), done: _('✓ 已自动填写标题（可修改）') };
   function showSourceHint(src, hint) {
     hint.textContent = SOURCE_HINTS[src._hint] || '';
     hint.hidden = !src._hint;
+  }
+  function lookupLinkTitle(u) {
+    return fetch('api/link-title?url=' + encodeURIComponent(u), { cache: 'no-store' })
+      .then(function (res) { return res.ok ? res.json() : null; })
+      .catch(function () { return null; })
+      .then(function (j) { return j && j.title ? lookupName(j.title) : ''; });
   }
   function autoSourceTitle(src, titleInput, hint) {
     if (suggestMode) return;
@@ -3149,19 +3219,41 @@
     var canFill = function () { return !(src.title || '').trim() || src.title === src._auto; };
     if (!info || !canFill() || src._lookedUp === u) return;
     src._lookedUp = u;
-    var fill = function (t) { src.title = src._auto = t; titleInput.value = t; };
-    if (info.name) fill(info.label + ' - ' + info.name);
+    var fill = function (name) { var t = encyclopediaTitle(info, name, LANG); src.title = src._auto = t; titleInput.value = t; };
+    if (info.name) fill(info.name);
     src._hint = 'loading';
     showSourceHint(src, hint);
-    fetch('api/link-title?url=' + encodeURIComponent(u), { cache: 'no-store' })
-      .then(function (res) { return res.ok ? res.json() : null; })
-      .catch(function () { return null; })
-      .then(function (j) {
-        if ((src.url || '').trim() !== u) return;   // 期间链接已改，结果作废
-        if (j && j.title && canFill()) fill(j.title);
-        src._hint = src._auto && src.title === src._auto ? 'done' : null;
-        showSourceHint(src, hint);
-      });
+    lookupLinkTitle(u).then(function (name) {
+      name = name || info.name;
+      if (!name || info.lang === LANG) return name;
+      return translateText(name, articleLangCode(info.lang), langCode(LANG)).then(function (t) { return t || name; });
+    }).then(function (name) {
+      if ((src.url || '').trim() !== u) return;   // 期间链接已改，结果作废
+      if (name && canFill()) fill(name);
+      src._hint = src._auto && src.title === src._auto ? 'done' : null;
+      showSourceHint(src, hint);
+    });
+  }
+  // 同步到 lang 这种语言的数据集时的标题：维基百科 / 百度百科按上面的格式，词条名翻译成该语言
+  // （该语言就是词条的语言时用链接查询到的词条名）；其他链接翻译整个标题，翻译不了时保留原标题
+  function siblingSourceTitle(s, lang) {
+    var info = parseEncyclopediaLink(s.url), title = s.title || '';
+    if (!info) {
+      if (!title) return Promise.resolve('');
+      return translateText(title, langCode(LANG), langCode(lang)).then(function (t) { return t || title; });
+    }
+    var name = lookupName(title) || title, from = LANG;
+    if (!name) { name = info.name; from = info.lang; }
+    if (!name) return Promise.resolve(title);
+    var named;
+    if (info.lang === lang) {
+      named = lookupLinkTitle(s.url).then(function (n) { return n || (from === lang ? name : info.name || name); });
+    } else if (from === lang) {
+      named = Promise.resolve(name);
+    } else {
+      named = translateText(name, articleLangCode(from), langCode(lang)).then(function (t) { return t || name; });
+    }
+    return named.then(function (n) { return encyclopediaTitle(info, n, lang); });
   }
   // 保存用的参考链接：去掉首尾空格和空行，标题为空时不写 title；网址无效时返回错误说明
   function cleanSources() {
@@ -3255,11 +3347,12 @@
       events.push(data);
     }
     // 本地文件模式等待写入完成；浏览器模式直接保存到 localStorage。
-    // 然后把图片（版权信息、对照语言的标题）同步到其他语言的数据集（上传的图片先保存为文件，路径确定后再同步）
+    // 然后把图片（版权信息、对照语言的标题）和新增的参考链接同步到其他语言的数据集（上传的图片先保存为文件，路径确定后再同步）
     var trs = draftImages.slice(0, MAX_IMAGES).map(function (im) { return im._tr || null; });
+    var newSources = data.sources.filter(function (x) { return openedSourceUrls.indexOf(x.url) < 0; });
     var written = (fileMode ? saveToFile() : Promise.resolve(save())).then(function (r) {
       var saved = findEvent(id);
-      return saveSiblings(id, saved ? saved.images || [] : [], trs).catch(function (e) {
+      return saveSiblings(id, saved ? saved.images || [] : [], trs, newSources).catch(function (e) {
         toast(_('其他语言的数据写入失败：{error}', { error: e.message }));
       }).then(function () { return r; });
     });
