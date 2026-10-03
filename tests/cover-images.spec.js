@@ -1,5 +1,6 @@
 // 代表图占满卡片的图片区，四边不留空隙：排版尽量让图片区与原图比例一致，
-// 比例对不上时图片最多裁去 MAX_CROP，其余部分由虚化的同一张图片（.card-img-bg）铺满；图片不会过小。
+// 比例对不上时图片最多裁去 MAX_CROP，其余部分由虚化的同一张图片（.card-img-bg）铺满，
+// 但图片的宽和高都至少占图片区的 MIN_SHOWN（放不下时卡片或文字栏加宽、说明截短）；图片不会过小。
 // 所有图片都从本地加载：数据中只有 images/ 下的本地路径，文件齐全且尺寸与记录一致。
 // 比例取自事件数据中记录的图片尺寸，并用实际加载后的像素尺寸复核，全程离线。
 const fs = require('fs');
@@ -11,8 +12,9 @@ const ROOT = path.resolve(__dirname, '..');
 
 const MIN_SIDE = 50;          // 代表图最短边下限（px）
 const MAX_CROP = 0.2;         // 图片最多裁去的比例（与 js/app.js 一致）
+const MIN_SHOWN = 0.8;        // 图片的宽和高都至少占图片区的比例（与 js/app.js 一致）
 
-for (const viewport of [{ width: 1440, height: 860 }, { width: 1280, height: 640 }, { width: 390, height: 780 }, { width: 360, height: 700 }]) {
+for (const viewport of [{ width: 1440, height: 860 }, { width: 1280, height: 640 }, { width: 390, height: 780 }, { width: 360, height: 700 }, { width: 360, height: 600 }]) {
   test(`${viewport.width}×${viewport.height}：代表图占满图片区、不留空隙，裁剪不多`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await openApp(page);
@@ -21,7 +23,7 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 1280, height: 640
       .map((img) => { img.loading = 'eager'; if (img.dataset.src) img.src = img.dataset.src; return img.decode().catch(() => {}); })));   // 远处卡片的图片尚未加载（见 loadNearbyImages），这里全部加载以便检查
 
     const { events } = await loadDataset(page);
-    const report = await page.evaluate(({ tol, minSide, events, MAX_CROP }) => {
+    const report = await page.evaluate(({ tol, minSide, events, MAX_CROP, MIN_SHOWN }) => {
       const byId = Object.fromEntries(events.map((e) => [e.id, e]));
       const out = { checked: 0, loadedLocal: 0, problems: [] };
       for (const card of document.querySelectorAll('.card')) {
@@ -54,10 +56,18 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 1280, height: 640
         if (!filled(box) && !(bg && bg.tagName === 'IMG' && bg.getAttribute('src') === pic.getAttribute('src') && filled(bg.getBoundingClientRect()))) {
           out.problems.push(`${title}：图片周围有空隙 ${Math.round(box.width)}×${Math.round(box.height)} / ${Math.round(media.width)}×${Math.round(media.height)}`);
         }
+        // 虚化部分不超过图片区的 20%：图片的宽和高都至少占图片区的 80%
+        const shown = Math.min(box.width / media.width, box.height / media.height);
+        if (shown < MIN_SHOWN - 0.005) out.problems.push(`${title}：图片只占图片区的 ${Math.round(shown * 100)}%`);
+        // 文字不被卡片切掉：放不下时说明按整行截短（末尾显示省略号）
+        const body = card.querySelector('.card-body').getBoundingClientRect();
+        if (body.bottom > cr.bottom + 1 || body.right > cr.right + 1) out.problems.push(`${title}：文字超出卡片`);
+        const short = card.querySelector('.card-short');
+        if (short && short.scrollHeight > short.clientHeight + 1 && !short.classList.contains('clamped')) out.problems.push(`${title}：说明被切掉`);
         if (Math.min(box.width, box.height) < minSide) out.problems.push(`${title}：图片过小 ${Math.round(box.width)}×${Math.round(box.height)}`);
       }
       return out;
-    }, { tol: 0.02, minSide: MIN_SIDE, events, MAX_CROP });
+    }, { tol: 0.02, minSide: MIN_SIDE, events, MAX_CROP, MIN_SHOWN });
 
     const covers = events.filter((e) => e.images.length).length;
     expect(report.checked, '每张代表图都应带尺寸信息').toBe(covers);

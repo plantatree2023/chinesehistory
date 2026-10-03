@@ -413,10 +413,12 @@
     3: { sizes: [210000, 170000, 136000, 108000, 84000, 62000], maxImgW: 700, heightFrac: 1, shrink: 0, weight: 300 }
   };
   var SIDE_TEXT_W = 150, MIN_STACK_W = 172, MIN_IMG_SIDE = 56;
-  var CROP_COST = 250;   // 排版时图片被裁去 10% 记 40 分（见 shapeFor）
+  var CROP_COST = 250;   // 排版时图片被裁去 10% 记 25 分（见 shapeFor）
   var GROW_COST = 30;    // 为占满图片区把图片放大一倍记 30 分
   var MAX_GROW = 1.5;    // 为占满图片区，图片面积最多放大的倍数
   var MAX_CROP = 0.2;    // 卡片图片最多裁去 20%，其余用虚化的同一张图片铺满（见 imageFit）
+  var MIN_SHOWN = 0.8;   // 图片的宽和高都至少占图片区的 80%（虚化部分不超过 20%）
+  var WIDEN_STEP = 24;   // 图片太小时卡片或文字栏每次加宽的像素
   function scoreOf(ev) {
     var n = ev && ev.majorScore;
     return typeof n === 'number' && n >= 1 && n <= 10 ? Math.round(n) : DEFAULT_SCORE;
@@ -461,7 +463,9 @@
   }
   // 在隐藏元素中实际排版，测量文字区高度
   var measurer = null, textCache = {};
-  function textHeight(ev, width, kind) {
+  function textHeight(ev, width, kind) { return textLayout(ev, width, kind).h; }
+  // 文字区的高度 h，其中日期和标题占 fixed，说明每行高 lh（说明可以截短，见 clampedText）
+  function textLayout(ev, width, kind) {
     // 宽度按 4px 向下取整再测量：窄一点只会让测得的高度偏大（更保守），而缓存命中率高得多
     width = Math.floor(width / 4) * 4;
     var key = [ev.id, width, kind, tierOf(ev), ev.date, ev.title, summaryOf(ev)].join('|');
@@ -476,20 +480,35 @@
     measurer.innerHTML = '';
     var body = cardBody(ev);
     measurer.appendChild(body);
-    textCache[key] = Math.ceil(body.getBoundingClientRect().height);
+    var h = Math.ceil(body.getBoundingClientRect().height);
+    var short = body.querySelector('.card-short');
+    var shortH = short ? short.getBoundingClientRect().height : 0;
+    var lh = short ? parseFloat(getComputedStyle(short).lineHeight) || 18 : 18;
+    textCache[key] = { h: h, fixed: h - shortH, lh: lh };
     measurer.innerHTML = '';
     return textCache[key];
+  }
+  // 文字区最高 maxTh 时，说明截短成几行（lines，null 表示不用截短，0 表示不显示）以及截短后的高度；
+  // 说明不到 minLines 行（默认 2）时返回 null
+  function clampedText(ev, width, kind, maxTh, minLines) {
+    var t = textLayout(ev, width, kind);
+    if (t.h <= maxTh) return { h: t.h, lines: null };
+    var lines = Math.floor((maxTh - t.fixed) / t.lh + 0.01);
+    if (lines < (minLines == null ? 2 : minLines)) return null;
+    return { h: Math.ceil(t.fixed + lines * t.lh), lines: lines };
   }
 
   // 按图片比例、面积和最大高度计算卡片尺寸，放不下返回 null。
   // 图片区（iw × ih）四边都由图片占满，不留空隙：上下排时图片区与卡片同宽（不窄于 MIN_STACK_W），
   // 左右排时与卡片同高（不矮于文字区）。图片区与原图比例一致时完整显示，所以图片较小时先放大，
-  // 但面积最多放大到 MAX_GROW 倍（免得小图变成大图）；仍对不上比例时（如手机上文字较长）
-  // 图片裁去一部分（crop 为裁去的比例，排版时尽量避免），裁得太多时周围用虚化的图片铺满（见 imageFit）
+  // 但面积尽量不超过 MAX_GROW 倍（免得小图变成大图）；仍对不上比例时（如手机上文字较长）
+  // 图片裁去一部分（crop 为裁去的比例，排版时尽量避免），裁得太多时周围用虚化的图片铺满（见 imageFit），
+  // 但图片的宽和高都至少占图片区的 MIN_SHOWN：达不到时加宽卡片（上下排）或文字栏（左右排），让文字变矮
   function shapeFor(ev, r, area, kind, maxH, maxW) {
-    var iw = Math.sqrt(area * r), ih = Math.sqrt(area / r), th, cw, avail, want;
+    var iw = Math.sqrt(area * r), ih = Math.sqrt(area / r), th, cw, avail, want, h;
     var tier = TIERS[tierOf(ev)];
     var maxIh = maxH * tier.heightFrac;
+    var fill = coverFill(ev);
     if (iw > tier.maxImgW) { iw = tier.maxImgW; ih = iw / r; }
     if (ih > maxIh) { ih = maxIh; iw = ih * r; }
     if (kind === 'stack') {
@@ -501,20 +520,63 @@
         ih = avail; iw = ih * r;
       }
       want = iw * Math.min(ih, avail);
-      // 宽度固定为卡片宽度，高度尽量按原图比例
-      ih = Math.min(cw / r, avail, Math.max(want * MAX_GROW / cw, ih));
-      if (ih < MIN_IMG_SIDE) return null;
-      return { kind: kind, iw: cw, ih: ih, want: want, crop: cropOf(cw, ih, r), w: Math.round(cw + 2), h: Math.round(ih + th + 2) };
+      for (; cw <= maxW - 2; cw += WIDEN_STEP) {
+        th = textHeight(ev, cw, 'stack');
+        avail = maxH - th - 2;
+        // 宽度固定为卡片宽度，高度尽量按原图比例
+        h = Math.min(cw / r, avail, Math.max(want * MAX_GROW / cw, ih, fill * cw / r));
+        if (h >= fill * cw / r - 0.5 && h >= MIN_IMG_SIDE) {
+          return { kind: kind, iw: cw, ih: h, want: want, crop: cropOf(cw, h, r), w: Math.round(cw + 2), h: Math.round(h + th + 2) };
+        }
+      }
+      return null;
     }
-    th = textHeight(ev, SIDE_TEXT_W, 'side');
-    if (th + 2 > maxH) return null;
     if (ih + 2 > maxH) { ih = maxH - 2; iw = ih * r; }
     want = iw * ih;
-    // 高度固定为卡片高度（不矮于文字区），宽度尽量按原图比例
-    ih = Math.max(ih, th);
-    iw = Math.min(ih * r, maxW - SIDE_TEXT_W - 2, Math.max(want * MAX_GROW / ih, iw));
-    if (Math.min(iw, ih) < MIN_IMG_SIDE) return null;
-    return { kind: kind, iw: iw, ih: ih, want: want, crop: cropOf(iw, ih, r), w: Math.round(iw + SIDE_TEXT_W + 2), h: Math.round(ih + 2) };
+    for (var tw = SIDE_TEXT_W; tw + MIN_IMG_SIDE + 2 <= maxW; tw += WIDEN_STEP) {
+      th = textHeight(ev, tw, 'side');
+      if (th + 2 > maxH) continue;
+      // 高度固定为卡片高度（不矮于文字区），宽度尽量按原图比例
+      h = Math.max(ih, th);
+      var w = Math.min(h * r, maxW - tw - 2, Math.max(want * MAX_GROW / h, iw, fill * h * r));
+      if (w >= fill * h * r - 0.5 && w >= MIN_IMG_SIDE) {
+        return { kind: kind, iw: w, ih: h, tw: tw, want: want, crop: cropOf(w, h, r), w: Math.round(w + tw + 2), h: Math.round(h + 2) };
+      }
+    }
+    return null;
+  }
+  // 图片区与原图比例最多相差的倍数（的倒数；多留 1% 给取整）；没有图片的事件显示占位图，不限
+  function coverFill(ev) {
+    var im = ev.images && ev.images[0];
+    return im && im.src ? (1 - MAX_CROP) * (MIN_SHOWN + 0.01) : 0;
+  }
+  // 排版放不下时的候选：最宽的上下排，或者图片占满卡片高度的左右排，说明截短（clamp 为行数），
+  // 图片的宽和高仍至少占图片区的 MIN_SHOWN；按裁剪多少排序
+  function fallbackShapes(ev, r, maxH, maxW) {
+    var fill = coverFill(ev), out = [], t, h, w;
+    var cw = Math.max(MIN_STACK_W, maxW - 2);
+    for (var c = cw; c >= MIN_STACK_W; c -= WIDEN_STEP) {
+      // 图片尽量按原比例，说明至少留两行
+      var tl = textLayout(ev, c, 'stack');
+      h = Math.min(c / r, maxH - 2 - Math.min(tl.h, Math.ceil(tl.fixed + 2 * tl.lh)));
+      t = clampedText(ev, c, 'stack', maxH - h - 2);
+      if (t && h >= fill * c / r - 0.5 && h >= MIN_IMG_SIDE) { out.push({ kind: 'stack', iw: c, ih: h, clamp: t.lines, crop: cropOf(c, h, r), w: Math.round(c + 2), h: Math.round(h + t.h + 2) }); break; }
+    }
+    // 左右排：卡片高度先按图片原比例，说明放不下时再加高（图片左右裁去一些）
+    var maxIw = maxW - SIDE_TEXT_W - 2;
+    h = Math.min(maxH - 2, maxIw / r);
+    t = clampedText(ev, SIDE_TEXT_W, 'side', h);
+    if (!t) { h = Math.min(maxH - 2, maxIw / r / fill); t = clampedText(ev, SIDE_TEXT_W, 'side', h); }
+    w = Math.min(h * r, maxIw);
+    if (t && w >= fill * h * r - 0.5 && w >= MIN_IMG_SIDE) out.push({ kind: 'left', iw: w, ih: h, clamp: t.lines, crop: cropOf(w, h, r), w: Math.round(w + SIDE_TEXT_W + 2), h: Math.round(h + 2) });
+    if (!out.length) {
+      // 极端情况（屏幕很矮）：最宽的上下排，图片高度按比例的 MIN_SHOWN，说明能放几行放几行（可能不显示）
+      h = Math.min(fill * cw / r, maxH - 2);
+      t = clampedText(ev, cw, 'stack', maxH - h - 2, 0) || { h: maxH - h - 2, lines: 0 };
+      out.push({ kind: 'stack', iw: cw, ih: h, clamp: t.lines, crop: cropOf(cw, h, r), w: Math.round(cw + 2), h: Math.round(Math.min(maxH, h + t.h + 2)) });
+    }
+    out.forEach(function (sh) { sh.cost = sh.crop * CROP_COST; });
+    return out.sort(function (a, b) { return a.cost - b.cost; });
   }
   // 比例为 r 的图片按 cover 铺满 w × h 时裁去的比例
   function cropOf(w, h, r) { return 1 - Math.min(w / h / r, h * r / w); }
@@ -607,10 +669,8 @@
         });
       });
       if (!shapes.length) {
-        // 哪种都放不下（极少见）：最窄的上下排，图片占满图片区
-        var fth = textHeight(ev, MIN_STACK_W, 'stack');
-        var fih = clamp(MIN_STACK_W / r, 40, Math.max(40, maxH - fth - 2));
-        shapes.push({ kind: 'stack', iw: MIN_STACK_W, ih: fih, crop: 0, w: MIN_STACK_W + 2, h: Math.min(maxH, Math.round(fih + fth + 2)), cost: 0 });
+        // 哪种都放不下（手机上文字很长时）：图片按原比例尽量放大，说明截短到放得下
+        shapes = fallbackShapes(ev, r, maxH, maxW);
       }
       var x0 = Math.max(lead + (rawPos(ev.year) - base) * 1, prevX + minGap, lead);
       var best = null;
@@ -923,7 +983,14 @@
       }
       media.appendChild(pic);
       card.appendChild(media);
-      card.appendChild(cardBody(ev));
+      var body = cardBody(ev);
+      if (sh.tw && sh.tw !== SIDE_TEXT_W) body.style.width = sh.tw + 'px';   // 左右排时加宽了文字栏
+      if (sh.clamp != null) {   // 放不下时说明截短（详情页显示全文）
+        var shortEl = body.querySelector('.card-short');
+        if (shortEl && sh.clamp === 0) shortEl.hidden = true;
+        else if (shortEl) { shortEl.classList.add('clamped'); shortEl.style.webkitLineClamp = sh.clamp; shortEl.style.lineClamp = sh.clamp; }
+      }
+      card.appendChild(body);
       card.addEventListener('click', function () {
         if (drag.moved) return;
         openDetail(ev.id);

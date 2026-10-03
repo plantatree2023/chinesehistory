@@ -682,6 +682,8 @@ body.bars-hidden .era-names, body.bars-hidden .era-lines { display: block; }
   color: var(--ink);
 }
 .card-short { margin: 0; font-size: 12px; line-height: 1.55; color: var(--ink-2); }
+/* 手机上卡片放不下全文时说明截短（行数由 js/app.js 计算） */
+.card-short.clamped { display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
 
 /* 上图下文 */
 .k-stack { flex-direction: column; }
