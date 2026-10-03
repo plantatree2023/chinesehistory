@@ -10,6 +10,8 @@ const eraOf = (eras, year) => eras.filter((e) => year >= e.start).pop() || eras[
 // '#c0892f' -> 'rgb(192, 137, 47)'
 // 重大事件：重要程度 majorScore 为 8–10（与网站的三级图片大小一致）
 const isMajor = (e) => e.majorScore >= 8;
+// 数据异常：图片缺少来源网址 / 许可证，或缺少当前语言标题（与 js/app.js 的 dataCheck / imageIssues 一致）
+const hasDataIssue = (e) => (e.images || []).some((im) => !im.sourceUrl || !im.license || !String(im.caption || '').trim());
 // 浏览器给出的颜色（'rgb(…)' 或 color-mix 得到的 'color(srgb 0–1 …)'）→ 'rgb(r, g, b)'，便于比较
 const norm = (css) => {
   const m = /^color\(srgb ([\d.]+) ([\d.]+) ([\d.]+)/.exec(css);
@@ -220,6 +222,40 @@ test('只看重大事件', async ({ page }) => {
   await page.uncheck('#filterPanel input[data-filter="major"]');
   await expect(page.locator('.list-item')).toHaveCount(events.length);
   await expect(page.locator('#filterBadge')).toBeHidden();
+});
+
+test('数据异常筛选不在调试模式下不显示', async ({ page }) => {
+  await openApp(page);
+  await openFilters(page);
+  await expect(page.locator('.filter-section[data-filter="dataIssue"]')).toHaveCount(0);
+});
+
+test.describe('数据异常筛选（调试模式）', () => {
+  test.use({ debugMode: true });
+
+  test('只看数据异常的事件，数量来自数据', async ({ page }) => {
+    await openApp(page);
+    const { events } = await loadDataset(page);
+    await openFilters(page);
+    const issues = events.filter(hasDataIssue);
+    await expect(page.locator('.filter-section[data-filter="dataIssue"]')).toContainText(`只看数据异常的事件（${issues.length}）`);
+    await page.check('#filterPanel input[data-filter="dataIssue"]');
+    await expectTitles(page, issues);
+    await expect(page.locator('#filterBadge')).toHaveText('1');
+    await page.uncheck('#filterPanel input[data-filter="dataIssue"]');
+    await expect(page.locator('.list-item')).toHaveCount(events.length);
+    await expect(page.locator('#filterBadge')).toBeHidden();
+  });
+
+  test('与重大事件筛选组合', async ({ page }) => {
+    await openApp(page);
+    const { events } = await loadDataset(page);
+    await openFilters(page);
+    await page.check('#filterPanel input[data-filter="dataIssue"]');
+    await page.check('#filterPanel input[data-filter="major"]');
+    await expectTitles(page, events.filter((e) => hasDataIssue(e) && isMajor(e)));
+    await expect(page.locator('#filterBadge')).toHaveText('2');
+  });
 });
 
 test.describe('时期更迭', () => {

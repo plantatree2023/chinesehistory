@@ -146,6 +146,8 @@
     '全部类型': 'All types',
     '时期更迭': 'Changes of era',
     '只看时期更迭的事件（{n}）': 'Changes of era only ({n})',
+    '数据异常': 'Data issues',
+    '只看数据异常的事件（{n}）': 'Events with data issues only ({n})',
     '朝代 / 时期（可多选）': 'Dynasty / era (multiple)',
     '全部朝代 / 时期': 'All dynasties / eras',
     '时间范围': 'Time range',

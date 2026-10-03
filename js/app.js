@@ -3832,6 +3832,17 @@
       render: function (box, v, set, ctx) { toggleFilterUI('transition', _('只看时期更迭的事件（{n}）', { n: ctx.transitionCount }))(box, v, set); }
     },
     {
+      // 数据异常（图片缺少来源 / 许可证 / 当前语言标题）：只在调试模式下显示，方便定位需要补全资料的事件
+      id: 'dataIssue',
+      kind: 'toggle',
+      label: _('数据异常'),
+      available: function (ctx) { return debugMode && ctx.issueCount > 0; },
+      initial: function () { return false; },
+      isActive: function (v) { return v; },
+      test: function (ev, v) { return !v || dataCheck(ev.images).count > 0; },
+      render: function (box, v, set, ctx) { toggleFilterUI('dataIssue', _('只看数据异常的事件（{n}）', { n: ctx.issueCount }))(box, v, set); }
+    },
+    {
       id: 'era',
       kind: 'select',
       toParams: function (v, out) { if (v.length) out.push(['era', v]); },
@@ -3930,6 +3941,7 @@
       typeCounts: typeCounts,
       typesWithEvents: typesWithEvents(typeCounts),
       transitionCount: events.filter(function (ev) { return ev.transition; }).length,
+      issueCount: events.filter(function (ev) { return dataCheck(ev.images).count > 0; }).length,
       minYear: years.length ? Math.min.apply(null, years) : 0,
       maxYear: years.length ? Math.max.apply(null, years) : 0
     };
@@ -4566,6 +4578,8 @@
       else localStorage.removeItem(DEBUG_KEY);
     } catch (e) { /* 浏览器禁止存储时只在本次访问中生效 */ }
     if (on) loadVersion();
+    // “数据异常”筛选只在调试模式下显示，切换时重建筛选面板（数据加载完成后再做）
+    if (ready) { filterPanelKey = null; renderList(); }
   }
 
   // 清除缓存并刷新（调试模式右上角）：网页代码、样式、数据等文件可能还是浏览器缓存的旧版本
