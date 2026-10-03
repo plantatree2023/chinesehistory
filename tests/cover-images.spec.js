@@ -1,4 +1,5 @@
-// 代表图完整显示：图片框按原图比例绘制、不被裁切、不会过小。
+// 代表图占满卡片的图片区，四边不留空隙：排版尽量让图片区与原图比例一致，
+// 比例对不上时图片最多裁去 MAX_CROP，其余部分由虚化的同一张图片（.card-img-bg）铺满；图片不会过小。
 // 所有图片都从本地加载：数据中只有 images/ 下的本地路径，文件齐全且尺寸与记录一致。
 // 比例取自事件数据中记录的图片尺寸，并用实际加载后的像素尺寸复核，全程离线。
 const fs = require('fs');
@@ -9,18 +10,18 @@ const { imageSize } = require('../tools/wiki-import');
 const ROOT = path.resolve(__dirname, '..');
 
 const MIN_SIDE = 50;          // 代表图最短边下限（px）
-const RATIO_TOLERANCE = 0.04; // 显示比例与原图比例的允许误差
+const MAX_CROP = 0.2;         // 图片最多裁去的比例（与 js/app.js 一致）
 
-for (const viewport of [{ width: 1440, height: 860 }, { width: 1280, height: 640 }, { width: 390, height: 780 }]) {
-  test(`${viewport.width}×${viewport.height}：代表图按原比例完整显示`, async ({ page }) => {
+for (const viewport of [{ width: 1440, height: 860 }, { width: 1280, height: 640 }, { width: 390, height: 780 }, { width: 360, height: 700 }]) {
+  test(`${viewport.width}×${viewport.height}：代表图占满图片区、不留空隙，裁剪不多`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await openApp(page);
     // 等待所有代表图加载完成
-    await page.evaluate(() => Promise.all([...document.querySelectorAll('img.card-img')]
+    await page.evaluate(() => Promise.all([...document.querySelectorAll('img.card-img, img.card-img-bg')]
       .map((img) => { img.loading = 'eager'; if (img.dataset.src) img.src = img.dataset.src; return img.decode().catch(() => {}); })));   // 远处卡片的图片尚未加载（见 loadNearbyImages），这里全部加载以便检查
 
     const { events } = await loadDataset(page);
-    const report = await page.evaluate(({ tol, minSide, events }) => {
+    const report = await page.evaluate(({ tol, minSide, events, MAX_CROP }) => {
       const byId = Object.fromEntries(events.map((e) => [e.id, e]));
       const out = { checked: 0, loadedLocal: 0, problems: [] };
       for (const card of document.querySelectorAll('.card')) {
@@ -32,24 +33,31 @@ for (const viewport of [{ width: 1440, height: 860 }, { width: 1280, height: 640
         const box = pic.getBoundingClientRect();
         const media = pic.parentElement.getBoundingClientRect();
         const cr = card.getBoundingClientRect();
-        const shown = box.width / box.height;
+        const bg = pic.parentElement.querySelector('.card-img-bg');
+        // object-fit: cover 时图片显示出来的比例（其余被裁去）
+        const shownPart = (ratio) => Math.min(box.width / box.height / ratio, box.height * ratio / box.width);
 
         if (cover.w && cover.h) {
           out.checked++;
-          const expected = cover.w / cover.h;
-          if (Math.abs(shown / expected - 1) > tol) out.problems.push(`${title}：比例 ${shown.toFixed(2)}，原图 ${expected.toFixed(2)}`);
+          const part = shownPart(cover.w / cover.h);
+          if (part < 1 - MAX_CROP - tol) out.problems.push(`${title}：图片裁去 ${Math.round((1 - part) * 100)}%`);
         }
         if (pic.tagName === 'IMG' && pic.naturalWidth) {
           out.loadedLocal++;
-          const natural = pic.naturalWidth / pic.naturalHeight;
-          if (Math.abs(shown / natural - 1) > tol) out.problems.push(`${title}：显示比例与实际图片不符`);
+          if (shownPart(pic.naturalWidth / pic.naturalHeight) < 1 - MAX_CROP - tol) out.problems.push(`${title}：实际图片裁去太多`);
+          if (getComputedStyle(pic).objectFit !== 'cover') out.problems.push(`${title}：图片没有铺满图片框`);
         }
         const inside = (a, b) => a.left >= b.left - 1 && a.right <= b.right + 1 && a.top >= b.top - 1 && a.bottom <= b.bottom + 1;
-        if (!inside(box, media) || !inside(box, cr)) out.problems.push(`${title}：图片被裁切`);
+        if (!inside(box, media) || !inside(media, cr)) out.problems.push(`${title}：图片超出卡片`);
+        // 不留空隙：图片框与图片区一样大，或者由虚化的同一张图片铺满图片区
+        const filled = (a) => inside(media, a);
+        if (!filled(box) && !(bg && bg.tagName === 'IMG' && bg.getAttribute('src') === pic.getAttribute('src') && filled(bg.getBoundingClientRect()))) {
+          out.problems.push(`${title}：图片周围有空隙 ${Math.round(box.width)}×${Math.round(box.height)} / ${Math.round(media.width)}×${Math.round(media.height)}`);
+        }
         if (Math.min(box.width, box.height) < minSide) out.problems.push(`${title}：图片过小 ${Math.round(box.width)}×${Math.round(box.height)}`);
       }
       return out;
-    }, { tol: RATIO_TOLERANCE, minSide: MIN_SIDE, events });
+    }, { tol: 0.02, minSide: MIN_SIDE, events, MAX_CROP });
 
     const covers = events.filter((e) => e.images.length).length;
     expect(report.checked, '每张代表图都应带尺寸信息').toBe(covers);
