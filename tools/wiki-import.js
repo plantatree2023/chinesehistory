@@ -7,6 +7,8 @@
 //   node tools/wiki-import.js --file data/cn_zh.json --dry-run 淝水之战
 //   node tools/wiki-import.js --file data/cn_zh.json --refresh-images 淝水之战
 //   node tools/wiki-import.js --file data/cn_zh.json --type 战争 --score 6 淝水之战
+//   node tools/wiki-import.js --file data/cn_zh.json --credits            补全所有事件图片的版权信息
+//   node tools/wiki-import.js --file data/cn_zh.json --credits 淝水之战   只补全这些事件（按事件名）
 //
 // 条目表（--list）每行一个关键词，可写成“关键词|年份|类型|重要程度”，后面几项可省略或留空
 // （年份公元前写负数；例如“淝水之战|383|战争|6”“淝水之战|||6”），# 开头为注释。
@@ -28,7 +30,13 @@
 //   （如“之战”“条约”“发明”）→ 年代早于前 2000 年的归为史前；都无法判断时不填写并提示。
 //   类型名使用数据集 types 列表中对应 key 的名称（例如 war → 战争）。
 //   重要程度根据 Wikidata 中该条目的语言版本数估算（越多说明越受关注），没有 Wikidata 时默认为 5；均会提示核对。
-// - 写入前用网站服务器的同一套规则校验数据，并原子写入；--dry-run 只输出将做的修改，不下载图片、不写文件。
+// - 新下载的图片同时记录作者、许可证和来源网址（author / license / sourceUrl，取自维基共享资源或维基百科的文件信息）。
+// - --credits：不导入内容，只补全已有图片缺少的版权信息。对每个事件的维基条目（参考链接中的维基百科链接和 wiki 字段），
+//   在条目的文件中找与本地图片完全相同的那一张（按本地图片的宽度重新下载维基的缩略图，内容哈希与本地文件名一致），
+//   找到后读取它的作者、许可证和文件页网址，只填写缺少的字段，已有的不覆盖；找不到完全相同的图片时不写入任何信息。
+//   同一国家其他语言的数据集（如 cn_en.json）中相同的图片一起补全；有改动的事件更新 updatedAt。
+// - 写入前用网站服务器的同一套规则校验数据，并原子写入；--dry-run 只输出将做的修改，不下载图片、不写文件
+//   （--credits 的 dry run 仍会下载缩略图用于比对，但不保存图片、不写文件）。
 //
 // 退出码：0 全部成功；1 有关键词失败（其余成功的仍会写入）；2 参数或文件错误。
 //
@@ -39,6 +47,7 @@ const fs = require('fs');
 const path = require('path');
 const { validateDataset, writeAtomic, DATASET_ID } = require('../server');
 const { imageSize, saveImage, MAX_IMAGE_BYTES, USER_AGENT } = require('../lib/images');
+const { CreditsClient, findCredits, applyCredits, needsCredits, creditOf } = require('../lib/wiki-credits');
 
 const MAX_IMAGES = 9;
 const MAX_DETAIL = 600;
@@ -82,7 +91,7 @@ class UsageError extends Error {}
 
 // ---------- 参数 ----------
 function parseArgs(argv) {
-  const opts = { keywords: [], dryRun: false, refreshImages: false, delay: 1000 };
+  const opts = { keywords: [], dryRun: false, refreshImages: false, credits: false, delay: 1000 };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     const value = () => {
@@ -97,12 +106,18 @@ function parseArgs(argv) {
     else if (a === '--delay') opts.delay = Number(value());
     else if (a === '--dry-run' || a === '-n') opts.dryRun = true;
     else if (a === '--refresh-images') opts.refreshImages = true;
+    else if (a === '--credits') opts.credits = true;
     else if (a === '--help' || a === '-h') opts.help = true;
     else if (a.startsWith('-')) throw new UsageError(`未知参数：${a}`);
     else opts.keywords.push(a);
   }
   if (opts.help) return opts;
   if (!opts.file) throw new UsageError('必须用 --file 指定数据集文件，例如 --file data/cn_zh.json');
+  if (opts.credits) {
+    if (opts.list || opts.year != null || opts.type || opts.score != null || opts.refreshImages) throw new UsageError('--credits 只能配合 --file、--dry-run、--delay 和事件名使用');
+    if (!Number.isFinite(opts.delay) || opts.delay < 0) throw new UsageError('--delay 必须是非负数（毫秒）');
+    return opts;
+  }
   if (!opts.keywords.length && !opts.list) throw new UsageError('请提供至少一个关键词，或用 --list 指定条目表');
   if (opts.year != null && (opts.list || opts.keywords.length !== 1)) throw new UsageError('--year 只能配合单个关键词使用；条目表中请写“关键词|年份”');
   if ((opts.type || opts.score != null) && (opts.list || opts.keywords.length !== 1)) throw new UsageError('--type / --score 只能配合单个关键词使用；条目表中请写“关键词|年份|类型|重要程度”');
@@ -284,7 +299,7 @@ function makeImages(summary, media) {
     const src = m.srcset && m.srcset[0] && m.srcset[0].src;
     if (!src) continue;
     seen.add(title);
-    const image = { src: absoluteUrl(src).split('?')[0], caption: ((m.caption && m.caption.text) || '').replace(/\s+/g, ' ').trim().slice(0, 80) };
+    const image = { src: absoluteUrl(src).split('?')[0], file: title, caption: ((m.caption && m.caption.text) || '').replace(/\s+/g, ' ').trim().slice(0, 80) };
     if (m.leadImage && summary.thumbnail) {
       image.w = summary.thumbnail.width;
       image.h = summary.thumbnail.height;
@@ -400,16 +415,47 @@ async function downloadImage(client, url, imagesDir) {
 // 下载维基图片列表（candidates 中的 src 为维基地址），返回本地图片与统计；dry run 时只计数
 async function downloadAll(client, candidates, imagesDir, dryRun) {
   const stats = { images: [], downloaded: 0, planned: 0, failed: [] };
+  const done = [];
   for (const c of candidates) {
     if (dryRun) { stats.planned++; continue; }
     try {
       stats.images.push({ ...(await downloadImage(client, c.src, imagesDir)), caption: c.caption || '' });
+      done.push(c);
       stats.downloaded++;
     } catch (e) {
       stats.failed.push(`${c.src}：${e.message}`);
     }
   }
+  // 下载的图片记录版权信息（查不到时不填写）
+  const credits = await fileCredits(client, done.map((c) => c.file).filter(Boolean));
+  stats.images.forEach((im, i) => Object.assign(im, credits[normTitle(done[i].file)] || {}));
   return stats;
+}
+
+// 维基文件名的统一写法：File:A_b.jpg → File:A b.jpg
+function normTitle(t) {
+  return String(t || '').replace(/_/g, ' ').trim();
+}
+// 文件的版权信息：{ 文件名: { author, license, sourceUrl } }；查询失败时返回空
+async function fileCredits(client, titles) {
+  const out = {};
+  for (let i = 0; i < titles.length; i += 50) {
+    const q = new URLSearchParams({
+      action: 'query', format: 'json', formatversion: '2', prop: 'imageinfo', iiprop: 'url|extmetadata',
+      iiextmetadatafilter: 'Artist|LicenseShortName', titles: titles.slice(i, i + 50).map(normTitle).join('|'),
+    });
+    let json;
+    try { json = await client.getJson(`${client.wikiBase}/w/api.php?${q}`); } catch { json = null; }
+    const norm = {};
+    for (const n of (json && json.query && json.query.normalized) || []) norm[n.to] = n.from;
+    for (const p of (json && json.query && json.query.pages) || []) {
+      const ii = p.imageinfo && p.imageinfo[0];
+      if (!ii) continue;
+      const c = creditOf(ii);
+      if (Object.keys(c).length) out[normTitle(norm[p.title] || p.title)] = out[normTitle(p.title)] = c;
+    }
+  }
+  return out;
 }
 
 // ---------- 合并到数据集 ----------
