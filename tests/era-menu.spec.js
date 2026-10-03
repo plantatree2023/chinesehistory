@@ -203,9 +203,23 @@ test.describe('选择列表中的时期名使用时期按钮的字体', () => {
     await openApp(page);
     await page.click('#eraBarBtn');
     const btn = await fontOf(page.locator('#eraBarName'));
-    expect(btn.family).toContain('Noto Serif SC');   // 按钮保持原来的字体
+    expect(btn.family).toContain('PingFang SC');   // 底栏时期按钮用“浏览所有历史事件”按钮的字体
     expect(await fontOf(page.locator('#eraMenuList .era-name').first())).toEqual(btn);
   });
+});
+
+// 手机：底栏时期按钮与旁边的“浏览所有历史事件”按钮字体相同（字体、粗细、字号）
+test.describe('手机：底栏时期按钮与浏览按钮字体相同', () => {
+  test.use({ viewport: { width: 390, height: 780 } });
+  const fullFontOf = (loc) => loc.evaluate((e) => { const s = getComputedStyle(e); return { family: s.fontFamily, weight: s.fontWeight, size: s.fontSize }; });
+  for (const [lang, url] of [['中文', '/'], ['英文', '/?data=cn_en-test']]) {
+    test(lang, async ({ page }) => {
+      if (url === '/') await openApp(page);
+      else { await page.goto(url); await expect(page.locator('.card').first()).toBeVisible(); }
+      const browse = await fullFontOf(page.locator('#browseBtn'));
+      expect(await fullFontOf(page.locator('#eraBarName'))).toEqual(browse);
+    });
+  }
 });
 
 // 英文时期名较长：电脑上列表加宽，年代完整显示；手机上面板三列等宽、不横向溢出，长名字换行完整显示

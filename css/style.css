@@ -1610,7 +1610,7 @@ body.bars-hidden .hint-bubble { display: none; }
     border-radius: 10px;
     background: var(--card);
     color: var(--ink);
-    font: 600 15px var(--font-serif);
+    font: 400 13px var(--font-sans);   /* 与旁边的“浏览所有历史事件”按钮字体相同 */
     box-shadow: var(--shadow);
     white-space: nowrap;
   }
@@ -1628,7 +1628,7 @@ body.bars-hidden .hint-bubble { display: none; }
   }
   .era-menu.sheet .era-menu-grab { display: block; width: 40px; height: 4px; margin: 0 auto 10px; border-radius: 2px; background: var(--line); }
   /* 手机：时期名用底栏时期按钮的字体，与按钮一致 */
-  .era-menu.sheet .era-name { font-family: var(--font-serif); font-weight: 600; font-size: 15px; }
+  .era-menu.sheet .era-name { font-family: var(--font-sans); font-weight: 400; font-size: 15px; }
   .era-menu.sheet .era-menu-head { display: block; margin: 0 2px 10px; font-size: 14px; font-weight: 700; color: var(--ink); }
   .era-menu.sheet .era-menu-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
   .era-menu.sheet .era-item {
