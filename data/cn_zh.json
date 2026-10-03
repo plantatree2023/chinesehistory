@@ -264,7 +264,9 @@
           "src": "images/fc2c20b1b3e7b6e5.jpg",
           "w": 399,
           "h": 300,
-          "caption": "元谋人"
+          "caption": "元谋人3D复原",
+          "sourceUrl": "https://respic.3d66.com/coverimg/cache/74f2/a242cca080546923c7ae60d4da80db1e.jpg!detail-full-p?v=33127733&k=D41D8CD98F00B204E9800998ECF8427E",
+          "license": "unknown"
         },
         {
           "src": "images/9911a10c5bd0.jpg",
@@ -302,7 +304,7 @@
       ],
       "type": "史前",
       "majorScore": 6,
-      "updatedAt": 1791000467
+      "updatedAt": 1791010319
     },
     {
       "id": "e002",
@@ -340,22 +342,20 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_reconstructed_Zhoukoudian_skull.jpg"
         },
         {
-          "src": "images/04fe452a78765a49.jpg",
-          "w": 200,
-          "h": 370,
-          "caption": "北京人使用的石器"
+          "src": "images/26a2c2e1b8711337.png",
+          "w": 375,
+          "h": 302,
+          "caption": "北京人狩猎想象图",
+          "license": "unknown",
+          "sourceUrl": "http://www.wuxiangrensheng.com/webdzh/bookcenter/%E5%8E%86%E5%8F%B2/%E4%B8%AD%E5%9B%BD%E5%8E%86%E5%8F%B2%E4%B8%83%E4%B8%8A/images/1%E5%8C%97%E4%BA%AC%E4%BA%BA%E7%8B%A9%E7%8C%8E%E5%9C%BA%E6%99%AF%E6%83%B3%E8%B1%A1%E5%9B%BE.png"
         },
         {
-          "src": "images/04c3816ac56e7514.jpg",
-          "w": 581,
-          "h": 396,
-          "caption": "北京人狩猎场景想象图"
-        },
-        {
-          "src": "images/84422884588a420f.jpg",
-          "w": 600,
-          "h": 472,
-          "caption": "北京人用火场景想象图"
+          "src": "images/eb5c8def7c799274.jpg",
+          "w": 534,
+          "h": 374,
+          "caption": "北京人用火场景想象图",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpjzsbHxAmyXY_7cUJMHzvIy7cpvtH_UZZhrpx2JbgGQ&s=10"
         }
       ],
       "sources": [
@@ -366,7 +366,7 @@
       ],
       "type": "史前",
       "majorScore": 8,
-      "updatedAt": 1791000467
+      "updatedAt": 1791010962
     },
     {
       "id": "e003",
@@ -377,10 +377,12 @@
       "detail": "山顶洞人是生活在距今约3万年的晚期智人，其化石发现于北京周口店龙骨山顶部的洞穴中，因而得名。遗址于1930年发现，1933—1934年由裴文中主持发掘，出土了3个完整的头骨及至少代表8个个体的骨骼化石。山顶洞人的脑容量和头骨形态已与现代人接近。可惜这批化石在1941年与北京人化石一同失踪，今天只能依靠当年精心制作的模型进行研究。山顶洞人仍使用打制石器，但已掌握磨光和钻孔技术。遗址出土的一枚骨针长约8厘米，针眼细小，是我国发现的最早的缝纫工具，说明他们会用兽皮缝制衣服。他们已懂得人工取火，靠采集、狩猎和捕鱼为生。遗址中还发现了穿孔的兽牙、石珠、海蚶壳等装饰品，有的用赤铁矿染成红色，反映出山顶洞人已有审美观念；海蚶壳来自较远的海边，说明他们可能与远方人群有交换往来。山顶洞人还会埋葬逝者，在遗骸周围撒赤铁矿粉。他们过着集体生活，共同劳动、共同分配，没有贫富贵贱之分。山顶洞人的年代是用碳-14方法测定的，这种方法只适用于约5万年以内的生物遗存。山顶洞人的发现表明，生活在中国境内的远古人类已经发展到与现代人相近的阶段。",
       "images": [
         {
-          "src": "images/4c96f5ad12cf6825.jpg",
-          "w": 293,
-          "h": 440,
-          "caption": "山顶洞人"
+          "src": "images/4bfc82cd177c3d2a.png",
+          "w": 196,
+          "h": 332,
+          "caption": "山顶洞人复原头像",
+          "license": "unknown",
+          "sourceUrl": "http://www.wuxiangrensheng.com/webdzh/bookcenter/%E5%8E%86%E5%8F%B2/%E4%B8%AD%E5%9B%BD%E5%8E%86%E5%8F%B2%E4%B8%83%E4%B8%8A/images/1%E5%B1%B1%E9%A1%B6%E6%B4%9E%E4%BA%BA%E5%A4%8D%E5%8E%9F%E5%A4%B4%E5%83%8F.png"
         },
         {
           "src": "images/67d0e61f7fd2.jpg",
@@ -401,10 +403,12 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Skull_and_Stone_Tools_of_Upper_Cave_Man_(Cast).JPG"
         },
         {
-          "src": "images/1f4d967860b9ab8e.jpg",
-          "w": 641,
-          "h": 679,
-          "caption": "山顶洞人使用的骨针和装饰品"
+          "src": "images/252b625b54846e01.jpg",
+          "w": 600,
+          "h": 327,
+          "caption": "山顶洞人使用的骨针和装饰品",
+          "license": "unknown",
+          "sourceUrl": "https://i1.kknews.cc/byCCEKVlq4xMbXqTzXiKJ-t11C7bj0hmAgDyevA/0.jpg"
         }
       ],
       "sources": [
@@ -419,7 +423,7 @@
       ],
       "type": "史前",
       "majorScore": 5,
-      "updatedAt": 1791000467
+      "updatedAt": 1791011341
     },
     {
       "id": "e105",
@@ -433,13 +437,17 @@
           "src": "images/8311d4d3cdcea774.jpg",
           "w": 450,
           "h": 557,
-          "caption": "新石器时代的陶器"
+          "caption": "新石器时代的陶器",
+          "license": "unknown",
+          "sourceUrl": "http://art.people.com.cn/NMediaFile/2018/0423/MAIN201804231535000545369747557.jpg"
         },
         {
-          "src": "images/b76e4c2dece1dcde.jpg",
-          "w": 300,
-          "h": 335,
-          "caption": "仙人洞遗址出土的陶罐"
+          "src": "images/2817addb6d5eab2e.jpg",
+          "w": 446,
+          "h": 448,
+          "caption": "仙人洞遗址出土的陶罐",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1ifIt1mpam7Pfvucb8gs_LdQSrZIbABYOb-aUQXp_Ai-gFOizuZL6jA0&s=10"
         }
       ],
       "sources": [
@@ -453,7 +461,8 @@
       "transition": {
         "from": "旧石器时代",
         "to": "新石器时代"
-      }
+      },
+      "updatedAt": 1791011832
     },
     {
       "id": "e106",
@@ -464,16 +473,20 @@
       "detail": "我国农业历史悠久。大约2万年前，先民开始有意识地管理某些野生植物；距今1万年左右，出现了最早的人工栽培农作物。长江中下游地区的先民开始栽培水稻，江西万年仙人洞—吊桶环、湖南道县玉蟾岩、浙江浦江上山等遗址都发现了距今约1.2万年至1万年的早期稻作遗存。北方地区的先民开始栽培耐旱的粟和黍，北京门头沟东胡林、内蒙古赤峰兴隆洼等遗址出土了距今约1万年至8000年的栽培粟、黍遗存。目前世界上最早的栽培稻、粟和黍都发现于中国，这是中华先民对人类文明的重要贡献。此后两千多年间，“南稻北粟”的格局逐渐形成，稻作农业和粟作农业分别在南北方推广。农业生产方式也由最初的刀耕火种，发展到使用耒耜等翻土工具耕作，农业在人们生活中所占的比重不断增加。与此同时，人们开始饲养猪、狗、鸡等家畜家禽。农作物种植、家畜饲养、定居聚落和磨制石器的发展，是原始农业兴起的重要标志。原始农业为人口增长、社会分工和古代文明社会的形成奠定了重要的物质基础。稻作农业后来又传播到东亚、东南亚等地区，对世界农业发展产生了深远影响，至今稻米和小米仍是我国重要的粮食作物。",
       "images": [
         {
-          "src": "images/9673fb434804f35b.jpg",
-          "w": 782,
-          "h": 800,
-          "caption": "玉蟾岩遗址出土的稻谷"
+          "src": "images/5405766265acb30c.jpg",
+          "w": 222,
+          "h": 227,
+          "caption": "玉蟾岩遗址出土的稻谷",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRL4VTC8Rvp03NsMTXgh2PK1aVBKBuU33VQT49-yH-NFQ&s"
         },
         {
-          "src": "images/63d00a53a1bb082e.jpg",
-          "w": 800,
-          "h": 533,
-          "caption": "东胡林遗址出土的炭化粟和黍"
+          "src": "images/3933d182cca2978f.jpg",
+          "w": 396,
+          "h": 296,
+          "caption": "东胡林遗址出土的炭化粟粒",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqHwa_r1iAVVp8htwlyrXyttxKASy66weVz9_d2Rmc6Wu9v2hT2hdT1dz2&s=10"
         }
       ],
       "sources": [
@@ -483,7 +496,8 @@
         }
       ],
       "type": "经济",
-      "majorScore": 7
+      "majorScore": 7,
+      "updatedAt": 1791011676
     },
     {
       "id": "e107",
@@ -494,10 +508,31 @@
       "detail": "贾湖遗址位于河南省舞阳县北舞渡镇贾湖村，地处淮河上游，年代距今约9000—7500年，是新石器时代前期裴李岗文化时期的重要聚落遗址。遗址自1983年起多次发掘，发现了房址、窖穴、陶窑和数百座墓葬。贾湖先民已能制作精致的石器、陶器和骨器。遗址中出土的炭化稻粒和家猪骨骼表明，当时稻作农业和家畜饲养已有初步发展，这里也是淮河流域早期稻作农业的重要见证。贾湖最著名的发现是用丹顶鹤尺骨制成的骨笛，已出土数十支，多为七孔，经测音可以吹奏出包括七声音阶在内的乐音，能够演奏乐曲，是目前世界上已发现的年代最早、保存最完整的可吹奏乐器之一。墓葬中随葬的部分龟甲和骨器上刻有符号，有的与商代甲骨文形体相似，对探讨汉字起源具有重要价值。考古学者还在陶器残留物中检测出以稻米、蜂蜜和山楂等发酵的饮料痕迹，被认为是世界上最早的酒类遗存之一。贾湖遗址展现了8000多年前淮河流域先民较高的物质和精神文化水平。遗址出土的部分骨笛现藏于河南博物院，是该院的镇馆之宝之一，贾湖遗址也入选了“20世纪中国100项考古大发现”。",
       "images": [
         {
-          "src": "images/eca53b8955163d60.jpg",
-          "w": 533,
-          "h": 800,
-          "caption": "贾湖遗址出土的炭化稻粒、刻符龟甲和骨笛"
+          "src": "images/00bc6b806014add9.jpg",
+          "w": 1267,
+          "h": 1687,
+          "caption": "​刻符龟甲 裴李岗文化（距今约8000-7000年） 河南舞阳贾湖遗址出土 河南博物院藏 刻符龟甲为国家一级文物",
+          "author": "Kcx36",
+          "license": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%B2%B3%E5%8D%97%E8%88%9E%E9%98%B3%E8%B4%BE%E6%B9%96%E9%81%97%E5%9D%80-%E5%88%BB%E7%AC%A6%E9%BE%9F%E7%94%B2-%E8%A3%B4%E6%9D%8E%E5%B2%97%E6%96%87%E5%8C%96-%E6%B2%B3%E5%8D%97%E5%8D%9A%E7%89%A9%E9%99%A2.jpg"
+        },
+        {
+          "src": "images/fc87ac7ad4687c26.jpg",
+          "w": 1280,
+          "h": 960,
+          "caption": "河南博物院藏贾湖骨笛",
+          "author": "asgitner",
+          "license": "CC BY-SA 2.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Neolithic_bone_flute.jpg"
+        },
+        {
+          "src": "images/d32434d4f9a5bf39.jpg",
+          "w": 1280,
+          "h": 672,
+          "caption": "磨盘和滚筒 裴李岗文化新石器时代（约1960年）",
+          "author": "Editor at Large",
+          "license": "CC BY-SA 2.5",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:CMOC_Treasures_of_Ancient_China_exhibit_-_millstone_and_roller.jpg"
         }
       ],
       "sources": [
@@ -507,7 +542,8 @@
         }
       ],
       "type": "史前",
-      "majorScore": 4
+      "majorScore": 4,
+      "updatedAt": 1791012105
     },
     {
       "id": "e004",
@@ -527,16 +563,27 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mimic_Archaeological_Site_of_Hemudu_Site.jpg"
         },
         {
+          "src": "images/fc5c00a166ebfd22.jpg",
+          "w": 672,
+          "h": 504,
+          "caption": "河姆渡文化",
+          "license": "unknown",
+          "sourceUrl": "https://bkimg.cdn.bcebos.com/smart/b151f8198618367adab4e49968249cd4b31c87014f65-bkimg-process,v_1,rw_336,rh_252,maxl_672?x-bce-process=image/format,f_auto"
+        },
+        {
           "src": "images/718f8fdc798a7b40.jpg",
           "w": 400,
           "h": 389,
-          "caption": "河姆渡人的干栏式建筑复原图"
+          "caption": "河姆渡人的干栏式建筑复原图",
+          "license": "unknown"
         },
         {
-          "src": "images/e26d4b8d8a477c16.jpg",
-          "w": 800,
-          "h": 535,
-          "caption": "河姆渡遗址出土的猪纹陶钵"
+          "src": "images/a4bb35f8d1bc38b6.jpg",
+          "w": 542,
+          "h": 369,
+          "caption": "河姆渡文化猪纹陶钵",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcsB4VdZ96QpdGEaonpmzw4cxzTiPEMxgyrqhg2LPb0Q&s=10"
         }
       ],
       "sources": [
@@ -547,7 +594,7 @@
       ],
       "type": "史前",
       "majorScore": 6,
-      "updatedAt": 1791000467
+      "updatedAt": 1791012279
     },
     {
       "id": "e005",

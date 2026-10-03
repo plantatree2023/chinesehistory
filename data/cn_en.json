@@ -264,7 +264,9 @@
           "src": "images/fc2c20b1b3e7b6e5.jpg",
           "w": 399,
           "h": 300,
-          "caption": "Yuanmou Man"
+          "caption": "Yuanmou Man 3D Model",
+          "sourceUrl": "https://respic.3d66.com/coverimg/cache/74f2/a242cca080546923c7ae60d4da80db1e.jpg!detail-full-p?v=33127733&k=D41D8CD98F00B204E9800998ECF8427E",
+          "license": "unknown"
         },
         {
           "src": "images/9911a10c5bd0.jpg",
@@ -302,7 +304,7 @@
       ],
       "type": "Prehistory",
       "majorScore": 6,
-      "updatedAt": 1791000467
+      "updatedAt": 1791010322
     },
     {
       "id": "e002",
@@ -335,27 +337,25 @@
           "w": 330,
           "h": 177,
           "caption": "Asymmetry between the left and right sides of the Peking Man brain",
-          "author": "Wu Xiujie; source: Science China Press",
+          "author": "吴秀杰 资料来源: Science China Press",
           "license": "Copyrighted free use",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_reconstructed_Zhoukoudian_skull.jpg"
         },
         {
-          "src": "images/04fe452a78765a49.jpg",
-          "w": 200,
-          "h": 370,
-          "caption": "Stone tools used by Peking Man"
+          "src": "images/26a2c2e1b8711337.png",
+          "w": 375,
+          "h": 302,
+          "caption": "Peking Man's imagination of hunting",
+          "license": "unknown",
+          "sourceUrl": "http://www.wuxiangrensheng.com/webdzh/bookcenter/%E5%8E%86%E5%8F%B2/%E4%B8%AD%E5%9B%BD%E5%8E%86%E5%8F%B2%E4%B8%83%E4%B8%8A/images/1%E5%8C%97%E4%BA%AC%E4%BA%BA%E7%8B%A9%E7%8C%8E%E5%9C%BA%E6%99%AF%E6%83%B3%E8%B1%A1%E5%9B%BE.png"
         },
         {
-          "src": "images/04c3816ac56e7514.jpg",
-          "w": 581,
-          "h": 396,
-          "caption": "Artist's impression of Peking Man hunting"
-        },
-        {
-          "src": "images/84422884588a420f.jpg",
-          "w": 600,
-          "h": 472,
-          "caption": "Artist's impression of Peking Man using fire"
+          "src": "images/eb5c8def7c799274.jpg",
+          "w": 534,
+          "h": 374,
+          "caption": "Artist's impression of Peking Man using fire",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpjzsbHxAmyXY_7cUJMHzvIy7cpvtH_UZZhrpx2JbgGQ&s=10"
         }
       ],
       "sources": [
@@ -366,7 +366,7 @@
       ],
       "type": "Prehistory",
       "majorScore": 8,
-      "updatedAt": 1791000467
+      "updatedAt": 1791010963
     },
     {
       "id": "e003",
@@ -377,10 +377,12 @@
       "detail": "Upper Cave Man was a late Homo sapiens who lived about 30,000 years ago. The fossils were found in a cave near the top of Dragon Bone Hill at Zhoukoudian, Beijing, hence the name. The site was discovered in 1930 and excavated in 1933–1934 under Pei Wenzhong, yielding three complete skulls and skeletal fossils representing at least eight individuals. Their brain size and skull form are close to those of modern humans. Sadly, these fossils disappeared in 1941 together with the Peking Man fossils, and today research relies on carefully made casts. Upper Cave people still used chipped stone tools but had mastered polishing and drilling. A bone needle about 8 cm long with a tiny eye, found at the site, is the earliest sewing tool found in China and shows they sewed clothes from animal skins. They could make fire and lived by gathering, hunting and fishing. The site also yielded ornaments such as perforated animal teeth, stone beads and clam shells, some dyed red with hematite, which reflects a sense of beauty; the shells came from a distant seashore, suggesting exchange with faraway groups. They also buried their dead, sprinkling hematite powder around the remains. They lived collectively, working and sharing together, with no distinction of rich and poor. Upper Cave Man was dated by the carbon-14 method, which is suitable only for organic remains younger than about 50,000 years. The discovery shows that early humans in China had reached a stage close to modern humans.",
       "images": [
         {
-          "src": "images/4c96f5ad12cf6825.jpg",
-          "w": 293,
-          "h": 440,
-          "caption": "Upper Cave Man"
+          "src": "images/4bfc82cd177c3d2a.png",
+          "w": 196,
+          "h": 332,
+          "caption": "Restored portrait of Upper Cave Man",
+          "license": "unknown",
+          "sourceUrl": "http://www.wuxiangrensheng.com/webdzh/bookcenter/%E5%8E%86%E5%8F%B2/%E4%B8%AD%E5%9B%BD%E5%8E%86%E5%8F%B2%E4%B8%83%E4%B8%8A/images/1%E5%B1%B1%E9%A1%B6%E6%B4%9E%E4%BA%BA%E5%A4%8D%E5%8E%9F%E5%A4%B4%E5%83%8F.png"
         },
         {
           "src": "images/67d0e61f7fd2.jpg",
@@ -401,10 +403,12 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Skull_and_Stone_Tools_of_Upper_Cave_Man_(Cast).JPG"
         },
         {
-          "src": "images/1f4d967860b9ab8e.jpg",
-          "w": 641,
-          "h": 679,
-          "caption": "Bone needle and ornaments used by Upper Cave Man"
+          "src": "images/252b625b54846e01.jpg",
+          "w": 600,
+          "h": 327,
+          "caption": "Bone needle and ornaments used by Upper Cave Man",
+          "license": "unknown",
+          "sourceUrl": "https://i1.kknews.cc/byCCEKVlq4xMbXqTzXiKJ-t11C7bj0hmAgDyevA/0.jpg"
         }
       ],
       "sources": [
@@ -419,7 +423,7 @@
       ],
       "type": "Prehistory",
       "majorScore": 5,
-      "updatedAt": 1791000467
+      "updatedAt": 1791011342
     },
     {
       "id": "e105",
@@ -433,13 +437,17 @@
           "src": "images/8311d4d3cdcea774.jpg",
           "w": 450,
           "h": 557,
-          "caption": "Neolithic pottery"
+          "caption": "Neolithic pottery",
+          "license": "unknown",
+          "sourceUrl": "http://art.people.com.cn/NMediaFile/2018/0423/MAIN201804231535000545369747557.jpg"
         },
         {
-          "src": "images/b76e4c2dece1dcde.jpg",
-          "w": 300,
-          "h": 335,
-          "caption": "Pottery jar unearthed at the Xianrendong site"
+          "src": "images/2817addb6d5eab2e.jpg",
+          "w": 446,
+          "h": 448,
+          "caption": "Pottery jar unearthed at the Xianrendong site",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1ifIt1mpam7Pfvucb8gs_LdQSrZIbABYOb-aUQXp_Ai-gFOizuZL6jA0&s=10"
         }
       ],
       "sources": [
@@ -453,7 +461,8 @@
       "transition": {
         "from": "Paleolithic",
         "to": "Neolithic"
-      }
+      },
+      "updatedAt": 1791011834
     },
     {
       "id": "e106",
@@ -464,16 +473,20 @@
       "detail": "China has a long agricultural history. About 20,000 years ago, people began to consciously manage certain wild plants; around 10,000 years ago the earliest cultivated crops appeared. In the middle and lower Yangtze, people began to grow rice, and sites such as Xianrendong–Diaotonghuan in Wannian, Jiangxi, Yuchanyan in Daoxian, Hunan, and Shangshan in Pujiang, Zhejiang, have yielded early rice remains dated to about 12,000–10,000 years ago. In the north, people began growing drought-tolerant foxtail millet and broomcorn millet; sites such as Donghulin in Mentougou, Beijing, and Xinglongwa in Chifeng, Inner Mongolia, have produced cultivated millet remains dated to about 10,000–8,000 years ago. The world's earliest cultivated rice, foxtail millet and broomcorn millet have all been found in China, an important contribution by early Chinese to human civilization. Over the following two thousand years or more, a pattern of “rice in the south, millet in the north” gradually took shape. Farming methods developed from slash-and-burn to tillage with soil-turning tools such as the lei and si, and agriculture came to occupy a growing share of daily life. People also began raising pigs, dogs and chickens. The growth of crop planting, livestock raising, settled villages and polished stone tools marks the rise of primitive agriculture, which laid the material basis for population growth, the division of labor and the formation of ancient civilization. Rice farming later spread to East and Southeast Asia and profoundly influenced world agriculture; rice and millet remain important staple crops in China today.",
       "images": [
         {
-          "src": "images/9673fb434804f35b.jpg",
-          "w": 782,
-          "h": 800,
-          "caption": "Rice grains from the Yuchanyan site"
+          "src": "images/5405766265acb30c.jpg",
+          "w": 222,
+          "h": 227,
+          "caption": "Rice grains from the Yuchanyan site",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRL4VTC8Rvp03NsMTXgh2PK1aVBKBuU33VQT49-yH-NFQ&s"
         },
         {
-          "src": "images/63d00a53a1bb082e.jpg",
-          "w": 800,
-          "h": 533,
-          "caption": "Charred foxtail and broomcorn millet from the Donghulin site"
+          "src": "images/3933d182cca2978f.jpg",
+          "w": 396,
+          "h": 296,
+          "caption": "Carbonized millet grains unearthed from the Donghulin site",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqHwa_r1iAVVp8htwlyrXyttxKASy66weVz9_d2Rmc6Wu9v2hT2hdT1dz2&s=10"
         }
       ],
       "sources": [
@@ -483,7 +496,8 @@
         }
       ],
       "type": "Economy",
-      "majorScore": 7
+      "majorScore": 7,
+      "updatedAt": 1791011678
     },
     {
       "id": "e107",
@@ -494,10 +508,31 @@
       "detail": "The Jiahu site lies in Jiahu village, Beiwudu Town, Wuyang County, Henan, in the upper Huai River basin. Dated to about 9,000–7,500 years ago, it is an important settlement of the Peiligang culture of the early Neolithic. Excavated repeatedly since 1983, it has yielded house foundations, storage pits, pottery kilns and several hundred burials. The people of Jiahu could already make fine stone, pottery and bone objects. Charred rice grains and domestic pig bones show that rice farming and animal raising were developing, and the site is important evidence of early rice agriculture in the Huai River basin. Jiahu's most famous finds are bone flutes made from the ulnae of red-crowned cranes. Dozens have been found, mostly with seven holes. Tests show they can produce musical tones including a seven-note scale and can play tunes, making them among the earliest and best-preserved playable instruments known in the world. Some tortoise shells and bone objects placed in graves bear carved symbols, some resembling Shang oracle bone script, which is valuable for studying the origin of Chinese characters. Researchers have also detected residues of a fermented drink made from rice, honey and hawthorn in pottery, considered among the world's earliest traces of alcohol. Jiahu shows the high material and spiritual culture of people in the Huai River basin more than 8,000 years ago. Some of the flutes are kept in the Henan Museum, where they are among its treasures, and Jiahu was named one of the “100 Great Archaeological Discoveries in 20th-Century China.”",
       "images": [
         {
-          "src": "images/eca53b8955163d60.jpg",
-          "w": 533,
-          "h": 800,
-          "caption": "Charred rice grains, incised tortoise shell and bone flute from the Jiahu site"
+          "src": "images/00bc6b806014add9.jpg",
+          "w": 1267,
+          "h": 1687,
+          "caption": "Tortoise shell with carved marks (Hebu 314), Henan Museum",
+          "author": "Kcx36",
+          "license": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%B2%B3%E5%8D%97%E8%88%9E%E9%98%B3%E8%B4%BE%E6%B9%96%E9%81%97%E5%9D%80-%E5%88%BB%E7%AC%A6%E9%BE%9F%E7%94%B2-%E8%A3%B4%E6%9D%8E%E5%B2%97%E6%96%87%E5%8C%96-%E6%B2%B3%E5%8D%97%E5%8D%9A%E7%89%A9%E9%99%A2.jpg"
+        },
+        {
+          "src": "images/fc87ac7ad4687c26.jpg",
+          "w": 1280,
+          "h": 960,
+          "caption": "Jiahu bone flute collected in Henan Museum",
+          "author": "asgitner",
+          "license": "CC BY-SA 2.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Neolithic_bone_flute.jpg"
+        },
+        {
+          "src": "images/d32434d4f9a5bf39.jpg",
+          "w": 1280,
+          "h": 672,
+          "caption": "Millstone and Roller Peiligang Culture Neolithic Period (ca",
+          "author": "Editor at Large",
+          "license": "CC BY-SA 2.5",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:CMOC_Treasures_of_Ancient_China_exhibit_-_millstone_and_roller.jpg"
         }
       ],
       "sources": [
@@ -507,7 +542,8 @@
         }
       ],
       "type": "Prehistory",
-      "majorScore": 4
+      "majorScore": 4,
+      "updatedAt": 1791012106
     },
     {
       "id": "e004",
@@ -527,16 +563,27 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mimic_Archaeological_Site_of_Hemudu_Site.jpg"
         },
         {
+          "src": "images/fc5c00a166ebfd22.jpg",
+          "w": 672,
+          "h": 504,
+          "caption": "Hemudu Culture",
+          "license": "unknown",
+          "sourceUrl": "https://bkimg.cdn.bcebos.com/smart/b151f8198618367adab4e49968249cd4b31c87014f65-bkimg-process,v_1,rw_336,rh_252,maxl_672?x-bce-process=image/format,f_auto"
+        },
+        {
           "src": "images/718f8fdc798a7b40.jpg",
           "w": 400,
           "h": 389,
-          "caption": "Reconstruction of a Hemudu stilt building"
+          "caption": "Reconstruction of a Hemudu stilt building",
+          "license": "unknown"
         },
         {
-          "src": "images/e26d4b8d8a477c16.jpg",
-          "w": 800,
-          "h": 535,
-          "caption": "Pottery bowl with pig design from the Hemudu site"
+          "src": "images/a4bb35f8d1bc38b6.jpg",
+          "w": 542,
+          "h": 369,
+          "caption": "Hemudu culture pig pattern pottery bowl",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcsB4VdZ96QpdGEaonpmzw4cxzTiPEMxgyrqhg2LPb0Q&s=10"
         }
       ],
       "sources": [
@@ -547,7 +594,7 @@
       ],
       "type": "Prehistory",
       "majorScore": 6,
-      "updatedAt": 1791000467
+      "updatedAt": 1791012279
     },
     {
       "id": "e005",
