@@ -32,6 +32,7 @@ npm test
 - 反馈 / 建议修改：所有访问者可用，通过 Web3Forms 发送（`js/config.js` 中的 `accessKey`；`enabled: false` 时反馈入口带 `feedback-only` 类被隐藏，没有 `accessKey` 时提交提示尚未配置）；建议模式复用编辑页（`openEditor(id, 'suggest' | 'propose')`），不修改数据。测试替换 `js/config.js` 并拦截发送请求（`tests/feedback.spec.js`），不得真的发出
 - 脚本都从本地加载（第三方库放在 `js/vendor/`），不阻塞页面的用 `async`；`tests/share-qrcode.spec.js` 检查页面不引用外部脚本
 - `lib/link-title.js`：维基百科 / 百度百科链接的词条名查询，本地服务器 `/api/link-title`（只读模式也提供）供编辑页自动填写参考链接标题；`tests/helpers.js` 默认拦截该请求，测试不访问外网
+- `lib/translate.js`：文字翻译（Google 翻译的公开接口，也用于繁体转简体），本地服务器 `/api/translate`（只读模式也提供；线上网站没有，翻译不了时编辑页保持空白）供编辑页自动翻译新图片的标题：以数据集的 `primaryLanguage`（国家的首选语言，中国是 `zh`）为准，其他语言从它翻译；`tests/helpers.js` 默认拦截该请求
 - `lib/images.js`：图片工具（格式与尺寸识别、下载、按内容哈希保存到 `images/`），服务器和导入脚本共用
 - `404.html`：不存在的网址显示的页面（Cloudflare 由 `wrangler.jsonc` 的 `not_found_handling` 使用）。样式内联，网址由脚本按网站根目录生成；文字全部在脚本的 `STRINGS` 中（按浏览器语言选择，默认中文），不写具体年份和时期，新增语言时加一项；`tests/not-found.spec.js` 检查
 - `tools/build-site.js`：生成部署用的 `_site/`（复制 `SITE_FILES`，为 `data/` 下每个数据集（文件名符合 `DATASET_ID`）的每个事件生成静态页：默认数据集 `e/<事件id>.html`，其他数据集 `e/<数据集>/<事件id>.html`（链接带 `?data=`）；每次部署时按当时的数据重新生成，新增事件或数据集不需要改代码，生成的页面不提交（样式 `css/event.css`，不依赖脚本，地址都用相对路径，绝对地址取自 `package.json` 的 `homepage`），写 `sitemap.xml`、`robots.txt`、`version.json`，复制 `_headers`；`tests/event-pages.spec.js` 检查），Cloudflare 的构建命令为 `node tools/build-site.js`，部署命令 `npx wrangler deploy` 按 `wrangler.jsonc` 只上传 `_site`（单个文件不超过 25 MiB）；缓存规则在根目录的 `_headers`（构建时复制进 `_site/`）：`images/` 下一层按内容哈希命名的图片缓存一年，其他文件沿用 Cloudflare 默认的每次验证，所以 `images/` 下一层不能放非哈希命名的文件（`tests/debug.spec.js` 检查）

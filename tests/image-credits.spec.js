@@ -8,6 +8,7 @@ const path = require('path');
 const { test, expect, seedEvents, loadDataset, makePng, readTestData, DATASET, STORAGE_KEY, TEST_DATA_FILE } = require('./helpers');
 const { createServer, validateDataset } = require('../server');
 const { buildEventPages } = require('../tools/build-site');
+const { translateText, parseGoogle } = require('../lib/translate');
 
 test.use({ viewport: { width: 1440, height: 860 } });
 
@@ -269,6 +270,18 @@ test.describe('编辑页', () => {
     await expect(inputs.nth(0)).toHaveValue('');
   });
 
+  test('点进输入框自动粘贴剪贴板中的维基共享资源网址时，同样自动填写标题和版权', async ({ page, context }) => {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+    await mockCommons(page, { labels: { 'zh-hans': '剪贴板的图片' } });
+    await openEditor(page);
+    await page.evaluate((t) => navigator.clipboard.writeText(t), COMMONS_PAGE);
+    await page.click('#imageUrlInput');
+    await expect(page.locator('#imageUrlInput')).toHaveValue(COMMONS_PAGE);
+    await expect(page.locator('#newCreditAuthor')).toHaveValue('Test Author');
+    await expect(page.locator('#newCreditLicense')).toHaveValue('CC BY 4.0');
+    await expect(page.locator('#newCaptionInputs .new-caption-input').first()).toHaveValue('剪贴板的图片');
+  });
+
   test('维基共享资源查不到时，文件页网址提示错误、不添加图片', async ({ page }) => {
     await mockCommons(page, { missing: true });
     await openEditor(page);
@@ -459,5 +472,99 @@ test.describe('本地文件模式', () => {
     expect(read(SIBLING).images[1]).toMatchObject({ caption: `EN ${EVENT_ID} 2`, author: '王五', license: 'unknown' });
     expect(read(DATASET).images[1]).toMatchObject({ author: '王五', license: 'unknown' });
     expect(read(DATASET).images[0].caption).not.toBe('Shandingdong cave');
+  });
+});
+
+// ---------- 自动翻译图片标题 ----------
+// 模拟本地服务器的翻译接口：按 “from>to:原文” 查表，查不到时返回 null；记录请求
+async function mockTranslate(page, table) {
+  const asked = [];
+  await page.route('**/api/translate?**', (route) => {
+    const q = new URL(route.request().url()).searchParams;
+    const key = `${q.get('from')}>${q.get('to')}:${q.get('text')}`;
+    asked.push(key);
+    route.fulfill({ json: { text: table[key] || null } });
+  });
+  return asked;
+}
+
+test.describe('自动翻译图片标题', () => {
+  test.use({ debugMode: true });
+
+  test('维基共享资源只有繁体中文说明：转换成简体，再从中文翻译成英文', async ({ page }) => {
+    await mockSibling(page);
+    await mockCommons(page, { labels: { 'zh-hant': '帶有集裝箱的鐵路' }, description: 'untagged' });
+    const asked = await mockTranslate(page, {
+      'zh-TW>zh-CN:帶有集裝箱的鐵路': '带有集装箱的铁路',
+      'zh-CN>en:带有集装箱的铁路': 'Railway with containers',
+    });
+    await openEditor(page);
+    const inputs = page.locator('#newCaptionInputs .new-caption-input');
+    await expect(inputs).toHaveCount(2);
+    await page.fill('#imageUrlInput', COMMONS_PAGE);
+    await expect(inputs.nth(0)).toHaveValue('带有集装箱的铁路');
+    await expect(inputs.nth(1)).toHaveValue('Railway with containers');
+    expect(asked).toEqual(['zh-TW>zh-CN:帶有集裝箱的鐵路', 'zh-CN>en:带有集装箱的铁路']);
+  });
+
+  test('维基共享资源只有英文说明：翻译成首选语言（中文）；已有的英文说明不再翻译', async ({ page }) => {
+    await mockSibling(page);
+    await mockCommons(page, { labels: { en: 'Container train' }, description: 'untagged' });
+    const asked = await mockTranslate(page, { 'auto>zh-CN:Container train': '集装箱列车' });
+    await openEditor(page);
+    const inputs = page.locator('#newCaptionInputs .new-caption-input');
+    await expect(inputs).toHaveCount(2);
+    await page.fill('#imageUrlInput', COMMONS_PAGE);
+    await expect(inputs.nth(0)).toHaveValue('集装箱列车');
+    await expect(inputs.nth(1)).toHaveValue('Container train');
+    expect(asked).toEqual(['auto>zh-CN:Container train']);
+  });
+
+  test('手动输入中文标题后翻译成其他语言，不覆盖手动输入的；翻译不了时保持空白', async ({ page }) => {
+    await mockSibling(page);
+    await mockTranslate(page, { 'zh-CN>en:长城': 'Great Wall', 'zh-CN>en:长城远景': 'Great Wall from afar' });
+    await openEditor(page);
+    const inputs = page.locator('#newCaptionInputs .new-caption-input');
+    await expect(inputs).toHaveCount(2);
+    await inputs.nth(0).fill('长城');
+    await inputs.nth(0).blur();
+    await expect(inputs.nth(1)).toHaveValue('Great Wall');
+    // 改了中文：自动翻译的英文跟着更新
+    await inputs.nth(0).fill('长城远景');
+    await inputs.nth(0).blur();
+    await expect(inputs.nth(1)).toHaveValue('Great Wall from afar');
+    // 手动改过英文后不再覆盖
+    await inputs.nth(1).fill('My title');
+    await inputs.nth(0).fill('长城');
+    await inputs.nth(0).blur();
+    await page.waitForTimeout(300);
+    await expect(inputs.nth(1)).toHaveValue('My title');
+    // 翻译不了（如线上网站没有翻译接口）：保持空白
+    await inputs.nth(1).fill('');
+    await inputs.nth(0).fill('没有译文');
+    await inputs.nth(0).blur();
+    await page.waitForTimeout(300);
+    await expect(inputs.nth(1)).toHaveValue('');
+  });
+
+  test('翻译接口：拼接译文片段，参数不对或查询失败时返回 null（不访问外网）', async () => {
+    expect(parseGoogle([[['Great ', '长', null], ['Wall', '城', null]], null, 'zh-CN'])).toBe('Great Wall');
+    expect(parseGoogle({})).toBeNull();
+    const urls = [];
+    const fetchImpl = async (url) => { urls.push(url); return { ok: true, json: async () => [[['Great Wall', '长城']]] }; };
+    expect(await translateText('长城', 'zh-CN', 'en', { fetchImpl })).toBe('Great Wall');
+    const q = new URL(urls[0]).searchParams;
+    expect([q.get('sl'), q.get('tl'), q.get('q')]).toEqual(['zh-CN', 'en', '长城']);
+    expect(await translateText('长城', 'zh-CN', 'en', { fetchImpl: async () => { throw new Error('offline'); } })).toBeNull();
+    expect(await translateText('长城', 'zh-CN', 'en', { fetchImpl: async () => ({ ok: false }) })).toBeNull();
+    expect(await translateText('', 'zh-CN', 'en', { fetchImpl })).toBeNull();
+    expect(await translateText('长城', 'zh-CN', '../x', { fetchImpl })).toBeNull();
+    expect(urls).toHaveLength(1);
+  });
+
+  test('本地服务器提供翻译接口（只读模式也提供）', async ({ request }) => {
+    const res = await request.get('/api/translate?text=x&from=zh-CN&to=bad%20lang');
+    expect(res.ok()).toBeTruthy();
+    expect(await res.json()).toEqual({ text: null });
   });
 });

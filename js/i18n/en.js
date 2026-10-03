@@ -268,6 +268,7 @@
     // 图片版权
     '这张图的版权：': 'Copyright of this image:',
     '这张图的标题：': 'Caption of this image:',
+    '翻译中…': 'Translating…',
     '图片标题（上传时留空用文件名）': 'Caption (file name if left empty when uploading)',
     '新图片的作者': 'Author of the new image',
     '新图片的许可证': 'License of the new image',

@@ -1904,7 +1904,7 @@
     if (inp.value.trim() || !navigator.clipboard || !navigator.clipboard.readText) return;
     navigator.clipboard.readText().then(function (text) {
       text = (text || '').trim();
-      if (!inp.value.trim() && /^https?:\/\/\S+$/i.test(text)) { inp.value = text; inp.select(); }
+      if (!inp.value.trim() && /^https?:\/\/\S+$/i.test(text)) { inp.value = text; inp.select(); onNewImageUrl(); }   // 和手动粘贴一样自动填写标题和版权
     }, function () { /* 没有权限：忽略 */ });
   });
   $('imageUrlInput').addEventListener('keydown', function (e) {
@@ -1993,25 +1993,93 @@
       input.dataset.lang = lang;
       input.value = newCaptions[lang] || '';
       input.addEventListener('input', function () { newCaptions[lang] = input.value; });
+      // 首选语言的标题改完（离开输入框）后，翻译成其他语言（只填空的或自动填写的）
+      if (lang === primaryLang()) input.addEventListener('change', function () { translateFromPrimary(null); });
       item.appendChild(input);
       box.appendChild(item);
     });
   }
-  // 维基共享资源的标题自动填入各语言的输入框：只填空的或上次自动填写的（不覆盖手动输入的）
-  var newCaptionAuto = {};
-  function fillNewCaptions(captions) {
-    Object.keys(I18N).forEach(function (lang) {
-      var max = (I18N[lang].limits && I18N[lang].limits.maxCaption) || 60;
-      var text = shortCaption(captions[lang] || '', max);
-      var cur = newCaptions[lang] || '';
-      if (!text || (cur && cur !== newCaptionAuto[lang])) return;
-      newCaptions[lang] = newCaptionAuto[lang] = text;
-      var input = $('newCaptionInputs').querySelector('input[data-lang="' + lang + '"]');
-      if (input) input.value = text;
+  // 维基共享资源的标题自动填入各语言的输入框：只填空的或上次自动填写的（不覆盖手动输入的）。
+  // 首选语言（数据集的 primaryLanguage，中国是中文）没有标题时从其他语言翻译，只有繁体等变体时转换成数据集的写法；
+  // 维基共享资源上没有的其他语言从首选语言翻译
+  var newCaptionAuto = {}, captionGen = 0;
+  function primaryLang() {
+    var p = meta && meta.primaryLanguage;
+    return p && I18N[p] ? p : LANG;
+  }
+  function langCode(lang) { return (I18N[lang] && I18N[lang].htmlLang) || lang; }
+  function captionInput(lang) { return $('newCaptionInputs').querySelector('input[data-lang="' + lang + '"]'); }
+  function setAutoCaption(lang, text) {
+    var max = (I18N[lang] && I18N[lang].limits && I18N[lang].limits.maxCaption) || 60;
+    text = shortCaption(text, max);
+    var cur = newCaptions[lang] || '';
+    if (!text || (cur && cur !== newCaptionAuto[lang])) return false;
+    newCaptions[lang] = newCaptionAuto[lang] = text;
+    var input = captionInput(lang);
+    if (input) input.value = text;
+    return true;
+  }
+  // 翻译（本地服务器的 /api/translate；线上网站没有这个接口，翻译不了时返回 null）
+  function translateCaption(text, from, to) {
+    var q = new URLSearchParams({ text: text, from: from, to: to });
+    return fetch('api/translate?' + q.toString()).then(function (res) {
+      return res.ok ? res.json() : null;
+    }).then(function (r) { return r && typeof r.text === 'string' && r.text.trim() ? r.text.trim() : null; })
+      .catch(function () { return null; });
+  }
+  // 翻译到 lang 时在输入框中显示“翻译中…”
+  // fallback：翻译不了时填入的文字（转换繁简失败时用原文）
+  function translateInto(lang, text, from, gen, fallback) {
+    var input = captionInput(lang), ph = input && input.placeholder;
+    if (input && !input.value) input.placeholder = _('翻译中…');
+    return translateCaption(text, from, langCode(lang)).then(function (t) {
+      if (input) input.placeholder = ph;
+      if (gen === captionGen && (t || fallback)) setAutoCaption(lang, t || fallback);
     });
+  }
+  // 首选语言的标题翻译成其他语言：只填空的或自动填写的；skip 中的语言（维基共享资源上已有）不翻译
+  function translateFromPrimary(skip) {
+    var p = primaryLang(), text = (newCaptions[p] || '').trim(), gen = captionGen;
+    if (!text) return Promise.resolve();
+    return Promise.all(Object.keys(I18N).filter(function (l) {
+      if (l === p || (skip && skip[l])) return false;
+      var cur = newCaptions[l] || '';
+      return !cur || cur === newCaptionAuto[l];
+    }).map(function (l) { return translateInto(l, text, langCode(p), gen); }));
+  }
+  function fillNewCaptions(captions) {
+    var p = primaryLang(), gen = captionGen, have = {};
+    Object.keys(I18N).forEach(function (lang) {
+      var c = captions[lang];
+      // 首选语言只有其他写法（如繁体）时先转换，见下面
+      if (!c || (lang === p && !sameScript(c.code, lang))) return;
+      setAutoCaption(lang, c.text);
+      have[lang] = true;
+    });
+    var first;
+    var pc = captions[p];
+    if (pc && !have[p]) {
+      setAutoCaption(p, pc.text);   // 先填原文，转换好后替换
+      first = translateInto(p, pc.text, p === 'zh' ? 'zh-TW' : 'auto', gen);
+    }
+    else if (!pc) {
+      // 首选语言没有标题：从其他语言翻译（英文优先）
+      var src = captions.en || captions[Object.keys(captions)[0]];
+      if (src) first = translateInto(p, src.text, 'auto', gen);
+    }
+    return Promise.resolve(first).then(function () {
+      if (gen === captionGen) return translateFromPrimary(have);
+    });
+  }
+  // 维基共享资源的语言代码（如 zh-hant）与数据集的写法（zh → zh-CN 简体）是否一致
+  // 中文：只有明确标为简体（zh-hans、zh-cn）的才算简体，标为 zh 的可能是繁体，也要转换
+  function sameScript(code, lang) {
+    if (lang !== 'zh') return true;
+    return /hans|cn|sg/i.test(code || '') === /hans|cn|sg/i.test(langCode(lang));
   }
   // 清掉自动填写的标题（网址改了），手动输入的保留
   function clearAutoCaptions() {
+    captionGen++;
     Object.keys(newCaptionAuto).forEach(function (lang) {
       if (newCaptions[lang] !== newCaptionAuto[lang]) return;
       newCaptions[lang] = '';
@@ -2038,6 +2106,7 @@
     return { caption: (newCaptions[LANG] || '').trim().slice(0, MAX_CAPTION), tr: tr };
   }
   function resetNewCredit() {
+    captionGen++;
     newCaptions = {};
     newCaptionAuto = {};
     Array.prototype.forEach.call($('newCaptionInputs').querySelectorAll('input'), function (input) { input.value = ''; });
@@ -2110,20 +2179,29 @@
     return name.slice(0, MAX_LICENSE);
   }
   // 某种语言的文字：{ 语言代码: 文字 } 中先找完全相同的代码，再找带地区 / 文字的代码（简体优先，如 zh-hans、zh-cn）
-  function pickLang(map, lang) {
+  function pickLangKey(map, lang) {
     if (!map || typeof map !== 'object') return '';
-    if (map[lang]) return map[lang];
-    var keys = Object.keys(map).filter(function (k) { return k.toLowerCase().indexOf(lang + '-') === 0; });
+    if (map[lang]) return lang;
+    var keys = Object.keys(map).filter(function (k) { return k.toLowerCase().indexOf(lang + '-') === 0 && map[k]; });
     keys.sort(function (a, b) { return /hans|cn|sg/i.test(b) - /hans|cn|sg/i.test(a); });
-    return keys.length ? map[keys[0]] : '';
+    return keys[0] || '';
   }
-  // 图片在维基共享资源上的各语言标题：优先用“说明”（Captions，结构化数据的简短标题），没有时用“描述”（Description）
+  function pickLang(map, lang) {
+    var k = pickLangKey(map, lang);
+    return k ? map[k] : '';
+  }
+  // 图片在维基共享资源上的各语言标题：优先用“说明”（Captions，结构化数据的简短标题），没有时用“描述”（Description）。
+  // 返回 { 语言: { text, code（实际的语言代码，如 zh-hant） } }；也包括网站还不支持的语言（用于翻译）
   function commonsCaptions(labels, desc) {
     var out = {};
-    Object.keys(I18N).forEach(function (lang) {
-      var label = pickLang(labels, lang);
-      var text = label ? (label.value || '') : firstSentence(htmlText(pickLang(desc, lang)));   // 描述常有好几句，只取第一句
-      if (text) out[lang] = text;
+    var langs = Object.keys(I18N);
+    [labels, desc].forEach(function (m) {
+      Object.keys(m || {}).forEach(function (k) { var l = k.split('-')[0].toLowerCase(); if (l !== '_type' && langs.indexOf(l) < 0) langs.push(l); });
+    });
+    langs.forEach(function (lang) {
+      var lk = pickLangKey(labels, lang), dk = pickLangKey(desc, lang);
+      var text = lk ? (labels[lk].value || '') : dk ? firstSentence(htmlText(desc[dk])) : '';   // 描述常有好几句，只取第一句
+      if (text) out[lang] = { text: text, code: lk || dk };
     });
     return out;
   }
