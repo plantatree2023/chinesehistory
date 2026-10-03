@@ -538,6 +538,8 @@ async function importOne(client, data, info, { keyword, year, type, score }, opt
       imageCount = opts.dryRun ? dl.planned : updated.images.length;
     }
     const fields = changedFields(existing, updated);
+    // 内容有变化时更新最后修改时间（秒，见 data/README.md）
+    if (fields.length) updated.updatedAt = Math.floor(Date.now() / 1000);
     data.events[data.events.indexOf(existing)] = updated;
     const planned = opts.dryRun && (opts.refreshImages || !(existing.images || []).length) && candidates.length;
     const action = fields.length || planned ? 'update' : 'same';
@@ -566,6 +568,7 @@ async function importOne(client, data, info, { keyword, year, type, score }, opt
     sources: [{ url: wikiUrl }],
     ...cls.fields,
     wiki: fromWiki.wiki,
+    updatedAt: Math.floor(Date.now() / 1000),
   };
   const dl = await downloadAll(client, candidates, opts.imagesDir, opts.dryRun);
   event.images = dl.images;

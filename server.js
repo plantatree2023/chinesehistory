@@ -154,6 +154,8 @@ function validateDataset(id, data) {
       });
     }
     if (ev.source != null) fail(`${where}.source 已由 sources（参考链接列表）代替`);
+    // 最后修改时间（可选）：Unix 时间戳，单位秒（正整数）
+    if (ev.updatedAt != null && !(Number.isInteger(ev.updatedAt) && ev.updatedAt > 0 && ev.updatedAt < 1e11)) fail(`${where}.updatedAt 必须是以秒为单位的时间戳（正整数）`);
     if (!Array.isArray(ev.images) || ev.images.length > 9) fail(`${where}.images 必须是最多 9 项的数组`);
     ev.images.forEach((im) => {
       if (!im || typeof im.src !== 'string') fail(`${where}.images 中的图片缺少 src`);

@@ -389,7 +389,21 @@
     '粘贴图片网址或维基共享资源的图片页面网址，自动下载到本地': 'Paste an image URL or a Wikimedia Commons file page URL to download it locally',
     '简单说明为什么这样改，最好附上依据': 'Briefly say why, ideally with a source',
     '邮箱或其他联系方式': 'Email or other contact',
-    '具体是哪里有问题、应该是什么，最好附上依据': 'What is wrong and what it should be, ideally with a source'
+    '具体是哪里有问题、应该是什么，最好附上依据': 'What is wrong and what it should be, ideally with a source',
+    '缺来源和许可证': 'No source or license',
+    '缺来源': 'No source',
+    '缺许可证': 'No license',
+    '缺{lang}标题': 'No {lang} caption',
+    '⚠ 资料检查：{n} 项待补': '⚠ Data check: {n} to fix',
+    '✓ 资料检查：图片资料齐全': '✓ Data check: image info complete',
+    '最后更新 {time}': 'Last updated {time}',
+    '没有更新时间': 'No update time',
+    '第 1 张（代表图）': 'Image 1 (cover)',
+    '去填写 ↓': 'Fill in ↓',
+    '✎ 去编辑页补全 →': '✎ Fix in editor →',
+    '{n} 项资料待补': '{n} items to fix',
+    '图片资料齐全': 'Image info complete',
+    '编辑这个事件': 'Edit this event'
   }
 };
 

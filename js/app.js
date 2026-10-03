@@ -991,8 +991,11 @@
         else if (shortEl) { shortEl.classList.add('clamped'); shortEl.style.webkitLineClamp = sh.clamp; shortEl.style.lineClamp = sh.clamp; }
       }
       card.appendChild(body);
-      card.addEventListener('click', function () {
+      media.appendChild(cardDebug(ev));   // 叠在图片上，不挡文字
+      card.addEventListener('click', function (e) {
         if (drag.moved) return;
+        // 拖动时卡片捕获了指针，点击的目标可能是卡片本身，按点击位置找实际点到的元素
+        if (cardDebugClick(ev, document.elementFromPoint(e.clientX, e.clientY) || e.target)) return;
         openDetail(ev.id);
       });
       card.addEventListener('mouseenter', function () { path.classList.add('hot'); dot.classList.add('hot'); });
@@ -1527,6 +1530,7 @@
       if (links.some(isWikipedia)) src.appendChild(el('p', 'source-note', _('来自维基百科的文字与图片遵循 CC BY-SA 等相应许可')));
     }
     renderDetailCredits(ev);
+    renderDetailCheck(ev);
     openModal('detailModal');
     $('detailModal').querySelector('.modal-card').scrollTop = 0;
     if (wasOpen) syncUrl(false); else onLayerOpened('detail');
@@ -1817,6 +1821,187 @@
     showLightbox();
   });
 
+  // ---------- 调试模式：资料检查与更新时间 ----------
+  // 每个事件的 updatedAt 是最后修改时间（Unix 时间戳，单位秒）。任何修改事件数据的操作（编辑页保存、
+  // 同步其他语言的图片、导入脚本，以及人或 AI 直接改数据文件）都要同时更新它，见 data/README.md。
+  // 资料检查（缺少版权信息、缺少当前语言的图片标题）每次显示时按当前数据实时计算，不写进数据。
+  // 都只在调试模式下显示：主页卡片（编辑按钮、更新时间、状态图标和悬停下拉）、详情页和编辑页的资料检查框。
+  function nowSeconds() { return Math.floor(Date.now() / 1000); }
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
+  // 按浏览器所在时区显示；full 时带时分
+  function formatUpdated(sec, full) {
+    if (!Number.isFinite(sec)) return '';
+    var d = new Date(sec * 1000);
+    var day = d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+    return full ? day + ' ' + pad2(d.getHours()) + ':' + pad2(d.getMinutes()) : day;
+  }
+  function langLabel() { return LOCALE.name || (LANG === 'zh' ? '中文' : LANG); }
+  // 一张图片的问题：缺少来源网址或许可证（与编辑页缩略图上的红色标签一致）、缺少当前语言的标题
+  function imageIssues(im) {
+    var out = [];
+    var noSource = !im.sourceUrl, noLicense = !im.license;
+    if (noSource || noLicense) out.push(noSource && noLicense ? _('缺来源和许可证') : noSource ? _('缺来源') : _('缺许可证'));
+    if (!String(im.caption || '').trim()) out.push(_('缺{lang}标题', { lang: langLabel() }));
+    return out;
+  }
+  // 事件的资料检查：rows 为有问题的图片（index 从 0 开始），count 为问题总数
+  function dataCheck(images) {
+    var rows = [], count = 0;
+    (images || []).forEach(function (im, i) {
+      var issues = imageIssues(im);
+      if (issues.length) { rows.push({ index: i, image: im, issues: issues }); count += issues.length; }
+    });
+    return { rows: rows, count: count };
+  }
+  // 资料检查框（详情页、编辑页共用）。onGo(row) 为每行的“去填写”，onEdit 为底部的“去编辑页补全”
+  function renderCheckBox(box, images, updatedAt, opts) {
+    var check = dataCheck(images);
+    box.innerHTML = '';
+    box.classList.toggle('clean', !check.count);
+    var head = el('div', 'check-head');
+    head.appendChild(el('span', 'check-title', check.count ? _('⚠ 资料检查：{n} 项待补', { n: check.count }) : _('✓ 资料检查：图片资料齐全')));
+    head.appendChild(el('span', 'check-updated', Number.isFinite(updatedAt)
+      ? _('最后更新 {time}', { time: formatUpdated(updatedAt, true) }) : _('没有更新时间')));
+    box.appendChild(head);
+    check.rows.forEach(function (row) {
+      var r = el('div', 'check-row');
+      r.dataset.index = row.index;
+      var thumb = imageEl(row.image, 'check-thumb', '');
+      thumb.alt = '';
+      r.appendChild(thumb);
+      r.appendChild(el('span', 'check-which', row.index ? _('第 {n} 张', { n: row.index + 1 }) : _('第 1 张（代表图）')));
+      var tags = el('span', 'check-tags');
+      row.issues.forEach(function (t) { tags.appendChild(el('span', 'check-tag', t)); });
+      r.appendChild(tags);
+      if (opts.onGo) {
+        var go = el('button', 'check-go', _('去填写 ↓'));
+        go.type = 'button';
+        go.addEventListener('click', function () { opts.onGo(row); });
+        r.appendChild(go);
+      }
+      box.appendChild(r);
+    });
+    if (check.count && opts.onEdit) {
+      var edit = el('button', 'check-edit', _('✎ 去编辑页补全 →'));
+      edit.type = 'button';
+      edit.addEventListener('click', opts.onEdit);
+      box.appendChild(edit);
+    }
+    return check;
+  }
+
+  // 主页卡片（叠在图片上）：左上角编辑按钮；右上角更新日期和状态图标（⚠ 问题数 / ✓），鼠标移到 ⚠ 上（手机上点一下）显示下拉列表。
+  // 卡片本身是按钮，里面不能再放按钮，所以这些都是 span，点击由卡片的点击事件分派（见 renderTimeline）
+  function cardDebug(ev) {
+    var box = el('span', 'card-debug debug-only');
+    var edit = el('span', 'card-edit', '✎');
+    edit.title = _('编辑这个事件');
+    edit.setAttribute('role', 'button');
+    edit.setAttribute('aria-label', _('编辑这个事件'));
+    box.appendChild(edit);
+    var status = el('span', 'card-status');
+    if (Number.isFinite(ev.updatedAt)) {
+      var t = el('span', 'card-updated', formatUpdated(ev.updatedAt));
+      t.title = _('最后更新 {time}', { time: formatUpdated(ev.updatedAt, true) });
+      status.appendChild(t);
+    }
+    var check = dataCheck(ev.images);
+    var icon = el('span', 'card-alert' + (check.count ? ' warn' : ' ok'), check.count ? '⚠ ' + check.count : '✓');
+    icon.setAttribute('aria-label', check.count ? _('{n} 项资料待补', { n: check.count }) : _('图片资料齐全'));
+    if (check.count) {
+      // 只响应鼠标悬停；触屏点一下时浏览器模拟的鼠标事件不算（由点击切换，见 cardDebugClick）
+      icon.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') showCardAlert(ev, icon); });
+      icon.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') hideCardAlertSoon(); });
+    }
+    status.insertBefore(icon, status.firstChild);   // 倒序排列：图标在最右，日期在它左边
+    box.appendChild(status);
+    return box;
+  }
+  // 下拉列表放在 body 下（卡片 overflow: hidden 会裁掉），位置跟随 ⚠ 图标
+  var alertPop = null, alertPopFor = null, alertHideTimer = null;
+  function showCardAlert(ev, icon) {
+    clearTimeout(alertHideTimer);
+    if (!alertPop) {
+      alertPop = el('div', 'data-check alert-pop');
+      alertPop.id = 'alertPop';
+      alertPop.setAttribute('role', 'tooltip');
+      alertPop.addEventListener('pointerenter', function () { clearTimeout(alertHideTimer); });
+      alertPop.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') hideCardAlertSoon(); });
+      document.body.appendChild(alertPop);
+    }
+    alertPopFor = ev.id;
+    renderCheckBox(alertPop, ev.images, ev.updatedAt, {
+      onEdit: function () { hideCardAlert(); openEditor(ev.id); }
+    });
+    alertPop.hidden = false;
+    var r = icon.getBoundingClientRect();
+    var w = alertPop.offsetWidth, h = alertPop.offsetHeight;
+    var left = Math.max(8, Math.min(window.innerWidth - w - 8, r.right - w));
+    var top = r.bottom + 6;
+    if (top + h > window.innerHeight - 8) top = Math.max(8, r.top - h - 6);
+    alertPop.style.left = left + 'px';
+    alertPop.style.top = top + 'px';
+  }
+  function hideCardAlert() {
+    clearTimeout(alertHideTimer);
+    if (alertPop) alertPop.hidden = true;
+    alertPopFor = null;
+  }
+  function hideCardAlertSoon() {
+    clearTimeout(alertHideTimer);
+    alertHideTimer = setTimeout(hideCardAlert, 200);
+  }
+  // 卡片上的点击：编辑按钮打开编辑页，⚠ 图标切换下拉列表（手机上没有悬停），其余打开详情。返回 true 表示已处理
+  function cardDebugClick(ev, target) {
+    if (!debugMode || !target.closest) return false;
+    if (target.closest('.card-edit')) { hideCardAlert(); openEditor(ev.id); return true; }
+    var icon = target.closest('.card-alert.warn');
+    if (icon) {
+      if (alertPopFor === ev.id && alertPop && !alertPop.hidden) hideCardAlert();
+      else showCardAlert(ev, icon);
+      return true;
+    }
+    return false;
+  }
+  document.addEventListener('pointerdown', function (e) {
+    if (alertPop && !alertPop.hidden && !alertPop.contains(e.target) && !(e.target.closest && e.target.closest('.card-alert'))) hideCardAlert();
+  });
+
+  // 详情页的资料检查框
+  function renderDetailCheck(ev) {
+    renderCheckBox($('detailCheck'), ev.images, ev.updatedAt, {
+      onEdit: function () { closeModal('detailModal'); openEditor(ev.id); }
+    });
+  }
+  // 编辑页的资料检查框：按正在编辑的图片实时计算（填写标题、版权后立即更新）；建议模式不显示
+  function renderEditCheck() {
+    var box = $('editCheck');
+    box.hidden = !!suggestMode;
+    if (suggestMode) return;
+    var ev = editingId ? findEvent(editingId) : null;
+    var updatedAt = ev ? ev.updatedAt : NaN;
+    // 结果没变时不重建（输入框失去焦点时的 change 事件发生在按下按钮和松开之间，重建会让这次点击落空）
+    var key = JSON.stringify([updatedAt, dataCheck(draftImages).rows.map(function (r) { return [r.index, r.image.src, r.issues]; })]);
+    if (box.dataset.key === key && box.childNodes.length) return;
+    box.dataset.key = key;
+    renderCheckBox(box, draftImages, updatedAt, {
+      onGo: function (row) {
+        // 缺标题：跳到缩略图下的标题输入框；缺版权：展开图片信息表并跳到这一行
+        var captionOnly = row.issues.length === 1 && !String(row.image.caption || '').trim();
+        var target = null;
+        if (captionOnly) target = $('imageEditor').querySelectorAll('.img-slot')[row.index];
+        else {
+          $('imageInfo').open = true;
+          target = $('imageInfoRows').children[row.index] || $('imageInfo');
+        }
+        if (!target) return;
+        target.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        var input = target.querySelector(captionOnly ? 'input' : '.info-license') || target.querySelector('input');
+        if (input) input.focus({ preventScroll: true });
+      }
+    });
+  }
+
   // ---------- 编辑 / 新建 ----------
   var form = $('editForm');
   var editingId = null;
@@ -1870,6 +2055,7 @@
     updateImageSearch();
     renderImageEditor();
     updateCounters();
+    renderEditCheck();
     openModal('editModal');
     form.scrollTop = 0;
     setTimeout(function () { form.title.focus(); }, 50);
@@ -1882,6 +2068,9 @@
     });
   }
   form.addEventListener('input', updateCounters);
+  // 图片标题、版权等改动后资料检查框随之更新
+  form.addEventListener('input', renderEditCheck);
+  form.addEventListener('change', renderEditCheck);
 
   // 拖动排序（代表图之后的图片）：from 移到 to 之前的位置（to 为移动前的下标），不会移到第一张
   var dragImageFrom = null;
@@ -2549,6 +2738,7 @@
     }
     var canAuto = draftImages.some(needsCommonsFill);
     $('imageInfoAuto').hidden = !canAuto;
+    renderEditCheck();
   }
   function updateLangCounts() {
     var box = $('imageInfoLangs');
@@ -2707,11 +2897,12 @@
         return o;
       });
       if (canonical(next) === canonical(old)) return null;
-      return writeSiblingImages(s, id, next).then(function () { s.ev.images = clone(next); });
+      var time = nowSeconds();
+      return writeSiblingImages(s, id, next, time).then(function () { s.ev.images = clone(next); s.ev.updatedAt = time; });
     }).filter(Boolean);
     return Promise.all(jobs);
   }
-  function writeSiblingImages(s, id, images) {
+  function writeSiblingImages(s, id, images, time) {
     if (fileMode) {
       return fetch('data/' + s.id + '.json', { cache: 'no-store' }).then(function (res) {
         if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -2720,6 +2911,7 @@
         var ev = data.events.filter(function (e) { return e.id === id; })[0];
         if (!ev) return null;
         ev.images = images;
+        ev.updatedAt = time;
         return requestJson('api/data/' + s.id, 'PUT', data);
       });
     }
@@ -2728,6 +2920,7 @@
     var cur = eventWithChanges(s.defaults, id, stored);
     if (!cur) return Promise.resolve();
     cur.images = images;
+    cur.updatedAt = time;
     var def = s.defaults.filter(function (e) { return e.id === id; })[0];
     var ch = def ? eventDiff(cur, def) : cur;
     if (ch) stored.changed[id] = ch; else delete stored.changed[id];
@@ -2972,6 +3165,12 @@
     afterPaint(function () { finishEdit(saved); });
   });
 
+  // 事件内容（不含修改时间），用于判断保存时是否真的有改动
+  function contentOf(ev) {
+    var c = clone(ev);
+    delete c.updatedAt;
+    return canonical(c);
+  }
   function commitEdit(yAbs, title, tFrom, tTo) {
     var year = form.era.value === 'bce' ? -yAbs : yAbs;
     var data = {
@@ -2989,14 +3188,17 @@
     var id;
     if (editingId) {
       var ev = findEvent(editingId);
+      var before = contentOf(ev);
       Object.keys(data).forEach(function (k) { ev[k] = data[k]; });
       if (!tFrom) delete ev.transition;
       if (!form.type.value) delete ev.type;
       delete ev.major;    // 旧版本的重大事件标记，已由 majorScore 代替
       delete ev.source;   // 旧版本的单个参考链接，已由 sources 代替
+      if (contentOf(ev) !== before) ev.updatedAt = nowSeconds();   // 内容有变化才更新修改时间
       id = ev.id;
     } else {
       data.id = id = uid();
+      data.updatedAt = nowSeconds();
       events.push(data);
     }
     // 本地文件模式等待写入完成；浏览器模式直接保存到 localStorage。

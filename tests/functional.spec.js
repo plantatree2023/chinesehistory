@@ -193,7 +193,7 @@ test.describe('事件详情', () => {
     await page.reload();
     await expect(page.locator(`.card[data-id="${target.id}"]`)).toHaveClass(/tier-1/);
     const stored = await page.evaluate((k) => JSON.parse(localStorage.getItem(k)), STORAGE_KEY);
-    expect(stored.changed[target.id]).toEqual({ type: null, majorScore: 3 });
+    expect(stored.changed[target.id]).toEqual({ type: null, majorScore: 3, updatedAt: expect.any(Number) });   // 保存时同时更新修改时间
   });
 
   test('新增事件默认重要程度 5（小图）、未分类', async ({ page }) => {

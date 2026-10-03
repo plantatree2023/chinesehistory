@@ -34,7 +34,7 @@ test('只保存改动过的字段和删除的事件', async ({ page }) => {
   const zg = events.find((e) => e.title === '贞观之治');
   const xwm = events.find((e) => e.title === '玄武门之变');
   const stored = await readStored(page);
-  expect(stored).toEqual({ version: 2, changed: { [zg.id]: { title: '贞观之治（改）' } }, deleted: [xwm.id] });
+  expect(stored).toEqual({ version: 2, changed: { [zg.id]: { title: '贞观之治（改）', updatedAt: expect.any(Number) } }, deleted: [xwm.id] });
 });
 
 test('数据文件更新后，没有改动过的事件和字段显示新内容，改动保留', async ({ page }) => {

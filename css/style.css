@@ -30,6 +30,8 @@
   --credit-unknown: #a35a00;
   --credit-missing: #b3261e;  /* 编辑页：缺少来源或许可证 */
   --warn: #9a5400;           /* 缺少信息的提示文字和边框 */
+  --alert-fill: #a35a00;     /* 调试模式：卡片上“⚠ 问题数”的底色（上面是白字） */
+  --check-bg: #fff6e3;       /* 调试模式：资料检查框的底色 */
   --new-row: rgba(212, 160, 23, .16);
   --gold: #b08d57;
   --shadow: 0 6px 18px rgba(60, 40, 20, .14), 0 1px 3px rgba(60, 40, 20, .12);
@@ -86,6 +88,8 @@
   --credit-unknown: #9c5600;
   --credit-missing: #a8322a;
   --warn: #e0a050;
+  --alert-fill: #9c5600;
+  --check-bg: #2f2819;
   --new-row: rgba(212, 160, 23, .14);
   --gold: #c9a46a;
   --shadow: 0 6px 18px rgba(0, 0, 0, .45), 0 1px 3px rgba(0, 0, 0, .4);
@@ -1754,3 +1758,73 @@ body.bars-hidden .hint-bubble { display: none; }
   .info-row .info-source { grid-column: 2 / -1; }
   .image-info:not(.with-compare) .info-caption { grid-column: 2 / -1; }
 }
+
+/* ---------- 调试模式：资料检查与更新时间（js/app.js 的 cardDebug、renderCheckBox） ---------- */
+/* 主页卡片：左上角编辑按钮；右上角更新日期和状态图标，叠在卡片上，不改变排版 */
+.card-debug { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.card-edit, .card-status { position: absolute; top: 6px; pointer-events: auto; }
+.card-edit {
+  left: 6px;
+  width: 26px; height: 26px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--float-bg);
+  border: 1px solid var(--red);
+  color: var(--red);
+  font-size: 13px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
+}
+.card-edit:hover { background: var(--red-fill); color: #fff; }
+/* 状态图标在最右；图片窄、放不下日期时日期换到下一行 */
+.card-status {
+  right: 6px;
+  max-width: calc(100% - 44px);
+  display: flex; flex-direction: row-reverse; flex-wrap: wrap; align-items: center; gap: 4px;
+  font: 600 11px/1 var(--font-sans);
+  white-space: nowrap;
+}
+.card-updated, .card-alert { border-radius: 999px; padding: 5px 7px; box-shadow: 0 1px 3px rgba(0, 0, 0, .25); }
+.card-updated { background: var(--float-bg); color: var(--ink-2); font-weight: 500; }
+.card-alert { color: #fff; }
+.card-alert.warn { background: var(--alert-fill); cursor: help; }
+.card-alert.ok { background: var(--ok-fill); }
+
+/* 资料检查框：详情页、编辑页，以及卡片上 ⚠ 的下拉列表 */
+.data-check {
+  margin: 0 0 14px;
+  padding: 10px 12px;
+  border: 1px dashed var(--warn);
+  border-radius: 10px;
+  background: var(--check-bg);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.data-check.clean { border-style: solid; border-color: var(--line); background: transparent; }
+.data-check:empty { display: none; }
+.check-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 10px; margin-bottom: 2px; }
+.check-title { font-weight: 700; color: var(--ink); }
+.check-updated { color: var(--muted); font-size: 12px; }
+.check-row { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.check-thumb { flex: none; width: 40px; height: 30px; object-fit: cover; border-radius: 4px; font-size: 14px; }
+.check-which { flex: none; }
+.check-tags { display: flex; flex-wrap: wrap; gap: 4px; min-width: 0; }
+.check-tag { font-size: 11px; line-height: 1.6; padding: 0 6px; border-radius: 4px; background: var(--alert-fill); color: #fff; }
+.check-go, .check-edit {
+  border: 0; background: none; padding: 2px 0;
+  font: inherit; font-weight: 600; color: var(--red);
+  cursor: pointer; white-space: nowrap;
+}
+.check-go { margin-left: auto; }
+.check-edit { display: block; margin: 8px 0 0 auto; }
+.check-go:hover, .check-edit:hover { text-decoration: underline; }
+.alert-pop {
+  position: fixed;
+  z-index: 60;
+  width: min(340px, calc(100vw - 16px));
+  margin: 0;
+  border-style: solid;
+  background: var(--card);
+  box-shadow: var(--shadow-lg);
+}
+.alert-pop[hidden] { display: none; }

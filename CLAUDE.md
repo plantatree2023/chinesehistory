@@ -23,6 +23,8 @@ npm test
 - `server.js`：本地服务器；`npm start` 为可写模式（网页中的修改写回数据文件），`--readonly` 供测试使用（测试还带 `--test-data tests/data`，见下面的测试数据）；没有 `version.json` 文件时根据 git 最近一次提交生成
 - 调试模式只在本地启动时提供：仓库中的 `js/env.js`（部署版本）为 `debugAvailable: false`，`server.js` 默认改为返回 `true`，`--no-debug`（`npm run start:public`）时原样返回；网址带 `debugMode` 参数时也提供（`buildQuery` 保留该参数，`shareUrl` 和 `timelineShareUrl` 不带）；测试服务器提供调试模式
 - 调试模式：编辑功能（新增、编辑、删除、恢复默认数据）只在调试模式下显示，新增的编辑入口要加 `debug-only` 类；调试模式显示的网站更新时间来自部署时生成的 `version.json`（`tools/build-site.js`）。需要编辑的测试用 `test.use({ debugMode: true })`
+- **事件的更新时间 `updatedAt`**（Unix 时间戳，单位秒）：任何人或 AI 改动了 `data/*.json` 中某个事件的任何字段，都要把这个事件的 `updatedAt` 改成当前时间（`date +%s`），没有改动的事件不动；编辑页保存、同步其他语言图片（`saveSiblings`）、`tools/wiki-import.js` 会自动更新，新增修改数据的代码也要更新它（见 `data/README.md`）
+- 调试模式的资料检查：主页卡片（左上角编辑按钮，右上角更新日期和 ⚠ 问题数，鼠标移到 ⚠ 上 / 手机上点一下显示下拉列表）、详情页（`#detailCheck`）和编辑页（`#editCheck`）提示图片缺少版权信息或当前语言的标题。由 `js/app.js` 的 `dataCheck` 实时计算，**不写进数据**；新增检查项时加在 `imageIssues`（或同样实时计算），`tests/data-check.spec.js` 检查
 - 自动播放：网页加载后默认自动播放；测试中默认关闭（`tests/helpers.js` 设置 `window.TIMELINE_AUTOPLAY = false`），测试自动播放本身时用 `test.use({ autoplay: true })`
 - 首次访问提示（电脑分步指引、手机底部气泡）：测试中默认关闭（`window.TIMELINE_ONBOARDING = false`），测试提示本身时用 `test.use({ onboarding: true })`
 - 界面语言（i18n）：语言由数据集名称的语言部分决定（`cn_zh` → 中文，`cn_en` → 英文）。界面文字以中文为原文写在 `index.html` 和 `js/app.js` 中；脚本中新增的界面文字都要写成 `_('中文原文', { 名称: 值 })`，并在 `js/i18n/en.js`（及其他语言文件）的 `strings` 中加译文；`index.html` 中的文字、`title` / `aria-label` / `placeholder` 按原文自动翻译，含标签的段落加 `data-i18n`（按整段 innerHTML 查找译文）。年份格式、文字长度上限也在语言文件中；英文字体在 `css/style.css` 的 `:root:lang(en)`。右上角有语言下拉菜单，所有访问者可用（手机在“更多”菜单中）。`tests/i18n.spec.js` 检查每条原文都有译文、英文界面没有残留中文。`cn_en` 是 `cn_zh` 的翻译，事件 id 相同；改动 `cn_zh` 不会自动同步到 `cn_en`

@@ -144,6 +144,7 @@ test.describe('单个关键词', () => {
       }),
     }), { Q1: entity('-0260-00-00T00:00:00Z', { p31: ['Q178561'], links: 50 }) });
 
+    const t0 = Math.floor(Date.now() / 1000);
     const r = await run(['--file', dataFile, '测试战役'], base);
     expect(r.code, r.stdout + r.stderr).toBe(0);
     expect(r.stdout).toContain('+ 新增 测试战役');
@@ -154,6 +155,8 @@ test.describe('单个关键词', () => {
     const ev = find('测试战役');
     expect(ev).toMatchObject({ id: NEXT_ID, year: -260, date: '前260年', wiki: '测试战役', type: '战争', majorScore: 6 });
     expect(ev).not.toHaveProperty('major');
+    // 最后修改时间：当前时间，单位秒
+    expect(Number.isInteger(ev.updatedAt) && ev.updatedAt >= t0 && ev.updatedAt <= Math.floor(Date.now() / 1000)).toBe(true);
     // Wikidata 性质为“战役”（Q178561）→ 战争；50 个语言版本 → 重要程度 6；都提示核对
     expect(r.stdout).toContain('类型 战争，重要程度 6');
     expect(r.stdout).toContain('类型“战争”由 Wikidata 性质推断，请核对');
@@ -193,6 +196,7 @@ test.describe('单个关键词', () => {
       }),
     }));
 
+    const t0 = Math.floor(Date.now() / 1000);
     const r = await run(['--file', dataFile, target.title], base);
     expect(r.code, r.stdout + r.stderr).toBe(0);
     expect(r.stdout).toContain(`~ 更新 ${target.title}`);
@@ -203,6 +207,9 @@ test.describe('单个关键词', () => {
     expect(ev).toMatchObject({ id: target.id, year: target.year, date: target.date, short: target.short, majorScore: 9, type: '社会' });
     expect(wiki.hits.some((h) => h.includes('EntityData'))).toBe(false);
     expect(ev.images, '已有图片保持不变').toEqual(target.images);
+    // 改动的事件更新最后修改时间（秒），其他事件不变
+    expect(ev.updatedAt).toBeGreaterThanOrEqual(t0);
+    for (const e of readData().events) if (e.id !== target.id) expect(e.updatedAt, e.title).toBe(before.events.find((b) => b.id === e.id).updatedAt);
     expect(wiki.hits.some((h) => h.startsWith('/img/')), '不应下载图片').toBe(false);
   });
 

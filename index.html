@@ -220,6 +220,8 @@
         <div class="detail-tags" id="detailTags"></div>
         <div class="detail-transition" id="detailTransition" hidden></div>
         <h2 id="detailTitle"></h2>
+        <!-- 调试模式：资料检查框（缺少的图片版权、标题等，由脚本实时计算）和最后更新时间 -->
+        <div class="data-check debug-only" id="detailCheck"></div>
         <p class="detail-text" id="detailText"></p>
         <div class="gallery" id="detailGallery"></div>
         <div class="detail-source" id="detailSource"></div>
@@ -251,6 +253,7 @@
     <form class="modal-card edit-card" id="editForm" novalidate>
       <button type="button" class="icon-btn modal-close" data-close aria-label="关闭">&times;</button>
       <h2 id="editTitle">编辑事件</h2>
+      <div class="data-check debug-only" id="editCheck"></div>
       <label class="field">
         <span>事件名称 <em>*</em></span>
         <input type="text" name="title" maxlength="40" required>
