@@ -37,7 +37,9 @@ const entity = (t, { p31 = [], links = 0 } = {}) => ({
   sitelinks: Object.fromEntries([...Array(links)].map((_, i) => [`l${i}wiki`, { title: 'x' }])),
 });
 
-function mockWiki(pages, entities, { searchMap = {}, rateLimitOnce = [], files = IMAGE_FILES } = {}) {
+// apiFiles：条目中的文件（/w/api.php generator=images，--credits 用），{ 条目名: [{ title, imageinfo: [...] }] }；
+// fileInfo：文件的版权信息（/w/api.php prop=imageinfo，导入时记录下载的图片的版权），{ 文件名: imageinfo }
+function mockWiki(pages, entities, { searchMap = {}, rateLimitOnce = [], files = IMAGE_FILES, apiFiles = {}, fileInfo = {} } = {}) {
   const hits = [];
   const limited = new Set(rateLimitOnce);
   const server = http.createServer((req, res) => {
@@ -54,6 +56,13 @@ function mockWiki(pages, entities, { searchMap = {}, rateLimitOnce = [], files =
     if ((m = /^\/api\/rest_v1\/page\/media-list\/(.+)$/.exec(p))) {
       const pg = pages[m[1].replace(/_/g, ' ')];
       return pg ? send(200, pg.media) : send(404, {});
+    }
+    if (p === '/w/api.php') {
+      const q = url.searchParams;
+      const titles = (q.get('titles') || '').split('|');
+      if (q.get('prop') === 'langlinks') return send(200, { query: { pages: titles.map((title) => ({ title, langlinks: [] })) } });
+      if (q.get('generator') === 'images') return send(200, { query: { pages: apiFiles[titles[0]] || [] } });
+      return send(200, { query: { pages: titles.map((title) => (fileInfo[title] ? { title, imageinfo: [fileInfo[title]] } : { title, missing: true })) } });
     }
     if (p === '/w/rest.php/v1/search/page') {
       const key = searchMap[url.searchParams.get('q')];
@@ -562,5 +571,113 @@ test.describe('图片下载', () => {
     vp8l.writeUInt32LE((299) | (199 << 14), 21);
     expect(imageSize(vp8l)).toEqual({ type: 'webp', w: 300, h: 200 });
     expect(imageSize(Buffer.from('<html>not an image</html>'))).toBeNull();
+  });
+});
+
+test.describe('图片版权', () => {
+  const credit = (name, artist, license) => ({
+    descriptionurl: `https://commons.wikimedia.org/wiki/File:${name}`,
+    extmetadata: { Artist: { value: `<a href="//commons.wikimedia.org/wiki/User:X">${artist}</a>` }, LicenseShortName: { value: license } },
+  });
+
+  test('新导入的图片记录作者、许可证和来源网址；查不到的不填写', async () => {
+    const base = await startWiki((b) => ({
+      '版权条目': page('版权条目', '版权条目是一个用于测试下载图片时记录版权信息的虚构历史事件。', { qid: 'Q12', images: [`${b}/img/a.png`, `${b}/img/b.jpg`] }),
+    }), { Q12: time('+1703-00-00T00:00:00Z') }, { fileInfo: { 'File:a.png': credit('a.png', '张三', 'CC BY-SA 4.0') } });
+    const r = await run(['--file', dataFile, '版权条目'], base);
+    expect(r.code, r.stdout + r.stderr).toBe(0);
+    const imgs = find('版权条目').images;
+    expect(imgs[0]).toMatchObject({ author: '张三', license: 'CC BY-SA 4.0', sourceUrl: 'https://commons.wikimedia.org/wiki/File:a.png' });
+    expect(imgs[1].author).toBeUndefined();
+    expect(imgs[1].license).toBeUndefined();
+  });
+
+  test('--credits：只认完全相同的图片，只填缺少的字段，同步到同一国家其他语言的数据集（作者按该语言查询），并更新 updatedAt', async () => {
+    const { PNG } = require('pngjs');
+    const same = png(40, 30, 200);
+    const legacy = png(40, 30, 120);
+    const legacyLocal = PNG.sync.write(PNG.sync.read(legacy), { deflateLevel: 1 });   // 同样的像素，不同的字节
+    fs.mkdirSync(imagesDir());
+    const sameSrc = `images/${crypto.createHash('sha256').update(same).digest('hex').slice(0, 16)}.png`;
+    fs.writeFileSync(path.join(tmp, sameSrc), same);
+    fs.writeFileSync(path.join(tmp, 'images/legacy.png'), legacyLocal);
+    fs.writeFileSync(path.join(tmp, 'images/other.png'), png(40, 30, 10));
+    const images = [
+      { src: sameSrc, w: 40, h: 30, caption: '同一张图' },
+      { src: 'images/legacy.png', w: 40, h: 30, caption: '旧图片', author: '原作者' },
+      { src: 'images/other.png', w: 40, h: 30, caption: '维基上没有' },
+    ];
+    const data = readData();
+    const ev = data.events[0];
+    Object.assign(ev, { images, sources: [{ url: 'https://zh.wikipedia.org/wiki/%E7%89%88%E6%9D%83%E6%B5%8B%E8%AF%95' }] });
+    delete ev.updatedAt;
+    fs.writeFileSync(dataFile, JSON.stringify(data, null, 2) + '\n');
+    // 同一国家的英文数据集：同样的图片，其中一张已有许可证
+    const enFile = path.join(tmp, 'data', 'cn_en.json');
+    const en = JSON.parse(JSON.stringify(data));
+    en.id = 'cn_en';
+    en.events = [{ ...en.events[0], images: en.events[0].images.map((im, i) => ({ ...im, caption: `EN ${i}`, ...(i === 0 ? { license: 'CC0' } : {}) })) }];
+    fs.writeFileSync(enFile, JSON.stringify(en, null, 2) + '\n');
+    const otherCountry = path.join(tmp, 'data', 'jp_ja.json');
+    fs.writeFileSync(otherCountry, JSON.stringify({ ...en, id: 'jp_ja' }, null, 2) + '\n');
+    const otherHash = sha256(otherCountry);
+
+    // 条目中的文件：地址指向模拟服务（启动后才知道端口，所以之后再填）
+    const apiFiles = {};
+    // 其他语言的数据集按该语言重新查询作者（维基的模板文字因语言而异）；Legacy.png 查不到英文作者时不填
+    const fileInfo = { 'File:Same.png': credit('Same.png', 'Jane Doe (en)', 'CC BY 4.0') };
+    const base = await startWiki({}, {}, {
+      apiFiles,
+      fileInfo,
+      files: { 'same.png': { body: same, type: 'image/png' }, 'legacy.png': { body: legacy, type: 'image/png' } },
+    });
+    const file = (title, name, w, h, artist, license) => ({ title, imageinfo: [{ url: `${base}/img/${name}?utm_source=x`, width: w, height: h, ...credit(title.slice(5), artist, license) }] });
+    apiFiles['版权测试'] = [
+      file('File:Tall.png', 'tall.png', 30, 40, 'X', 'CC0'),
+      file('File:Same.png', 'same.png', 40, 30, 'Jane Doe', 'CC BY 4.0'),
+      file('File:Legacy.png', 'legacy.png', 40, 30, '维基作者', 'Public domain'),
+    ];
+
+    const before = { zh: sha256(dataFile), en: sha256(enFile) };
+    const dry = await run(['--file', dataFile, '--credits', '--dry-run'], base);
+    expect(dry.code, dry.stdout + dry.stderr).toBe(0);
+    expect(dry.stdout).toContain('[dry-run]');
+    expect(sha256(dataFile)).toBe(before.zh);
+    expect(sha256(enFile)).toBe(before.en);
+
+    const start = Math.floor(Date.now() / 1000);
+    const r = await run(['--file', dataFile, '--credits'], base);
+    expect(r.code, r.stdout + r.stderr).toBe(0);
+    expect(r.stdout).toContain('找到 2 张完全相同的图片');
+    expect(wiki.hits.some((h) => h === '/img/tall.png'), '长宽比不符的文件不下载').toBe(false);
+
+    const zh = readData().events[0];
+    expect(zh.images[0]).toMatchObject({ author: 'Jane Doe', license: 'CC BY 4.0', sourceUrl: 'https://commons.wikimedia.org/wiki/File:Same.png' });
+    expect(zh.images[1]).toMatchObject({ author: '原作者', license: 'Public domain', sourceUrl: 'https://commons.wikimedia.org/wiki/File:Legacy.png' });
+    expect(zh.images[2]).toEqual(images[2]);
+    expect(zh.updatedAt).toBeGreaterThanOrEqual(start);
+    expect(readData().events[1].updatedAt, '没有改动的事件不更新').toBe(data.events[1].updatedAt);
+    expect(() => validateDataset('cn_zh', readData())).not.toThrow();
+
+    const enEv = JSON.parse(fs.readFileSync(enFile, 'utf8')).events[0];
+    expect(enEv.images[0]).toMatchObject({ caption: 'EN 0', author: 'Jane Doe (en)', license: 'CC0', sourceUrl: 'https://commons.wikimedia.org/wiki/File:Same.png' });
+    expect(enEv.images[1]).toMatchObject({ caption: 'EN 1', author: '原作者', license: 'Public domain' });
+    expect(enEv.images[2].license).toBeUndefined();
+    expect(enEv.updatedAt).toBeGreaterThanOrEqual(start);
+    expect(sha256(otherCountry), '其他国家的数据集不改动').toBe(otherHash);
+
+    // 再次运行：没有缺少的信息可补，不再写入
+    const again = await run(['--file', dataFile, '--credits', data.events[0].title], base);
+    expect(again.stdout).toContain('没有需要写入的修改');
+  });
+
+  test('--credits 指定的事件名在数据集中不存在时报错（退出码 1）；不能与导入参数一起使用', async () => {
+    const base = await startWiki({});
+    const r = await run(['--file', dataFile, '--credits', '不存在的事件名xyz'], base);
+    expect(r.code).toBe(1);
+    expect(r.stdout).toContain('数据集中没有这个事件');
+    expect(sha256(dataFile)).toBe(copyHash);
+    const bad = await run(['--file', dataFile, '--credits', '--refresh-images'], base);
+    expect(bad.code).toBe(2);
   });
 });

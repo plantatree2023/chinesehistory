@@ -263,6 +263,10 @@
     '查询中…': 'Looking up…',
     '从维基共享资源自动填写': 'Fill in from Wikimedia Commons',
     '有 {n} 张图片没有查到维基共享资源的信息': 'No Wikimedia Commons information found for {n} image(s)',
+    '从维基百科补全': 'Fill in from Wikipedia',
+    '没有在维基百科中找到与这些图片完全相同的文件': 'No identical files were found on Wikipedia for these images',
+    '无法查询维基百科（只有在本地运行网站时才能查询）': 'Could not look up Wikipedia (only available when the site runs locally)',
+    '在事件的维基百科条目中找完全相同的图片，只补上缺少的作者、许可证和来源网址': 'Find identical images on the event’s Wikipedia articles and fill in only the missing author, license and source URL',
     '其他语言的数据写入失败：{error}': 'Could not write the data of the other languages: {error}',
     '浏览器存储空间不足': 'Not enough browser storage',
     // ---------- index.html ----------

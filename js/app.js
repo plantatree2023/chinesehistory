@@ -2738,6 +2738,7 @@
     }
     var canAuto = draftImages.some(needsCommonsFill);
     $('imageInfoAuto').hidden = !canAuto;
+    $('imageInfoWiki').hidden = !draftImages.some(needsWikiCredits);
     renderEditCheck();
   }
   function updateLangCounts() {
@@ -2876,6 +2877,58 @@
       var failed = ok.filter(function (x) { return !x; }).length;
       if (failed) $('formError').textContent = _('有 {n} 张图片没有查到维基共享资源的信息', { n: failed });
       renderImageEditor();
+    });
+  });
+
+  // “从维基百科补全”（调试模式）：本地服务器的 /api/wiki-credits 在事件的维基条目中找与图片完全相同的文件，
+  // 只填写缺少的作者、许可证和来源网址，已填写的（包括许可证“不详”）不改；唯一的例外是来源网址为维基百科本地的文件页、
+  // 而这张图在维基共享资源上时，改成维基共享资源的文件页（与 lib/wiki-credits.js 一致）。保存后才写入数据。线上网站没有这个接口
+  var WIKI_CREDIT_FIELDS = ['author', 'license', 'sourceUrl'];
+  var WIKIPEDIA_FILE_PAGE = /^https?:\/\/[a-z-]+\.(m\.)?wikipedia\.org\/wiki\/(File|Image|文件|檔案|档案|图像|圖像):/i;
+  var COMMONS_FILE_PAGE = /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/;
+  function needsWikiCredits(im) {
+    return WIKIPEDIA_FILE_PAGE.test(im.sourceUrl || '') || WIKI_CREDIT_FIELDS.some(function (k) { return !String(im[k] || '').trim(); });
+  }
+  $('imageInfoWiki').addEventListener('click', function (e) {
+    e.preventDefault();   // 按钮在 summary 中，不切换折叠
+    var btn = this, list = draftImages.filter(needsWikiCredits);
+    if (!list.length || btn.disabled) return;
+    var ev = editingId ? findEvent(editingId) : null;
+    btn.disabled = true;
+    btn.textContent = _('查询中…');
+    $('formError').textContent = '';
+    fetch('api/wiki-credits', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        lang: LANG,
+        event: {
+          sources: cleanSources(),
+          wiki: ev && ev.wiki,
+          images: list.map(function (im) { return { src: im.src, w: im.w, h: im.h }; })
+        }
+      })
+    }).then(function (res) {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    }).then(function (r) {
+      var matches = (r && r.matches) || {}, filled = 0;
+      draftImages.forEach(function (im) {
+        var m = matches[im.src], n = 0;
+        if (!m) return;
+        WIKI_CREDIT_FIELDS.forEach(function (k) {
+          if (typeof m[k] === 'string' && m[k].trim() && !String(im[k] || '').trim()) { im[k] = m[k]; n++; }
+        });
+        if (COMMONS_FILE_PAGE.test(m.sourceUrl || '') && WIKIPEDIA_FILE_PAGE.test(im.sourceUrl || '')) { im.sourceUrl = m.sourceUrl; n++; }
+        if (n) filled++;
+      });
+      if (!filled) $('formError').textContent = _('没有在维基百科中找到与这些图片完全相同的文件');
+      renderImageEditor();
+    }, function () {
+      $('formError').textContent = _('无法查询维基百科（只有在本地运行网站时才能查询）');
+    }).then(function () {
+      btn.disabled = false;
+      btn.textContent = _('从维基百科补全');
     });
   });
 

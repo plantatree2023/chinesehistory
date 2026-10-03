@@ -11,6 +11,8 @@
 //   GET  /api/status          → { writable: true }
 //   GET  /api/link-title?url= → { title }：查询维基百科 / 百度百科链接的词条名（编辑页的参考链接用；两种模式都提供）
 //   GET  /api/translate?text=&from=&to= → { text }：翻译文字（编辑页自动翻译图片标题；两种模式都提供），查不到时 text 为 null
+//   POST /api/wiki-credits    { lang, event: { sources, wiki, images } } → { matches: { 图片 src: { file, author, license, sourceUrl } }, errors }：
+//                             在事件的维基条目中找与本地图片完全相同的文件，返回其版权信息（编辑页“从维基百科补全”；两种模式都提供）
 //   PUT  /api/data/<id>       保存整个数据集，<id> 形如 cn_zh（<国家>_<语言>）
 //   POST /api/images          保存上传的图片（{ dataUrl }），返回 { path: "images/xxxx.jpg", w, h }
 //   POST /api/images/fetch    按网址下载图片并保存（{ url }，仅 http / https），返回 { path, w, h }
@@ -28,6 +30,7 @@ const { execFileSync } = require('child_process');
 const { writeAtomic, saveImage, fetchImage, MAX_IMAGE_BYTES } = require('./lib/images');
 const { lookupLinkTitle } = require('./lib/link-title');
 const { translateText } = require('./lib/translate');
+const { CreditsClient, findCredits } = require('./lib/wiki-credits');
 
 const DATASET_ID = /^[a-z]{2}_[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})?$/;   // 例：cn_zh、jp_ja、cn_zh-Hant
 const LOCAL_IMAGE = /^images\/[A-Za-z0-9._-]+$/;                       // 数据中图片路径的唯一合法形式
@@ -180,7 +183,7 @@ function saveUploaded(getBuffer, imagesDir) {
   }
 }
 
-function createServer({ root = __dirname, writeDir = root, testDataDir = null, readonly = false, debug = true, linkTitleOptions = {}, translateOptions = {} } = {}) {
+function createServer({ root = __dirname, writeDir = root, testDataDir = null, readonly = false, debug = true, linkTitleOptions = {}, translateOptions = {}, wikiCreditsOptions = {} } = {}) {
   root = path.resolve(root);
   writeDir = path.resolve(writeDir);
   if (testDataDir) testDataDir = path.resolve(testDataDir);
@@ -212,6 +215,24 @@ function createServer({ root = __dirname, writeDir = root, testDataDir = null, r
       checkSameOrigin(req, port);
       const q = new URL(req.url, 'http://localhost').searchParams;
       sendJson(res, 200, { text: await translateText(q.get('text'), q.get('from') || 'auto', q.get('to'), translateOptions) });
+      return;
+    }
+    // 图片版权（编辑页“从维基百科补全”）：只读查询，比对时读取本地图片；只接受本服务自身页面的请求
+    if (pathname === '/api/wiki-credits' && req.method === 'POST') {
+      checkSameOrigin(req, port);
+      const body = await readJson(req, 256 * 1024);
+      const ev = body && body.event;
+      if (!ev || typeof ev !== 'object' || !Array.isArray(ev.images)) throw new HttpError(400, '缺少事件的图片');
+      const lang = typeof body.lang === 'string' && /^[a-z]{2,3}$/.test(body.lang) ? body.lang : 'zh';
+      const event = {
+        sources: Array.isArray(ev.sources) ? ev.sources.filter((x) => x && typeof x.url === 'string').slice(0, 20) : [],
+        wiki: typeof ev.wiki === 'string' ? ev.wiki : undefined,
+        images: ev.images.filter((im) => im && typeof im.src === 'string').slice(0, 20)
+          .map((im) => ({ src: im.src, w: Number(im.w) || 0, h: Number(im.h) || 0 })),
+      };
+      const client = new CreditsClient({ rootDir: root, ...wikiCreditsOptions });
+      const r = await findCredits(client, event, lang);
+      sendJson(res, 200, { matches: r.matches, errors: r.errors });
       return;
     }
     if (readonly) throw new HttpError(404, 'Not Found');

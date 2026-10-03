@@ -22,6 +22,8 @@
     "@playwright/test": "1.56.1"
   },
   "dependencies": {
-    "opencc-js": "^1.4.2"
+    "jpeg-js": "^0.4.4",
+    "opencc-js": "^1.4.2",
+    "pngjs": "^7.0.0"
   }
 }

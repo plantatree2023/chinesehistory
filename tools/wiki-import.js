@@ -642,6 +642,93 @@ function describe(r) {
   return [head, ...r.notes.map((n) => `    ! ${n}`)].join('\n');
 }
 
+// ---------- 补全图片版权（--credits） ----------
+// 同一国家其他语言的数据集：data/cn_zh.json → data/cn_en.json、data/cn_zh-v0.json …
+function siblingFiles(file) {
+  const dir = path.dirname(path.resolve(file));
+  const id = path.basename(file, '.json');
+  const country = id.split('_')[0];
+  return fs.readdirSync(dir)
+    .filter((f) => f.endsWith('.json') && f !== `${id}.json` && DATASET_ID.test(f.slice(0, -5)) && f.split('_')[0] === country)
+    .sort()
+    .map((f) => path.join(dir, f));
+}
+// 关键词 → 事件：先找事件名相同的，没有时找事件名包含关键词的
+function pickEvents(events, keyword) {
+  const exact = events.filter((e) => e.title === keyword);
+  return exact.length ? exact : events.filter((e) => (e.title || '').includes(keyword));
+}
+// 按图片地址写入版权（只填缺少的字段），有改动的事件更新 updatedAt；返回改动的事件
+function applyBySrc(events, credits, now) {
+  const changed = [];
+  for (const ev of events) {
+    if (applyCredits(ev.images, credits)) { ev.updatedAt = now; changed.push(ev); }
+  }
+  return changed;
+}
+
+// 其他语言的数据集：作者中维基的模板文字（如“原上传者为…”“Own work”）按该语言重新查询；查不到时不填作者
+async function localizedCredits(client, credits, lang, fromLang) {
+  if (lang === fromLang || !Object.keys(credits).length) return credits;
+  let local = {};
+  try { local = await client.fileCredits([...new Set(Object.values(credits).map((m) => m.file))], lang); } catch (e) { console.log(`    ! 无法按 ${lang} 查询作者：${e.message}`); }
+  const out = {};
+  for (const [src, m] of Object.entries(credits)) {
+    const { author, ...rest } = m;
+    const l = local[m.file];
+    out[src] = l && l.author ? { ...rest, author: l.author } : rest;
+  }
+  return out;
+}
+
+async function creditsMain(opts, info, data) {
+  const root = path.resolve(path.dirname(opts.file), '..');
+  const wikiBase = process.env.WIKIPEDIA_BASE ? () => process.env.WIKIPEDIA_BASE.replace(/\/$/, '') : undefined;
+  const client = new CreditsClient({ rootDir: root, wikiBase, retryBaseMs: Number(process.env.WIKI_RETRY_BASE_MS) || 2000, delayMs: Math.min(opts.delay, 200) });
+  let events = data.events;
+  let failed = 0;
+  if (opts.keywords.length) {
+    events = [];
+    for (const k of opts.keywords) {
+      const found = pickEvents(data.events, k);
+      if (!found.length) { console.log(`✗ ${k}：数据集中没有这个事件`); failed++; }
+      for (const ev of found) if (!events.includes(ev)) events.push(ev);
+    }
+  }
+  const credits = {};   // 图片 src → 查到的版权信息
+  let looked = 0;
+  for (const ev of events) {
+    if (!(ev.images || []).some(needsCredits)) continue;
+    if (looked++ && opts.delay) await sleep(opts.delay);   // 两次查询之间稍作间隔，避免触发维基限流
+    const r = await findCredits(client, ev, info.lang, needsCredits);
+    for (const e of r.errors) console.log(`    ! ${ev.title}：${e}`);
+    for (const [src, m] of Object.entries(r.matches)) {
+      credits[src] = m;
+      console.log(`  ${ev.title}：${src} = ${m.file}（${[m.author, m.license].filter(Boolean).join('，') || '没有作者和许可证'}）`);
+    }
+  }
+
+  // 相同的图片（同一地址）在本数据集和同一国家其他语言的数据集中一起补全
+  const now = Math.floor(Date.now() / 1000);
+  const targets = [{ file: opts.file, id: info.id, data }];
+  for (const f of siblingFiles(opts.file)) {
+    try { targets.push({ file: f, id: path.basename(f, '.json'), data: JSON.parse(fs.readFileSync(f, 'utf8')) }); } catch (e) { console.log(`    ! 无法读取 ${f}：${e.message}`); }
+  }
+  console.log(`\n找到 ${Object.keys(credits).length} 张完全相同的图片`);
+  for (const t of targets) {
+    if (!t.data || !Array.isArray(t.data.events)) continue;
+    const changed = applyBySrc(t.data.events, await localizedCredits(client, credits, datasetInfo(t.file).lang, info.lang), now);
+    if (!changed.length) { console.log(`${t.file}：没有需要写入的修改`); continue; }
+    validateDataset(t.id, t.data);
+    if (opts.dryRun) console.log(`[dry-run] ${t.file}：将补全 ${changed.length} 个事件的图片版权，未写入`);
+    else {
+      writeAtomic(path.resolve(t.file), JSON.stringify(t.data, null, 2) + '\n');
+      console.log(`已写入 ${t.file}：补全 ${changed.length} 个事件的图片版权`);
+    }
+  }
+  return failed ? 1 : 0;
+}
+
 // ---------- 主流程 ----------
 async function main(argv) {
   const opts = parseArgs(argv);
@@ -656,6 +743,7 @@ async function main(argv) {
   let data;
   try { data = JSON.parse(fs.readFileSync(opts.file, 'utf8')); } catch (e) { throw new UsageError(`无法读取数据集 ${opts.file}：${e.message}`); }
   if (!data || !Array.isArray(data.events)) throw new UsageError(`数据集格式不正确：${opts.file}`);
+  if (opts.credits) return creditsMain(opts, info, data);
 
   const items = opts.list ? readList(opts.list) : opts.keywords.map((keyword) => ({ keyword, year: opts.year, type: opts.type, score: opts.score }));
   const client = new WikiClient(info);
