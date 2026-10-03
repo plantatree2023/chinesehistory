@@ -413,6 +413,10 @@
     3: { sizes: [210000, 170000, 136000, 108000, 84000, 62000], maxImgW: 700, heightFrac: 1, shrink: 0, weight: 300 }
   };
   var SIDE_TEXT_W = 150, MIN_STACK_W = 172, MIN_IMG_SIDE = 56;
+  var CROP_COST = 250;   // 排版时图片被裁去 10% 记 40 分（见 shapeFor）
+  var GROW_COST = 30;    // 为占满图片区把图片放大一倍记 30 分
+  var MAX_GROW = 1.5;    // 为占满图片区，图片面积最多放大的倍数
+  var MAX_CROP = 0.2;    // 卡片图片最多裁去 20%，其余用虚化的同一张图片铺满（见 imageFit）
   function scoreOf(ev) {
     var n = ev && ev.majorScore;
     return typeof n === 'number' && n >= 1 && n <= 10 ? Math.round(n) : DEFAULT_SCORE;
@@ -477,9 +481,13 @@
     return textCache[key];
   }
 
-  // 按图片比例、面积和最大高度计算卡片尺寸，放不下返回 null
-  function shapeFor(ev, r, area, kind, maxH) {
-    var iw = Math.sqrt(area * r), ih = Math.sqrt(area / r), th, cw;
+  // 按图片比例、面积和最大高度计算卡片尺寸，放不下返回 null。
+  // 图片区（iw × ih）四边都由图片占满，不留空隙：上下排时图片区与卡片同宽（不窄于 MIN_STACK_W），
+  // 左右排时与卡片同高（不矮于文字区）。图片区与原图比例一致时完整显示，所以图片较小时先放大，
+  // 但面积最多放大到 MAX_GROW 倍（免得小图变成大图）；仍对不上比例时（如手机上文字较长）
+  // 图片裁去一部分（crop 为裁去的比例，排版时尽量避免），裁得太多时周围用虚化的图片铺满（见 imageFit）
+  function shapeFor(ev, r, area, kind, maxH, maxW) {
+    var iw = Math.sqrt(area * r), ih = Math.sqrt(area / r), th, cw, avail, want;
     var tier = TIERS[tierOf(ev)];
     var maxIh = maxH * tier.heightFrac;
     if (iw > tier.maxImgW) { iw = tier.maxImgW; ih = iw / r; }
@@ -488,16 +496,39 @@
       for (var k = 0; k < 2; k++) {
         cw = Math.max(iw, MIN_STACK_W);
         th = textHeight(ev, cw, 'stack');
-        if (ih + th + 2 <= maxH) break;
-        ih = maxH - th - 2; iw = ih * r;
+        avail = maxH - th - 2;
+        if (ih <= avail) break;
+        ih = avail; iw = ih * r;
       }
-      if (Math.min(iw, ih) < MIN_IMG_SIDE || ih + th + 2 > maxH) return null;
-      return { kind: kind, iw: iw, ih: ih, w: Math.round(Math.max(iw, MIN_STACK_W) + 2), h: Math.round(ih + th + 2) };
+      want = iw * Math.min(ih, avail);
+      // 宽度固定为卡片宽度，高度尽量按原图比例
+      ih = Math.min(cw / r, avail, Math.max(want * MAX_GROW / cw, ih));
+      if (ih < MIN_IMG_SIDE) return null;
+      return { kind: kind, iw: cw, ih: ih, want: want, crop: cropOf(cw, ih, r), w: Math.round(cw + 2), h: Math.round(ih + th + 2) };
     }
     th = textHeight(ev, SIDE_TEXT_W, 'side');
+    if (th + 2 > maxH) return null;
     if (ih + 2 > maxH) { ih = maxH - 2; iw = ih * r; }
-    if (Math.min(iw, ih) < MIN_IMG_SIDE || th + 2 > maxH) return null;
-    return { kind: kind, iw: iw, ih: ih, w: Math.round(iw + SIDE_TEXT_W + 2), h: Math.round(Math.max(ih, th) + 2) };
+    want = iw * ih;
+    // 高度固定为卡片高度（不矮于文字区），宽度尽量按原图比例
+    ih = Math.max(ih, th);
+    iw = Math.min(ih * r, maxW - SIDE_TEXT_W - 2, Math.max(want * MAX_GROW / ih, iw));
+    if (Math.min(iw, ih) < MIN_IMG_SIDE) return null;
+    return { kind: kind, iw: iw, ih: ih, want: want, crop: cropOf(iw, ih, r), w: Math.round(iw + SIDE_TEXT_W + 2), h: Math.round(ih + 2) };
+  }
+  // 比例为 r 的图片按 cover 铺满 w × h 时裁去的比例
+  function cropOf(w, h, r) { return 1 - Math.min(w / h / r, h * r / w); }
+
+  // 图片区 w × h、原图比例 r：图片按 cover 占满图片区时裁去的部分不超过 MAX_CROP 则返回 null（图片占满图片区）；
+  // 否则返回图片框的尺寸（只裁去 MAX_CROP，图片框在图片区中居中，周围由虚化的同一张图片铺满）
+  function imageFit(w, h, r) {
+    var m = w / h;
+    if (m > r) {
+      if (h * r / w >= 1 - MAX_CROP) return null;
+      return { w: h * r / (1 - MAX_CROP), h: h };
+    }
+    if (w / r / (1 - MAX_CROP) >= h) return null;
+    return { w: w, h: w / r / (1 - MAX_CROP) };
   }
 
   // 稳定的伪随机数，让同一数据每次排版一致
@@ -564,17 +595,23 @@
       var k2 = s * s * Math.pow(narrow, tier.shrink);
       tiers.forEach(function (area) {
         KINDS.forEach(function (kind) {
-          var sh = shapeFor(ev, r, area * k2, kind, maxH);
+          var sh = shapeFor(ev, r, area * k2, kind, maxH, maxW);
           if (!sh || sh.w > maxW) return;
-          // 按实际显示的图片面积计分，越大越好（重大事件更坚持用大图）；
+          // 按图片面积计分，越大越好（重大事件更坚持用大图）；为了占满图片区而放大的部分不算分，还略微扣分，免得小图越放越大；
+          // 图片被裁得越多越差；
           // 与上一个事件换一种图文关系；竖图适合左右排，横图适合上下排
-          sh.cost = (1 - sh.iw * sh.ih / (tiers[0] * k2)) * tier.weight + (kind === prevKind ? 14 : 0)
+          sh.cost = (1 - sh.want / (tiers[0] * k2)) * tier.weight + sh.crop * CROP_COST + (sh.iw * sh.ih / sh.want - 1) * GROW_COST + (kind === prevKind ? 14 : 0)
             + (kind === 'stack' ? (r < 0.85 ? 18 : 0) : (r > 1.7 ? 18 : 0))
             + (kind === 'right' ? 4 : 0);
           shapes.push(sh);
         });
       });
-      if (!shapes.length) shapes.push({ kind: 'stack', iw: 120, ih: 90, w: MIN_STACK_W + 2, h: Math.min(maxH, 90 + textHeight(ev, MIN_STACK_W, 'stack') + 2), cost: 0 });
+      if (!shapes.length) {
+        // 哪种都放不下（极少见）：最窄的上下排，图片占满图片区
+        var fth = textHeight(ev, MIN_STACK_W, 'stack');
+        var fih = clamp(MIN_STACK_W / r, 40, Math.max(40, maxH - fth - 2));
+        shapes.push({ kind: 'stack', iw: MIN_STACK_W, ih: fih, crop: 0, w: MIN_STACK_W + 2, h: Math.min(maxH, Math.round(fih + fth + 2)), cost: 0 });
+      }
       var x0 = Math.max(lead + (rawPos(ev.year) - base) * 1, prevX + minGap, lead);
       var best = null;
 
@@ -873,8 +910,17 @@
       else media.style.width = Math.round(sh.iw) + 'px';
       var pic = imageEl(ev.images && ev.images[0], 'card-img', ev.title, true);
       if (pic.dataset.src) pendingImages.push({ img: pic, l: r.l, r: r.r });
-      pic.style.width = Math.round(sh.iw) + 'px';
-      pic.style.height = Math.round(sh.ih) + 'px';
+      var fit = imageFit(sh.iw, sh.ih, coverRatio(ev));
+      if (fit && pic.tagName === 'IMG') {
+        // 原图比例与图片区相差太多：图片只裁去 MAX_CROP，其余部分用同一张图片放大虚化铺满，不露出空白
+        pic.style.width = Math.round(fit.w) + 'px';
+        pic.style.height = Math.round(fit.h) + 'px';
+        var bg = imageEl(ev.images[0], 'card-img-bg', '', true);
+        bg.alt = '';
+        bg.setAttribute('aria-hidden', 'true');
+        pendingImages.push({ img: bg, l: r.l, r: r.r });
+        media.appendChild(bg);
+      }
       media.appendChild(pic);
       card.appendChild(media);
       card.appendChild(cardBody(ev));
