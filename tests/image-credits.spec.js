@@ -8,7 +8,7 @@ const path = require('path');
 const { test, expect, seedEvents, loadDataset, makePng, readTestData, DATASET, STORAGE_KEY, TEST_DATA_FILE } = require('./helpers');
 const { createServer, validateDataset } = require('../server');
 const { buildEventPages } = require('../tools/build-site');
-const { translateText, parseGoogle } = require('../lib/translate');
+const { translateText, parseGoogle, parseMyMemory } = require('../lib/translate');
 
 test.use({ viewport: { width: 1440, height: 860 } });
 
@@ -545,6 +545,24 @@ test.describe('自动翻译图片标题', () => {
     await inputs.nth(0).blur();
     await page.waitForTimeout(300);
     await expect(inputs.nth(1)).toHaveValue('');
+    await expect(page.locator('#newCaptionHint')).toHaveText('自动翻译失败：连不上翻译网站，请手动填写');
+    // 翻译成功后提示消失
+    await inputs.nth(0).fill('长城');
+    await inputs.nth(0).blur();
+    await expect(inputs.nth(1)).toHaveValue('Great Wall');
+    await expect(page.locator('#newCaptionHint')).toBeHidden();
+  });
+
+  test('没有翻译接口时（线上网站或旧版本的本地服务器）提示要用 npm start 启动', async ({ page }) => {
+    await mockSibling(page);
+    await page.route('**/api/translate?**', (route) => route.fulfill({ status: 404, body: 'Not Found' }));
+    await openEditor(page);
+    const inputs = page.locator('#newCaptionInputs .new-caption-input');
+    await expect(inputs).toHaveCount(2);
+    await inputs.nth(0).fill('长城');
+    await inputs.nth(0).blur();
+    await expect(page.locator('#newCaptionHint')).toContainText('npm start');
+    await expect(inputs.nth(1)).toHaveValue('');
   });
 
   test('翻译接口：拼接译文片段，参数不对或查询失败时返回 null（不访问外网）', async () => {
@@ -560,6 +578,22 @@ test.describe('自动翻译图片标题', () => {
     expect(await translateText('', 'zh-CN', 'en', { fetchImpl })).toBeNull();
     expect(await translateText('长城', 'zh-CN', '../x', { fetchImpl })).toBeNull();
     expect(urls).toHaveLength(1);
+
+    // 简繁转换在本机完成，不联网
+    const none = async () => { throw new Error('不应联网'); };
+    expect(await translateText('帶有集裝箱的鐵路', 'zh-TW', 'zh-CN', { fetchImpl: none })).toBe('带有集装箱的铁路');
+    expect(await translateText('带有集装箱的铁路', 'zh-CN', 'zh-TW', { fetchImpl: none })).toBe('帶有集裝箱的鐵路');
+
+    // Google 连不上时用 MyMemory；额度用完的警告不当作译文
+    expect(parseMyMemory({ responseStatus: 200, responseData: { translatedText: 'MYMEMORY WARNING: YOU USED ALL AVAILABLE FREE TRANSLATIONS' } })).toBeNull();
+    const asked = [];
+    const fallback = async (url) => {
+      asked.push(new URL(url).hostname);
+      if (url.includes('googleapis')) throw new Error('blocked');
+      return { ok: true, json: async () => ({ responseStatus: 200, responseData: { translatedText: 'Great Wall' } }) };
+    };
+    expect(await translateText('长城', 'auto', 'en', { fetchImpl: fallback })).toBe('Great Wall');
+    expect(asked).toEqual(['translate.googleapis.com', 'api.mymemory.translated.net']);
   });
 
   test('本地服务器提供翻译接口（只读模式也提供）', async ({ request }) => {

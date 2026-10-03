@@ -269,6 +269,8 @@
     '这张图的版权：': 'Copyright of this image:',
     '这张图的标题：': 'Caption of this image:',
     '翻译中…': 'Translating…',
+    '自动翻译需要在本地用 npm start 启动网站（更新代码后要重新启动）': 'Automatic translation needs the site started locally with npm start (restart it after updating the code)',
+    '自动翻译失败：连不上翻译网站，请手动填写': 'Automatic translation failed: the translation service is unreachable, please fill it in by hand',
     '图片标题（上传时留空用文件名）': 'Caption (file name if left empty when uploading)',
     '新图片的作者': 'Author of the new image',
     '新图片的许可证': 'License of the new image',

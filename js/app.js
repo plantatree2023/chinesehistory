@@ -1974,12 +1974,23 @@
     return true;
   }
   // 翻译（本地服务器的 /api/translate；线上网站没有这个接口，翻译不了时返回 null）
+  // 翻译不了时在标题栏下方说明原因：没有翻译接口（线上网站，或本地服务器还是旧版本）/ 连不上翻译网站
   function translateCaption(text, from, to) {
     var q = new URLSearchParams({ text: text, from: from, to: to });
     return fetch('api/translate?' + q.toString()).then(function (res) {
-      return res.ok ? res.json() : null;
-    }).then(function (r) { return r && typeof r.text === 'string' && r.text.trim() ? r.text.trim() : null; })
-      .catch(function () { return null; });
+      if (!res.ok) { setCaptionHint(_('自动翻译需要在本地用 npm start 启动网站（更新代码后要重新启动）')); return null; }
+      return res.json().then(function (r) {
+        var t = r && typeof r.text === 'string' && r.text.trim() ? r.text.trim() : null;
+        setCaptionHint(t ? '' : _('自动翻译失败：连不上翻译网站，请手动填写'));
+        return t;
+      });
+    }).catch(function () { return null; });
+  }
+  function setCaptionHint(text) {
+    var h = $('newCaptionHint');
+    h.textContent = text || '';
+    h.className = 'new-credit-hint' + (text ? ' warn' : '');
+    h.hidden = !text;
   }
   // 翻译到 lang 时在输入框中显示“翻译中…”
   // fallback：翻译不了时填入的文字（转换繁简失败时用原文）
@@ -2061,6 +2072,7 @@
   }
   function resetNewCredit() {
     captionGen++;
+    setCaptionHint('');
     newCaptions = {};
     newCaptionAuto = {};
     Array.prototype.forEach.call($('newCaptionInputs').querySelectorAll('input'), function (input) { input.value = ''; });
