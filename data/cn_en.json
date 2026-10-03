@@ -2086,7 +2086,9 @@
           "src": "images/8f7ac9cd795ccb09.jpg",
           "w": 800,
           "h": 678,
-          "caption": "Diagram of the Qin dynasty's political structure"
+          "caption": "Diagram of the Qin dynasty's political structure",
+          "license": "unknown",
+          "sourceUrl": "https://i1.kknews.cc/iS2wb4LXji4jxDCpQTgg9tWpuJE44ntiNg/0.jpg"
         }
       ],
       "sources": [
@@ -2096,7 +2098,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 7
+      "majorScore": 7,
+      "updatedAt": 1791041962
     },
     {
       "id": "e123",
@@ -2143,10 +2146,31 @@
       "detail": "The Yue were an old people of southern China, living along the southeastern coast and in the Pearl River basin; because they had many tribes they were called the “Hundred Yue” (Baiyue). After unifying the six states, Qin Shi Huang sent Tu Sui with several hundred thousand troops by separate routes to attack the Baiyue. Because Lingnan was mountainous and distant, transporting supplies was very difficult, the Qin advance was blocked and the commander Tu Sui was killed by the Yue. To solve the supply problem, Qin Shi Huang ordered the Supervising Censor Lu (called “Shi Lu” in the histories) to dig a canal in present-day Xing'an County, Guangxi: the Lingqu. The Lingqu made clever use of the terrain: a diversion head split the upper Xiang River into the South Canal and North Canal, the large and small “Tianping” weirs regulated the water level, and “doumen” (a kind of lock) overcame differences in water level, letting boats cross the Yuecheng Range and linking the Xiang and Li rivers, thus connecting the Yangtze and Pearl River systems. The Lingqu was opened around 214 BC; over 30 km long, it is among the oldest surviving canals in the world and, with the Dujiangyan and Zhengguo Canal, is called one of the three great water works of the Qin. Once it was open, supplies reached the front without interruption, and in 214 BC Qin unified Lingnan and set up Guilin, Nanhai and Xiang commanderies there, moving several hundred thousand people from the Central Plains to garrison the area and live among the Yue, promoting the development of Lingnan and ethnic integration. At the end of the Qin, Zhao Tuo, commandant of Nanhai, held Lingnan and founded the Nanyue kingdom, which was not brought back under a unified dynasty until Emperor Wu of Han.",
       "images": [
         {
-          "src": "images/951f10110a8d7bb3.jpg",
-          "w": 618,
-          "h": 800,
-          "caption": "Lingqu Canal"
+          "src": "images/fe3711e68dfb0251.jpg",
+          "w": 1280,
+          "h": 853,
+          "caption": "Lingqu Canal",
+          "author": "Farm",
+          "license": "CC BY 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lingqu_Canal.jpg"
+        },
+        {
+          "src": "images/6123b38ec1e7fd98.jpg",
+          "w": 1036,
+          "h": 974,
+          "caption": "The flow of Lingqu Canal, connecting rivers Xiang and Gui, built 3rd century BC; northbound Xiang R",
+          "author": "Felis_domestica, on the base of \"NG 49-10 KUEI-LIN\" map, Series L500, U.S. Army Map Service, 1954-; public domain; scan of the map courtesy of the University of Texas Libraries, The University of Texa",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lingqu_Canal_map.jpg"
+        },
+        {
+          "src": "images/662ef5e6ada532ab.png",
+          "w": 800,
+          "h": 562,
+          "caption": "Schematic diagram of Lingqu",
+          "author": "The original uploader was Zhuwq at Chinese Wikipedia.",
+          "license": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lingqu_map.png"
         }
       ],
       "sources": [
@@ -2156,7 +2180,8 @@
         }
       ],
       "type": "Science",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791041885
     },
     {
       "id": "e024",
@@ -2355,10 +2380,10 @@
       "detail": "After the Chen Sheng and Wu Guang uprising failed, anti-Qin struggles continued everywhere, and the forces led by Xiang Yu and Liu Bang grew into the main anti-Qin forces. In 208 BC the Qin general Zhang Han, having defeated Xiang Liang, crossed the Yellow River northward to attack Zhao and sent Wang Li to besiege King Xie of Zhao at Julu (southwest of present-day Pingxiang, Hebei), with a Qin force said to number 400,000. King Huai of Chu sent Song Yi as commander and Xiang Yu as deputy to relieve Zhao, and sent Liu Bang west to Guanzhong, agreeing that “whoever enters Guanzhong first shall be king there.” Song Yi lingered at Anyang for over forty days without advancing; Xiang Yu killed him and took command. In 207 BC, after crossing the Zhang River, Xiang Yu ordered the cooking pots smashed, the ferry boats sunk and the tents burned, each man carrying only three days' food, to show a fight to the death, the origin of the idiom “smash the cauldrons and sink the boats.” The Chu troops, each fighting like ten, won nine battles in nine, broke the Qin army and captured Wang Li, and the lords' troops who had watched from the walls did not dare look up at Xiang Yu. Soon Zhang Han surrendered with 200,000 Qin troops. The Battle of Julu, a victory of the few over the many, destroyed Qin's main force and laid the basis for its overthrow. Meanwhile Liu Bang avoided the main Qin army, entered Wu Pass in the west and pressed on Xianyang. Inside Qin, Zhao Gao killed the Second Emperor and made Ziying king of Qin, and Ziying then killed Zhao Gao by a ruse. In 207 BC Ziying surrendered to Liu Bang outside Xianyang, and Qin fell.",
       "images": [
         {
-          "src": "images/7841b396f9109412.png",
-          "w": 604,
-          "h": 800,
-          "caption": "",
+          "src": "images/5d5997ca3a058534.png",
+          "w": 600,
+          "h": 794,
+          "caption": "Situation map of the Battle of Julu",
           "author": "Original uploader was 竹围墙 at zh.wikipedia",
           "license": "CC BY-SA 3.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Juluzhizhan.png"
@@ -2372,7 +2397,7 @@
       ],
       "type": "War",
       "majorScore": 6,
-      "updatedAt": 1791000467
+      "updatedAt": 1791042029
     },
     {
       "id": "e027",
@@ -2455,10 +2480,22 @@
       "detail": "After the wars of the late Qin, the economy was badly damaged and the early Western Han landscape was ruined and desolate; population had fallen sharply, the emperor could not find four horses of the same color for his carriage, and some generals and ministers had to ride in ox carts. Emperor Gaozu of Han, Liu Bang, learning from the Qin's quick fall through tyranny, adopted a policy of rest and recovery: soldiers were demobilized to return home and farm, those who had become slaves through war and famine were freed as commoners, and refugees were encouraged to return home; taxes and labor were lightened, with the land tax set at “one fifteenth.” After Gaozu's death, Emperor Hui and Empress Dowager Lü continued the policy, governing by the Daoist Huang-Lao idea of “governing by non-action.” Under Emperors Wen and Jing, rulers paid more attention to agriculture, took farming as the foundation, repeatedly issued edicts urging farming and sericulture, and cut the land tax to “one thirtieth”; under Wen it was even waived for over ten years. They also reduced labor service so that adult men served once every three years. Stressing “transforming the people by virtue,” they abolished the crimes of slander and the law of collective punishment and mutilating punishments. Emperor Wen advocated thrift in governing; during his twenty-odd years on the throne, palaces, gardens, carriages and clothing were not added to, and when he wanted to build a terrace but heard it would cost the wealth of ten middle-class families, he gave it up.",
       "images": [
         {
-          "src": "images/80f09cec1cef43c8.jpg",
-          "w": 800,
-          "h": 800,
-          "caption": "Portrait of Emperor Wen of Han"
+          "src": "images/4b3b95e6df61c3fc.jpg",
+          "w": 500,
+          "h": 762,
+          "caption": "Jingdi of Han",
+          "author": "Wang Qi",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:SancaiJingdiHan.jpg"
+        },
+        {
+          "src": "images/a9b5c3a2797dcd89.jpg",
+          "w": 500,
+          "h": 773,
+          "caption": "Emperor Wen of Han from the Sancai Tuhui",
+          "author": "Unknown authorUnknown author",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:SancaiWendiiHan.jpg"
         }
       ],
       "sources": [
@@ -2468,7 +2505,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 7
+      "majorScore": 7,
+      "updatedAt": 1791042132
     },
     {
       "id": "e128",
@@ -2631,10 +2669,21 @@
       "detail": "In the early Western Han the feudal kings were powerful: some openly defied officials sent by the court, and some rebelled. Although the Rebellion of the Seven States weakened the kings, certain kingdoms still stretched a thousand li and held dozens of cities, a latent threat to the center, while local magnates also annexed land and defied the authorities. After Emperor Wu took the throne, the minister Zhufu Yan memorialized that forcibly stripping land would provoke resistance and rebellion, as Chao Cuo's attempt to reduce the kingdoms had done; better to let the kings extend their favor to all their sons and divide the kingdom among them as fiefs. In 127 BC Emperor Wu adopted this, decreeing that apart from the eldest legitimate son, who inherited the kingship, a king might divide his land among his other sons as marquisates, with titles set by the emperor. These marquisates belonged to the commanderies and were governed directly by the center. This was the “Edict of Extending Favors.” It seemed a kindness to the kings but in practice made kingdoms ever smaller; they were “weakened without being cut down,” and it provoked little resistance. Emperor Wu later stripped over a hundred marquises of their rank on grounds such as substandard gold offered in sacrifice. To tighten oversight of localities he also divided the realm into 13 inspectorates, each with an inspector who monitored local officials and magnates for the court. After these measures the feudal kings never recovered, the problem of the kingdoms was largely settled, central control grew greatly, and the unity of the Western Han was consolidated.",
       "images": [
         {
-          "src": "images/64d6d436a43e45e6.jpg",
-          "w": 800,
-          "h": 670,
-          "caption": "Portrait of Emperor Wu of Han"
+          "src": "images/960367a4ba2c76ce.png",
+          "w": 1280,
+          "h": 2647,
+          "caption": "A schematic diagram of the territorial changes of Qi’s prefectures and states in the early Han Dynasty",
+          "author": "Esiymbro",
+          "license": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%B1%89%E5%88%9D%E9%BD%90%E5%9C%B0%E9%83%A1%E5%9B%BD.png"
+        },
+        {
+          "src": "images/1666f9344c9ed1c8.jpg",
+          "w": 300,
+          "h": 462,
+          "caption": "Emperor Wu of Han Dynasty",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJffl0ZFKWkPiygQjmf1AOj1ISafNViFjMlg3iGucsO0lXdlCwNYjIiKXX&s=10"
         }
       ],
       "sources": [
@@ -2644,7 +2693,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791042298
     },
     {
       "id": "e131",
@@ -3175,10 +3225,12 @@
       "detail": "Daoism is a religion native to China. It takes the “Dao” as its highest belief, draws on immortality arts and Huang-Lao thought, and seeks to attain the Dao and become immortal. After the middle of the Eastern Han, politics were dark, society unstable, and natural disasters and plagues frequent; the people's extreme suffering and need for spiritual refuge provided fertile ground for Daoism's rise. The Scripture of Great Peace (Taiping Jing) became an important early Daoist text. In the late Eastern Han, Zhang Jue of Julu founded the Way of Great Peace based on that scripture, venerating the Yellow Emperor and Laozi and absorbing popular immortality arts. Calling himself the “Great Worthy Teacher,” he healed the sick with talisman water and spread his teaching, finding favor among the poor. In over ten years he gained several hundred thousand followers across eight provinces, whom he organized into 36 divisions, and on that basis he later launched the Yellow Turban Rebellion. Meanwhile Zhang Ling (later called Zhang Daoling) founded the Way of the Five Pecks of Rice at Heming Mountain in Shu (in present-day Dayi, Sichuan), so named because entrants paid five pecks of rice; it honored Laozi as its patriarch and took the Laozi in Five Thousand Characters as its scripture. The two were the main early Daoist branches, followed mainly by lower-class people. The Five Pecks of Rice later developed into the Way of the Celestial Masters, and Zhang Ling was revered as the “Celestial Master Zhang.” After the Wei and Jin, Ge Hong, Kou Qianzhi, Tao Hongjing and others systematized Daoist theory. Daoism influenced ancient Chinese philosophy, medicine, chemistry, literature, art and folk customs.",
       "images": [
         {
-          "src": "images/3cbc4e63279080d2.jpg",
-          "w": 615,
-          "h": 800,
-          "caption": "Mount Qingcheng, Chengdu, Sichuan"
+          "src": "images/1fd8cce1e781f5d4.webp",
+          "w": 1360,
+          "h": 908,
+          "caption": "Qingcheng Mountain, Chengdu, Sichuan",
+          "license": "unknown",
+          "sourceUrl": "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlGFrJBeLtXewYX9Fic91eF3wIbCM7mnmfFCWfQGvWbSe9jbhYOyKUslUxmgj4faSmGri7YGq5r1830CfCXa23rV3Rdd1BicdGE1hgeHL1RpaJNYV1KsUIPhZ2pPg9RVGk4tWfq=s1360-w1360-h1020-rw"
         }
       ],
       "sources": [
@@ -3188,7 +3240,8 @@
         }
       ],
       "type": "Culture",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791042454
     },
     {
       "id": "e035",
@@ -3301,7 +3354,7 @@
           "src": "images/f9ff3c2b9126.jpg",
           "w": 500,
           "h": 721,
-          "caption": "",
+          "caption": "Schematic diagram of the Battle of Guandu",
           "author": "User Zhuwq on zh.wikipedia",
           "license": "CC BY-SA 3.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Guanduzhizhan.png"
@@ -3311,7 +3364,7 @@
           "w": 500,
           "h": 464,
           "caption": "Cao Cao defeating Yuan Shao, illustration from Zhou Yuexiao's edition of Romance of the Three Kingdoms",
-          "author": "Zhou Yuejiao (before 1640)",
+          "author": "周曰校（Before 1640）",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%96%B0%E5%88%8A%E6%A0%A1%E6%AD%A3%E5%8F%A4%E6%9C%AC%E5%A4%A7%E5%AD%97%E9%9F%B3%E9%87%8A%E4%B8%89%E5%9B%BD%E5%BF%97%E9%80%9A%E4%BF%97%E6%BC%94%E4%B9%89_%E6%98%8E%E4%B8%87%E5%8E%86%E5%8D%81%E4%B9%9D%E5%B9%B4%E4%B9%A6%E6%9E%97%E5%91%A8%E6%9B%B0%E6%A0%A1%E5%88%8A%E6%9C%AC_061.jpg"
         }
@@ -3324,7 +3377,7 @@
       ],
       "type": "War",
       "majorScore": 6,
-      "updatedAt": 1791000467
+      "updatedAt": 1791042522
     },
     {
       "id": "e037",
@@ -3403,10 +3456,10 @@
       "detail": "After Red Cliffs, Cao Cao turned to Guanzhong, put down its separatist forces and completed the unification of the north; Liu Bei first took part of Jing Province, then seized Yi Province and Hanzhong, controlling today's Sichuan, Chongqing, Yunnan, Guizhou and part of Hubei; Sun Quan consolidated Jiangdong and extended his rule to today's Fujian and Guangdong. In AD 220 Cao Cao died, and his son Cao Pi deposed Emperor Xian of Han and took the throne at Luoyang under the name Wei, ending the Eastern Han. In 221 Liu Bei proclaimed himself emperor at Chengdu under the name Han, known as Shu Han or Shu. In 222 Sun Quan was made King of Wu by Wei and that year defeated Liu Bei at the Battle of Yiling; in 229 Sun Quan formally became emperor under the name Wu and soon made Jianye (present-day Nanjing, Jiangsu) his capital. The three-way division of Wei, Shu and Wu was complete. In the Three Kingdoms period each state worked to restore and develop its economy: Cao Wei ran military farms and built water works and was the strongest; Shu Han under Zhuge Liang developed agriculture and Shu brocade and pacified the peoples of the southwest; Eastern Wu developed Jiangdong and had a thriving shipbuilding industry, once sending Wei Wen with a fleet to Yizhou (present-day Taiwan). The division ended the long warfare of the late Eastern Han, promoted the development of Jiangnan and the southwest, and prepared for later reunification. Wei destroyed Shu in 263, Sima Yan replaced Wei with the Western Jin in 266, and the Western Jin destroyed Wu in 280, ending the Three Kingdoms. Chen Shou's Records of the Three Kingdoms, and the novel Romance of the Three Kingdoms written from it by Luo Guanzhong in the late Yuan and early Ming, spread the history widely among the people.",
       "images": [
         {
-          "src": "images/e064f3bd5051.jpg",
-          "w": 500,
-          "h": 516,
-          "caption": "",
+          "src": "images/7282c65afb8cf3ed.png",
+          "w": 935,
+          "h": 964,
+          "caption": "Map of China's political regions during the Three Kingdoms period",
           "author": "玖巧仔",
           "license": "CC BY-SA 3.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E4%B8%89%E5%9B%BD%E8%A1%8C%E6%94%BF%E5%8C%BA%E5%88%92(%E7%B9%81).png"
@@ -3416,7 +3469,7 @@
           "w": 500,
           "h": 491,
           "caption": "Map of the warlords in AD 198",
-          "author": "Meidosensei at Chinese Wikipedia",
+          "author": "中文维基百科的Meidosensei",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eastern_Han_in_197_to_198.png"
         },
@@ -3467,7 +3520,7 @@
         "from": "Eastern Han",
         "to": "Three Kingdoms"
       },
-      "updatedAt": 1791000467
+      "updatedAt": 1791042576
     },
     {
       "id": "e141",
@@ -3501,15 +3554,6 @@
       "short": "Sima Yan replaced Wei in AD 266, founding the Western Jin with its capital at Luoyang; the Jin destroyed Wu in 280, ending the near-century of division since the late Eastern Han.",
       "detail": "In the late Three Kingdoms, Wei grew steadily stronger while Wu and Shu declined. Within Wei, the minister Sima Yi repeatedly led armies against Zhuge Liang's northern expeditions for Shu Han, and his power rose. In AD 249, while Emperor Cao Fang and General-in-Chief Cao Shuang were away at a tomb visit, Sima Yi staged the Gaopingling Incident, killing Cao Shuang and taking control of Wei's military and government. After his death his sons Sima Shi and Sima Zhao held power in turn, and Wei's emperors were puppets. In 263 Sima Zhao sent Zhong Hui, Deng Ai and others against Shu; Deng Ai crossed by the Yinping mountain path to Chengdu, the last Shu emperor Liu Shan surrendered, and Shu Han fell. In 266 Sima Zhao's son Sima Yan forced Emperor Yuan of Wei, Cao Huan, to abdicate and took the throne, renaming the state Jin and keeping Luoyang as capital, called the Western Jin; Sima Yan was Emperor Wu of Jin. The last Wu emperor, Sun Hao, ruled cruelly and corruptly. In 279 Emperor Wu sent Du Yu, Wang Jun and others in six columns against Wu; Wang Jun's tower ships, built in Yizhou, sailed down the Yangtze, broke the iron chains Wu had laid, and advanced on Jianye. In 280 Sun Hao surrendered and Wu fell; the Western Jin reunified the country, ending the near-century of division since the late Eastern Han. Early on, land-occupation and household-tax systems brought the “Taikang Era Prosperity.” But the Jin house and many ministers came from great aristocratic and landlord families, the court gave generous privileges to the gentry clans, and the ruling class lived in corrupt luxury. Emperor Wu also enfeoffed many imperial kin as kings and let them command troops, sowing the seeds of civil strife, and the Western Jin's unity lasted only a few decades.",
       "images": [
-        {
-          "src": "images/e8cc9aba5c7b0a41.jpg",
-          "w": 500,
-          "h": 375,
-          "caption": "",
-          "author": "Px820 at Japanese Wikipedia / 権作 / http://px820.onmitsu.jp",
-          "license": "CC BY-SA 3.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nanjing_ShitouCheng.jpg"
-        },
         {
           "src": "images/7fe8b29d539edbcc.jpg",
           "w": 500,
@@ -3553,6 +3597,15 @@
           "caption": "Territory of the Western Jin at unification",
           "license": "CC BY-SA 3.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:China_Western_Jin.PNG"
+        },
+        {
+          "src": "images/680c57a34d680e58.jpg",
+          "w": 640,
+          "h": 480,
+          "caption": "Nanjing Stone Town, grimacing in the mirror",
+          "author": "Px820 at Japanese Wikipedia / 権作 / http://px820.onmitsu.jp",
+          "license": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nanjing_ShitouCheng.jpg"
         }
       ],
       "sources": [
@@ -3572,7 +3625,7 @@
         "to": "Jin"
       },
       "wiki": "晉滅吳之戰",
-      "updatedAt": 1791000467
+      "updatedAt": 1791042620
     },
     {
       "id": "e142",
@@ -3583,10 +3636,13 @@
       "detail": "In the early Western Jin, Emperor Wu, Sima Yan, believed that Cao Wei had been usurped by the Sima because it had weakened its imperial princes, leaving the throne isolated. He therefore enfeoffed many kin as kings and sent them to garrison important regions such as Xuchang, Ye and Chang'an. These princes commanded troops and also ran local civil government, and their power grew. Emperor Wu died in AD 290, and the crown prince Sima Zhong took the throne as Emperor Hui, who was feeble-minded and incompetent. Empress Jia Nanfeng seized power and struggled for control with the consort-clan figure Yang Jun. In 291 the empress joined Sima Wei, Prince of Chu, to kill Yang Jun, then killed Sima Liang, Prince of Runan, and the Prince of Chu, setting off years of war among the princes. The main contenders were the eight princes: Sima Liang of Runan, Sima Wei of Chu, Sima Lun of Zhao, Sima Jiong of Qi, Sima Ai of Changsha, Sima Ying of Chengdu, Sima Yong of Hejian and Sima Yue of Donghai, known as the “War of the Eight Princes.” Sima Lun of Zhao once deposed Emperor Hui and took the throne, and the princes called in troops of the Xiongnu, Xianbei and other peoples who had moved inward. The fighting centered on Luoyang and ended only in 306 when Sima Yue took control, lasting sixteen years. The disaster was immense: the price of rice soared to 10,000 cash per shi, the population of the Central Plains died in great numbers, and survivors fled, hundreds of thousands to the south. The war drained the Western Jin's strength and sent it into rapid decline; the chiefs of the peoples who had moved inward took the chance to rise, the Western Jin soon fell, and the north entered a long division.",
       "images": [
         {
-          "src": "images/7b87c380105d890b.jpg",
-          "w": 319,
-          "h": 400,
-          "caption": "Western Jin pottery figure holding a blade"
+          "src": "images/7db277bc60a9ad54.png",
+          "w": 642,
+          "h": 534,
+          "caption": "​Distribution map of military towns and the feudal states of the Eight Kings in the Western Jin Dynasty",
+          "author": "Jason22 at Chinese Wikipedia",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E8%A5%BF%E6%99%89%E8%BB%8D%E9%8E%AE%E5%8F%8A%E5%85%AB%E7%8E%8B%E5%B0%81%E5%9C%8B%E5%88%86%E5%B8%83%E5%9C%96.png"
         }
       ],
       "sources": [
@@ -3596,7 +3652,8 @@
         }
       ],
       "type": "War",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791042671
     },
     {
       "id": "e143",
@@ -3643,10 +3700,13 @@
       "detail": "At the end of the Western Jin, many northerners moved south hoping the Jin could retake the Central Plains; a leading figure among them was Zu Ti. Zu Ti, courtesy name Shizhi, from Qiu county in Fanyang (present-day Laishui, Hebei), had great ambition in youth; with his friend Liu Kun he rose at midnight at the crowing of the cock to practice with the sword, determined to serve the country, the origin of the idiom “rising at cockcrow to practice sword.” Before the Western Jin fell, Zu Ti led several hundred households south to the Huai and Yangtze region. He repeatedly asked Sima Rui, Prince of Langye, who held Jiankang, to send troops north to recover the Central Plains. Sima Rui, wanting only to hold Jiangnan, made him Governor of Yu Province but gave only provisions for a thousand men and three thousand bolts of cloth, telling him to recruit his own army. In 313 Zu Ti led over a hundred households of his followers across the river northward. Midway, standing in the bow and striking his oar, he swore passionately: “If I, Zu Ti, cannot clear the Central Plains and cross this river again, may I be like this great river that flows away and never returns!” Those with him were moved, the origin of the allusion “striking the oar in mid-stream.” After crossing, he smelted iron and cast weapons around Huaiyin and raised a force of over two thousand. After years of hard fighting he defeated Shi Le of the Later Zhao, recovered most of the land south of the Yellow River, and stopped Later Zhao raids south. But the court distrusted him and sent Dai Yuan to check him, and amid the conflict between Wang Dun and Sima Rui, Zu Ti fell ill from frustration and died at Yongqiu in 321. After his death the lands were gradually lost.",
       "images": [
         {
-          "src": "images/cfe5efa2d3c40e48.jpg",
-          "w": 800,
-          "h": 577,
-          "caption": ""
+          "src": "images/5a01b290672b4eac.jpg",
+          "w": 1169,
+          "h": 1697,
+          "caption": "Hanan collection, in rare books room. Double leaves, oriental style, in case. Gift of Prof. Patrick Hanan. Pai ji : Guangxu shi jiu nian [1893] dong yue Shanghai wen yu shan fang cang ben Guang bai Song zhai pai yin",
+          "author": "金人瑞. 繡像三國演義續編 :8卷. 上海 : 廣百宋齋, 光緖19年[1893].",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Zu_Ti(%E7%B9%A1%E5%83%8F%E4%B8%89%E5%9C%8B%E6%BC%94%E7%BE%A9%E7%BA%8C%E7%B7%A8).jpg"
         }
       ],
       "sources": [
@@ -3656,7 +3716,8 @@
         }
       ],
       "type": "War",
-      "majorScore": 4
+      "majorScore": 4,
+      "updatedAt": 1791042750
     },
     {
       "id": "e145",
@@ -3710,16 +3771,13 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lanting_rubbing1.jpg"
         },
         {
-          "src": "images/98afd13995cf28d5.jpg",
-          "w": 776,
-          "h": 800,
-          "caption": "Preface to the Orchid Pavilion Collection (copy, detail)"
-        },
-        {
-          "src": "images/108c2f70486d5050.jpg",
-          "w": 800,
-          "h": 753,
-          "caption": "Wei stele rubbing: inscription on the Bhikshu Daojiang statue"
+          "src": "images/cb94c7a96ee53463.jpg",
+          "w": 1280,
+          "h": 420,
+          "caption": "Main text of a Tang Dynasty copy of Wang Xizhi's Lantingji Xu by Feng Chengsu (馮承素)",
+          "author": "Feng Chengsu (馮承素), original by Wang Xizhi (王羲之)",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:LantingXu.jpg"
         }
       ],
       "sources": [
@@ -3734,7 +3792,7 @@
       ],
       "type": "Culture",
       "majorScore": 6,
-      "updatedAt": 1791000467
+      "updatedAt": 1791042817
     },
     {
       "id": "e146",
@@ -4022,10 +4080,21 @@
       "detail": "Zu Chongzhi (429–500), courtesy name Wenyuan, from Qiu county in Fanyang (present-day Laishui, Hebei), lived under the Southern Song and Qi and was an outstanding scientist who made major achievements in mathematics, astronomy and the calendar, and machine building. He was rigorous in study and never followed the ancients blindly. Pi is the ratio of a circle's circumference to its diameter, an important problem in mathematics. Ancient China first used “circumference three, diameter one,” that is, pi as 3. Liu Hui of Wei in the Three Kingdoms devised the “circle-cutting method,” using regular polygons inscribed in a circle to approach its area step by step, a method containing the idea of limits, and obtained pi of about 3.1416. Building on Liu Hui, Zu Chongzhi, through repeated painstaking calculation, fixed pi to the seventh decimal place, between 3.1415926 and 3.1415927, a result that led the world for nearly a thousand years until the Arab mathematician al-Kashi surpassed it in the 15th century. Zu Chongzhi also proposed 355/113 (the “close ratio”) and 22/7 (the “approximate ratio”) as approximations of pi, and later generations call 355/113 “Zu's ratio.” His mathematical classic Zhui Shu, written with his son Zu Geng, was made a main textbook for mathematics at the Tang Imperial Academy and was lost after the Song. In astronomy and the calendar, Zu Chongzhi compiled the Daming Calendar, the first to introduce precession into a calendar, making it more precise; it was issued ten years after his death. In his honor, Purple Mountain Observatory named an asteroid it discovered “Zu Chongzhi,” and a crater on the far side of the Moon also bears his name.",
       "images": [
         {
-          "src": "images/979fbb7987e09d52.jpg",
-          "w": 604,
-          "h": 761,
-          "caption": "Portrait of Zu Chongzhi"
+          "src": "images/486dc86c2e8c68a9.jpg",
+          "w": 381,
+          "h": 524,
+          "caption": "Zu Chongzhi",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEG0T66YYOv39AqFiPBV_dTrqplFwmQymbZlo16IzprQ&s=10"
+        },
+        {
+          "src": "images/881c6dde292b9744.jpg",
+          "w": 1280,
+          "h": 720,
+          "caption": "Statue of Zu Chongzi in Tinglin Park in Kunshan",
+          "author": "Gisling",
+          "license": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%98%86%E5%B1%B1%E4%BA%AD%E6%9E%97%E5%85%AC%E5%9B%AD%E7%A5%96%E5%86%B2%E4%B9%8B%E5%83%8F.jpg"
         }
       ],
       "sources": [
@@ -4035,7 +4104,8 @@
         }
       ],
       "type": "Science",
-      "majorScore": 7
+      "majorScore": 7,
+      "updatedAt": 1791042885
     },
     {
       "id": "e041",
@@ -4136,7 +4206,16 @@
       "title": "The Great Fusion of Northern Peoples",
       "short": "In the late Northern Dynasties, peoples who had moved inward lived and intermarried with the Han and learned from each other in economy, culture and customs, producing a great fusion in the north.",
       "detail": "From the Wei and Jin on, the Xiongnu, Xianbei, Jie, Di, Qiang and other peoples who had moved inward lived interspersed with the local Han and gradually settled. They learned farming from the Han and shifted from herding to agriculture, while the Han learned herding from the northern peoples and took up their food, clothing and implements; the hu bed, hu cake and hu dress entered the Central Plains. Rulers of the Sixteen Kingdoms and Northern Dynasties mostly cooperated with Han scholars and kept the existing ways of governing the Central Plains. Ethnic relations at times flared into conflict and even war, but the overall trend was that barriers gradually dissolved and relations eased. After Emperor Xiaowen's reforms of the Northern Wei, fusion quickened. By the late Northern Dynasties northern China saw a great fusion of peoples: they were in close contact economically and influenced one another in culture, customs and language; intermarriage grew common, and many who had moved inward merged into the Han, while the Han took in the blood and culture of other peoples and became more vigorous. Northern Dynasties folk songs such as the Ballad of Mulan and the Song of the Chile are products of this blending; the lines “The Chile plain, beneath the Yin Mountains, the sky like a dome covers the four fields” vividly depict the northern steppe, originally in Xianbei and later translated into Chinese. The imperial houses of the Sui and Tang, the Yang and Li, had close blood ties with Xianbei nobles. The great fusion of northern peoples laid the basis for unity and prosperity in the Sui and Tang and promoted the pattern of diversity in unity of the Chinese nation.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/b330bab823148154.jpg",
+          "w": 750,
+          "h": 551,
+          "caption": "Situation map of the Wei, Jin, Southern and Northern Dynasties (picture source: Historical Atlas of Chinese Territories)",
+          "license": "unknown",
+          "sourceUrl": "https://img.huanqiucdn.cn/dp/api/files/imageDir/cf8fbdee348641b7c3166acbabd92c98.png?imageView2/2/w/750"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E6%B0%91%E6%97%8F%E8%9E%8D%E5%90%88",
@@ -4144,7 +4223,8 @@
         }
       ],
       "type": "Society",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791043013
     },
     {
       "id": "e153",
@@ -4310,10 +4390,22 @@
       "detail": "The Zhaozhou Bridge, also called the Anji Bridge, stands over the Xiao River south of Zhao county, Hebei; it takes its name from Zhao county's old name, Zhaozhou, and is known locally as the “Great Stone Bridge.” It was designed and built under the direction of the outstanding Sui craftsman Li Chun, around the end of the Kaihuang era to the start of the Daye era (about AD 595–605), over 1,400 years ago, and is the oldest and best-preserved open-spandrel single-arch stone bridge in the world. The bridge is about 64 m long, its main arch spans about 37 m, and the deck is about 9 m wide, built of 28 independent arch rings set side by side. It has several innovations. First, a single large segmental arc, a flat arch that eases the passage of carts and people and saves stone. Second, two small arches on each shoulder of the main arch, forming an “open spandrel,” which lightens the bridge and saves stone, increases flood discharge in high water and reduces the force of floods on the structure, while making the bridge lighter and more beautiful. Third, the arch rings are joined and reinforced with iron clamps and tie rods, making the bridge strong and durable. Over the centuries the bridge has withstood many floods and earthquakes and still stands and can be crossed, a full demonstration of the wisdom and skill of ancient Chinese builders. Similar open-spandrel arch bridges appeared in Europe only in the 14th century, over 700 years later. The balustrade panels carry fine reliefs of dragons and beasts. In 1991 the American Society of Civil Engineers named the Zhaozhou Bridge an International Historic Civil Engineering Landmark.",
       "images": [
         {
-          "src": "images/6118df2e4fb06dd2.jpg",
-          "w": 800,
-          "h": 533,
-          "caption": "Zhaozhou Bridge"
+          "src": "images/8d16761abce2c263.jpg",
+          "w": 1280,
+          "h": 854,
+          "caption": "Anji Bridge",
+          "author": "Siyuwj",
+          "license": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Anji_Bridge,_Zhao_County,_2020-09-06_05.jpg"
+        },
+        {
+          "src": "images/6eebca3367ebf6f6.jpg",
+          "w": 1280,
+          "h": 850,
+          "caption": "Anji Bridge in 2011",
+          "author": "crazlei",
+          "license": "CC BY 2.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Anji_(Zhaozhou)_Bridge_2011.jpg"
         }
       ],
       "sources": [
@@ -4323,7 +4415,8 @@
         }
       ],
       "type": "Science",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791043179
     },
     {
       "id": "e044",
@@ -4443,7 +4536,17 @@
       "title": "Emperor Yang of Sui Sends Three Missions to Liuqiu",
       "short": "Emperor Yang of Sui sent three missions to Liuqiu (today's Taiwan); in AD 610 Chen Leng and others crossed the sea from Yi'an with over 10,000 men, and the Book of Sui has a dedicated account.",
       "detail": "The Sui called today's Taiwan “Liuqiu.” After the Sui unified the country, seafaring advanced greatly and knowledge of the overseas lands to the southeast deepened. Soon after taking the throne, Emperor Yang sent people to Liuqiu, three times in all. In AD 607 he sent the cavalry commandant Zhu Kuan and the sea master He Man to sail in search of strange customs; they reached Liuqiu but, unable to communicate, brought back one man. In 608 he sent Zhu Kuan again to pacify Liuqiu, but the people did not accept, and Zhu Kuan returned with a local cloth armor. In 610 Emperor Yang sent Chen Leng, a Wuben general, and Zhang Zhenzhou, a grand master of remonstrance, with over 10,000 men from Yi'an (present-day Chaozhou, Guangdong) across the sea to Liuqiu, where they fought the local inhabitants and finally brought back several thousand people. The three Sui missions strengthened ties between the mainland and Taiwan, and the Sui's knowledge of the Taiwan region advanced greatly beyond earlier dynasties. The Book of Sui, compiled in the early Tang, has a dedicated “Account of the Kingdom of Liuqiu” describing in detail its location, products, social organization, food and dress, marriage and funeral customs and religious beliefs. Scholars generally hold that Liuqiu in the Book of Sui mainly refers to today's Taiwan; after Wei Wen's arrival at Yizhou in the Three Kingdoms, this is another important historical record of contact between mainland dynasties and Taiwan. After the Song and Yuan, ties grew closer; the Yuan set up an Inspectorate at Penghu, and Taiwan gradually came under central government rule. These facts show that Taiwan has had close ties with the mainland since ancient times.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/69e49862cd26f353.jpg",
+          "w": 812,
+          "h": 1272,
+          "caption": "Emperor Yang of Sui Dynasty",
+          "author": "Yan Liben",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sui_Yangdi_Tang.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E6%B5%81%E6%B1%82",
@@ -4451,7 +4554,8 @@
         }
       ],
       "type": "Foreign relations",
-      "majorScore": 4
+      "majorScore": 4,
+      "updatedAt": 1791043275
     },
     {
       "id": "e102",
@@ -5749,7 +5853,24 @@
       "title": "Fan Zhongyan and the Qingli Reforms",
       "short": "In 1043 Fan Zhongyan, backed by Emperor Renzong, launched the Qingli Reforms for cleaner officialdom and stronger defense. They lasted barely a year but began Northern Song’s reform tradition.",
       "detail": "Fan Zhongyan (989–1052), courtesy name Xiwen, from Wuxian, Suzhou, was a noted Northern Song statesman, writer and thinker. His family was poor in his youth, and he studied hard, living on cold porridge. After passing the jinshi examination he served as an upright official who spoke frankly and was demoted several times for criticizing government. During the Song–Xia war he held the northwest, strengthened its defenses and kept Western Xia from attacking lightly. By mid-Northern Song the bureaucracy was bloated, with too many officials and a large army of low fighting strength, finances were strained and social tensions grew, known as “poverty and weakness”. In 1043 Emperor Renzong appointed Fan Zhongyan Participant in Governance, and he led reforms with Fu Bi, Han Qi and others. Fan submitted “Ten Proposals in Reply to the Imperial Edict”, calling for clear promotion and demotion, curbs on favoritism, stricter examinations, careful choice of local heads, equal public land, support for agriculture and sericulture, military readiness and lighter corvée. The core was cleaner officialdom: strict evaluation of officials, limits on sons of officials gaining posts by hereditary privilege, examination reform and schools. The reforms touched the interests of senior officials and nobles and met fierce opposition, and opponents slandered Fan and others as a “faction”. In 1045 Fan and others were pushed out of court, and the reforms failed after only just over a year. Though they failed, the Qingli Reforms began the reform tradition of Northern Song and prefigured Wang Anshi's later reforms. In “Yueyang Tower Record” Fan wrote the famous line “To worry before the world worries, to rejoice after the world has rejoiced”, a model of the scholar-official spirit.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/518a81210342426f.jpg",
+          "w": 650,
+          "h": 416,
+          "caption": "Qingli Reforms",
+          "license": "unknown",
+          "sourceUrl": "https://img.allhistory.com/5f34077e851391000133df38.jpg?imageView2/2/w/2940/|imageMogr2/strip/interlace/1/quality/75/format/jpg"
+        },
+        {
+          "src": "images/ced54f64fa617a12.jpg",
+          "w": 480,
+          "h": 556,
+          "caption": "Fan Zhongyan",
+          "license": "unknown",
+          "sourceUrl": "https://img.allhistory.com/5f3407b7851391000133df39.jpg?imageView2/2/w/2940/|imageMogr2/strip/interlace/1/quality/75/format/jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%BA%86%E5%8E%86%E6%96%B0%E6%94%BF",
@@ -5757,7 +5878,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791043431
     },
     {
       "id": "e181",
