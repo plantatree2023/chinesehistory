@@ -90,6 +90,7 @@
     '用“{q}”搜索图片': 'Search images for “{q}”',
     '请先填写事件名称': 'Enter the event title first',
     '百度百科': 'Baidu Baike',
+    '{site}（{lang}）': '{site} ({lang})',
     '⟳ 正在查询词条名…': '⟳ Looking up the article title…',
     '✓ 已自动填写标题（可修改）': '✓ Title filled in automatically (you can edit it)',
     '参考链接必须以 http:// 或 https:// 开头：{url}': 'References must start with http:// or https://: {url}',

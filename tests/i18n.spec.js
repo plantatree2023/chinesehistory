@@ -25,10 +25,10 @@ const LOCALES = loadLocales();
 const OTHER_LANGS = Object.keys(LOCALES).filter((l) => l !== 'zh');
 const langOf = (ds) => ds.split('_')[1].split('-')[0];
 
-// js/app.js 中 _('…') 的原文，以及显示时经过 _() 的反馈类型
+// js/app.js 中 _('…') 和 _in(语言, '…') 的原文，以及显示时经过 _() 的反馈类型
 function appStrings() {
   const app = fs.readFileSync(path.join(ROOT, 'js', 'app.js'), 'utf8');
-  const keys = new Set([...app.matchAll(/\b_\(\s*'((?:[^'\\]|\\.)*)'/g)].map((m) => vm.runInNewContext(`'${m[1]}'`)));
+  const keys = new Set([...app.matchAll(/\b_(?:\(|in\(\s*\w+\s*,)\s*'((?:[^'\\]|\\.)*)'/g)].map((m) => vm.runInNewContext(`'${m[1]}'`)));
   for (const name of ['EVENT_KINDS', 'SITE_KINDS']) {
     const list = app.match(new RegExp(`var ${name} = (\\[[^\\]]*\\]);`));
     expect(list, name).toBeTruthy();
