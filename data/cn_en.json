@@ -6309,10 +6309,12 @@
       "detail": "After the Tibetan Empire collapsed in the mid-9th century, Tibet remained divided for a long time, and local powers allied with the various Buddhist schools to form many regional religious and political authorities. In the early 13th century the Mongols rose rapidly and united the north. In 1239 Prince Godan (a son of Ogedei), stationed at Liangzhou (present-day Wuwei, Gansu), sent the general Doordanata with troops into Tibet to learn about conditions there. In 1244 Godan wrote inviting Sakya Pandita to talks at Liangzhou. Though over sixty, Sakya Pandita made the long journey with his two nephews, Phagpa and Chana Dorje, and arrived in 1246. In 1247 Godan and Sakya Pandita met at Liangzhou and agreed the terms of Tibet's submission to the Mongols: the lay and monastic leaders of Tibet would submit and accept officials sent by the Mongols; the Mongols would protect them, existing officials would stay in post, and the Sakya school would help the Mongols administer Tibet. After the talks, Sakya Pandita wrote an open letter to the Tibetan leaders, the Letter from Sakya Pandita to the People of Tibet, urging them to submit to the Mongols. This is the famous Liangzhou Meeting. Afterwards the Mongol rulers began to register households, set up postal stations and levy taxes in Tibet. The meeting is regarded as marking Tibet's formal incorporation under the Chinese central government, laying the foundation for the Yuan dynasty to set up administrative bodies in Tibet and govern it directly, and is seen as highly significant in the history of China as a unified multi-ethnic state. Today the Baita Temple in Wuwei, Gansu, houses a memorial museum for the Liangzhou Meeting.",
       "images": [
         {
-          "src": "images/a275b1e611e5da19.jpg",
-          "w": 637,
-          "h": 800,
-          "caption": ""
+          "src": "images/8c1099c9702e465d.jpg",
+          "w": 199,
+          "h": 253,
+          "caption": "Liangzhou Union",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvYuZIp2z2DBIgCV_9gHAMaONhfpnA5n2tAnwhvrMFLQ&s"
         }
       ],
       "sources": [
@@ -6322,7 +6324,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791013201
     },
     {
       "id": "e194",
