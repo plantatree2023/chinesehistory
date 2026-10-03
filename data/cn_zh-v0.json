@@ -331,18 +331,6 @@
           "author": "吴秀杰 资料来源: Science China Press",
           "license": "Copyrighted free use",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_reconstructed_Zhoukoudian_skull.jpg"
-        },
-        {
-          "src": "images/cf6e20e63081.jpg",
-          "w": 120,
-          "h": 81,
-          "caption": ""
-        },
-        {
-          "src": "images/4b89aa6058fc.jpg",
-          "w": 120,
-          "h": 139,
-          "caption": ""
         }
       ],
       "sources": [
@@ -352,7 +340,7 @@
       ],
       "type": "史前",
       "majorScore": 8,
-      "updatedAt": 1791000467
+      "updatedAt": 1791052615
     },
     {
       "id": "e003",
@@ -379,30 +367,6 @@
           "author": "SSYoung",
           "license": "CC BY-SA 4.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Skull_and_Stone_Tools_of_Upper_Cave_Man_(Cast).JPG"
-        },
-        {
-          "src": "images/63eebddea435.jpg",
-          "w": 500,
-          "h": 334,
-          "caption": ""
-        },
-        {
-          "src": "images/3c8a7bb37ac1.jpg",
-          "w": 500,
-          "h": 333,
-          "caption": ""
-        },
-        {
-          "src": "images/76606e528e14.jpg",
-          "w": 500,
-          "h": 667,
-          "caption": "周口店遗址是中国房山联合国教科文组织世界地质公园一部分"
-        },
-        {
-          "src": "images/c57e30da7450.jpg",
-          "w": 500,
-          "h": 335,
-          "caption": "周口店遗址博物馆"
         }
       ],
       "sources": [
@@ -412,7 +376,7 @@
       ],
       "type": "史前",
       "majorScore": 4,
-      "updatedAt": 1791000467
+      "updatedAt": 1791052615
     },
     {
       "id": "e004",
@@ -609,57 +573,15 @@
       "title": "涿鹿之战",
       "short": "传说黄帝联合炎帝在涿鹿击败蚩尤，华夏部落联盟形成。",
       "detail": "涿鹿之战是相传中国远古时代的一场战争，发生在今河北涿鹿一带。主要文献记载，黄帝联合炎帝部落，与东方九黎部落首领蚩尤交战。传说蚩尤作大雾，使黄帝军队迷失方向，黄帝造指南车辨别方向，最终击败并擒杀蚩尤。另有文献认为，在此之前黄帝与炎帝曾在阪泉交战。涿鹿之战后，黄帝被各部落尊为共主，炎黄部落逐渐融合，形成华夏族的主体，因此中国人自称“炎黄子孙”。",
-      "images": [
-        {
-          "src": "images/dedb1107599e.jpg",
-          "w": 500,
-          "h": 674,
-          "caption": ""
-        },
-        {
-          "src": "images/82324d326bb8.jpg",
-          "w": 500,
-          "h": 601,
-          "caption": "黄帝"
-        },
-        {
-          "src": "images/0cae2ea46954.jpg",
-          "w": 500,
-          "h": 750,
-          "caption": "中国木刻版画，著名医学人物：黄帝"
-        },
-        {
-          "src": "images/ebaa256d1c6b018c.gif",
-          "w": 330,
-          "h": 402,
-          "caption": "东汉山东省墓葬壁画中的蚩尤形象"
-        },
-        {
-          "src": "images/17de95375c2e98ce.jpg",
-          "w": 500,
-          "h": 481,
-          "caption": "山东省沂南县汉画像石蚩尤五兵"
-        },
-        {
-          "src": "images/3e411675eb911dba.jpg",
-          "w": 330,
-          "h": 306,
-          "caption": ""
-        },
-        {
-          "src": "images/3a52d72b3e00d7a3.jpg",
-          "w": 500,
-          "h": 375,
-          "caption": "位于中华人民共和国湖北省神农架林区，祭祀炎帝神农的神农坛。雕塑为人身牛首的形象"
-        }
-      ],
+      "images": [],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E6%B6%BF%E9%B9%BF%E4%B9%8B%E6%88%B0"
         }
       ],
       "type": "战争",
-      "majorScore": 4
+      "majorScore": 4,
+      "updatedAt": 1791052615
     },
     {
       "id": "e008",
@@ -730,18 +652,6 @@
           "author": "User:Meidosensei",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E5%A4%A7%E7%A6%B9%E6%B2%BB%E6%B0%B4%E5%9C%96.png"
-        },
-        {
-          "src": "images/2457b634555a7ee0.jpg",
-          "w": 500,
-          "h": 730,
-          "caption": "大禹"
-        },
-        {
-          "src": "images/cb67bb7be39f2f06.jpg",
-          "w": 500,
-          "h": 780,
-          "caption": "夏禹治水"
         }
       ],
       "sources": [
@@ -751,7 +661,7 @@
       ],
       "type": "社会",
       "majorScore": 5,
-      "updatedAt": 1791001546
+      "updatedAt": 1791052615
     },
     {
       "id": "e010",
@@ -791,12 +701,6 @@
           "author": "马麟",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:King_Yu_of_Xia.jpg"
-        },
-        {
-          "src": "images/ce9662493c05.jpg",
-          "w": 330,
-          "h": 467,
-          "caption": "手持戟、把女仆当椅凳坐的桀（山东嘉祥武梁祠拓片，东汉刻）"
         },
         {
           "src": "images/131714d93684.jpg",
@@ -851,7 +755,7 @@
       ],
       "type": "政治",
       "majorScore": 7,
-      "updatedAt": 1791001546
+      "updatedAt": 1791052615
     },
     {
       "id": "e011",
@@ -1016,12 +920,6 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Shang_dynasty_inscribed_tortoise_plastron.jpg"
         },
         {
-          "src": "images/6502126d4a61.jpg",
-          "w": 60,
-          "h": 147,
-          "caption": ""
-        },
-        {
           "src": "images/d761982c91bb.jpg",
           "w": 120,
           "h": 165,
@@ -1047,7 +945,7 @@
       ],
       "type": "文化",
       "majorScore": 8,
-      "updatedAt": 1791001546
+      "updatedAt": 1791052615
     },
     {
       "id": "e013",
@@ -1115,18 +1013,6 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:China_1.jpg"
         },
         {
-          "src": "images/819a4497550e5051.jpg",
-          "w": 500,
-          "h": 1104,
-          "caption": ""
-        },
-        {
-          "src": "images/e92ca2d6d0a27c7d.jpg",
-          "w": 500,
-          "h": 461,
-          "caption": "周武王像"
-        },
-        {
           "src": "images/9cad8839df05ec40.jpg",
           "w": 330,
           "h": 466,
@@ -1134,12 +1020,6 @@
           "author": "高井 伴寛、蹄斎 北馬 (Hiroshi Takai, Hossai Hokuma)",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E7%B5%B5%E6%9C%AC%E4%B8%89%E5%9B%BD%E5%A6%96%E5%A9%A6%E4%BC%9D_%E6%AE%B7%E7%B4%82%E7%8E%8B.jpg"
-        },
-        {
-          "src": "images/0b4100729a32489a.jpg",
-          "w": 500,
-          "h": 500,
-          "caption": "带卜辞圣水牛头骨，记载帝辛十年商王猎得白兕。"
         }
       ],
       "sources": [
@@ -1149,7 +1029,7 @@
       ],
       "type": "战争",
       "majorScore": 6,
-      "updatedAt": 1791000467
+      "updatedAt": 1791052615
     },
     {
       "id": "e015",
@@ -1158,27 +1038,15 @@
       "title": "国人暴动",
       "short": "周厉王暴政引发国人暴动，共和元年是中国有确切纪年的开始。",
       "detail": "国人暴动，也称彘之乱，是中国西周时期的暴动。“国人”是西周、春秋时期对居于都城之人的统称。周厉王在位时任用荣夷公实行“专利”，垄断山林川泽之利，又派卫巫监视批评者，国人“道路以目”。公元前841年，忍无可忍的国人发动暴动，攻入王宫，厉王出逃至彘（今山西霍州）。此后由召公、周公等大臣共同执政，史称“共和行政”。这一年即共和元年，是中国历史有确切纪年的开始。",
-      "images": [
-        {
-          "src": "images/867ae72ed576380b.jpg",
-          "w": 500,
-          "h": 334,
-          "caption": "克鼎，铭文记叙厉王二十三年九月，兼管军事的膳夫克巡视成周驻军并进行整饬"
-        },
-        {
-          "src": "images/f8d5dd269989ed2e.jpg",
-          "w": 500,
-          "h": 667,
-          "caption": "《宗周钟》"
-        }
-      ],
+      "images": [],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%9B%BD%E4%BA%BA%E6%9A%B4%E5%8A%A8"
         }
       ],
       "type": "社会",
-      "majorScore": 3
+      "majorScore": 3,
+      "updatedAt": 1791052615
     },
     {
       "id": "e016",
@@ -1191,27 +1059,15 @@
       },
       "short": "周平王把都城从镐京迁到洛邑，东周由此开始，历史进入春秋时期。",
       "detail": "周平王东迁是发生于东周初年的历史事件，发生于公元前770年1月11日。周平王迁都之后的周朝被历史学家称为东周，而周武王立国至周幽王被杀的时期则称为西周，亦是周朝国势的转捩点，从镐京（今陕西西安）迁都至洛邑（今河南洛阳）。",
-      "images": [
-        {
-          "src": "images/9e17bf49166005e8.jpg",
-          "w": 250,
-          "h": 359,
-          "caption": ""
-        },
-        {
-          "src": "images/9317999c583968b6.png",
-          "w": 500,
-          "h": 417,
-          "caption": ""
-        }
-      ],
+      "images": [],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%91%A8%E5%B9%B3%E7%8E%8B%E4%B8%9C%E8%BF%81"
         }
       ],
       "type": "政治",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791052615
     },
     {
       "id": "e017",
@@ -1374,51 +1230,15 @@
       },
       "short": "韩、赵、魏三家瓜分晋国并被周王承认，战国时代开始。",
       "detail": "三家分晋是指东周时代，晋国被韩、赵、魏三氏为首的晋大夫势力所瓜分的事件。因此韩、赵、魏三国又被合称为“三晋”，周威烈王二十三年（前403年）周天子始封三家为诸侯国。司马光的编年体史书《资治通鉴》的记载就从这一事件开始作为春秋与战国的分界。\n周威烈王二十三年，初命晋大夫魏斯、赵籍、韩虔为诸侯。",
-      "images": [
-        {
-          "src": "images/9317999c583968b6.png",
-          "w": 500,
-          "h": 417,
-          "caption": "晋国據中原，與齊楚秦爭霸"
-        },
-        {
-          "src": "images/0acbcd03a5f16521.jpg",
-          "w": 500,
-          "h": 333,
-          "caption": "位于山西太原的晋祠，又称唐叔虞祠，是后人奉祀他的地方"
-        },
-        {
-          "src": "images/77b6a51054dda9f3.jpg",
-          "w": 500,
-          "h": 599,
-          "caption": "晋侯鸟尊（西周早期）"
-        },
-        {
-          "src": "images/524ab4f1824c6a17.png",
-          "w": 500,
-          "h": 534,
-          "caption": ""
-        },
-        {
-          "src": "images/96f7eed148d3b9b5.png",
-          "w": 500,
-          "h": 534,
-          "caption": ""
-        },
-        {
-          "src": "images/55567f6766908306.png",
-          "w": 500,
-          "h": 460,
-          "caption": ""
-        }
-      ],
+      "images": [],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E4%B8%89%E5%AE%B6%E5%88%86%E6%99%8B"
         }
       ],
       "type": "政治",
-      "majorScore": 4
+      "majorScore": 4,
+      "updatedAt": 1791052615
     },
     {
       "id": "e020",
@@ -1427,33 +1247,15 @@
       "title": "商鞅变法",
       "short": "商鞅在秦孝公支持下推行变法，奖励耕战、废井田，使秦国日益富强。",
       "detail": "商鞅变法是法家思想家商鞅在秦孝公支持下，于公元前356年在秦国实施的政治改革。改革分两次进行，首次始于公元前356年，第二次始于公元前350年。经过商鞅变法，秦国富国强兵，奠定秦国在战国七雄中的实力，对秦国的崛起发挥重要的作用。变法建立的制度也是秦始皇管理秦国的基础。",
-      "images": [
-        {
-          "src": "images/0b96242fa3d250ad.jpg",
-          "w": 500,
-          "h": 743,
-          "caption": ""
-        },
-        {
-          "src": "images/65aa2d9967a4c8f5.jpg",
-          "w": 330,
-          "h": 372,
-          "caption": "徙木立信 明·冯梦龙 《新列国志》插图"
-        },
-        {
-          "src": "images/38f46438e293dc2e.png",
-          "w": 500,
-          "h": 534,
-          "caption": "战国形势图（前350年）"
-        }
-      ],
+      "images": [],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%95%86%E9%9E%85%E5%8F%98%E6%B3%95"
         }
       ],
       "type": "政治",
-      "majorScore": 7
+      "majorScore": 7,
+      "updatedAt": 1791052615
     },
     {
       "id": "e021",
@@ -1464,12 +1266,6 @@
       "detail": "长平之战是战国时期秦国与赵国在长平（今山西高平）进行的一场大规模战役，发生于公元前262年至前260年。起初赵军由老将廉颇统率，坚壁固守，与秦军相持三年。后赵孝成王中了秦国的反间计，改用只会“纸上谈兵”的赵括为将。秦国则秘密任命名将白起。赵括贸然出击，被秦军断绝粮道、团团包围，最终兵败身死，赵军四十余万人投降后几乎全被坑杀。此战极大削弱了东方六国中最强的赵国，为秦统一天下奠定了基础。",
       "images": [
         {
-          "src": "images/9538f416f3c36521.jpg",
-          "w": 500,
-          "h": 668,
-          "caption": ""
-        },
-        {
           "src": "images/539b974eb4a8.jpg",
           "w": 500,
           "h": 534,
@@ -1477,24 +1273,6 @@
           "author": "玖巧仔",
           "license": "CC BY-SA 3.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%88%98%E5%9B%BD%E5%BD%A2%E5%8A%BF%E5%9B%BE%EF%BC%88%E5%89%8D280%E5%B9%B4%EF%BC%89%EF%BC%88%E7%AE%80%EF%BC%89.png"
-        },
-        {
-          "src": "images/4714f1425e5c4225.jpg",
-          "w": 330,
-          "h": 452,
-          "caption": "《宜城县志》中关于白起渠的介绍"
-        },
-        {
-          "src": "images/58213c30c7ec7183.png",
-          "w": 500,
-          "h": 731,
-          "caption": ""
-        },
-        {
-          "src": "images/52e318ea0c37f1a2.png",
-          "w": 500,
-          "h": 765,
-          "caption": ""
         }
       ],
       "sources": [
@@ -1504,7 +1282,7 @@
       ],
       "type": "战争",
       "majorScore": 5,
-      "updatedAt": 1791000467
+      "updatedAt": 1791052615
     },
     {
       "id": "e022",
@@ -1881,12 +1659,6 @@
           "caption": "",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Xian_guerreros_terracota_general.JPG"
-        },
-        {
-          "src": "images/1f60f719262d.jpg",
-          "w": 250,
-          "h": 187,
-          "caption": ""
         }
       ],
       "sources": [
@@ -1896,7 +1668,7 @@
       ],
       "type": "文化",
       "majorScore": 8,
-      "updatedAt": 1791001546
+      "updatedAt": 1791052615
     },
     {
       "id": "e026",
@@ -1927,54 +1699,6 @@
       "detail": "垓下之战发生于公元前202年，是楚汉战争的最后一场决战。刘邦联合韩信、彭越、英布等各路兵马，将项羽率领的约十万楚军围困于垓下（今安徽灵璧一带）。夜间汉军四面唱起楚地歌谣，项羽以为楚地尽失，悲歌“力拔山兮气盖世”，与虞姬诀别，史称“四面楚歌”“霸王别姬”。项羽率八百骑突围，最终在乌江自刎。同年刘邦称帝，建立汉朝，定都长安，开启了长达四百余年的汉代。",
       "images": [
         {
-          "src": "images/23baef5b4decde8d.png",
-          "w": 500,
-          "h": 500,
-          "caption": ""
-        },
-        {
-          "src": "images/49b0fbb0067bafd8.png",
-          "w": 500,
-          "h": 637,
-          "caption": ""
-        },
-        {
-          "src": "images/08190f7190f632b4.jpg",
-          "w": 330,
-          "h": 478,
-          "caption": "西楚霸王"
-        },
-        {
-          "src": "images/c5e93b6614924aa5.jpg",
-          "w": 500,
-          "h": 726,
-          "caption": "项羽"
-        },
-        {
-          "src": "images/bb381bd3926c954c.png",
-          "w": 500,
-          "h": 660,
-          "caption": ""
-        },
-        {
-          "src": "images/906242f33030fd93.jpg",
-          "w": 500,
-          "h": 572,
-          "caption": "刘邦"
-        },
-        {
-          "src": "images/001fe1cf84325e2b.jpg",
-          "w": 500,
-          "h": 271,
-          "caption": "鸿门宴图，西汉壁画，现存洛阳古墓博物馆。左上第一人褐衣者（坐者，身体向后倾）即为刘邦。"
-        },
-        {
-          "src": "images/20deb61150014a60.jpg",
-          "w": 500,
-          "h": 729,
-          "caption": "刘邦"
-        },
-        {
           "src": "images/bc9048cd96e6f52a.png",
           "w": 500,
           "h": 354,
@@ -1991,7 +1715,7 @@
       ],
       "type": "政治",
       "majorScore": 7,
-      "updatedAt": 1791000467
+      "updatedAt": 1791052615
     },
     {
       "id": "e028",
@@ -2017,30 +1741,6 @@
           "caption": "在敦煌莫高窟第323窟北壁上的张骞出使西域图，唐代初期（618年到714年）绘制",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Zhangqianwest3.jpg"
-        },
-        {
-          "src": "images/575aa70d242c5bf4.jpg",
-          "w": 500,
-          "h": 325,
-          "caption": ""
-        },
-        {
-          "src": "images/c37525b348cbcedc.jpg",
-          "w": 500,
-          "h": 667,
-          "caption": "丝路的海、陆线都发挥了重要作用"
-        },
-        {
-          "src": "images/73c58e2dae01e4d6.jpg",
-          "w": 500,
-          "h": 813,
-          "caption": "17世纪的海图，显示了中国横跨远东，特别是东南亚的海上贸易路线。此图可能是由马尼拉当地华商所绘。"
-        },
-        {
-          "src": "images/b0536da8877d9536.jpg",
-          "w": 500,
-          "h": 375,
-          "caption": "玉门关"
         }
       ],
       "sources": [
@@ -2050,7 +1750,7 @@
       ],
       "type": "对外交流",
       "majorScore": 8,
-      "updatedAt": 1791000467
+      "updatedAt": 1791052615
     },
     {
       "id": "e029",
@@ -2059,57 +1759,15 @@
       "title": "独尊儒术",
       "short": "汉武帝采纳董仲舒的建议，设太学、立五经博士，儒学成为正统思想。",
       "detail": "“罢黜百家，独尊儒术”是指西汉汉武帝采纳董仲舒的建议，将儒家学说确立为官方统治思想、压制其他学派的政策。公元前134年，董仲舒在“天人三策”中提出“诸不在六艺之科、孔子之术者，皆绝其道，勿使并进”。汉武帝随后设立五经博士，在长安兴办太学，以儒家经典教授弟子，并以通晓儒学作为选拔官吏的重要标准。此后儒家思想成为中国两千多年封建社会的正统思想，深刻影响了中国的政治、教育与文化。这一术语本身则首次出现于近代。",
-      "images": [
-        {
-          "src": "images/08d33c2eb0670e43.png",
-          "w": 500,
-          "h": 571,
-          "caption": ""
-        },
-        {
-          "src": "images/27b0e51614bb27c3.jpg",
-          "w": 500,
-          "h": 375,
-          "caption": "《春秋繁露》南宋1211年刻本"
-        },
-        {
-          "src": "images/8ece3eea80c5ad43.jpg",
-          "w": 330,
-          "h": 667,
-          "caption": "董仲舒画像"
-        },
-        {
-          "src": "images/15803e345f7f00fd.jpg",
-          "w": 500,
-          "h": 769,
-          "caption": ""
-        },
-        {
-          "src": "images/5512ee8f31482c9c.png",
-          "w": 500,
-          "h": 364,
-          "caption": "汉武帝时汉朝疆域与周边各国、部族形势"
-        },
-        {
-          "src": "images/85e74a217d61e1ef.jpg",
-          "w": 500,
-          "h": 333,
-          "caption": "茂陵"
-        },
-        {
-          "src": "images/6cfa68fad61a52fd.jpg",
-          "w": 500,
-          "h": 647,
-          "caption": "唐朝依汉武帝拜佛像的传说而在敦煌莫高窟内绘制了壁画[80][81]"
-        }
-      ],
+      "images": [],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E7%8B%AC%E5%B0%8A%E5%84%92%E6%9C%AF"
         }
       ],
       "type": "文化",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791052615
     },
     {
       "id": "e030",
@@ -2220,24 +1878,6 @@
           "author": "Jason22",
           "license": "CC BY-SA 4.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Xinmang_jialiang.JPG"
-        },
-        {
-          "src": "images/fd36a470f88a446d.jpg",
-          "w": 60,
-          "h": 137,
-          "caption": ""
-        },
-        {
-          "src": "images/531f7a9df8273fa9.jpg",
-          "w": 120,
-          "h": 69,
-          "caption": ""
-        },
-        {
-          "src": "images/7d8d9efb600c0d4b.jpg",
-          "w": 120,
-          "h": 77,
-          "caption": ""
         }
       ],
       "sources": [
@@ -2248,7 +1888,7 @@
       "type": "政治",
       "majorScore": 5,
       "wiki": "新朝",
-      "updatedAt": 1791000467
+      "updatedAt": 1791052615
     },
     {
       "id": "e031",
@@ -2261,39 +1901,15 @@
       },
       "short": "新莽末年刘秀起兵，重建汉朝并定都洛阳，史称东汉或光武中兴。",
       "detail": "王莽篡汉，西汉结束，改国号为新。后王莽改制失败，导致绿林赤眉起义爆发最终肢解新莽政权，汉景帝后裔刘秀趁机恢复汉朝，国号仍为汉，史称为东汉，刘秀即光武帝。在位期间，农业、手工业都得以从新莽天凤四年（17年）起到东汉建武前期的战争而受到严重破坏背景下的恢复和发展，政局稳定，史称“光武中兴”。",
-      "images": [
-        {
-          "src": "images/0c68ca854b8d.jpg",
-          "w": 500,
-          "h": 645,
-          "caption": "东汉光武帝刘秀"
-        },
-        {
-          "src": "images/b84a6793509a3c40.jpg",
-          "w": 330,
-          "h": 506,
-          "caption": "汉光武帝"
-        },
-        {
-          "src": "images/fd5e275c3e6dca39.jpg",
-          "w": 500,
-          "h": 730,
-          "caption": "刘秀"
-        },
-        {
-          "src": "images/e06f58e28cb19a9d.png",
-          "w": 500,
-          "h": 667,
-          "caption": "汉光武帝"
-        }
-      ],
+      "images": [],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%85%89%E6%AD%A6%E4%B8%AD%E8%88%88"
         }
       ],
       "type": "政治",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791052615
     },
     {
       "id": "e032",
@@ -2329,42 +1945,6 @@
           "author": "Gisling",
           "license": "CC BY-SA 3.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E7%99%BD%E9%A9%AC%E5%AF%BA%E5%85%A8%E6%99%AF.jpg"
-        },
-        {
-          "src": "images/18511af21d20.jpg",
-          "w": 120,
-          "h": 97,
-          "caption": ""
-        },
-        {
-          "src": "images/001c56f5b795.jpg",
-          "w": 120,
-          "h": 80,
-          "caption": ""
-        },
-        {
-          "src": "images/1f66b938717e.jpg",
-          "w": 120,
-          "h": 86,
-          "caption": ""
-        },
-        {
-          "src": "images/523b24df34e6.jpg",
-          "w": 120,
-          "h": 165,
-          "caption": ""
-        },
-        {
-          "src": "images/dd2409d2dca3.jpg",
-          "w": 120,
-          "h": 80,
-          "caption": ""
-        },
-        {
-          "src": "images/f7a951e5366d.jpg",
-          "w": 120,
-          "h": 80,
-          "caption": ""
         }
       ],
       "sources": [
@@ -2374,7 +1954,7 @@
       ],
       "type": "文化",
       "majorScore": 3,
-      "updatedAt": 1791001546
+      "updatedAt": 1791052615
     },
     {
       "id": "e033",
@@ -2400,24 +1980,6 @@
           "caption": "",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cai-lun.jpg"
-        },
-        {
-          "src": "images/006da4ee162218f6.jpg",
-          "w": 500,
-          "h": 486,
-          "caption": "至少可追溯至公元前87年的早期西安麻纸"
-        },
-        {
-          "src": "images/f3353a7129f930c3.jpg",
-          "w": 500,
-          "h": 401,
-          "caption": "甘肃天水放马滩五号墓出图的纸地图"
-        },
-        {
-          "src": "images/844fec8dbc29ec92.jpg",
-          "w": 500,
-          "h": 416,
-          "caption": "1962年，甘蔗渣为造纸原料"
         }
       ],
       "sources": [
@@ -2427,7 +1989,7 @@
       ],
       "type": "科技",
       "majorScore": 8,
-      "updatedAt": 1791000467
+      "updatedAt": 1791052615
     },
     {
       "id": "e034",
@@ -3323,36 +2885,6 @@
           "author": "Taken by Fanghong",
           "license": "CC BY 2.5",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:WeiZheng.jpg"
-        },
-        {
-          "src": "images/0e28211eddfa.jpg",
-          "w": 120,
-          "h": 67,
-          "caption": ""
-        },
-        {
-          "src": "images/475679b893b8.jpg",
-          "w": 120,
-          "h": 67,
-          "caption": ""
-        },
-        {
-          "src": "images/c887e88bfdb2.jpg",
-          "w": 120,
-          "h": 67,
-          "caption": ""
-        },
-        {
-          "src": "images/ca3f21eb60d3.jpg",
-          "w": 120,
-          "h": 67,
-          "caption": ""
-        },
-        {
-          "src": "images/c5b10d5738cb.jpg",
-          "w": 120,
-          "h": 67,
-          "caption": ""
         }
       ],
       "sources": [
@@ -3362,7 +2894,7 @@
       ],
       "type": "政治",
       "majorScore": 4,
-      "updatedAt": 1791001546
+      "updatedAt": 1791052615
     },
     {
       "id": "e047",
@@ -3416,12 +2948,6 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Xuanzang_w.jpg"
         },
         {
-          "src": "images/f06b68461530.jpg",
-          "w": 120,
-          "h": 80,
-          "caption": ""
-        },
-        {
           "src": "images/5ed331fc8491.jpg",
           "w": 120,
           "h": 120,
@@ -3431,12 +2957,6 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:CeilingofDayanTemple.jpg"
         },
         {
-          "src": "images/1d2be806b226.jpg",
-          "w": 120,
-          "h": 160,
-          "caption": ""
-        },
-        {
           "src": "images/9b219e161d0b.jpg",
           "w": 120,
           "h": 160,
@@ -3444,12 +2964,6 @@
           "author": "朱寧1986",
           "license": "CC BY-SA 3.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%85%88%E6%81%A9%E5%AF%BA%E7%8E%84%E5%A5%98%E7%81%B5%E9%AA%A8%E5%A1%94.JPG"
-        },
-        {
-          "src": "images/1d097df16ee6.jpg",
-          "w": 120,
-          "h": 90,
-          "caption": ""
         }
       ],
       "sources": [
@@ -3459,7 +2973,7 @@
       ],
       "type": "对外交流",
       "majorScore": 5,
-      "updatedAt": 1791001546
+      "updatedAt": 1791052615
     },
     {
       "id": "e049",
@@ -3593,21 +3107,15 @@
       "title": "开元盛世",
       "short": "唐玄宗前期励精图治，任用贤相，经济文化空前繁荣，唐朝达到全盛。",
       "detail": "开元盛世，亦称为开元之治、开元之隆，或与天宝并称开天盛世，是唐朝在唐玄宗的统治时期所出现的盛世。唐玄宗治国的前三十年以开元作为年号，那时玄宗励精图治，并且任用贤能，发展经济，提倡文教，使得天下大治，大唐国力升至顶峰。所以后世史学家称其为“开元之治”或“开元盛世”。",
-      "images": [
-        {
-          "src": "images/d26ad4665dea.jpg",
-          "w": 330,
-          "h": 419,
-          "caption": "唐玄宗"
-        }
-      ],
+      "images": [],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%BC%80%E5%85%83%E7%9B%9B%E4%B8%96"
         }
       ],
       "type": "政治",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791052615
     },
     {
       "id": "e052",
@@ -3931,21 +3439,15 @@
       "title": "王安石变法",
       "short": "王安石在宋神宗支持下推行青苗法、募役法等新法，以求富国强兵。",
       "detail": "熙丰元丰变法，又作王安石变法、熙宁变法，由于变法于神宗熙宁、元丰年间推行，故称“熙丰变法”。指北宋大臣王安石推动的、宋神宗支持并推行的，旨在消除北宋建国以来积弊的一场改革。新法在一定程度上增加了国库的收入，但是在施行过程中对人民造成了很多额外负担，并遭到保守派旧党的激烈反对，造成新旧党争。新法一度被废除，但一些好的措施最终还是保留了下来，直至宋朝灭亡。当时，小冰期气候很可能显著的影响了社会的变化。",
-      "images": [
-        {
-          "src": "images/9f3acd75543bab20.jpg",
-          "w": 398,
-          "h": 508,
-          "caption": ""
-        }
-      ],
+      "images": [],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E7%86%99%E5%AF%A7%E5%85%83%E8%B1%90%E8%AE%8A%E6%B3%95"
         }
       ],
       "type": "政治",
-      "majorScore": 8
+      "majorScore": 8,
+      "updatedAt": 1791052615
     },
     {
       "id": "e058",
@@ -4506,12 +4008,6 @@
       "detail": "郑和下西洋，是指中国在明代早期（1405年至1433年）间的七场连续的大规模远洋航海，跨越了东亚地区、东南亚地区、印度次大陆、阿拉伯半岛、以及东非各地，被认为是当时世界上规模最大的远洋航海项目。",
       "images": [
         {
-          "src": "images/8b0057ad6809.jpg",
-          "w": 330,
-          "h": 372,
-          "caption": "17世纪早期，郑和下西洋宝船的木刻画。"
-        },
-        {
           "src": "images/5e4344a73962.jpg",
           "w": 500,
           "h": 726,
@@ -4589,7 +4085,7 @@
       ],
       "type": "对外交流",
       "majorScore": 8,
-      "updatedAt": 1791001546
+      "updatedAt": 1791052615
     },
     {
       "id": "e066",
@@ -6718,36 +6214,6 @@
           "author": "孟昭瑞",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kaiguodadian.jpg"
-        },
-        {
-          "src": "images/61349288c37dbd18.jpg",
-          "w": 120,
-          "h": 80,
-          "caption": ""
-        },
-        {
-          "src": "images/93a9e943584d16d3.jpg",
-          "w": 120,
-          "h": 68,
-          "caption": ""
-        },
-        {
-          "src": "images/5020f71ab660f35e.jpg",
-          "w": 120,
-          "h": 192,
-          "caption": ""
-        },
-        {
-          "src": "images/a6e00d57269aed22.jpg",
-          "w": 120,
-          "h": 80,
-          "caption": ""
-        },
-        {
-          "src": "images/06a0ad06bfd9cc0d.jpg",
-          "w": 120,
-          "h": 80,
-          "caption": ""
         }
       ],
       "sources": [
@@ -6757,7 +6223,7 @@
       ],
       "type": "政治",
       "majorScore": 10,
-      "updatedAt": 1791000467
+      "updatedAt": 1791052615
     },
     {
       "id": "e092",
@@ -6775,12 +6241,6 @@
           "author": "All photographs are works of the United States federal government.",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Korean_War_Montage_2.png"
-        },
-        {
-          "src": "images/4253b3ecd8d9f6f4.jpg",
-          "w": 120,
-          "h": 200,
-          "caption": ""
         },
         {
           "src": "images/589f2e1d475d1146.jpg",
@@ -6853,7 +6313,7 @@
       ],
       "type": "战争",
       "majorScore": 6,
-      "updatedAt": 1791001546
+      "updatedAt": 1791052615
     },
     {
       "id": "e093",
@@ -7428,18 +6888,6 @@
           "caption": "",
           "license": "CC BY-SA 3.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Location_of_Shenzhen_within_Guangdong_(China).png"
-        },
-        {
-          "src": "images/ca49c6dc88e3ab0e.jpg",
-          "w": 120,
-          "h": 90,
-          "caption": ""
-        },
-        {
-          "src": "images/a6be2227f4fc4507.jpg",
-          "w": 120,
-          "h": 69,
-          "caption": ""
         }
       ],
       "sources": [
@@ -7449,7 +6897,7 @@
       ],
       "type": "经济",
       "majorScore": 5,
-      "updatedAt": 1791001546
+      "updatedAt": 1791052615
     }
   ]
 }
