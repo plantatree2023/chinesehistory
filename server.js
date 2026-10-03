@@ -10,6 +10,7 @@
 // 接口（仅可写模式）：
 //   GET  /api/status          → { writable: true }
 //   GET  /api/link-title?url= → { title }：查询维基百科 / 百度百科链接的词条名（编辑页的参考链接用；两种模式都提供）
+//   GET  /api/translate?text=&from=&to= → { text }：翻译文字（编辑页自动翻译图片标题；两种模式都提供），查不到时 text 为 null
 //   PUT  /api/data/<id>       保存整个数据集，<id> 形如 cn_zh（<国家>_<语言>）
 //   POST /api/images          保存上传的图片（{ dataUrl }），返回 { path: "images/xxxx.jpg", w, h }
 //   POST /api/images/fetch    按网址下载图片并保存（{ url }，仅 http / https），返回 { path, w, h }
@@ -26,6 +27,7 @@ const path = require('path');
 const { execFileSync } = require('child_process');
 const { writeAtomic, saveImage, fetchImage, MAX_IMAGE_BYTES } = require('./lib/images');
 const { lookupLinkTitle } = require('./lib/link-title');
+const { translateText } = require('./lib/translate');
 
 const DATASET_ID = /^[a-z]{2}_[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})?$/;   // 例：cn_zh、jp_ja、cn_zh-Hant
 const LOCAL_IMAGE = /^images\/[A-Za-z0-9._-]+$/;                       // 数据中图片路径的唯一合法形式
@@ -176,7 +178,7 @@ function saveUploaded(getBuffer, imagesDir) {
   }
 }
 
-function createServer({ root = __dirname, writeDir = root, testDataDir = null, readonly = false, debug = true, linkTitleOptions = {} } = {}) {
+function createServer({ root = __dirname, writeDir = root, testDataDir = null, readonly = false, debug = true, linkTitleOptions = {}, translateOptions = {} } = {}) {
   root = path.resolve(root);
   writeDir = path.resolve(writeDir);
   if (testDataDir) testDataDir = path.resolve(testDataDir);
@@ -201,6 +203,13 @@ function createServer({ root = __dirname, writeDir = root, testDataDir = null, r
       checkSameOrigin(req, port);
       const url = new URL(req.url, 'http://localhost').searchParams.get('url') || '';
       sendJson(res, 200, { title: await lookupLinkTitle(url, linkTitleOptions) });
+      return;
+    }
+    // 翻译（编辑页自动翻译图片标题）：同样只读、只接受本服务自身页面的请求
+    if (pathname === '/api/translate' && req.method === 'GET') {
+      checkSameOrigin(req, port);
+      const q = new URL(req.url, 'http://localhost').searchParams;
+      sendJson(res, 200, { text: await translateText(q.get('text'), q.get('from') || 'auto', q.get('to'), translateOptions) });
       return;
     }
     if (readonly) throw new HttpError(404, 'Not Found');

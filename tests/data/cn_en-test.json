@@ -2,6 +2,7 @@
   "id": "cn_en-test",
   "country": "cn",
   "language": "en",
+  "primaryLanguage": "zh",
   "description": "An interactive timeline of Chinese history: drag through major events arranged by dynasty, and open any event for details and pictures.",
   "eras": [
     {

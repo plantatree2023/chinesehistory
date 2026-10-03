@@ -30,7 +30,7 @@ const PUNCT = /[\s，。、；：“”‘’《》〈〉（）【】！？·—
 // 扩展 test：
 // - 屏蔽所有非本机请求（维基媒体图片等），测试完全离线、结果稳定；
 // - 收集页面脚本错误，测试结束时断言没有任何错误；
-// - 拦截参考链接标题查询（/api/link-title），不访问外网；
+// - 拦截参考链接标题查询（/api/link-title）和翻译（/api/translate），不访问外网；
 // - 选项 debugMode：为 true 时在每次打开页面前开启调试模式（编辑功能只在调试模式下显示），
 //   需要编辑的测试用 test.use({ debugMode: true })；
 // - 选项 autoplay：网页加载后默认自动播放（时间轴缓缓移动），会让位置相关的断言不稳定，
@@ -53,6 +53,8 @@ const test = base.test.extend({
     // 参考链接标题查询（/api/link-title）会让本地服务器访问维基百科 / 百度百科：测试中默认直接返回“查不到”，
     // 需要的测试再用自己的 route 覆盖（后注册的优先）
     await page.route('**/api/link-title?**', (route) => route.fulfill({ json: { title: null } }));
+    // 翻译（/api/translate）同样会访问外网：默认返回“翻译不了”
+    await page.route('**/api/translate?**', (route) => route.fulfill({ json: { text: null } }));
     if (debugMode) await page.addInitScript((key) => localStorage.setItem(key, '1'), DEBUG_KEY);
     if (!autoplay) await page.context().addInitScript(() => { window.TIMELINE_AUTOPLAY = false; });
     if (!onboarding) await page.context().addInitScript(() => { window.TIMELINE_ONBOARDING = false; });
