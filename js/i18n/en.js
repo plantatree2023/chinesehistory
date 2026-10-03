@@ -61,6 +61,7 @@
     '移除': 'Remove',
     '图片标题': 'Caption',
     '第 {n} 张图片的标题': 'Caption of image {n}',
+    '第 {n} 张图片': 'Image {n}',
     '该网站不允许直接下载图片，请先保存到电脑再上传': 'This site does not allow direct downloads; save the image to your computer and upload it',
     '网址返回 HTTP {status}': 'The URL returned HTTP {status}',
     '该网址不是图片': 'This URL is not an image',

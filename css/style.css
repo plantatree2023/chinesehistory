@@ -1138,6 +1138,28 @@ body.bars-hidden .fab { bottom: 18px; }
   cursor: zoom-in;
 }
 .detail-hero .img-placeholder { font-size: 90px; cursor: default; }
+/* 多张图片时左右滑动切换（竖直方向仍可滚动详情页），下面的圆点表示当前是第几张 */
+.detail-hero { position: relative; overflow: hidden; }
+.detail-hero.swipeable, .lightbox { touch-action: pan-y pinch-zoom; }
+.detail-hero.swipeable img { user-select: none; -webkit-user-select: none; transition: transform .2s; }
+.lightbox img { user-select: none; -webkit-user-select: none; transition: transform .2s; }
+.hero-dots {
+  position: absolute; left: 0; right: 0; bottom: 8px;
+  display: flex; justify-content: center; gap: 2px;
+  pointer-events: none;
+}
+.hero-dot {
+  pointer-events: auto;
+  width: 18px; height: 18px; padding: 0;
+  border: none; background: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.hero-dot::before {
+  content: ''; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--muted); opacity: .45;
+  box-shadow: 0 0 0 1.5px var(--paper-2);
+}
+.hero-dot.active::before { background: var(--red); opacity: 1; }
 .detail-body { padding: 20px 26px 24px; }
 .detail-date { color: var(--red); font-weight: 600; font-size: 14px; }
 .detail-transition { margin-top: 2px; font-size: 13px; color: var(--muted); }

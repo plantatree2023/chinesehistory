@@ -1485,11 +1485,9 @@
     var wasOpen = !$('detailModal').hidden;
     detailId = id;
     var imgs = ev.images || [];
-    var hero = $('detailHero');
-    hero.innerHTML = '';
-    var h = imageEl(imgs[0], '', ev.title);
-    if (imgs[0]) h.addEventListener('click', function () { openLightbox(imgs, 0); });
-    hero.appendChild(h);
+    detailHero.imgs = imgs;
+    detailHero.title = ev.title;
+    showDetailHero(0);
     $('detailDate').textContent = ev.date || formatYear(ev.year);
     var tagBox = $('detailTags');
     tagBox.innerHTML = '';
@@ -1533,6 +1531,35 @@
     $('detailModal').querySelector('.modal-card').scrollTop = 0;
     if (wasOpen) syncUrl(false); else onLayerOpened('detail');
   }
+  // 详情页顶部的大图：有多张图片时可以左右滑动（或点下面的圆点）切换，点大图打开图片查看器并显示同一张
+  var detailHero = { imgs: [], i: 0, title: '' };
+  function showDetailHero(i) {
+    var imgs = detailHero.imgs, n = imgs.length;
+    detailHero.i = n ? (i + n) % n : 0;
+    var hero = $('detailHero');
+    hero.innerHTML = '';
+    var h = imageEl(imgs[detailHero.i], '', detailHero.title);
+    if (n) h.addEventListener('click', function () { openLightbox(imgs, detailHero.i); });
+    hero.appendChild(h);
+    hero.classList.toggle('swipeable', n > 1);
+    if (n < 2) return;
+    var dots = el('div', 'hero-dots');
+    imgs.forEach(function (im, k) {
+      var b = el('button', 'hero-dot' + (k === detailHero.i ? ' active' : ''));
+      b.type = 'button';
+      b.setAttribute('aria-label', _('第 {n} 张图片', { n: k + 1 }));
+      if (k === detailHero.i) b.setAttribute('aria-current', 'true');
+      b.addEventListener('click', function () { showDetailHero(k); });
+      dots.appendChild(b);
+    });
+    hero.appendChild(dots);
+  }
+  addSwipe($('detailHero'), {
+    enabled: function () { return detailHero.imgs.length > 1; },
+    target: function () { return $('detailHero').firstChild; },
+    swipe: function (step) { showDetailHero(detailHero.i + step); }
+  });
+
   $('detailEdit').addEventListener('click', function () {
     closeModal('detailModal');
     openEditor(detailId);
@@ -1665,6 +1692,56 @@
     }
   }
 
+  // ---------- 左右滑动切换图片 ----------
+  // 手指（或按住鼠标）横向拖动超过阈值后松开即切换：向左滑看下一张（step = 1），向右滑看上一张（step = -1）。
+  // 拖动时图片跟着手指移动；竖直方向的移动交给浏览器滚动（CSS 中 touch-action: pan-y），不切换。
+  // 滑动结束后的那次 click 被拦下，不会打开查看器或关闭查看器。
+  var SWIPE_MIN = 50;   // 切换所需的横向距离（px）
+  var swipeClickBlock = false;
+  window.addEventListener('click', function (e) {
+    if (!swipeClickBlock) return;
+    swipeClickBlock = false;
+    e.stopPropagation();
+    e.preventDefault();
+  }, true);
+  function addSwipe(box, o) {
+    var st = null;
+    function move(dx) {
+      var t = o.target();
+      if (!t) return;
+      t.style.transition = dx ? 'none' : '';
+      t.style.transform = dx ? 'translateX(' + dx + 'px)' : '';
+    }
+    box.addEventListener('pointerdown', function (e) {
+      if (st || !e.isPrimary || e.button !== 0 || !o.enabled() || e.target.closest('button, a, input, .lb-credit')) { st = null; return; }
+      st = { id: e.pointerId, x: e.clientX, y: e.clientY, dx: 0, mode: null };
+    });
+    box.addEventListener('pointermove', function (e) {
+      if (!st || e.pointerId !== st.id || st.mode === 'v') return;
+      var dx = e.clientX - st.x, dy = e.clientY - st.y;
+      if (!st.mode) {
+        if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
+        st.mode = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v';
+        if (st.mode === 'v') return;
+        try { box.setPointerCapture(e.pointerId); } catch (err) { /* 指针已结束 */ }
+      }
+      st.dx = dx;
+      move(dx);
+    });
+    function end(e, cancel) {
+      if (!st || e.pointerId !== st.id) return;
+      var s = st;
+      st = null;
+      if (s.mode !== 'h') return;
+      move(0);
+      swipeClickBlock = !cancel;
+      setTimeout(function () { swipeClickBlock = false; }, 0);
+      if (!cancel && Math.abs(s.dx) >= SWIPE_MIN) o.swipe(s.dx < 0 ? 1 : -1);
+    }
+    box.addEventListener('pointerup', function (e) { end(e, false); });
+    box.addEventListener('pointercancel', function (e) { end(e, true); });
+  }
+
   // ---------- 图片查看 ----------
   // edit 为 true 时从编辑页打开：imgs 是编辑中的图片（draftImages），显示“设为代表图”“从本事件移除”
   var lb = { imgs: [], i: 0, edit: false };
@@ -1695,17 +1772,30 @@
     document.querySelector('.lb-prev').hidden = !many;
     document.querySelector('.lb-next').hidden = !many;
   }
-  function closeLightbox() { $('lightbox').hidden = true; }
+  // 从详情打开时，关闭后详情页的大图停在查看器最后显示的那张
+  function closeLightbox() {
+    $('lightbox').hidden = true;
+    if (!lb.edit && lb.imgs === detailHero.imgs && lb.i !== detailHero.i) showDetailHero(lb.i);
+  }
+  function stepLightbox(step) {
+    lb.i = (lb.i + step + lb.imgs.length) % lb.imgs.length;
+    showLightbox();
+  }
   $('lightbox').addEventListener('click', function (e) {
     if (e.target.closest('.lb-actions')) return;
-    if (e.target.closest('.lb-prev')) { lb.i = (lb.i - 1 + lb.imgs.length) % lb.imgs.length; showLightbox(); }
-    else if (e.target.closest('.lb-next')) { lb.i = (lb.i + 1) % lb.imgs.length; showLightbox(); }
+    if (e.target.closest('.lb-prev')) stepLightbox(-1);
+    else if (e.target.closest('.lb-next')) stepLightbox(1);
     else if (e.target.tagName !== 'IMG') closeLightbox();
   });
   document.addEventListener('keydown', function (e) {
     if ($('lightbox').hidden) return;
-    if (e.key === 'ArrowLeft') { lb.i = (lb.i - 1 + lb.imgs.length) % lb.imgs.length; showLightbox(); }
-    if (e.key === 'ArrowRight') { lb.i = (lb.i + 1) % lb.imgs.length; showLightbox(); }
+    if (e.key === 'ArrowLeft') stepLightbox(-1);
+    if (e.key === 'ArrowRight') stepLightbox(1);
+  });
+  addSwipe($('lightbox'), {
+    enabled: function () { return lb.imgs.length > 1; },
+    target: function () { return $('lightboxImg'); },
+    swipe: stepLightbox
   });
 
   // 编辑页的图片查看器：设为代表图 —— 当前图片移到第一张，仍显示这张图；
