@@ -1951,6 +1951,40 @@
       box.appendChild(item);
     });
   }
+  // 维基共享资源的标题自动填入各语言的输入框：只填空的或上次自动填写的（不覆盖手动输入的）
+  var newCaptionAuto = {};
+  function fillNewCaptions(captions) {
+    Object.keys(I18N).forEach(function (lang) {
+      var max = (I18N[lang].limits && I18N[lang].limits.maxCaption) || 60;
+      var text = shortCaption(captions[lang] || '', max);
+      var cur = newCaptions[lang] || '';
+      if (!text || (cur && cur !== newCaptionAuto[lang])) return;
+      newCaptions[lang] = newCaptionAuto[lang] = text;
+      var input = $('newCaptionInputs').querySelector('input[data-lang="' + lang + '"]');
+      if (input) input.value = text;
+    });
+  }
+  // 清掉自动填写的标题（网址改了），手动输入的保留
+  function clearAutoCaptions() {
+    Object.keys(newCaptionAuto).forEach(function (lang) {
+      if (newCaptions[lang] !== newCaptionAuto[lang]) return;
+      newCaptions[lang] = '';
+      var input = $('newCaptionInputs').querySelector('input[data-lang="' + lang + '"]');
+      if (input) input.value = '';
+    });
+    newCaptionAuto = {};
+  }
+  function firstSentence(text) {
+    var m = (text || '').match(/^.+?[。！？]|^.+?[.!?](?=\s|$)/);
+    return m ? m[0] : (text || '');
+  }
+  // 太长的标题只取第一句，仍然太长时截断；去掉句末的句号
+  function shortCaption(text, max) {
+    text = (text || '').replace(/\s+/g, ' ').trim();
+    if (text.length > max) text = firstSentence(text);
+    text = text.replace(/[。.]$/, '').trim();
+    return text.length > max ? text.slice(0, max - 1) + '…' : text;
+  }
   // 取出“这张图的标题”一行的内容：{ caption, tr（其他语言的标题） }
   function takeNewCaption() {
     var tr = {};
@@ -1959,6 +1993,7 @@
   }
   function resetNewCredit() {
     newCaptions = {};
+    newCaptionAuto = {};
     Array.prototype.forEach.call($('newCaptionInputs').querySelectorAll('input'), function (input) { input.value = ''; });
     $('newCreditAuthor').value = '';
     licenseOptions($('newCreditLicense'), UNKNOWN_LICENSE, false);
@@ -1973,6 +2008,7 @@
     $('newCreditSource').value = info.sourceUrl || '';
     $('newCredit').classList.add('auto');
     newCreditFor = url;
+    fillNewCaptions(info.captions || {});
   }
   // 取出“这张图的版权”一行的内容（作为新图片的 author / license / sourceUrl）
   function takeNewCredit(defaultSource) {
@@ -2027,23 +2063,68 @@
     if (/^cc0/i.test(name)) return 'CC0';
     return name.slice(0, MAX_LICENSE);
   }
-  // 查询维基共享资源（浏览器直接访问其 API，支持跨域）：返回作者、许可证、文件页网址和用于下载的图片地址（宽不超过 1200）
+  // 某种语言的文字：{ 语言代码: 文字 } 中先找完全相同的代码，再找带地区 / 文字的代码（简体优先，如 zh-hans、zh-cn）
+  function pickLang(map, lang) {
+    if (!map || typeof map !== 'object') return '';
+    if (map[lang]) return map[lang];
+    var keys = Object.keys(map).filter(function (k) { return k.toLowerCase().indexOf(lang + '-') === 0; });
+    keys.sort(function (a, b) { return /hans|cn|sg/i.test(b) - /hans|cn|sg/i.test(a); });
+    return keys.length ? map[keys[0]] : '';
+  }
+  // 图片在维基共享资源上的各语言标题：优先用“说明”（Captions，结构化数据的简短标题），没有时用“描述”（Description）
+  function commonsCaptions(labels, desc) {
+    var out = {};
+    Object.keys(I18N).forEach(function (lang) {
+      var label = pickLang(labels, lang);
+      var text = label ? (label.value || '') : firstSentence(htmlText(pickLang(desc, lang)));   // 描述常有好几句，只取第一句
+      if (text) out[lang] = text;
+    });
+    return out;
+  }
+  // 结构化数据中的说明（Captions）：查不到时返回空，不影响版权信息
+  function lookupCommonsLabels(file) {
+    var q = new URLSearchParams({
+      action: 'wbgetentities', format: 'json', origin: '*', sites: 'commonswiki', props: 'labels', titles: 'File:' + file
+    });
+    return fetch('https://commons.wikimedia.org/w/api.php?' + q.toString()).then(function (res) {
+      return res.ok ? res.json() : null;
+    }).then(function (json) {
+      var ents = (json && json.entities) || {};
+      var ent = ents[Object.keys(ents)[0]];
+      return (ent && ent.labels) || {};
+    }).catch(function () { return {}; });
+  }
+  // 查询维基共享资源（浏览器直接访问其 API，支持跨域）：返回作者、许可证、文件页网址、用于下载的图片地址（宽不超过 1200）
+  // 和各语言的标题（captions）
   function lookupCommons(file) {
     var q = new URLSearchParams({
       action: 'query', format: 'json', origin: '*', prop: 'imageinfo',
-      iiprop: 'url|extmetadata', iiurlwidth: '1200', titles: 'File:' + file
+      iiprop: 'url|extmetadata', iiurlwidth: '1200', iiextmetadatamultilang: '1', titles: 'File:' + file
     });
+    var labels = lookupCommonsLabels(file);
     return fetch('https://commons.wikimedia.org/w/api.php?' + q.toString()).then(function (res) {
       if (!res.ok) throw new Error('HTTP ' + res.status);
       return res.json();
     }).then(function (json) {
+      return labels.then(function (l) { return { json: json, labels: l }; });
+    }).then(function (r) {
+      var json = r.json;
       var pages = (json && json.query && json.query.pages) || {};
       var page = pages[Object.keys(pages)[0]];
       var ii = page && page.imageinfo && page.imageinfo[0];
       if (!ii) throw new Error(_('维基共享资源中找不到这张图片'));
       var md = ii.extmetadata || {};
-      var val = function (k) { return md[k] && md[k].value; };
+      // 多语言的字段是 { 语言代码: 文字 }，取当前语言（没有时取英文或第一个）
+      var val = function (k) {
+        var v = md[k] && md[k].value;
+        if (!v || typeof v !== 'object') return v;
+        var langs = Object.keys(v).filter(function (x) { return x !== '_type'; });
+        return pickLang(v, LANG) || v.en || (langs.length ? v[langs[0]] : '');
+      };
+      var desc = md.ImageDescription && md.ImageDescription.value;
+      if (typeof desc === 'string') desc = null;   // 没有标明语言的描述不使用
       return {
+        captions: commonsCaptions(r.labels, desc),
         author: htmlText(val('Artist')).slice(0, MAX_AUTHOR),
         license: normalizeLicense(htmlText(val('LicenseShortName'))) || UNKNOWN_LICENSE,
         sourceUrl: ii.descriptionurl || ('https://commons.wikimedia.org/wiki/File:' + encodeURIComponent(file.replace(/ /g, '_'))),
@@ -2064,9 +2145,21 @@
   }
   // 粘贴或输入网址后：维基共享资源的网址自动填写版权（停顿 400 毫秒后查询，网址改了就作废）
   var urlTimer = null;
+  // 网址改了：清掉上一个网址自动填写的版权和标题（手动输入的标题保留）
+  function resetCreditForUrl() {
+    var keep = {};
+    Object.keys(newCaptions).forEach(function (l) { if (newCaptions[l] !== newCaptionAuto[l]) keep[l] = newCaptions[l]; });
+    clearAutoCaptions();
+    resetNewCredit();
+    newCaptions = keep;
+    Object.keys(keep).forEach(function (l) {
+      var input = $('newCaptionInputs').querySelector('input[data-lang="' + l + '"]');
+      if (input) input.value = keep[l];
+    });
+  }
   function onNewImageUrl() {
     var url = $('imageUrlInput').value.trim();
-    if (newCreditFor && newCreditFor !== url) resetNewCredit();
+    if (newCreditFor && newCreditFor !== url) resetCreditForUrl();
     clearTimeout(urlTimer);
     if (!commonsFileName(url) || newCreditFor === url) return;
     urlTimer = setTimeout(function () {

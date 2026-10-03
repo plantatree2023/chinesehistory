@@ -27,17 +27,27 @@ function withCredits(events) {
 }
 
 // 维基共享资源的查询结果（API）和图片
-async function mockCommons(page, { missing = false } = {}) {
+// labels：结构化数据中的说明（Captions）；description：多语言的描述
+async function mockCommons(page, { missing = false, labels = {}, description = 'A test photo' } = {}) {
   const lookups = [];
   await page.route('https://commons.wikimedia.org/w/api.php?**', (route) => {
-    lookups.push(new URL(route.request().url()).searchParams.get('titles'));
+    const params = new URL(route.request().url()).searchParams;
+    if (params.get('action') === 'wbgetentities') {
+      const entities = missing ? { '-1': { missing: '' } } : { M123: { labels: Object.fromEntries(Object.entries(labels).map(([language, value]) => [language, { language, value }])) } };
+      return route.fulfill({ json: { entities }, headers: { 'access-control-allow-origin': '*' } });
+    }
+    lookups.push(params.get('titles'));
     const pages = missing ? { '-1': { missing: '' } } : {
       '123': {
         imageinfo: [{
           thumburl: COMMONS_THUMB,
           url: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/Test_photo.jpg',
           descriptionurl: COMMONS_PAGE,
-          extmetadata: { Artist: { value: '<a href="//commons.wikimedia.org/wiki/User:Tester">Test Author</a><img src=x onerror="window.__xss=1">' }, LicenseShortName: { value: 'CC BY 4.0' } },
+          extmetadata: {
+            Artist: { value: '<a href="//commons.wikimedia.org/wiki/User:Tester">Test Author</a><img src=x onerror="window.__xss=1">' },
+            LicenseShortName: { value: 'CC BY 4.0' },
+            ImageDescription: { value: description },
+          },
         }],
       },
     };
@@ -231,6 +241,32 @@ test.describe('编辑页', () => {
     const im = saved.changed[EVENT_ID].images[6];
     expect(im).toMatchObject({ author: 'Test Author', license: 'CC BY 4.0', sourceUrl: COMMONS_PAGE, w: 60, h: 40 });
     expect(Object.keys(im).filter((k) => k.startsWith('_'))).toEqual([]);
+  });
+
+  test('粘贴维基共享资源的网址：自动填写各语言的标题（优先用说明，没有时用描述的第一句），不覆盖手动输入的标题', async ({ page }) => {
+    await mockSibling(page);
+    await mockCommons(page, {
+      labels: { 'zh-hant': '繁體的說明', 'zh-hans': '简体的说明', de: 'Deutsche Beschriftung' },
+      description: { _type: 'lang', en: '<b>Container train</b> crosses the canal and the motorway near Oberhausen, Germany, in August 2016. It carries containers of China Railway Express.', de: 'Eisenbahn' },
+    });
+    await openEditor(page);
+    const inputs = page.locator('#newCaptionInputs .new-caption-input');
+    await expect(inputs).toHaveCount(2);
+    await page.fill('#imageUrlInput', COMMONS_PAGE);
+    await expect(inputs.nth(0)).toHaveValue('简体的说明');   // 中文：简体优先
+    // 英文没有说明，用描述；太长时只取第一句（去掉 HTML 和句末的句号）
+    await expect(inputs.nth(1)).toHaveValue('Container train crosses the canal and the motorway near Oberhausen, Germany, in August 2016');
+
+    // 换一个网址：自动填写的标题清掉，手动输入的保留，再自动填写时不覆盖手动输入的
+    await inputs.nth(0).fill('我的标题');
+    await page.fill('#imageUrlInput', 'https://commons.wikimedia.org/wiki/File:Other.jpg');
+    await expect(page.locator('#newCreditAuthor')).toHaveValue('Test Author');
+    await expect(inputs.nth(0)).toHaveValue('我的标题');
+    await expect(inputs.nth(1)).toHaveValue(/^Container train/);
+    await page.click('#imageUrlAdd');
+    await expect(page.locator('#imageEditor .img-slot')).toHaveCount(7);
+    await expect(page.locator('#imageEditor .slot-caption').nth(6)).toHaveValue('我的标题');
+    await expect(inputs.nth(0)).toHaveValue('');
   });
 
   test('维基共享资源查不到时，文件页网址提示错误、不添加图片', async ({ page }) => {
