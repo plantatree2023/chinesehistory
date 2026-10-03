@@ -1000,12 +1000,6 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E5%A4%8F%E7%8E%8B%E5%90%AF.png"
         },
         {
-          "src": "images/ce9662493c05.jpg",
-          "w": 330,
-          "h": 467,
-          "caption": "手持戟、把女仆当椅凳坐的桀（山东嘉祥武梁祠拓片，东汉刻）"
-        },
-        {
           "src": "images/131714d93684.jpg",
           "w": 330,
           "h": 240,
@@ -1045,7 +1039,7 @@
         "from": "新石器时代",
         "to": "夏"
       },
-      "updatedAt": 1791000467
+      "updatedAt": 1791046523
     },
     {
       "id": "e111",
@@ -1663,10 +1657,12 @@
       "detail": "老子，姓李名耳，字聃，春秋后期楚国苦县（今河南鹿邑一带）人，是道家学派的创始人。他曾担任周王室的守藏室之史，管理王室的典籍，学识渊博，相传孔子曾专程向他问礼。后来周室衰微，老子辞官西行，据说出函谷关时应关令尹喜之请，写下五千言，这就是《老子》，又称《道德经》，成为道家的经典。老子认为“道”是宇宙万物的本源，万物运行有其自然的法则，人们应当顺应自然，即“人法地，地法天，天法道，道法自然”。他看到世间的事物都有对立面，如难和易、长和短、高和下、前和后、祸和福，对立的双方可以相互转化，提出“祸兮福之所倚，福兮祸之所伏”，体现了朴素的辩证法思想。政治上，老子主张“无为而治”，反对统治者过多干预百姓生活，认为“治大国若烹小鲜”，理想社会是“小国寡民”，人们与世无争，天下就能太平。战国时期道家的代表人物是庄子，他继承和发展了老子思想，强调顺应自然，追求精神的绝对自由，保持独立人格，著有《庄子》。老子的思想对中国哲学、政治、文学、艺术等产生了深远影响，汉初“黄老之学”盛行，东汉兴起的道教也尊老子为教祖。《道德经》是被译成外文最多的中国古代典籍之一。",
       "images": [
         {
-          "src": "images/29a6a657b56d244e.jpg",
-          "w": 636,
-          "h": 800,
-          "caption": "老子像"
+          "src": "images/a19c459bb04e613e.jpg",
+          "w": 650,
+          "h": 784,
+          "caption": "老子像",
+          "license": "unknown",
+          "sourceUrl": "https://p6.itc.cn/images01/20220715/d4a30f0cff8b4776acebdb3342beb27f.jpeg"
         },
         {
           "src": "images/b45c39144a1de924.jpg",
@@ -1677,10 +1673,12 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lao_Tzu_-_Project_Gutenberg_eText_15250.jpg"
         },
         {
-          "src": "images/2f7da03947b317d6.jpg",
-          "w": 572,
-          "h": 800,
-          "caption": "湖南长沙马王堆汉墓出土的帛书《老子》"
+          "src": "images/1769c61ff77bdddc.jpg",
+          "w": 800,
+          "h": 1119,
+          "caption": "湖南长沙马王堆汉墓出土的帛书《老子》",
+          "license": "unknown",
+          "sourceUrl": "https://pics5.baidu.com/feed/242dd42a2834349ba5dc96ed3a0bfbc134d3bef6.jpeg@f_auto?token=e8e44b30ffa0d8a4d18c46c8df6a36d8"
         }
       ],
       "sources": [
@@ -1691,7 +1689,7 @@
       ],
       "type": "文化",
       "majorScore": 7,
-      "updatedAt": 1791000467
+      "updatedAt": 1791047774
     },
     {
       "id": "e119",
@@ -1897,10 +1895,13 @@
       "detail": "长平之战是战国后期秦国与赵国之间的一场决定性战役，战场在长平（今山西高平西北），时间为公元前262年至前260年，是中国古代规模最大、最惨烈的战役之一。公元前262年，秦国进攻韩国上党郡，上党郡守冯亭不愿降秦，转而把上党献给赵国，秦赵两国由此爆发大战。赵国起初派老将廉颇领兵，廉颇根据秦军远道而来、利在速战的特点，采取筑垒固守、拖延消耗的策略，双方相持了很长时间。秦国于是使用反间计，散布“秦国只怕赵括为将”的流言。赵孝成王中计，撤换廉颇，改派名将赵奢之子赵括为将。赵括自幼熟读兵书，谈论兵法头头是道，却缺乏实战经验。与此同时，秦国秘密改派名将白起为统帅。赵括到任后改变廉颇的部署，主动出击，白起佯装败退，诱敌深入，再派奇兵切断赵军的退路和粮道，将赵军主力团团包围。赵军断粮四十多天，赵括亲自率军突围，被秦军射杀。赵军四十余万人投降后几乎全部被白起坑杀，仅放回年幼者二百四十人。长平之战使东方六国中军事力量最强的赵国元气大伤，从此再也没有一个国家能单独抵抗秦国，秦国统一天下的大势由此形成。成语“纸上谈兵”即源于赵括的故事。今山西高平一带曾发现大量尸骨坑，被认为与长平之战有关。",
       "images": [
         {
-          "src": "images/9538f416f3c36521.jpg",
-          "w": 500,
-          "h": 668,
-          "caption": "白起"
+          "src": "images/304f9687de7ca596.jpg",
+          "w": 1280,
+          "h": 1711,
+          "caption": "​白起像（明人绘）",
+          "author": "Unknown authorUnknown author",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E7%99%BD%E8%B5%B7%E5%83%8F%EF%BC%88%E6%98%8E%E4%BA%BA%E7%BB%98%EF%BC%89.jpg"
         },
         {
           "src": "images/539b974eb4a8.jpg",
@@ -1910,12 +1911,6 @@
           "author": "玖巧仔",
           "license": "CC BY-SA 3.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%88%98%E5%9B%BD%E5%BD%A2%E5%8A%BF%E5%9B%BE%EF%BC%88%E5%89%8D280%E5%B9%B4%EF%BC%89%EF%BC%88%E7%AE%80%EF%BC%89.png"
-        },
-        {
-          "src": "images/d62dc5ddd71cb78b.jpg",
-          "w": 800,
-          "h": 730,
-          "caption": "战国形势图"
         }
       ],
       "sources": [
@@ -1926,7 +1921,7 @@
       ],
       "type": "战争",
       "majorScore": 5,
-      "updatedAt": 1791000467
+      "updatedAt": 1791047834
     },
     {
       "id": "e022",
@@ -1940,7 +1935,7 @@
           "src": "images/eade6a363bf2.jpg",
           "w": 500,
           "h": 293,
-          "caption": "",
+          "caption": "都江堰",
           "author": "xiquinhosilva",
           "license": "CC BY 2.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:36661-Dujiangyan_(44634340644).jpg"
@@ -1990,10 +1985,12 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dujiangyan_Macha.jpg"
         },
         {
-          "src": "images/c2192ce551831215.jpg",
-          "w": 500,
-          "h": 333,
-          "caption": "都江堰"
+          "src": "images/1a96bdd38aa09764.jpg",
+          "w": 398,
+          "h": 502,
+          "caption": "都江堰",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQu70kU0c7DAluFYajy-u05BqPb23PFVArmwdEr1taMkMM-41qqhD0rotwL&s=10"
         }
       ],
       "sources": [
@@ -2004,7 +2001,7 @@
       ],
       "type": "科技",
       "majorScore": 7,
-      "updatedAt": 1791000467
+      "updatedAt": 1791048005
     },
     {
       "id": "e023",
@@ -2050,10 +2047,12 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Qin_tiger_tally,_Shaanxi_History_Museum.jpg"
         },
         {
-          "src": "images/dc515b05d230569b.jpg",
-          "w": 423,
-          "h": 472,
-          "caption": "秦朝疆域图"
+          "src": "images/a358ddba4b25f9e7.jpg",
+          "w": 424,
+          "h": 471,
+          "caption": "秦朝疆域图",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIf7vRdyMOHwQn4XggvYek8aIMlr4gCCEm6l_YJt5cj8KeRHZc4FCVc9KR&s=10"
         }
       ],
       "sources": [
@@ -2072,7 +2071,7 @@
         "from": "战国",
         "to": "秦"
       },
-      "updatedAt": 1791000467
+      "updatedAt": 1791047888
     },
     {
       "id": "e122",
@@ -2760,7 +2759,17 @@
       "title": "丝绸之路与海上丝绸之路",
       "short": "张骞通西域后形成沟通欧亚的陆上丝绸之路，汉武帝又开辟海上航线，形成海上丝绸之路，促进了东西方经济文化交流。",
       "detail": "张骞出使西域后，汉朝与西域的使者往来频繁，东西方经济文化交流日益密切。商人们载着汉朝的丝绸等货物，从长安出发，经过河西走廊，出阳关、玉门关，再分南北两路穿越西域，经中亚、西亚运往更远的地中海沿岸和欧洲，又把西域的物产运到中原。这条横贯欧亚大陆的商路，因以丝绸贸易最具代表性，19世纪德国地理学家李希霍芬将其命名为“丝绸之路”。通过丝绸之路，汉朝的丝绸、漆器、铁器以及开渠、凿井、冶铁等技术传到西域和更远的地区；西域的核桃、葡萄、石榴、苜蓿、良种马、香料、玻璃、宝石，以及琵琶等乐器和歌舞艺术传入中原，佛教后来也经这条道路传入中国。罗马人称中国为“赛里斯”，意为“丝之国”。丝绸之路是古代东西方往来的大动脉，对促进中国与其他国家和地区的贸易和文化交流起了巨大作用。汉武帝还大力开辟海上交通，从今广东徐闻、广西合浦等港口出发，船队经今越南、泰国、马来半岛，可远航到黄支国（今印度南部）和已程不国（今斯里兰卡），形成了海上丝绸之路的雏形；从山东沿海出发还有通往朝鲜半岛和日本列岛的航线。2014年，中国与哈萨克斯坦、吉尔吉斯斯坦联合申报的“丝绸之路：长安—天山廊道的路网”被列入《世界遗产名录》。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/a8436b69c931f6ab.jpg",
+          "w": 1280,
+          "h": 833,
+          "caption": "​丝绸之路路线图",
+          "author": "en:User:Wikiality123",
+          "license": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Silk_route_chinese.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E4%B8%9D%E7%BB%B8%E4%B9%8B%E8%B7%AF",
@@ -2768,7 +2777,8 @@
         }
       ],
       "type": "对外交流",
-      "majorScore": 8
+      "majorScore": 8,
+      "updatedAt": 1791048072
     },
     {
       "id": "e134",
@@ -3203,15 +3213,29 @@
       "title": "外戚宦官交替专权",
       "short": "东汉中期以后皇帝多年幼即位，外戚和宦官轮流把持朝政，任用亲信、诛杀异己，政治腐朽，东汉由此走向衰亡。",
       "detail": "东汉中期以后，继位的皇帝大多年幼，甚至有出生仅百余天就即位的殇帝，无法亲自主政，大权由太后掌握。太后往往重用自己的父兄等亲戚，导致外戚势力膨胀，把持朝政。皇帝长大后不甘心被外戚摆布，想亲自行使君权，就只能依靠身边朝夕相处的宦官，设法除掉外戚，宦官由此得到宠信，掌握大权。新皇帝即位后又往往重复这一过程，如此循环往复，形成了东汉中后期外戚和宦官交替专权的局面。例如和帝依靠宦官郑众铲除外戚窦宪；外戚梁冀先后拥立冲帝、质帝、桓帝三个皇帝，独揽朝政二十余年，因质帝称他为“跋扈将军”，竟将年幼的质帝毒死，后来桓帝联合宦官单超等五人诛杀了梁冀，五人同日封侯。外戚和宦官轮流把持朝政，任用亲信，卖官鬻爵，诛杀异己，导致政治腐朽不堪，正直的官员受到排挤陷害，赋税徭役不断加重，社会动荡，人民困苦。一些官员和太学生联合起来抨击宦官专权，宦官集团则诬陷他们结为“党人”，在桓帝、灵帝时两次兴起“党锢之祸”，大批士人被杀害、流放或禁锢终身。外戚与宦官交替专权的恶性循环，严重动摇了东汉的统治基础，东汉王朝从此走向衰亡，最终在黄巾起义和军阀混战中分崩离析。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/a27b3805346bfea5.jpg",
+          "w": 395,
+          "h": 285,
+          "caption": "东汉宦官",
+          "license": "unknown",
+          "sourceUrl": "https://bkimg.cdn.bcebos.com/pic/8718367adab44aed02616803b31c8701a18bfb2e?x-bce-process=image/format,f_auto/watermark,image_d2F0ZXIvYmFpa2UyNzI,g_7,xp_5,yp_5,P_20/resize,m_lfit,limit_1,h_1080"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E6%A2%81%E5%86%80",
           "title": "维基百科 - 梁冀"
+        },
+        {
+          "url": "https://baike.baidu.com/item/%E6%88%9A%E5%AE%A6%E4%B9%8B%E4%BA%89/1394462",
+          "title": "百度百科 - 戚宦之争"
         }
       ],
       "type": "政治",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791048189
     },
     {
       "id": "e138",
@@ -3252,7 +3276,7 @@
           "src": "images/75c52cc2eef6.jpg",
           "w": 500,
           "h": 350,
-          "caption": "",
+          "caption": "黄巾起义形势图",
           "author": "SY",
           "license": "CC BY-SA 4.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Yellow_Turban_Rebellion.jpg"
@@ -3271,15 +3295,11 @@
         {
           "url": "https://zh.wikipedia.org/wiki/%E9%BB%84%E5%B7%BE%E4%B9%8B%E4%B9%B1",
           "title": "维基百科 - 黄巾之乱"
-        },
-        {
-          "url": "https://zh.wikipedia.org/wiki/%E9%BB%83%E5%B7%BE%E4%B9%8B%E4%BA%82",
-          "title": "维基百科 - 黄巾之乱"
         }
       ],
       "type": "战争",
       "majorScore": 7,
-      "updatedAt": 1791000467
+      "updatedAt": 1791048300
     },
     {
       "id": "e139",
@@ -3320,10 +3340,19 @@
       "detail": "华佗，字元化，沛国谯县（今安徽亳州）人，东汉末年杰出的医学家，与董奉、张仲景并称“建安三神医”。他精通内科、外科、妇科、儿科和针灸，尤其擅长外科，被后人尊为“外科鼻祖”。华佗发明了“麻沸散”，让病人用酒服下，失去知觉后再进行剖腹等外科手术，手术后缝合伤口，敷上药膏，一个月左右便可痊愈。这是世界医学史上关于全身麻醉的较早记载，比西方使用麻醉药进行手术早了一千多年。可惜麻沸散的配方已经失传。华佗还非常重视预防疾病。他认为人体需要适当运动，就像门轴经常转动就不会腐朽一样，“动摇则谷气得销，血脉流通，病不得生”。他模仿虎、鹿、熊、猿、鸟五种动物的活动姿态，创编了一套健身操“五禽戏”，用来强身健体。据《后汉书·华佗传》记载，他的弟子吴普长期坚持练习五禽戏，九十多岁时仍然耳聪目明，牙齿完好坚固。华佗行医足迹遍及今江苏、山东、河南、安徽等地，医术高明，留下许多传奇故事。他不慕名利，不愿做官，后来曹操患头风病，召他做侍医，华佗以妻子有病为由回乡不归，被曹操下狱处死。其医学著作因此失传。后人常用“华佗再世”来称赞医术高明的医生，五禽戏也作为传统健身方法流传至今。",
       "images": [
         {
+          "src": "images/fe6baba1b93d8cf0.jpg",
+          "w": 1166,
+          "h": 1600,
+          "caption": "​汉名医华佗",
+          "author": "Unknown authorUnknown author",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%B1%89%E5%90%8D%E5%8C%BB%E5%8D%8E%E4%BD%97.jpg"
+        },
+        {
           "src": "images/361b9d88fd7a3581.jpg",
           "w": 800,
           "h": 600,
-          "caption": "",
+          "caption": "澳门康真君庙华佗殿的华佗塑像",
           "author": "Yumeto",
           "license": "CC BY-SA 4.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:20260809_Statue_of_Hua_Tuo_in_the_Hong_Chan_Kuan_Temple.jpg"
@@ -3337,7 +3366,7 @@
       ],
       "type": "科技",
       "majorScore": 5,
-      "updatedAt": 1791000467
+      "updatedAt": 1791048413
     },
     {
       "id": "e036",
@@ -3388,7 +3417,7 @@
           "src": "images/a1a854128561.jpg",
           "w": 500,
           "h": 379,
-          "caption": "",
+          "caption": "赤壁之战",
           "author": "文言文维基百科的竹圍牆",
           "license": "CC BY-SA 3.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Chibizhizhan.png"
@@ -3434,15 +3463,11 @@
         {
           "url": "https://zh.wikipedia.org/wiki/%E8%B5%A4%E5%A3%81%E4%B9%8B%E6%88%98",
           "title": "维基百科 - 赤壁之战"
-        },
-        {
-          "url": "https://zh.wikipedia.org/wiki/%E8%B5%A4%E5%A3%81%E4%B9%8B%E6%88%B0",
-          "title": "维基百科 - 赤壁之战"
         }
       ],
       "type": "战争",
       "majorScore": 8,
-      "updatedAt": 1791000467
+      "updatedAt": 1791048518
     },
     {
       "id": "e038",
@@ -3661,22 +3686,13 @@
       "detail": "我国北方辽阔的草原上，生活着匈奴、鲜卑、羯、氐、羌等游牧民族，他们逐水草而居。东汉、魏、晋时期，为了补充劳动力和兵源，中原王朝陆续接纳北方各族内迁。原来生活在西北的氐族和羌族迁入陕西关中；蒙古草原上的匈奴族和羯族南迁到山西一带；鲜卑族一部分迁到辽宁，一部分迁到陕西及河套地区。到西晋时，关中一带内迁各族人口约占当地总人口的一半。内迁各族与汉族杂居相处，逐渐从事农耕，促进了民族交融。但西晋统治腐朽，对内迁各族人民征收重税，征兵派役，甚至掠卖他们为奴婢，激起了强烈反抗。八王之乱后，内迁各族首领乘机起兵。304年，匈奴贵族刘渊起兵建立政权，国号汉（后改称赵，史称前赵），后来攻破洛阳、长安，灭亡了西晋。从304年到439年北魏统一北方，北方先后出现了二十多个政权，其中主要的有十六个，史称“十六国”。这一时期北方战乱频繁，政权更迭不断，社会经济遭到严重破坏。其中前秦苻坚任用汉人王猛改革，一度统一北方，但在淝水之战中失败后迅速瓦解。十六国时期，各族政权多推行汉化措施，任用汉族士人，促进了北方的民族交融，为北魏统一北方和后来隋唐的大一统准备了条件。",
       "images": [
         {
-          "src": "images/a3f36ea130d3bcb3.jpg",
-          "w": 288,
-          "h": 400,
-          "caption": "敕勒川狩猎图（北魏墓壁画摹本）"
-        },
-        {
-          "src": "images/85f510263054c837.jpg",
-          "w": 600,
-          "h": 800,
-          "caption": "甘肃嘉峪关魏晋墓砖画"
-        },
-        {
-          "src": "images/32ce3c0d8f8f7031.jpg",
-          "w": 800,
-          "h": 486,
-          "caption": "西晋内迁少数民族分布图"
+          "src": "images/025e9da56a668869.png",
+          "w": 556,
+          "h": 537,
+          "caption": "十六国",
+          "author": "Ian Kiu",
+          "license": "CC BY 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eastern_Jin_Dynasty_376_CE.png"
         }
       ],
       "sources": [
@@ -3686,7 +3702,8 @@
         }
       ],
       "type": "政治",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791048586
     },
     {
       "id": "e144",
@@ -4309,7 +4326,7 @@
           "src": "images/74eadab59044.jpg",
           "w": 500,
           "h": 483,
-          "caption": "",
+          "caption": "隋朝",
           "author": "Ian Kiu",
           "license": "CC BY 3.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cheui_Dynasty_581_CE.png"
@@ -4372,7 +4389,7 @@
         "from": "南北朝",
         "to": "隋"
       },
-      "updatedAt": 1791000467
+      "updatedAt": 1791048627
     },
     {
       "id": "e156",
@@ -4423,7 +4440,7 @@
           "src": "images/bb5097480c38.jpg",
           "w": 500,
           "h": 571,
-          "caption": "",
+          "caption": "大运河",
           "author": "Groverlynn",
           "license": "CC BY-SA 4.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E5%A4%A7%E9%81%8B%E6%B2%B3.png"
@@ -4450,7 +4467,7 @@
       ],
       "type": "科技",
       "majorScore": 8,
-      "updatedAt": 1791000467
+      "updatedAt": 1791048668
     },
     {
       "id": "e045",
@@ -4929,7 +4946,7 @@
           "src": "images/fa92e7044e33.jpg",
           "w": 500,
           "h": 885,
-          "caption": "",
+          "caption": "武则天",
           "author": "Likely to be Zhang Xuan (张萱)",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E5%94%90%E5%90%8E%E8%A1%8C%E5%BE%9E%E5%9C%96_(%E5%B1%80%E9%83%A8)_-_%E6%AD%A6%E5%89%87%E5%A4%A9.png"
@@ -4978,7 +4995,7 @@
       ],
       "type": "政治",
       "majorScore": 6,
-      "updatedAt": 1791000467
+      "updatedAt": 1791048766
     },
     {
       "id": "e163",
@@ -5013,24 +5030,24 @@
       "detail": "唐玄宗李隆基（685—762）是武则天的孙子、唐睿宗的儿子。710年他发动政变诛杀韦后集团，712年即位，次年改年号为“开元”。唐玄宗即位初期，励精图治，任用贤能，先后以姚崇、宋璟、张说、张九龄等为宰相，实行了一系列改革：整顿吏治，裁减冗官，重视地方官的选拔，亲自考核县令，考核不合格的立即罢免；发展经济，检括逃亡户口，增加国家的赋税收入，兴修水利，推广屯田；注重文教，设立集贤院整理编修典籍。经过二十多年的治理，唐朝疆域辽阔，长安成为各国使节、商人和留学生云集的国际性大都市，唐朝政治稳定，经济繁荣，国库充盈，人口增长到八百多万户，社会安定，粮价低廉，唐朝国力达到鼎盛，史称“开元盛世”。诗人杜甫在《忆昔》中描述道：“忆昔开元全盛日，小邑犹藏万家室。稻米流脂粟米白，公私仓廪俱丰实。”但开元后期，唐玄宗逐渐骄傲怠惰，沉溺享乐，先后任用李林甫、杨国忠为相，朝政日益腐败，节度使势力膨胀，社会矛盾不断积累，终于在天宝十四年（755年）爆发了安史之乱，唐朝由盛转衰。",
       "images": [
         {
-          "src": "images/d26ad4665dea.jpg",
-          "w": 330,
-          "h": 419,
-          "caption": "唐玄宗"
+          "src": "images/3b70b60e25cd1462.jpg",
+          "w": 343,
+          "h": 436,
+          "caption": "​唐玄宗",
+          "author": "AnonymousUnknown author",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tang_XianZong.jpg"
         }
       ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%BC%80%E5%85%83%E4%B9%8B%E6%B2%BB",
           "title": "维基百科 - 开元盛世"
-        },
-        {
-          "url": "https://zh.wikipedia.org/wiki/%E5%BC%80%E5%85%83%E7%9B%9B%E4%B8%96",
-          "title": "维基百科 - 开元盛世"
         }
       ],
       "type": "政治",
-      "majorScore": 8
+      "majorScore": 8,
+      "updatedAt": 1791048714
     },
     {
       "id": "e164",
@@ -5332,10 +5349,22 @@
       "detail": "唐朝后期，统治日益腐朽，宦官专权，藩镇割据愈演愈烈，中央已无力控制藩镇。统治者对人民的压榨不断加重，赋税徭役繁重，再加上连年的水旱灾害和蝗灾，许多农民无以为生，社会矛盾空前尖锐。874年，私盐贩王仙芝在长垣起义；875年，同样以贩私盐为业的黄巢在冤句（今山东菏泽西南）聚众响应。起义军转战山东、河南、湖北等地，王仙芝战死后，黄巢成为起义军领袖。黄巢率军避开唐军主力，渡过长江，转战江西、浙江、福建，并攻下广州，随后又北上，打击官僚地主，队伍发展到数十万人。880年，起义军攻克洛阳，随后攻破潼关，进入长安。881年初，黄巢在长安称帝，国号“大齐”。但起义军没有乘胜追击唐朝残余力量，也没有建立稳固的根据地，在长安陷入孤立；唐朝调集各路藩镇军队反攻，起义军将领朱温又叛变投降唐朝，沙陀李克用也率军镇压。883年，黄巢被迫撤出长安，884年在泰山狼虎谷兵败自杀。黄巢起义历时十年，转战大半个中国，沉重打击了唐朝的统治和腐朽的门阀士族势力。起义失败后，唐朝名存实亡，地方藩镇实力进一步增强，二十多年后唐朝被朱温所灭。黄巢早年所写的《不第后赋菊》中“冲天香阵透长安，满城尽带黄金甲”的诗句流传至今。",
       "images": [
         {
-          "src": "images/ba19687566c2e812.jpg",
-          "w": 450,
-          "h": 800,
-          "caption": "黄巢像"
+          "src": "images/01c17c08c016a1fc.png",
+          "w": 828,
+          "h": 667,
+          "caption": "​唐末农民战争形势图 绘制人：竹围墙",
+          "author": "The original uploader was Zhuwq at Chinese Wikipedia.",
+          "license": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E5%94%90%E6%9C%AB%E5%86%9C%E6%B0%91%E8%B5%B7%E4%B9%89%E5%9B%BE.png"
+        },
+        {
+          "src": "images/2d8027bca9059734.jpg",
+          "w": 1280,
+          "h": 2084,
+          "caption": "​黄巢（残唐五代史演义传）",
+          "author": "Unknown authorUnknown author",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E9%BB%83%E5%B7%A2%EF%BC%88%E6%AE%98%E5%94%90%E4%BA%94%E4%BB%A3%E5%8F%B2%E6%BC%94%E7%BE%A9%E5%82%B3%EF%BC%89.jpg"
         }
       ],
       "sources": [
@@ -5345,7 +5374,8 @@
         }
       ],
       "type": "战争",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791048843
     },
     {
       "id": "e053",
@@ -5739,22 +5769,22 @@
       "detail": "党项族原属羌族的一支，最初生活在今青海东南部一带。唐朝时，党项族受吐蕃逼迫，逐渐内迁到今甘肃东部、陕西北部一带，与中原文化的接触增多，社会生产有所发展。唐末，党项首领拓跋思恭因帮助唐朝镇压黄巢起义有功，被赐姓李，封为夏国公，任定难军节度使，从此党项势力割据夏州（今陕西靖边北）一带。北宋初年，党项首领李继迁、李德明父子时而依附北宋，时而依附辽朝，逐渐扩大势力范围，占领了灵州、河西走廊等地。1038年，李德明之子元昊正式称帝，国号大夏，定都兴庆府（今宁夏银川），因位于宋朝西北，史称“西夏”。他仿效唐宋制度，设立官制、军制，制定法律；鼓励垦荒，发展农牧经济；还命大臣野利仁荣等创制了西夏文字，西夏文字仿照汉字结构造字，有六千多个字。西夏统治地区包括今宁夏、甘肃大部以及陕西、内蒙古、青海的部分地区，与北宋、辽（后为金）形成鼎立之势。西夏重视儒学和佛教，建立学校，实行科举。今宁夏银川西郊的贺兰山下保存有西夏王陵，被称为“东方金字塔”。西夏前后存在约190年，1227年被蒙古所灭。西夏文献大量出土于内蒙古黑水城遗址，为研究西夏历史提供了宝贵资料。",
       "images": [
         {
-          "src": "images/e07dcbbdba30a582.jpg",
-          "w": 800,
-          "h": 770,
-          "caption": "西夏货币"
+          "src": "images/ae6d3e457e32d58a.png",
+          "w": 1088,
+          "h": 774,
+          "caption": "​西夏全境图",
+          "author": "玖巧仔",
+          "license": "CC BY 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E8%A5%BF%E5%A4%8F%E5%85%A8%E5%A2%83%E5%9B%BE%EF%BC%88%E7%B9%81%EF%BC%89.png"
         },
         {
-          "src": "images/7f298ce6ddac744c.jpg",
-          "w": 800,
-          "h": 532,
-          "caption": "西夏文契约"
-        },
-        {
-          "src": "images/132c9c25c9d0e92a.jpg",
-          "w": 800,
-          "h": 538,
-          "caption": "西夏符牌"
+          "src": "images/37de4c7b13042e43.png",
+          "w": 556,
+          "h": 537,
+          "caption": "贞观十一年（1111年），西夏与辽国、北宋等三国疆域",
+          "author": "Douglasfrankfort",
+          "license": "CC BY 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Song-Liao-Xixia-1111.png"
         }
       ],
       "sources": [
@@ -5764,7 +5794,8 @@
         }
       ],
       "type": "政治",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791049115
     },
     {
       "id": "e056",
@@ -5775,6 +5806,14 @@
       "detail": "我国在隋唐时期发明了雕版印刷术，现存世界上最早的标有确切日期的雕版印刷品是唐朝868年印制的《金刚经》。辽、宋、西夏、金时期刻书盛行，雕版印刷技术进一步发展。但雕版印刷刻版费工费时，而且刻好的版只能印一种书，如果刻错一个字，整块版就可能报废。在多年探索的基础上，宋代的印刷技术有了新的突破。据北宋沈括《梦溪笔谈》记载，宋仁宗庆历年间（1041—1048年），平民毕昇发明了活字印刷术。他用胶泥刻成一个个反体单字，每字一印，用火烧硬，制成字模。制版时，在一块四周有铁框的铁板上撒上松脂、蜡和纸灰的混合物，按文章内容把字模排在铁框内，排满一框作为一版，然后用火烘烤，等药物稍微熔化，用一块平板压平字面，冷却后字模就固定在铁板上，可以涂墨印刷。印完后再用火烘烤，使药物熔化，字模便可拆下来，以备下次使用。活字印刷术“若止印三二本，未为简易；若印数十百千本，则极为神速”。与雕版印刷相比，活字印刷既经济又省时，大大提高了印刷效率。中国的活字印刷术后来传到朝鲜、日本、东南亚和欧洲，比德国人谷登堡的金属活字印刷早约四百年。印刷术是中国古代四大发明之一，对人类文明的传播和发展作出了巨大贡献。",
       "images": [
         {
+          "src": "images/c61369e46231f1ed.jpg",
+          "w": 376,
+          "h": 531,
+          "caption": "毕昇像",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTN3JZfcfu8ryvE3EQqw9VOwzjoG_RTAK1OScq0vbyRJg&s=10"
+        },
+        {
           "src": "images/1000c22eac07.jpg",
           "w": 500,
           "h": 500,
@@ -5782,14 +5821,6 @@
           "author": "User:Parhamr",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Chinese_movable_type_1313-ce.png"
-        },
-        {
-          "src": "images/b5d6eceaba6e.jpg",
-          "w": 500,
-          "h": 737,
-          "caption": "",
-          "license": "Public domain",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%B8%85%E4%B9%BE%E9%9A%86%E5%B9%B4%E6%AD%A6%E8%8B%B1%E6%AE%BF%E8%81%9A%E7%8F%8D%E7%89%88%E4%B9%A6%E9%A1%B5.JPG"
         },
         {
           "src": "images/458fa811a451.jpg",
@@ -5810,22 +5841,21 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Korean_book-Jikji-Selected_Teachings_of_Buddhist_Sages_and_Seon_Masters-1377.jpg"
         },
         {
-          "src": "images/058679ea5dd9a483.jpg",
-          "w": 369,
-          "h": 800,
-          "caption": "毕昇像"
+          "src": "images/de94496e846cf226.jpg",
+          "w": 547,
+          "h": 365,
+          "caption": "泥活字版",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXBp91fd_jP4Xd7ij7aiIUgg0Y919VmVMpQ7Zwim1QTg&s=10"
         },
         {
-          "src": "images/f34774cb2ab36c31.jpg",
-          "w": 300,
-          "h": 300,
-          "caption": "泥活字版"
-        },
-        {
-          "src": "images/4477c221b7e2e378.jpg",
-          "w": 500,
-          "h": 333,
-          "caption": "《梦溪笔谈》中对毕昇发明活字版的记载"
+          "src": "images/116e216038b7d367.jpg",
+          "w": 1280,
+          "h": 853,
+          "caption": "梦溪笔谈-杭州国家版本馆",
+          "author": "User:CatOnMars",
+          "license": "CC BY 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Essays_of_Dream_Pool,_Hangzhou_National_Archives_146.jpg"
         }
       ],
       "sources": [
@@ -5836,7 +5866,7 @@
       ],
       "type": "科技",
       "majorScore": 9,
-      "updatedAt": 1791000467
+      "updatedAt": 1791049033
     },
     {
       "id": "e180",
@@ -5909,21 +5939,21 @@
           "src": "images/9f3acd75543bab20.jpg",
           "w": 398,
           "h": 508,
-          "caption": ""
+          "caption": "王安石",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfZrJJHKgDRtunkCvqhNX8kabtKReEbqC38IaSVj0hjg&s",
+          "author": "Wang Anshi",
+          "license": "unknown"
         }
       ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E7%8E%8B%E5%AE%89%E7%9F%B3%E5%8F%98%E6%B3%95",
           "title": "维基百科 - 熙宁元丰变法"
-        },
-        {
-          "url": "https://zh.wikipedia.org/wiki/%E7%86%99%E5%AF%A7%E5%85%83%E8%B1%90%E8%AE%8A%E6%B3%95",
-          "title": "维基百科 - 熙宁元丰变法"
         }
       ],
       "type": "政治",
-      "majorScore": 7
+      "majorScore": 7,
+      "updatedAt": 1791049173
     },
     {
       "id": "e182",
@@ -6055,7 +6085,35 @@
       "title": "阿骨打建立金朝",
       "short": "女真族完颜部首领阿骨打统一女真各部，1114年起兵抗辽，1115年建立金朝，定都会宁，他就是金太祖。",
       "detail": "女真族是我国东北地区的古老民族，居住在黑龙江流域和长白山一带，以渔猎、畜牧和农耕为生。辽朝统治时期，女真族受到辽的控制和压迫，辽朝每年向女真索取大量的人参、貂皮、北珠和猎鹰“海东青”，女真人对辽朝的统治十分不满。当时女真族分为许多部落，其中按出虎水（今黑龙江阿什河）流域的完颜部逐渐强大，兼并了许多部落。11世纪末，完颜部首领阿骨打完成了女真各部的统一。1112年，辽天祚帝到春州巡游，在宴会上命女真各部首领依次起舞，阿骨打拒不从命，天祚帝想杀他，被大臣劝止。1114年，阿骨打起兵反辽，在宁江州和出河店接连大败辽军，以少胜多，女真士气大振，有“女真兵若满万，则不可敌”的说法。1115年，阿骨打称帝，建立政权，国号大金，定都会宁府（今黑龙江哈尔滨阿城区），他就是金太祖。金太祖模仿中原王朝的制度，把女真原有的军事组织猛安谋克制推广为军政合一的地方组织，发展生产，命完颜希尹参照汉字和契丹字创制了女真文字，国力迅速增强。此后，金军不断进攻辽朝，攻占了辽的东京、上京等地。1125年，金灭辽，1127年又灭亡北宋，成为与南宋对峙的北方强大政权。金朝前后存在约120年，1234年被蒙古与南宋联合所灭。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/c842416e8137e3fa.jpg",
+          "w": 400,
+          "h": 585,
+          "caption": "女真金帝国的第一位皇帝",
+          "author": "Unknown authorUnknown author",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Wanggiyan_Aguda.jpg"
+        },
+        {
+          "src": "images/d5a44f414ad893fa.png",
+          "w": 798,
+          "h": 1125,
+          "caption": "金朝边界",
+          "author": "SY",
+          "license": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jurchen_Jin_Circuits.png"
+        },
+        {
+          "src": "images/01af23792f36cf8e.png",
+          "w": 800,
+          "h": 557,
+          "caption": "​金(最大领域) 歴史地図",
+          "author": "俊武",
+          "license": "CC BY 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Map_of_Jin.PNG"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E9%87%91%E6%9C%9D",
@@ -6063,7 +6121,8 @@
         }
       ],
       "type": "政治",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791049264
     },
     {
       "id": "e187",
@@ -6104,10 +6163,18 @@
       "detail": "宋代商业的繁荣超过了前代。唐朝时城市实行坊市制度，居民区和商业区严格分开，商业活动有时间限制。宋代打破了这种限制，城市中到处可以开设店铺，经商的时间也不受限制，出现了早市和夜市。黄河、长江和运河沿岸兴起了许多商业城市，北宋的东京（开封）和南宋的临安（杭州）人口都多达百万。城市以外还出现了定期集市“草市”和新兴的市镇，商品经济进一步发展到乡村。《清明上河图》是北宋末年画家张择端的作品。画卷为绢本设色，长约528厘米，宽约25厘米，采用散点透视的构图方法，以长卷形式描绘了清明时节北宋东京城郊外和汴河两岸的繁华景象。画面从宁静的郊野开始，经过繁忙的汴河码头，到达热闹的城内街市。画中有五百五十多个人物，各种牲畜五六十匹，船只二十多艘，车轿二十多乘，还有虹桥、城楼、茶坊、酒肆、肉铺、药铺、庙宇、货摊等，各具神态。其中横跨汴河的木构虹桥是画卷的中心，桥上行人熙熙攘攘，桥下一艘大船正在放倒桅杆准备过桥。这幅画生动地再现了北宋都城的城市面貌和社会各阶层的生活状况，具有很高的艺术价值，也是研究北宋社会经济、城市建设、交通运输和风俗习惯的珍贵史料。《清明上河图》被誉为中国十大传世名画之一。",
       "images": [
         {
+          "src": "images/a93f836b900b09bc.jpg",
+          "w": 3000,
+          "h": 2318,
+          "caption": "清明上河图",
+          "license": "unknown",
+          "sourceUrl": "https://q1.itc.cn/q_70/images01/20241015/9e2ef6f3ef934c8faab4e864cf9fa141.jpeg"
+        },
+        {
           "src": "images/ad0940dfaf2d.jpg",
           "w": 500,
           "h": 358,
-          "caption": "",
+          "caption": "清明上河图汴京瓮城",
           "author": "张择端",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bianjing_city_gate.JPG"
@@ -6120,39 +6187,17 @@
           "author": "User Zhuwq on zh.wikipedia",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%B8%85%E6%98%8E%E4%B8%8A%E6%B2%B3%E5%9B%BE.jpg"
-        },
-        {
-          "src": "images/3f38bc8e5ca57231.jpg",
-          "w": 800,
-          "h": 581,
-          "caption": "宋代张择端《清明上河图》（局部）"
-        },
-        {
-          "src": "images/71b6096e491a0e87.jpg",
-          "w": 611,
-          "h": 800,
-          "caption": "《货郎图》（局部）"
-        },
-        {
-          "src": "images/dc3cf79520f8b8ca.jpg",
-          "w": 494,
-          "h": 438,
-          "caption": "济南刘家功夫针铺铜版"
         }
       ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E6%B8%85%E6%98%8E%E4%B8%8A%E6%B2%B3%E5%9B%BE",
           "title": "维基百科 - 清明上河图"
-        },
-        {
-          "url": "https://zh.wikipedia.org/wiki/%E6%B8%85%E6%98%8E%E4%B8%8A%E6%B2%B3%E5%9C%96",
-          "title": "维基百科 - 清明上河图"
         }
       ],
       "type": "文化",
       "majorScore": 7,
-      "updatedAt": 1791000467
+      "updatedAt": 1791049427
     },
     {
       "id": "e188",
@@ -6424,7 +6469,17 @@
       "title": "蒙古灭西夏",
       "short": "成吉思汗六次进攻西夏，金朝拒绝救援，1227年西夏末帝投降，西夏灭亡；成吉思汗也在征西夏期间病逝于六盘山一带。",
       "detail": "蒙古统一后，成吉思汗首先把进攻目标指向西夏和金。西夏地处蒙古南下的要道，控制着河西走廊，蒙古要进攻金朝和西域，必须先解除西夏的威胁。从1205年起，成吉思汗先后六次进攻西夏。1209年，蒙古军包围西夏都城中兴府（今宁夏银川），引黄河水灌城，西夏被迫纳女求和，向蒙古称臣，并答应出兵协助蒙古作战。西夏曾向金朝求援，但由于西夏与金之间早有矛盾，金朝皇帝拒绝支援，说“敌人相攻，吾国之福”，宋、夏、金之间未能联合抵抗蒙古。后来西夏拒绝随蒙古西征，并与金和好，引起成吉思汗的愤怒。1226年，成吉思汗西征归来后，亲率大军第六次进攻西夏，相继攻占黑水城、甘州、肃州、西凉府等地，并在黄河九渡大败西夏主力，随后包围中兴府。西夏都城被围半年，城中粮尽，又遭遇地震和瘟疫。1227年夏，成吉思汗在六盘山一带病重，不久去世。他临终前留下遗言：秘不发丧，待西夏投降后将其君臣尽数诛杀；并提出借道宋境、联宋灭金的策略。同年，西夏末帝李晛出城投降，被蒙古军杀死，西夏灭亡，前后共存在约190年。今天，宁夏银川贺兰山下的西夏王陵和内蒙古额济纳旗的黑水城遗址等，是研究西夏历史的重要遗存。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/28a5ecd4bb6ef689.png",
+          "w": 1085,
+          "h": 774,
+          "caption": "​蒙古灭西夏战争路线图（蒙夏第五次战争） 底图：源自File:西夏全境图（繁）.png 文字资料来源：明 宋濂着：《元…",
+          "author": "Jason22",
+          "license": "CC BY 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mongol_conquest_of_Western_Xia.png"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E8%92%99%E5%8F%A4%E7%81%AD%E8%A5%BF%E5%A4%8F%E4%B9%8B%E6%88%98",
@@ -6432,7 +6487,8 @@
         }
       ],
       "type": "战争",
-      "majorScore": 4
+      "majorScore": 4,
+      "updatedAt": 1791049473
     },
     {
       "id": "e192",
@@ -6441,7 +6497,17 @@
       "title": "蒙古灭金",
       "short": "成吉思汗死后，窝阔台遵其遗策联宋攻金，1234年蒙宋联军攻破蔡州，金哀宗自缢，金朝灭亡，宋蒙直接对峙。",
       "detail": "金朝后期，政治腐败，国力衰弱，又受到蒙古的不断进攻。1211年起，成吉思汗多次南下攻金，在野狐岭等战役中大败金军主力，并包围中都（今北京）。1214年，金朝被迫迁都南京（今河南开封），次年蒙古攻占中都，金朝丧失了黄河以北的大片土地。1229年，成吉思汗第三子窝阔台继承汗位，继续进攻金朝。1231年，蒙古军兵分三路，其中拖雷率军借道南宋的汉中地区，绕到金朝后方。1232年，拖雷在钧州三峰山大败金军主力，金朝精锐丧失殆尽。随后蒙古军包围汴京，金哀宗出逃，最后逃到蔡州（今河南汝南）。1233年，南宋与蒙古结盟，约定共同灭金，灭金后把河南地归还南宋。南宋派孟珙率军携带粮食与蒙古军会合，围攻蔡州。1234年初，蒙宋联军攻破蔡州，金哀宗传位给末帝完颜承麟后自缢身亡，金朝灭亡，前后存在120年。金朝灭亡后，南宋想乘机收复北宋旧都，出兵进占开封、洛阳等地，却遭到蒙古军的反击而失败，这就是“端平入洛”。从此，南宋和蒙古直接对峙，蒙古军队南下进攻南宋。南宋军民在四川、襄樊、两淮等地进行了长期顽强的抵抗，其中1259年钓鱼城守军击退蒙古军，蒙哥汗在围城期间死去，迫使蒙古军暂时撤退。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/ae0ab30ead6b95cf.png",
+          "w": 1280,
+          "h": 829,
+          "caption": "13世纪的蒙古帝国",
+          "author": "Historicair, Bkkbrad, translated by Buernia",
+          "license": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Genghis_Khan_empire-zh-hans.svg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E8%94%A1%E5%B7%9E%E4%B9%8B%E6%88%98",
@@ -6449,7 +6515,8 @@
         }
       ],
       "type": "战争",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791049575
     },
     {
       "id": "e193",
@@ -6702,16 +6769,31 @@
       "detail": "文天祥（1236—1283），字履善，号文山，吉州庐陵（今江西吉安）人，二十岁考中状元。1275年，元军沿长江东下进攻临安，南宋朝廷号召各地起兵勤王，文天祥立即响应，招募义军万余人前去救援。1276年，朝廷委任文天祥为右丞相兼枢密使，派他到元军大营谈判。他在谈判中慷慨陈词，痛斥元军，被元军统帅伯颜扣留。不久临安陷落，文天祥被押往北方，途中在镇江乘机逃出，历经艰险，辗转到福建，继续组织南宋余部和各地义军抗元。1278年，文天祥在广东海丰五坡岭兵败被俘。元将张弘范逼他写信招降坚守崖山的张世杰，文天祥写下《过零丁洋》一诗作为回答，诗中“人生自古谁无死？留取丹心照汗青”成为千古名句。1279年南宋残余势力在崖山覆灭后，文天祥被押解到大都，关押了三年多。元朝统治者多次劝降，元世祖忽必烈亲自召见，许以丞相等高官，被俘的宋恭帝也被派来劝降，但文天祥宁死不屈，说“一死之外，无可为者”。在狱中，他写下了大义凛然的《正气歌》，表达了坚守气节的决心。1283年初，文天祥在大都柴市从容就义，临刑前向南方拜了两拜，终年四十七岁。”文天祥的崇高民族气节和爱国精神千百年来为人们所敬仰。",
       "images": [
         {
-          "src": "images/cf3be655e4469bdc.jpg",
-          "w": 661,
-          "h": 800,
-          "caption": "文天祥像"
+          "src": "images/bb2fff3a120e336a.jpg",
+          "w": 1280,
+          "h": 2038,
+          "caption": "​文天祥肖像，叶衍兰绘，出自《叶衍兰历代名人画像册》",
+          "author": "​葉衍蘭",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%96%87%E5%A4%A9%E7%A5%A5%E8%82%96%E5%83%8F.jpg"
         },
         {
-          "src": "images/47af930391069933.jpg",
-          "w": 601,
-          "h": 800,
-          "caption": "北京文丞相祠"
+          "src": "images/34d54354a6d16910.png",
+          "w": 999,
+          "h": 1402,
+          "caption": "​清朝出版的《南宋群贤小集》一页，翻刻南宋宝佑四年文天祥状元及第榜单",
+          "author": "百楽兎",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_ranking_list_of_Jinshi_examination_in_the_Southern_Song_Dynasty.png"
+        },
+        {
+          "src": "images/5bfcebcd868b7a72.jpg",
+          "w": 1280,
+          "h": 1707,
+          "caption": "​文天祥雕像，汕头市莲花峰风景区",
+          "author": "CundiP",
+          "license": "CC0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E8%8E%B2%E8%8A%B1%E5%B3%B0%E6%96%87%E5%A4%A9%E7%A5%A5%E5%83%8F.jpg"
         }
       ],
       "sources": [
@@ -6721,7 +6803,8 @@
         }
       ],
       "type": "政治",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791049753
     },
     {
       "id": "e199",
@@ -6730,7 +6813,17 @@
       "title": "元朝行省制度",
       "short": "元朝中央设中书省、枢密院、御史台，地方除“腹里”和吐蕃外设立十个行中书省，行省制度是我国省制的开端。",
       "detail": "元朝建立后，忽必烈在汉族知识分子的帮助下，参照中原历代王朝的统治方式，逐步确立了君主专制的中央集权制度。在中央，由中书省掌管全国的行政事务，下设吏、户、礼、兵、刑、工六部，分管各项政务；设枢密院负责全国的军事事务，调度全国的军队；设御史台负责监察事务；设宣政院掌管全国佛教事务和吐蕃地区军政事务。在地方，元朝创立了行省制度。元朝疆域辽阔，为了加强对各地的统治，元朝把今山东、山西、河北及内蒙古部分地区称作“腹里”，由中书省直接管辖；吐蕃地区由宣政院管辖；其他地区则设立了十个行中书省，简称“行省”或“省”，包括岭北、辽阳、河南、陕西、四川、甘肃、云南、江浙、江西、湖广等。行省原为中书省的派出机构，后来逐渐成为固定的地方最高行政机构，由中央任命官员，负责管理本地区的军政事务，权力很大，但重大事务必须向中央请示。行省之下设路、府、州、县。行省的划分往往有意打破山川形势，使各省不能凭借天险割据。行省制度加强了中央对地方的管理，巩固了国家的统一，促进了边疆地区的开发。行省制度是我国古代地方行政制度的重大变革，是我国省制的开端，对后世产生了深远影响。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/f625378c0ed687bf.jpg",
+          "w": 790,
+          "h": 600,
+          "caption": "元朝的行政区划",
+          "author": "Jason22",
+          "license": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Yuan_Dynasty_Administrative_division_1330.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E8%A1%8C%E7%9C%81",
@@ -6738,7 +6831,8 @@
         }
       ],
       "type": "政治",
-      "majorScore": 7
+      "majorScore": 7,
+      "updatedAt": 1791049662
     },
     {
       "id": "e200",
@@ -7059,7 +7153,7 @@
           "src": "images/e6728c24cc483f73.jpg",
           "w": 500,
           "h": 732,
-          "caption": "",
+          "caption": "​方孝孺塑像，载 清朝 同治十三年 《方正學先生遜志齋集》，存于哈佛大学图书馆",
           "author": "清朝 任有容",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Fang-xiaoru.jpg"
@@ -7068,7 +7162,7 @@
           "src": "images/004bfb46903ad7d3.jpg",
           "w": 500,
           "h": 726,
-          "caption": "",
+          "caption": "明成祖坐像",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Portrait_assis_de_l%27empereur_Ming_Chengzu.jpg"
         }
@@ -7081,7 +7175,7 @@
       ],
       "type": "政治",
       "majorScore": 5,
-      "updatedAt": 1791000467
+      "updatedAt": 1791049923
     },
     {
       "id": "e210",
@@ -7090,7 +7184,16 @@
       "title": "《顺风相送》最早记载钓鱼岛",
       "short": "始撰于1403年的航海针路簿《顺风相送》是目前所见最早记载钓鱼岛等地名的史籍，表明中国最早发现并命名了钓鱼岛。",
       "detail": "钓鱼岛及其附属岛屿位于中国台湾岛东北部，是台湾岛的附属岛屿。中国人最早发现、命名和利用钓鱼岛，东南沿海渔民很早就在这一海域捕鱼作业，并把它作为航海的标志。目前所见最早记载钓鱼岛、赤尾屿等地名的史籍，是始撰于1403年（明永乐元年）的《顺风相送》。这是一部航海针路簿，在记录福建往琉球的航线时提到了“钓鱼屿”“赤坎屿”等地名，表明早在14至15世纪中国就已经发现并命名了钓鱼岛。明朝从1372年起多次派遣册封使前往琉球，册封使的使录中多次记载钓鱼岛。1534年陈侃所著《使琉球录》记载，船过钓鱼屿、黄毛屿、赤屿后，“见古米山，乃属琉球者”，说明古米山以西的钓鱼岛等岛屿不属于琉球。明朝初期为防御倭寇，将钓鱼岛列入海防范围，1562年胡宗宪主持、郑若曾编纂的《筹海图编》，就把钓鱼屿等岛屿列入福建沿海的防区。清朝沿袭了明朝的做法，并明确将钓鱼岛置于台湾地方政府的行政管辖之下，清代黄叔璥的《台海使槎录》等文献都有记载。古今中外的许多地图也都标绘钓鱼岛属于中国。1895年甲午战争后，日本窃取了钓鱼岛。第二次世界大战后，根据《开罗宣言》和《波茨坦公告》，钓鱼岛应与台湾一同归还中国。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/65ee523fde557383.jpg",
+          "w": 831,
+          "h": 405,
+          "caption": "钓鱼台空照图",
+          "license": "Attribution",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Senkaku-uotsuri.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E9%92%93%E9%B1%BC%E5%B2%9B",
@@ -7098,7 +7201,8 @@
         }
       ],
       "type": "政治",
-      "majorScore": 4
+      "majorScore": 4,
+      "updatedAt": 1791049844
     },
     {
       "id": "e065",
@@ -7668,7 +7772,17 @@
       "title": "皇太极改国号为清",
       "short": "努尔哈赤死后皇太极继位，1635年改族名为满洲，1636年在沈阳称帝，改国号为清，此后多次入关攻掠，与明朝对峙。",
       "detail": "1626年努尔哈赤去世后，他的第八子皇太极（1592—1643）继承汗位，次年改年号为天聪。皇太极即位后，一方面加强汗权，逐步改变与诸贝勒“共议国政”的局面；另一方面仿照明朝的制度设立六部，任用汉族官员，改善满汉关系，发展农业生产，增强了国力。他出兵朝鲜，最终迫使朝鲜断绝与明朝的宗藩关系，又多次出兵漠南蒙古，打败了林丹汗，漠南蒙古各部相继归附。1635年，林丹汗之子额哲归降，献上元朝的“制诰之宝”玉玺；同年，皇太极下令改族名“女真”为“满洲”。1636年，皇太极在沈阳称帝，改国号为“清”，改年号为崇德，他就是清太宗。此后，清军多次绕道蒙古，突破长城，深入华北各地掳掠人口和财物，严重打击了明朝。1640年至1642年，清军在松锦之战中大败明军，俘获了明朝蓟辽总督洪承畴，明朝在山海关外仅剩宁远等少数城池。1643年，皇太极病逝，其子福临继位，即顺治帝，由叔父多尔衮等辅政。清初的皇宫沈阳故宫始建于努尔哈赤时期，1636年基本建成，有三百多间房屋，是国内现存规模仅次于北京故宫的皇宫建筑群，2004年作为明清皇宫的扩展项目被列入《世界遗产名录》。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/06e3509e03d95fb8.jpg",
+          "w": 1280,
+          "h": 2305,
+          "caption": "清太宗坐像 北京故宫博物院藏",
+          "author": "AnonymousUnknown author Qing Dynasty Court Painter",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%B8%85_%E4%BD%9A%E5%90%8D_%E3%80%8A%E6%B8%85%E5%A4%AA%E5%AE%97%E5%B4%87%E5%BE%B7%E7%9A%87%E5%B8%9D%E6%9C%9D%E6%9C%8D%E5%83%8F%E3%80%8B.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E7%9A%87%E5%A4%AA%E6%9E%81",
@@ -7676,7 +7790,8 @@
         }
       ],
       "type": "政治",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791049964
     },
     {
       "id": "e221",
@@ -7917,7 +8032,17 @@
       "title": "文字狱与文化专制",
       "short": "清朝康熙、雍正、乾隆三朝大兴文字狱，从诗文中摘取字句罗织罪名，并借编修《四库全书》查禁销毁大量书籍，禁锢了思想。",
       "detail": "清朝统治者为了维护专制统治，非常注重从思想领域严密控制知识分子。康熙、雍正和乾隆三朝，统治者经常从知识分子的文章、诗词中摘取只言片语，加以歪曲解释，罗织罪名，制造了大批冤狱，这种做法被称为“文字狱”。清朝文字狱规模之大、次数之多，远超前代，仅乾隆朝就有一百多起。康熙初年的“明史案”中，浙江富户庄廷鑨私修《明史》，书中使用南明年号，结果参与编写、刻印、销售此书的七十多人被处死，受牵连的有二百多人。康熙后期的“《南山集》案”中，戴名世因书中采用南明年号被处死。乾隆时，大臣胡中藻的诗中有“一把心肠论浊清”之句，乾隆帝认为他把“浊”字加在国号“清”字之上，是何居心，胡中藻被处斩。清朝统治者还借编修《四库全书》之机，对全国书籍进行全面检查，把被认为对清朝统治不利的书籍列为禁书，收缴销毁或删改，乾隆时期的禁书活动持续了近二十年，销毁书籍三千多种。文字狱造成了社会恐怖，摧残了大批人才，知识分子不敢过问政治，不敢表露思想，连遣词造句都小心翼翼，许多学者转而埋头考据，学术研究脱离现实。文化专制政策禁锢了人们的思想言论，严重阻碍了思想文化的发展和进步，也使中国在西方近代科学迅速发展时逐渐落后。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/7368bf57f6c5b5e6.jpg",
+          "w": 1280,
+          "h": 960,
+          "caption": "​清代戴名世《南山集偶抄》，藏于安徽博物院",
+          "author": "猫猫的日记本",
+          "license": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Notes_of_Nanshan_by_Dai_Mingshi_2012-06.JPG"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E6%96%87%E5%AD%97%E7%8B%B1",
@@ -7925,7 +8050,8 @@
         }
       ],
       "type": "文化",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791050157
     },
     {
       "id": "e226",
@@ -8110,7 +8236,17 @@
       "title": "设置驻藏大臣",
       "short": "1727年清朝设置驻藏大臣，代表中央监督西藏地方政务；1751年设立噶厦，由达赖喇嘛和驻藏大臣共同管理西藏政教事务。",
       "detail": "清朝入关后，先后册封了达赖喇嘛和班禅额尔德尼。18世纪初，准噶尔部侵扰西藏，1720年清军入藏驱逐了准噶尔势力，并在西藏驻军。此后，西藏地方贵族之间发生激烈争斗，1727年爆发了阿尔布巴等人杀害首席噶伦康济鼐的内乱。为了加强对西藏的管理，同年雍正帝正式设立驻藏大臣，派大臣常驻拉萨，代表中央政府监督西藏地方政务，并统领驻藏清军。次年，清军入藏平定内乱，清朝任命平叛有功的颇罗鼐总理西藏政务。1750年，颇罗鼐之子珠尔默特那木扎勒图谋叛乱，驻藏大臣傅清、拉布敦将其诛杀，两位大臣也被其党羽杀害。1751年，乾隆帝颁布《西藏善后章程》，废除郡王掌政的制度，设立“噶厦”作为西藏地方政府，由四名噶伦组成，授权达赖喇嘛和驻藏大臣共同管理西藏的政教事务。“噶”意为命令，“厦”指房屋，噶厦意为发号施令的地方。1793年，清朝颁布《钦定藏内善后章程》，进一步明确驻藏大臣与达赖喇嘛、班禅额尔德尼地位平等，共同管理西藏事务，并掌管西藏地方的军事、外交和财政等事务。从1727年到1912年，清朝先后派出驻藏大臣百余人。驻藏大臣制度的设立和完善，加强了中央政府对西藏的直接管辖，维护了国家统一和西藏地方的稳定。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/6b8319881bffc332.jpg",
+          "w": 1000,
+          "h": 667,
+          "caption": "西藏自治区拉萨市布达拉宫",
+          "author": "René Heise",
+          "license": "CC0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lhasa_Potala.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E9%A9%BB%E8%97%8F%E5%A4%A7%E8%87%A3",
@@ -8118,7 +8254,8 @@
         }
       ],
       "type": "政治",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791050217
     },
     {
       "id": "e232",
@@ -8673,7 +8810,17 @@
       "title": "魏源《海国图志》与“师夷长技以制夷”",
       "short": "鸦片战争后魏源根据林则徐主持编译的《四洲志》等资料编成《海国图志》，介绍世界史地，提出“师夷长技以制夷”的主张。",
       "detail": "鸦片战争的失败使一部分官员和有识之士深受震动，他们开始了解国际形势，研究外国史地，寻求御敌之道。林则徐在广东查禁鸦片和抗英斗争期间，注意“探访夷情”，组织人员翻译西方书刊，编译了《四洲志》，被称为近代中国“开眼看世界的第一人”。魏源（1794—1857），湖南邵阳人，是林则徐的好友。1841年，林则徐被革职遣戍伊犁，途经镇江时与魏源相会，把《四洲志》等资料交给魏源。魏源在此基础上广泛搜集资料，于1842年编成《海国图志》50卷，后来增补为100卷。这部书介绍了世界各国的历史地理、政治制度、经济、宗教和科学技术等情况，并附有许多地图和船炮图样。魏源在书的序言中明确提出：“是书何以作？曰：为以夷攻夷而作，为以夷款夷而作，为师夷长技以制夷而作。”他认为西方的“长技”主要是战舰、火器和养兵练兵之法，主张学习西方先进的军事技术，设立造船厂和兵器厂，以抵御外来侵略。“师夷长技以制夷”思想突破了“天朝上国”的传统观念，是近代中国学习西方的开端，对后来的洋务运动和维新思想都产生了影响。不过，《海国图志》在国内并未受到重视，传到日本后却多次翻刻，对日本的明治维新产生了一定影响。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/ad5e4ddeba7e0f5e.jpg",
+          "w": 1280,
+          "h": 1920,
+          "caption": "海国图志",
+          "author": "（清）魏源撰",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:CADAL02087089_%E6%B5%B7%E5%9C%8B%E5%9C%96%E5%BF%97%EF%BC%88%E4%B8%80%EF%BC%89.djvu"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E6%B5%B7%E5%9B%BD%E5%9B%BE%E5%BF%97",
@@ -8681,7 +8828,8 @@
         }
       ],
       "type": "文化",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791050291
     },
     {
       "id": "e245",
@@ -8852,7 +9000,17 @@
       "title": "天京事变",
       "short": "1856年太平天国领导集团内讧，杨秀清逼封“万岁”被韦昌辉所杀，韦昌辉也被处死，次年石达开出走，太平天国由盛转衰。",
       "detail": "定都天京后，太平天国在军事上取得了很大胜利，1856年上半年攻破清军江北、江南大营，达到军事上的全盛。但是，领导集团逐渐脱离群众，享乐腐化，争权夺利。东王杨秀清掌握军政大权，居功自傲，经常假借“天父下凡”的名义压制洪秀全和其他诸王，与各王之间矛盾日益尖锐。1856年8月，杨秀清借“天父”名义，逼洪秀全封他为“万岁”。洪秀全表面应允，暗中密令在外督师的北王韦昌辉、翼王石达开回京诛杨。9月，韦昌辉率部连夜赶回天京，杀死杨秀清及其家属，并滥杀东王部属和无辜军民两万余人。石达开回京后责备韦昌辉滥杀，韦昌辉又欲加害于他，石达开连夜缒城逃出，家属被杀。石达开在安庆起兵靖难，韦昌辉又攻打天王府，洪秀全于11月下令处死韦昌辉。石达开奉召回京主持朝政，但洪秀全对他心存猜忌。1857年，石达开愤而率领大批精锐部队离开天京，独立作战，转战江西、浙江、湖南、广西、贵州、云南等地，1863年在四川大渡河畔的紫打地陷入清军重围，最终被俘杀害。天京事变使太平天国领导集团严重分裂，许多杰出将领和大批精锐将士死于内讧，人心涣散，清军乘机反扑。天京事变是太平天国由盛转衰的转折点，也暴露了农民阶级的局限性。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/68d071abab37a177.jpg",
+          "w": 1280,
+          "h": 1044,
+          "caption": "天京事变 - 繡像剿逆圖考二卷",
+          "author": "（清）吳友如繪",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:NCPSSD-71020798_%E7%B9%A1%E5%83%8F%E5%89%BF%E9%80%86%E5%9C%96%E8%80%83%E4%BA%8C%E5%8D%B7_%E7%AC%AC%E4%B8%80%E5%86%8C_(page_23_crop).jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%A4%A9%E4%BA%AC%E4%BA%8B%E5%8F%98",
@@ -8860,7 +9018,8 @@
         }
       ],
       "type": "政治",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791050415
     },
     {
       "id": "e249",
@@ -10628,7 +10787,16 @@
       "title": "共产党早期组织建立",
       "short": "1920年在共产国际帮助下，陈独秀在上海建立第一个共产党早期组织，北京、武汉、长沙等地和海外也相继建立早期组织。",
       "detail": "五四运动后，马克思主义在中国得到广泛传播，并逐渐与中国工人运动相结合，建立中国共产党的条件逐渐成熟。1920年春，共产国际派维经斯基等人来华。1920年8月，在共产国际的帮助下，陈独秀等在上海建立了中国第一个共产党早期组织，成员有李汉俊、李达、陈望道、俞秀松等人，陈独秀任书记。上海的早期组织起了联络和推动各地建党工作的作用。同年10月，李大钊等在北京建立了共产党早期组织。此后，董必武、陈潭秋等在武汉，毛泽东、何叔衡等在长沙，王尽美、邓恩铭等在济南，谭平山等在广州，相继建立了共产党早期组织；在日本和法国的中国留学生和华侨中，也建立了共产党早期组织。各地共产党早期组织成立后，有计划地研究和宣传马克思主义：创办了《共产党》月刊等刊物，出版了《共产党宣言》中文全译本等马克思主义著作；深入工厂开展工人运动，开办工人夜校，帮助工人建立工会；建立社会主义青年团，培养了一批革命骨干。这些活动促进了马克思主义与中国工人运动的结合，为中国共产党的正式成立作了思想上和组织上的准备。1921年7月，各地共产党早期组织派代表在上海举行中国共产党第一次全国代表大会，宣告中国共产党正式成立。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/e98e5942c9d8b5b4.png",
+          "w": 666,
+          "h": 408,
+          "caption": "共产党早期组织",
+          "license": "unknown",
+          "sourceUrl": "https://p4.itc.cn/q_70/images03/20201220/642f0c9ccce44af3b2078f7dfe2fb3bb.png"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E4%B8%8A%E6%B5%B7%E5%85%B1%E4%BA%A7%E4%B8%BB%E4%B9%89%E5%B0%8F%E7%BB%84",
@@ -10636,7 +10804,8 @@
         }
       ],
       "type": "政治",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791050505
     },
     {
       "id": "e288",
@@ -12325,7 +12494,26 @@
       "title": "粉碎重点进攻（转战陕北、孟良崮战役）",
       "short": "1947年国民党军重点进攻陕北和山东，毛泽东率中共中央转战陕北，华东野战军在孟良崮全歼整编第七十四师。",
       "detail": "1947年3月，国民党军队在全面进攻受挫的情况下，转而发动对陕北解放区和山东解放区的重点进攻。在陕北，胡宗南率领二十多万大军进攻延安，当时陕北人民解放军只有两万多人。为了保存有生力量，毛泽东决定主动撤离延安，他说：“存人失地，人地皆存；存地失人，人地皆失。”毛泽东、周恩来、任弼时率领中共中央机关留在陕北，指挥全国解放战争；刘少奇、朱德等组成中央工作委员会，前往华北。彭德怀、习仲勋率领西北野战兵团采取“蘑菇”战术，与敌人周旋，在青化砭、羊马河、蟠龙镇连打三个胜仗，歼敌一万四千多人，稳定了陕北战局。在山东，国民党集中四十五万兵力进攻山东解放区。1947年5月，华东野战军在陈毅、粟裕的指挥下，集中优势兵力，在山东蒙阴县孟良崮地区将整编第七十四师三万二千余人全部歼灭，师长张灵甫被击毙。孟良崮战役粉碎了国民党军对山东的重点进攻。沂蒙山区的人民群众积极支援前线，涌现出用乳汁救伤员的“沂蒙红嫂”等感人事迹。到1947年6月，人民解放军经过一年作战，共歼灭国民党军一百一十二万人，国民党军的重点进攻也被粉碎，战争形势发生了有利于人民解放军的变化。此后，人民解放军转入战略进攻。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/78d94ae0d9e66de1.jpg",
+          "w": 500,
+          "h": 345,
+          "caption": "解放军冲上孟良崮",
+          "author": "北京：人民出版社",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Civil_war_1946.jpg"
+        },
+        {
+          "src": "images/69b126edf0dadc53.jpg",
+          "w": 400,
+          "h": 338,
+          "caption": "孟良崮战役开始前，粟裕（左二）正在前线勘察",
+          "author": "北京：新华社",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Su_Yu_at_MengLiangGu_Battle_1947.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%AD%9F%E8%89%AF%E5%B4%AE%E6%88%98%E5%BD%B9",
@@ -12333,7 +12521,8 @@
         }
       ],
       "type": "战争",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791050582
     },
     {
       "id": "e332",
@@ -12342,7 +12531,16 @@
       "title": "刘邓大军千里跃进大别山",
       "short": "1947年夏刘伯承、邓小平率晋冀鲁豫野战军主力强渡黄河，千里跃进大别山，揭开了人民解放军战略进攻的序幕。",
       "detail": "经过一年的内线作战，人民解放军粉碎了国民党军的全面进攻和重点进攻，战争形势发生了有利于人民的变化。为了把战争引向国民党统治区，1947年6月30日夜，刘伯承、邓小平率领晋冀鲁豫野战军主力十二万余人，在山东西南部强渡黄河天险，取得鲁西南战役的胜利。随后，大军不要后方，直接向国民党统治区腹地进军，于8月底胜利到达大别山区。大别山位于鄂豫皖三省交界处，东逼南京，西慑武汉，南临长江，战略地位十分重要。刘邓大军进入大别山后，迅速展开，建立根据地，在当地群众的支持下，粉碎了国民党军的围攻，在大别山站稳了脚跟。与此同时，陈赓、谢富治率领的太岳兵团挺进豫西，陈毅、粟裕率领的华东野战军主力挺进豫皖苏边区，三路大军在江淮河汉之间形成“品”字形阵势，互相配合，机动作战，创建了中原解放区。在其他战场，人民解放军也相继转入进攻。刘邓大军千里跃进大别山，揭开了人民解放军战略进攻的序幕，把战争引向了国民党统治区，使中原地区成为人民解放军进攻国民党统治中心南京、武汉的前进基地。1947年12月，毛泽东指出：“中国人民的革命战争，现在已经达到了一个转折点。”",
-      "images": [],
+      "images": [
+        {
+          "src": "images/600117cdb1e521d7.jpg",
+          "w": 275,
+          "h": 183,
+          "caption": "刘邓大军千里跃进大别山纪念馆",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQSPi9SIHWfdrY81ihfXFQThZouTsXzAeQpZeKbdV7kQ&s"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%8D%83%E9%87%8C%E8%B7%83%E8%BF%9B%E5%A4%A7%E5%88%AB%E5%B1%B1",
@@ -12350,7 +12548,8 @@
         }
       ],
       "type": "战争",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791050658
     },
     {
       "id": "e333",
@@ -12437,7 +12636,35 @@
       "title": "淮海战役",
       "short": "1948年底中原、华东野战军发起淮海战役，歼敌55万余人，基本解放了长江以北的华东和中原地区。",
       "detail": "辽沈战役胜利后，中共中央决定在以徐州为中心的广大地区发起淮海战役。为了统一指挥，中共中央决定由刘伯承、陈毅、邓小平、粟裕、谭震林组成总前敌委员会，邓小平任书记。1948年11月6日，中原野战军和华东野战军共六十万人发起淮海战役，参战的国民党军有八十万人。战役分为三个阶段：第一阶段，华东野战军在碾庄地区全歼国民党军黄百韬兵团，黄百韬自杀；国民党军第三绥靖区副司令何基沣、张克侠率部起义。第二阶段，中原野战军在华东野战军的配合下，在安徽宿县双堆集地区全歼黄维兵团，俘虏黄维。第三阶段，华东野战军在河南永城陈官庄地区全歼从徐州撤出的杜聿明集团，杜聿明被俘，邱清泉被击毙。1949年1月10日，淮海战役胜利结束，历时66天，人民解放军以六十万人战胜了八十万国民党军，共歼灭国民党军五十五万五千余人，长江以北的华东、中原地区基本获得解放，国民党的首都南京处在人民解放军的直接威胁之下。淮海战役是三大战役中歼敌数量最多、政治影响最大的战役。在淮海战役中，华东、中原等解放区共出动支前民工五百多万人，陈毅曾深情地说：“淮海战役的胜利，是人民群众用小车推出来的。”今江苏徐州建有淮海战役烈士纪念塔和纪念馆。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/1663a6dd6dac3bc2.jpg",
+          "w": 1280,
+          "h": 940,
+          "caption": "​淮海战役中中国人民解放军华东坦克大队坦克配合步兵发起攻击",
+          "author": "Unknown authorUnknown author",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:PLAHuaihai.jpg"
+        },
+        {
+          "src": "images/7df6c671878b99dc.png",
+          "w": 796,
+          "h": 1113,
+          "caption": "​解放战争三大战役示意图，包括平津战役、辽沈战役、淮海战役",
+          "author": "SY",
+          "license": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Three_Campaigns_of_Chinese_Civil_War.png"
+        },
+        {
+          "src": "images/97154bb6c1f41f53.png",
+          "w": 1280,
+          "h": 960,
+          "caption": "徐蚌会战(淮海战役)前夕地图，1948年11月5日",
+          "author": "Persianbeats",
+          "license": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Map_of_Hsupeng_battle_(Huaihai_campaign)_on_Nov_05_1948_in_Chinese_Civil_War.png"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E6%B7%AE%E6%B5%B7%E6%88%98%E5%BD%B9",
@@ -12445,7 +12672,8 @@
         }
       ],
       "type": "战争",
-      "majorScore": 7
+      "majorScore": 7,
+      "updatedAt": 1791050745
     },
     {
       "id": "e337",
@@ -12508,10 +12736,22 @@
       "detail": "三大战役后，国民党的主要军事力量已基本被消灭。为了争取时间，重整军队，蒋介石于1949年1月宣布“引退”，由副总统李宗仁任代总统，与中国共产党进行和平谈判，企图“划江而治”。1949年4月，国共双方代表在北平进行谈判，南京国民政府拒绝签订和平协定，和平谈判破裂。4月21日，毛泽东、朱德发布《向全国进军的命令》。人民解放军第二、第三野战军一百万人在西起江西湖口、东至江苏江阴的五百余公里的战线上，兵分三路，强渡长江，迅速突破了国民党军苦心经营的长江防线。国民党海军海防第二舰队在南京附近起义。4月23日，人民解放军占领国民党统治的中心南京，国民党政府迁往广州，宣告了国民党在大陆统治的覆灭。毛泽东得知南京解放的消息后，写下了“钟山风雨起苍黄，百万雄师过大江”“宜将剩勇追穷寇，不可沽名学霸王”的著名诗句。此后，人民解放军乘胜追击，5月解放杭州、武汉、上海，第四野战军和第一野战军分别向中南、西北进军，至1950年，除台湾等岛屿外，全国大陆基本解放。今江苏南京渡江胜利纪念馆展示着这段历史。",
       "images": [
         {
-          "src": "images/fdc0ebb701478938.jpg",
-          "w": 400,
-          "h": 261,
-          "caption": "人民解放军强渡长江"
+          "src": "images/58dab6ee7379c654.jpg",
+          "w": 980,
+          "h": 726,
+          "caption": "​中国人民解放军第35军占领南京总统府，由35军随军记者邹健东于中华民国三十八年四月（1949年）拍摄",
+          "author": "邹健东 (Zou Jiandong)",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:People%27s_Liberation_Army_occupied_the_presidential_palace_1949.jpg"
+        },
+        {
+          "src": "images/b51ef55a920e04fa.jpg",
+          "w": 350,
+          "h": 400,
+          "caption": "1949年4月，粟裕向第三野战军宣布渡江作战命令",
+          "author": "Unknown authorUnknown author",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Suyu1949.jpg"
         }
       ],
       "sources": [
@@ -12521,7 +12761,8 @@
         }
       ],
       "type": "战争",
-      "majorScore": 8
+      "majorScore": 8,
+      "updatedAt": 1791050832
     },
     {
       "id": "e340",
@@ -12791,7 +13032,17 @@
       "title": "刘青山、张子善案",
       "short": "1952年刘青山、张子善因贪污被判处死刑，这是新中国成立后惩治腐败的第一大案，推动了“三反”“五反”运动。",
       "detail": "新中国成立初期，一些党员干部在和平环境中滋长了骄傲自满情绪，出现了贪污、浪费和官僚主义现象。1951年底，中共中央发动了反贪污、反浪费、反官僚主义的“三反”运动；1952年初，又在私营工商业者中开展了“五反”运动。刘青山、张子善都是参加革命多年、对革命有过贡献的老干部，二人先后担任中共天津地委书记。他们利用职权，盗用国家救灾粮款、治河专款、干部家属救济粮款等，贪污挥霍公款达171亿多元（旧币，约合新币171万元）。案件被揭发后，中共河北省委建议判处二人死刑。有人以他们是老革命、有功劳为由说情，毛泽东说：“正因为他们两人地位高，功劳大，影响大，所以才要下决心处决他们。只有处决他们，才可能挽救20个、200个、2000个、20000个犯有各种不同程度错误的干部。”1952年2月10日，河北省人民法院在保定市举行公审大会，宣判刘青山、张子善死刑，立即执行。刘青山、张子善案是新中国成立后惩治腐败的第一大案。它表明了中国共产党坚决反对腐败、从严治党的决心，有力地推动了“三反”“五反”运动的深入开展。“三反”“五反”运动在1952年10月基本结束，为国家进行有计划的经济建设创造了条件。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/0328b6264992dca3.png",
+          "w": 1199,
+          "h": 569,
+          "caption": "​1952年2月10日刘青山张子善在保定人民体育场公审",
+          "author": "《人民画报》",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:1952-03_1952%E5%B9%B42%E6%9C%8810%E6%97%A5%E5%88%98%E9%9D%92%E5%B1%B1%E5%BC%A0%E5%AD%90%E5%96%84%E5%9C%A8%E4%BF%9D%E5%AE%9A%E4%BA%BA%E6%B0%91%E4%BD%93%E8%82%B2%E5%9C%BA%E5%85%AC%E5%AE%A1.png"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%88%98%E9%9D%92%E5%B1%B1%E5%BC%A0%E5%AD%90%E5%96%84%E6%A1%88",
@@ -12799,7 +13050,8 @@
         }
       ],
       "type": "政治",
-      "majorScore": 3
+      "majorScore": 3,
+      "updatedAt": 1791050873
     },
     {
       "id": "e345",
@@ -12958,7 +13210,17 @@
       "title": "《论十大关系》与中共八大",
       "short": "1956年毛泽东发表《论十大关系》，开始探索适合国情的建设道路；同年中共八大召开，提出集中力量发展社会生产力。",
       "detail": "社会主义改造基本完成后，中国共产党开始探索适合中国国情的社会主义建设道路。1956年2月，苏共二十大召开，赫鲁晓夫批判斯大林，暴露了苏联模式的一些弊端。中共中央认识到不能照搬苏联的经验，要以苏为鉴，走自己的路。1956年4月，毛泽东在中央政治局扩大会议上发表《论十大关系》的讲话，论述了重工业和轻工业、农业的关系等十个问题，提出要调动一切积极因素为社会主义事业服务。《论十大关系》标志着中国共产党探索中国自己的社会主义建设道路的良好开端。同年，毛泽东还提出了“百花齐放、百家争鸣”的方针和“长期共存、互相监督”的方针。1956年9月，中国共产党第八次全国代表大会在北京召开。大会指出，社会主义制度在我国已经基本上建立起来，国内的主要矛盾已经是人民对于建立先进的工业国的要求同落后的农业国的现实之间的矛盾；党和全国人民当前的主要任务，就是集中力量发展社会生产力，把我国尽快地从落后的农业国变为先进的工业国。大会坚持既反保守又反冒进、在综合平衡中稳步前进的经济建设方针，强调要坚持集体领导，反对个人崇拜，发展党内民主。中共八大的路线是正确的，但后来没有得到很好的坚持。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/89710ca36b2760aa.jpg",
+          "w": 1280,
+          "h": 941,
+          "caption": "​六亿人民的大事 中国共产党第八次代表大会9月15日在北京开幕",
+          "author": "齐观山 吕厚民",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Big_issue_for_600_million_people.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E5%85%B1%E4%BA%A7%E5%85%9A%E7%AC%AC%E5%85%AB%E6%AC%A1%E5%85%A8%E5%9B%BD%E4%BB%A3%E8%A1%A8%E5%A4%A7%E4%BC%9A",
@@ -12966,7 +13228,8 @@
         }
       ],
       "type": "政治",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791050907
     },
     {
       "id": "e351",
@@ -13463,15 +13726,11 @@
         {
           "url": "https://zh.wikipedia.org/wiki/%E8%81%94%E5%90%88%E5%9B%BD%E5%A4%A7%E4%BC%9A2758%E5%8F%B7%E5%86%B3%E8%AE%AE",
           "title": "维基百科 - 联合国大会第2758号决议"
-        },
-        {
-          "url": "https://zh.wikipedia.org/wiki/%E8%81%AF%E5%90%88%E5%9C%8B%E5%A4%A7%E6%9C%83%E7%AC%AC2758%E8%99%9F%E6%B1%BA%E8%AD%B0",
-          "title": "维基百科 - 联合国大会第2758号决议"
         }
       ],
       "type": "对外交流",
       "majorScore": 8,
-      "updatedAt": 1791000467
+      "updatedAt": 1791050940
     },
     {
       "id": "e096",
@@ -13705,7 +13964,17 @@
       "title": "恢复高考",
       "short": "1977年在邓小平主持下恢复中断十年的高考，当年冬天570万人参加考试，此后高等教育走上正轨，大批人才得以成长。",
       "detail": "“文化大革命”开始后，学校被迫“停课闹革命”，高考招生工作也停顿下来。1970年以后，部分高校恢复招生，但废除了考试，实行“自愿报名，群众推荐，领导批准，学校复审”的推荐办法，招收“工农兵学员”，教育质量严重下降。1977年，复出工作的邓小平主动要求分管科技和教育工作。同年8月，邓小平在科学和教育工作座谈会上，听取了与会科学家和教育工作者关于恢复高考的建议，当即决定当年就恢复高考。他说：“今年就要下决心恢复从高中毕业生中直接招考学生，不要再搞推荐。”10月，国务院批准教育部《关于1977年高等学校招生工作的意见》，宣布恢复高等学校招生统一考试制度，采取自愿报名、统一考试、择优录取的办法。消息传出，全国沸腾。1977年冬，全国共有570万人走进考场，最终录取了27万多人。1978年夏，又有610万人参加高考。恢复高考，使知识和人才重新受到尊重，为国家选拔了一大批优秀人才，改变了千百万青年的命运。1978年3月，全国科学大会召开，邓小平提出“科学技术是生产力”“知识分子是工人阶级的一部分”，迎来了“科学的春天”。恢复高考是拨乱反正的重要突破口，对中国的现代化建设产生了深远影响。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/d7e186be986b7179.jpg",
+          "w": 1280,
+          "h": 1823,
+          "caption": "​国务院批转教育部关于一九七七年高等学校招生工作的意见（国发〔1977〕112号）",
+          "author": "State Council of the People's Republic of China",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E5%9B%BD%E5%8A%A1%E9%99%A2%E6%89%B9%E8%BD%AC%E6%95%99%E8%82%B2%E9%83%A8%E5%85%B3%E4%BA%8E%E4%B8%80%E4%B9%9D%E4%B8%83%E4%B8%83%E5%B9%B4%E9%AB%98%E7%AD%89%E5%AD%A6%E6%A0%A1%E6%8B%9B%E7%94%9F%E5%B7%A5%E4%BD%9C%E7%9A%84%E6%84%8F%E8%A7%81%EF%BC%88%E5%9B%BD%E5%8F%91%E3%80%941977%E3%80%95112%E5%8F%B7%EF%BC%89.pdf"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E6%81%A2%E5%A4%8D%E9%AB%98%E8%80%83",
@@ -13713,7 +13982,8 @@
         }
       ],
       "type": "文化",
-      "majorScore": 7
+      "majorScore": 7,
+      "updatedAt": 1791050977
     },
     {
       "id": "e367",
@@ -13959,7 +14229,17 @@
       "title": "拨乱反正与《历史决议》",
       "short": "1978年后全面开展平反冤假错案等拨乱反正工作，1981年通过《历史决议》，彻底否定“文化大革命”，正确评价毛泽东。",
       "detail": "伴随着思想解放的巨大潮流，平反冤假错案的工作在全国全面展开。“文化大革命”中，大批干部和群众遭受迫害，形成了大量冤假错案。在胡耀邦等主持下，中共中央组织部全面开展平反冤假错案工作，到1982年底，平反冤假错案三百多万件，四十七万多名党员恢复了党籍。1980年，中共十一届五中全会为刘少奇彻底平反昭雪，为蒙冤去世的国家主席恢复名誉。同时，为1957年反右派斗争中被错划为右派分子的绝大多数人改正。1980年至1981年，最高人民法院特别法庭依法公开审判了林彪、江青反革命集团主犯。为了正确总结新中国成立以来的经验教训，1981年6月，中共十一届六中全会通过了《关于建国以来党的若干历史问题的决议》。决议实事求是地总结了新中国成立以来党的重大历史事件，彻底否定了“文化大革命”的理论和实践；科学地评价了毛泽东的历史地位，指出毛泽东同志的功绩是主要的，错误是次要的，充分论述了毛泽东思想作为党的指导思想的伟大意义。决议的通过，标志着党在指导思想上拨乱反正任务的胜利完成。拨乱反正纠正了“文化大革命”及以前的“左”倾错误，恢复了党的实事求是的思想路线，为改革开放和社会主义现代化建设创造了有利条件。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/d179e33e8b252792.jpg",
+          "w": 1280,
+          "h": 1546,
+          "caption": "​邓小平",
+          "author": "Schumacher, Karl H.",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:DengXiaoping.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%85%B3%E4%BA%8E%E5%BB%BA%E5%9B%BD%E4%BB%A5%E6%9D%A5%E5%85%9A%E7%9A%84%E8%8B%A5%E5%B9%B2%E5%8E%86%E5%8F%B2%E9%97%AE%E9%A2%98%E7%9A%84%E5%86%B3%E8%AE%AE",
@@ -13967,7 +14247,8 @@
         }
       ],
       "type": "政治",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791051013
     },
     {
       "id": "e371",
@@ -13976,7 +14257,24 @@
       "title": "中共十二大、十三大与“有中国特色的社会主义”",
       "short": "1982年邓小平提出“建设有中国特色的社会主义”，1987年中共十三大阐述社会主义初级阶段理论和党的基本路线。",
       "detail": "中共十一届三中全会后，邓小平领导中国共产党作出一系列重大决策，把改革开放和社会主义现代化建设推向前进。1982年9月，中国共产党第十二次全国代表大会在北京召开。邓小平在开幕词中提出：“把马克思主义的普遍真理同我国的具体实际结合起来，走自己的道路，建设有中国特色的社会主义，这就是我们总结长期历史经验得出的基本结论。”大会提出了到20世纪末实现工农业年总产值翻两番的战略目标。1987年10月，中国共产党第十三次全国代表大会召开。大会系统阐述了社会主义初级阶段理论，指出我国正处在社会主义初级阶段。大会制定了党在社会主义初级阶段的基本路线，即领导和团结全国各族人民，以经济建设为中心，坚持四项基本原则，坚持改革开放，为把我国建设成为富强、民主、文明的社会主义现代化国家而奋斗，概括为“一个中心、两个基本点”。大会还提出了经济建设分“三步走”的发展战略，即解决温饱、达到小康、到21世纪中叶基本实现现代化。中共十二大、十三大为建设有中国特色的社会主义指明了方向，邓小平理论逐步形成，1997年中共十五大将邓小平理论确立为党的指导思想。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/1db9032daac942a4.jpg",
+          "w": 550,
+          "h": 325,
+          "caption": "中共十二大",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvVB1EpeGgviYCsuB35Morm8cGjmoaP76WNHFNweacsxN47zhkI22wJj0&s=10"
+        },
+        {
+          "src": "images/59d5b37d20850a44.jpg",
+          "w": 554,
+          "h": 324,
+          "caption": "中共十三大",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRISz1PtbtHvxxL6zbs76p5i5rYqhFG_UZ2fsnRtm5QVz02Lbh7eRG7uZc&s=10"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E5%85%B1%E4%BA%A7%E5%85%9A%E7%AC%AC%E5%8D%81%E4%BA%8C%E6%AC%A1%E5%85%A8%E5%9B%BD%E4%BB%A3%E8%A1%A8%E5%A4%A7%E4%BC%9A",
@@ -13984,7 +14282,8 @@
         }
       ],
       "type": "政治",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791051159
     },
     {
       "id": "e372",
@@ -13993,7 +14292,17 @@
       "title": "城市经济体制改革",
       "short": "1984年10月中共十二届三中全会通过《关于经济体制改革的决定》，改革重点由农村转向城市，以增强企业活力为中心环节。",
       "detail": "改革在农村取得成功，为继续深化改革打下了基础，改革的浪潮从农村涌向城市。在高度集中的计划经济体制下，国有企业是政府的附属物，缺乏经营自主权，生产效率低下，经济缺乏活力。1984年10月，中共十二届三中全会通过了《中共中央关于经济体制改革的决定》，明确提出社会主义经济是在公有制基础上的有计划的商品经济，突破了把计划经济同商品经济对立起来的传统观念，标志着改革的重点由农村转向城市，经济体制改革全面展开。城市经济体制改革以增强企业活力为中心环节，实行政企分开、所有权与经营权适当分离，扩大企业经营自主权，推行承包经营责任制、厂长（经理）负责制等，使企业自主经营、自负盈亏。同时，改革了价格、财税、金融和劳动工资制度。在所有制结构上，坚持以公有制为主体，允许和鼓励个体经济、私营经济、外资经济等多种经济成分共同发展。个体户和民营企业大量出现，年广久的“傻子瓜子”等成为当时有名的例子。1986年，我国颁布了《破产法（试行）》，沈阳防爆器械厂成为新中国第一家破产的国有企业。城市经济体制改革增强了企业活力，促进了商品经济的发展，人民的物质文化生活水平有了明显提高，但也出现了物价上涨等问题。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/24d25895df880d4a.jpg",
+          "w": 1280,
+          "h": 1920,
+          "caption": "被称为“改革开放总设计师”的邓小平是拨乱反正、改革开放中的核心人物（图为位于经济特区深圳的莲花山顶的邓小平像）",
+          "author": "张元柏",
+          "license": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:2011_%E6%B7%B1%E5%9C%B3_%E8%8E%B2%E8%8A%B1%E5%B1%B1%E9%A1%B6%EF%BC%8D%E9%82%93%E5%B0%8F%E5%B9%B3%E5%A4%B4%E5%83%8F_-_panoramio.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E6%94%B9%E9%9D%A9%E5%BC%80%E6%94%BE",
@@ -14001,7 +14310,8 @@
         }
       ],
       "type": "经济",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791051060
     },
     {
       "id": "e373",
@@ -14058,7 +14368,17 @@
       "title": "百万大裁军",
       "short": "1985年中央军委决定裁减军队员额一百万，到1987年基本完成，人民解放军走上了有中国特色的精兵之路。",
       "detail": "进入20世纪80年代以来，党和国家领导人正确地预见到世界大战一时不会爆发，和平与发展成为时代的主题。根据这一判断，中国调整了国防建设的指导思想，由立足于“早打、大打、打核战争”的临战状态，转向和平时期建设的轨道。新中国成立后，人民解放军员额较大，存在着机构臃肿、人员过多、效率不高等问题，当时全军总人数达四百多万。1985年6月，中央军委扩大会议在北京召开，邓小平在会上宣布：中国人民解放军减少员额一百万。此后两年，全军撤并了大批军以上机构，将原来的十一个大军区合并为七个大军区，陆军军整编为集团军，精简了机关和非战斗人员，部分部队移交地方。到1987年，百万大裁军基本完成，解放军总员额减少到三百二十万左右。大裁军以后，军队精简了机构，优化了编制体制，提高了战斗力，人民解放军走上了一条有中国特色的精兵之路，加快了革命化、现代化、正规化建设的步伐。裁军也减轻了国家的经济负担，有利于集中力量进行经济建设，向世界显示了中国维护世界和平的诚意。1988年，人民解放军恢复实行军衔制。此后，中国又于1997年、2003年、2015年进行了多次裁军，军队规模不断精简，向精兵、合成、高效的方向发展。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/f4a022dc50a72fba.jpg",
+          "w": 1077,
+          "h": 1330,
+          "caption": "中共中央军委主席邓小平",
+          "author": "Unknown or not provided",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Deng_Xiaoping.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E7%99%BE%E4%B8%87%E5%A4%A7%E8%A3%81%E5%86%9B",
@@ -14066,7 +14386,8 @@
         }
       ],
       "type": "政治",
-      "majorScore": 4
+      "majorScore": 4,
+      "updatedAt": 1791051211
     },
     {
       "id": "e376",
@@ -14099,7 +14420,24 @@
       "title": "两岸隔绝打破，台胞返乡探亲",
       "short": "1987年台湾当局开放台湾民众赴大陆探亲，打破了两岸隔绝近四十年的状态，此后两岸经贸、文化交流迅速发展。",
       "detail": "1949年国民党退守台湾后，海峡两岸长期处于军事对峙和隔绝状态。1979年《告台湾同胞书》发表后，大陆方面积极倡导两岸“三通”和交流。台湾当局起初坚持“不接触、不谈判、不妥协”的“三不”政策。随着两岸形势的发展和岛内民众要求探亲的呼声日益高涨，1987年，在台湾老兵“想家”运动等压力下，台湾当局开始被迫调整“三不”政策，同年10月宣布开放台湾民众赴大陆探亲，从11月2日起接受登记。11月，第一批台湾同胞经香港、东京等地辗转回到大陆探亲，许多分离了三四十年的亲人终于团聚。这打破了两岸隔绝近四十年的状态，揭开了两岸人员往来的新篇章。此后，两岸人员往来、经贸合作和文化交流迅速发展，越来越多的台湾同胞到大陆探亲、旅游、投资经商，台湾成为大陆重要的贸易伙伴和投资来源地。1990年以后，两岸分别成立了海峡交流基金会和海峡两岸关系协会，开展事务性协商。2008年，两岸实现了全面直接双向“三通”，即通邮、通航、通商。两岸交流的扩大，增进了两岸同胞的相互了解和骨肉亲情，促进了两岸关系的和平发展。诗人余光中的《乡愁》中“乡愁是一湾浅浅的海峡，我在这头，大陆在那头”，道出了两岸同胞的思乡之情。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/d7b0c25cf3f7de11.jpg",
+          "w": 313,
+          "h": 450,
+          "caption": "朱文利，80岁，1985年借道回乡",
+          "license": "unknown",
+          "sourceUrl": "https://www.chinanews.com.cn/tw/kong/news/2007/12-19/U102P4T8D1109281F116DT20071219164203.jpg"
+        },
+        {
+          "src": "images/01c32ac34c4ffc73.jpg",
+          "w": 395,
+          "h": 450,
+          "caption": "刘有能展示当年的信封",
+          "license": "unknown",
+          "sourceUrl": "https://www.chinanews.com.cn/tw/kong/news/2007/12-19/U102P4T8D1109281F107DT20071219164203.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E4%B8%A4%E5%B2%B8%E5%85%B3%E7%B3%BB",
@@ -14107,7 +14445,8 @@
         }
       ],
       "type": "社会",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791051308
     },
     {
       "id": "e378",
@@ -14144,7 +14483,17 @@
       "title": "邓小平南方谈话",
       "short": "1992年初邓小平视察武昌、深圳、珠海、上海等地并发表重要谈话，回答了困扰人们思想的重大问题，推动改革开放进入新阶段。",
       "detail": "20世纪80年代末90年代初，国际国内形势发生了重大变化，东欧剧变、苏联解体；国内有人对改革开放产生了疑虑，对改革开放姓“资”还是姓“社”提出了质疑。在这关键时刻，1992年1月18日至2月21日，已经退休的87岁高龄的邓小平先后视察了武昌、深圳、珠海、上海等地，发表了一系列重要谈话，这就是著名的“南方谈话”。邓小平强调，党的基本路线要管一百年，动摇不得；“不坚持社会主义，不改革开放，不发展经济，不改善人民生活，只能是死路一条”。他指出，改革开放胆子要大一些，敢于试验，看准了的就大胆地试，大胆地闯；判断改革开放的标准，主要看是否有利于发展社会主义社会的生产力，是否有利于增强社会主义国家的综合国力，是否有利于提高人民的生活水平（“三个有利于”）。他精辟地阐述了计划与市场的关系：“计划多一点还是市场多一点，不是社会主义与资本主义的本质区别。计划经济不等于社会主义，资本主义也有计划；市场经济不等于资本主义，社会主义也有市场。”邓小平南方谈话从理论上深刻回答了长期困扰和束缚人们思想的许多重大认识问题，标志着邓小平理论的成熟。南方谈话后，全国掀起了新一轮改革开放和经济建设的热潮。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/2100aaeec7db6873.jpg",
+          "w": 799,
+          "h": 1065,
+          "caption": "邓小平",
+          "author": "Unknown authorUnknown author",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Deng_Xiaoping_at_the_arrival_ceremony_for_the_Vice_Premier_of_China_(cropped).jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E9%82%93%E5%B0%8F%E5%B9%B3%E5%8D%97%E5%B7%A1%E8%AE%B2%E8%AF%9D",
@@ -14152,7 +14501,8 @@
         }
       ],
       "type": "政治",
-      "majorScore": 8
+      "majorScore": 8,
+      "updatedAt": 1791051387
     },
     {
       "id": "e380",
@@ -14161,7 +14511,16 @@
       "title": "建立社会主义市场经济体制",
       "short": "1992年中共十四大明确提出我国经济体制改革的目标是建立社会主义市场经济体制，1993年十四届三中全会勾画了其基本框架。",
       "detail": "改革开放以来，我国经济体制改革经历了从“计划经济为主、市场调节为辅”到“有计划的商品经济”的探索。邓小平南方谈话破除了把计划经济和市场经济看作社会基本制度范畴的思想束缚。1992年10月，中国共产党第十四次全国代表大会召开，明确提出我国经济体制改革的目标是建立社会主义市场经济体制，使市场在国家宏观调控下对资源配置起基础性作用。1993年3月，八届全国人大一次会议通过宪法修正案，把“国家实行社会主义市场经济”写入宪法。1993年11月，中共十四届三中全会通过了《关于建立社会主义市场经济体制若干问题的决定》，勾画了社会主义市场经济体制的基本框架，包括建立现代企业制度、统一开放的市场体系、宏观调控体系和社会保障制度等。1997年中共十五大提出公有制为主体、多种所有制经济共同发展是我国社会主义初级阶段的基本经济制度。到20世纪末，社会主义市场经济体制初步建立。2013年，中共十八届三中全会提出使市场在资源配置中起决定性作用和更好发挥政府作用。建立社会主义市场经济体制，是我国经济体制改革的一次重大突破，极大地解放和发展了社会生产力，推动我国经济持续快速发展。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/bd80a3a46d61aab5.jpg",
+          "w": 720,
+          "h": 426,
+          "caption": "市场经济体制",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQytFwmVNCSo8C-cO197kzGk53wa6Nts7PFN4nrFMlcuUhP-GzcCKdooz0&s=10"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E7%A4%BE%E4%BC%9A%E4%B8%BB%E4%B9%89%E5%B8%82%E5%9C%BA%E7%BB%8F%E6%B5%8E",
@@ -14169,7 +14528,8 @@
         }
       ],
       "type": "经济",
-      "majorScore": 7
+      "majorScore": 7,
+      "updatedAt": 1791051455
     },
     {
       "id": "e381",
@@ -14238,7 +14598,16 @@
       "title": "中共十五大确立邓小平理论为指导思想",
       "short": "1997年中共十五大将邓小平理论确立为党的指导思想并写入党章，提出社会主义初级阶段的基本纲领和跨世纪发展战略。",
       "detail": "1997年2月，邓小平在北京逝世。他是中国社会主义改革开放和现代化建设的总设计师。邓小平理论是在和平与发展成为时代主题的条件下逐步形成和发展起来的，回答了什么是社会主义、怎样建设社会主义等基本问题。1997年9月，中国共产党第十五次全国代表大会在北京召开。江泽民在大会上作了《高举邓小平理论伟大旗帜，把建设有中国特色社会主义事业全面推向二十一世纪》的报告。大会把邓小平理论确立为党的指导思想，并写入党章。大会阐明了党在社会主义初级阶段基本纲领，提出公有制为主体、多种所有制经济共同发展是我国社会主义初级阶段的基本经济制度，并提出依法治国、建设社会主义法治国家的基本方略。大会还提出了跨世纪的发展目标：到2010年实现国民生产总值比2000年翻一番，到建党一百年时使国民经济更加发展，到新中国成立一百年时基本实现现代化。1999年，九届全国人大二次会议通过宪法修正案，把邓小平理论的指导地位和依法治国方略写入宪法。中共十五大是在世纪之交召开的一次重要会议，为中国特色社会主义事业跨入新世纪指明了方向。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/b961a6facedde317.jpg",
+          "w": 547,
+          "h": 365,
+          "caption": "中共十五大",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFdMrhl9AYCmDze6tPnomOz6L58nB_0lA8WX3i_tJ9Mg&s=10"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E5%85%B1%E4%BA%A7%E5%85%9A%E7%AC%AC%E5%8D%81%E4%BA%94%E6%AC%A1%E5%85%A8%E5%9B%BD%E4%BB%A3%E8%A1%A8%E5%A4%A7%E4%BC%9A",
@@ -14246,7 +14615,8 @@
         }
       ],
       "type": "政治",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791051505
     },
     {
       "id": "e384",
@@ -14291,7 +14661,26 @@
       "title": "西部大开发",
       "short": "1999年中央提出实施西部大开发战略，加快中西部地区发展，西气东输、西电东送、青藏铁路等重大工程相继建设。",
       "detail": "改革开放以来，我国东部沿海地区率先发展起来，东西部之间的发展差距逐渐拉大。我国西部地区包括重庆、四川、贵州、云南、西藏、陕西、甘肃、青海、宁夏、新疆、内蒙古、广西等12个省、自治区、直辖市，面积约占全国的71%，资源丰富，但经济社会发展相对落后。早在20世纪80年代，邓小平就提出了“两个大局”的战略构想：沿海地区加快对外开放，先发展起来，内地要顾全这个大局；发展到一定时候，沿海要拿出更多力量帮助内地发展，这也是个大局。1999年，中共中央提出实施西部大开发战略，2000年国务院成立西部地区开发领导小组，西部大开发正式启动。西部大开发以基础设施建设和生态环境保护为重点，国家加大了对西部地区的投资和政策支持，相继建设了西气东输、西电东送、青藏铁路等一批重大工程，实施了退耕还林、退牧还草、天然林保护等生态工程。经过二十多年的努力，西部地区的交通、通信、能源等基础设施明显改善，经济增长速度加快，人民生活水平显著提高，民族团结进一步加强。此后，国家又相继实施了振兴东北地区等老工业基地、促进中部地区崛起等区域发展战略。2020年，中共中央、国务院印发意见，推进西部大开发形成新格局。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/de2ab6217dbce351.jpg",
+          "w": 1280,
+          "h": 824,
+          "caption": "青藏铁路",
+          "author": "Taken by Fanghong",
+          "license": "CC BY 2.5",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:TibetanRailwayBridge.jpg"
+        },
+        {
+          "src": "images/9e205d426d7a2c1a.jpg",
+          "w": 1280,
+          "h": 510,
+          "caption": "​重庆市天际线",
+          "author": "Oliver Ren",
+          "license": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:SkylineOfChongqing.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E8%A5%BF%E9%83%A8%E5%A4%A7%E5%BC%80%E5%8F%91",
@@ -14299,7 +14688,8 @@
         }
       ],
       "type": "经济",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791051585
     },
     {
       "id": "e386",
@@ -14332,7 +14722,16 @@
       "title": "中共十六大与“三个代表”重要思想",
       "short": "2002年中共十六大把“三个代表”重要思想确立为党的指导思想，提出全面建设小康社会的奋斗目标。",
       "detail": "2000年，江泽民在广东考察工作时，首次比较全面地提出了“三个代表”的要求（始终代表中国先进生产力的发展要求、先进文化的前进方向和最广大人民的根本利益）。“三个代表”重要思想是在建设中国特色社会主义的伟大实践中，回答了建设什么样的党、怎样建设党的问题。2002年11月，中国共产党第十六次全国代表大会在北京召开。江泽民在会上作了《全面建设小康社会，开创中国特色社会主义事业新局面》的报告。大会把“三个代表”重要思想同马克思列宁主义、毛泽东思想、邓小平理论一道确立为党必须长期坚持的指导思想，并写入党章。大会指出，经过全党和全国各族人民的共同努力，我国人民生活总体上达到小康水平，但这还是低水平的、不全面的、发展很不平衡的小康。大会提出在21世纪头二十年，集中力量全面建设惠及十几亿人口的更高水平的小康社会。大会选举产生了以胡锦涛为总书记的新一届中央领导集体。2004年，十届全国人大二次会议通过宪法修正案，把“三个代表”重要思想写入宪法，同时把“国家尊重和保障人权”“公民的合法的私有财产不受侵犯”等写入宪法。中共十六大是在新世纪召开的第一次全国代表大会，为全面建设小康社会指明了方向。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/e632d295be8554e5.jpg",
+          "w": 518,
+          "h": 386,
+          "caption": "中共十六大",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkeHB4SPo9hgsUnA24RyQ35os5B6uX6J997tI1K43ytA&s=10"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E5%85%B1%E4%BA%A7%E5%85%9A%E7%AC%AC%E5%8D%81%E5%85%AD%E6%AC%A1%E5%85%A8%E5%9B%BD%E4%BB%A3%E8%A1%A8%E5%A4%A7%E4%BC%9A",
@@ -14340,7 +14739,8 @@
         }
       ],
       "type": "政治",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791051621
     },
     {
       "id": "e388",
@@ -14462,7 +14862,7 @@
           "src": "images/7a6c68462073aaca.jpg",
           "w": 500,
           "h": 375,
-          "caption": "",
+          "caption": "国家体育场内景",
           "author": "Tom Nguyen",
           "license": "CC BY 2.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Beijing_Birds_Nest_Olympics_track_.jpg"
@@ -14475,8 +14875,8 @@
         }
       ],
       "type": "文化",
-      "majorScore": 7,
-      "updatedAt": 1791000467
+      "majorScore": 8,
+      "updatedAt": 1791051670
     },
     {
       "id": "e393",

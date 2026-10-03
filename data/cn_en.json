@@ -995,15 +995,9 @@
           "w": 330,
           "h": 518,
           "caption": "Qi, king of Xia",
-          "author": "Wang Qi, Wang Siyi",
+          "author": "王圻、王思義",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E5%A4%8F%E7%8E%8B%E5%90%AF.png"
-        },
-        {
-          "src": "images/ce9662493c05.jpg",
-          "w": 330,
-          "h": 467,
-          "caption": "Jie, holding a halberd and using maidservants as a seat (rubbing from the Wu Liang Shrine, Jiaxiang, Shandong, Eastern Han)"
         },
         {
           "src": "images/131714d93684.jpg",
@@ -1045,7 +1039,7 @@
         "from": "Neolithic",
         "to": "Xia"
       },
-      "updatedAt": 1791000467
+      "updatedAt": 1791046526
     },
     {
       "id": "e111",
@@ -1663,10 +1657,12 @@
       "detail": "Laozi, surname Li, personal name Er, courtesy name Dan, was from Ku County in Chu (around Luyi, Henan) in the late Spring and Autumn period and founded Daoism. He served as keeper of the archives of the Zhou royal house, managing its records, and was learned; tradition says Confucius once made a special journey to ask him about ritual. When the Zhou declined, Laozi resigned and went west; it is said that at the Hangu Pass, at the request of the gatekeeper Yin Xi, he wrote a work of five thousand characters, the Laozi, also called the Tao Te Ching, which became the Daoist classic. Laozi held that the “Dao” is the source of all things, that all things run by natural laws, and that people should follow nature: “Man follows Earth, Earth follows Heaven, Heaven follows the Dao, and the Dao follows what is natural.” He saw that everything has its opposite, such as difficult and easy, long and short, high and low, front and back, misfortune and fortune, and that opposites can turn into each other; “Misfortune is what fortune rests on; fortune is where misfortune hides,” reflecting plain dialectics. Politically he advocated “governing by non-action,” opposed rulers' excessive interference in the people's lives, held that “governing a large state is like cooking a small fish,” and imagined an ideal of “small states with few people,” in which people kept out of quarrels and the world would be at peace. In the Warring States the representative Daoist was Zhuangzi, who developed Laozi's thought, stressing following nature, seeking absolute spiritual freedom and keeping an independent personality, and wrote the Zhuangzi.",
       "images": [
         {
-          "src": "images/29a6a657b56d244e.jpg",
-          "w": 636,
-          "h": 800,
-          "caption": "Portrait of Laozi"
+          "src": "images/a19c459bb04e613e.jpg",
+          "w": 650,
+          "h": 784,
+          "caption": "Portrait of Laozi",
+          "license": "unknown",
+          "sourceUrl": "https://p6.itc.cn/images01/20220715/d4a30f0cff8b4776acebdb3342beb27f.jpeg"
         },
         {
           "src": "images/b45c39144a1de924.jpg",
@@ -1677,10 +1673,12 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lao_Tzu_-_Project_Gutenberg_eText_15250.jpg"
         },
         {
-          "src": "images/2f7da03947b317d6.jpg",
-          "w": 572,
-          "h": 800,
-          "caption": "Silk manuscript of the Laozi from the Mawangdui Han tomb, Changsha, Hunan"
+          "src": "images/1769c61ff77bdddc.jpg",
+          "w": 800,
+          "h": 1119,
+          "caption": "Silk manuscript of the Laozi from the Mawangdui Han tomb, Changsha, Hunan",
+          "license": "unknown",
+          "sourceUrl": "https://pics5.baidu.com/feed/242dd42a2834349ba5dc96ed3a0bfbc134d3bef6.jpeg@f_auto?token=e8e44b30ffa0d8a4d18c46c8df6a36d8"
         }
       ],
       "sources": [
@@ -1691,7 +1689,7 @@
       ],
       "type": "Culture",
       "majorScore": 7,
-      "updatedAt": 1791000467
+      "updatedAt": 1791047777
     },
     {
       "id": "e119",
@@ -1897,10 +1895,13 @@
       "detail": "The Battle of Changping was a decisive battle between Qin and Zhao in the late Warring States, fought at Changping (northwest of present-day Gaoping, Shanxi) from 262 to 260 BC and one of the largest and bloodiest battles of ancient China. In 262 BC Qin attacked Han's Shangdang commandery; its governor Feng Ting, unwilling to surrender to Qin, offered Shangdang to Zhao instead, and war broke out between Qin and Zhao. Zhao at first sent the veteran general Lian Po, who, judging that Qin's army had come a long way and wanted a quick fight, built fortifications and held his ground to wear them down, and the two sides were locked in a long standoff. Qin therefore used a ruse, spreading the rumor that “Qin fears only Zhao Kuo as a general.” King Xiaocheng of Zhao fell for it, removed Lian Po and appointed Zhao Kuo, son of the famous general Zhao She. Zhao Kuo had read military books since childhood and talked of strategy fluently but lacked real combat experience. Meanwhile Qin secretly replaced its commander with the famous general Bai Qi. On arriving, Zhao Kuo changed Lian Po's dispositions and attacked; Bai Qi feigned retreat to lure the enemy in, then sent surprise troops to cut off the Zhao army's retreat and supply line and encircled its main force. The Zhao army went without food for over forty days; Zhao Kuo led a breakout himself and was killed by Qin arrows. More than 400,000 Zhao troops surrendered and nearly all were buried alive by Bai Qi, only 240 young boys being sent home. The battle crippled Zhao, the strongest of the six eastern states, after which no single state could resist Qin, and the trend toward Qin's unification of the realm took shape. The idiom “armchair strategy” comes from the story of Zhao Kuo.",
       "images": [
         {
-          "src": "images/9538f416f3c36521.jpg",
-          "w": 500,
-          "h": 668,
-          "caption": "Bai Qi"
+          "src": "images/304f9687de7ca596.jpg",
+          "w": 1280,
+          "h": 1711,
+          "caption": "Statue of Bai Qi (painted by Ming people)",
+          "author": "Unknown authorUnknown author",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E7%99%BD%E8%B5%B7%E5%83%8F%EF%BC%88%E6%98%8E%E4%BA%BA%E7%BB%98%EF%BC%89.jpg"
         },
         {
           "src": "images/539b974eb4a8.jpg",
@@ -1910,12 +1911,6 @@
           "author": "玖巧仔",
           "license": "CC BY-SA 3.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%88%98%E5%9B%BD%E5%BD%A2%E5%8A%BF%E5%9B%BE%EF%BC%88%E5%89%8D280%E5%B9%B4%EF%BC%89%EF%BC%88%E7%AE%80%EF%BC%89.png"
-        },
-        {
-          "src": "images/d62dc5ddd71cb78b.jpg",
-          "w": 800,
-          "h": 730,
-          "caption": "Map of the Warring States"
         }
       ],
       "sources": [
@@ -1926,7 +1921,7 @@
       ],
       "type": "War",
       "majorScore": 5,
-      "updatedAt": 1791000467
+      "updatedAt": 1791047837
     },
     {
       "id": "e022",
@@ -1940,7 +1935,7 @@
           "src": "images/eade6a363bf2.jpg",
           "w": 500,
           "h": 293,
-          "caption": "",
+          "caption": "Dujiangyan",
           "author": "xiquinhosilva",
           "license": "CC BY 2.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:36661-Dujiangyan_(44634340644).jpg"
@@ -1990,10 +1985,12 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dujiangyan_Macha.jpg"
         },
         {
-          "src": "images/c2192ce551831215.jpg",
-          "w": 500,
-          "h": 333,
-          "caption": "Dujiangyan"
+          "src": "images/1a96bdd38aa09764.jpg",
+          "w": 398,
+          "h": 502,
+          "caption": "Dujiangyan",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQu70kU0c7DAluFYajy-u05BqPb23PFVArmwdEr1taMkMM-41qqhD0rotwL&s=10"
         }
       ],
       "sources": [
@@ -2004,7 +2001,7 @@
       ],
       "type": "Science",
       "majorScore": 7,
-      "updatedAt": 1791000467
+      "updatedAt": 1791048008
     },
     {
       "id": "e023",
@@ -2050,10 +2047,12 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Qin_tiger_tally,_Shaanxi_History_Museum.jpg"
         },
         {
-          "src": "images/dc515b05d230569b.jpg",
-          "w": 423,
-          "h": 472,
-          "caption": "Map of the Qin dynasty's territory"
+          "src": "images/a358ddba4b25f9e7.jpg",
+          "w": 424,
+          "h": 471,
+          "caption": "Map of the Qin dynasty's territory",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIf7vRdyMOHwQn4XggvYek8aIMlr4gCCEm6l_YJt5cj8KeRHZc4FCVc9KR&s=10"
         }
       ],
       "sources": [
@@ -2072,7 +2071,7 @@
         "from": "Warring States",
         "to": "Qin"
       },
-      "updatedAt": 1791000467
+      "updatedAt": 1791047891
     },
     {
       "id": "e122",
@@ -2763,7 +2762,17 @@
       "title": "The Silk Road and the Maritime Silk Road",
       "short": "After Zhang Qian opened the Western Regions, the overland Silk Road linked Eurasia; Emperor Wu also opened sea routes, forming the Maritime Silk Road and fostering East–West exchange.",
       "detail": "After Zhang Qian's mission, envoys passed frequently between the Han and the Western Regions, and economic and cultural exchange between East and West grew closer. Merchants carried Han silk and other goods from Chang'an through the Hexi Corridor and out of Yangguan and Yumen passes, then along northern and southern routes across the Western Regions and through Central and West Asia to the Mediterranean coast and Europe, bringing back local products to the Central Plains. Because silk was the most representative trade good, the German geographer Ferdinand von Richthofen named this trans-Eurasian route the “Silk Road” in the 19th century. Along it, Han silk, lacquerware, ironware and techniques such as canal building, well digging and ironworking spread west; walnuts, grapes, pomegranates, alfalfa, fine horses, spices, glass, gems, instruments such as the pipa, and song and dance came into the Central Plains, and Buddhism later entered China the same way. The Romans called China “Seres,” the “land of silk.” The Silk Road was the great artery of ancient East–West contact and did much to promote trade and cultural exchange between China and other countries and regions. Emperor Wu also opened sea routes. From ports such as Xuwen in Guangdong and Hepu in Guangxi, fleets sailed past today's Vietnam, Thailand and the Malay Peninsula as far as Huangzhi (southern India) and Yichengbu (Sri Lanka), forming the prototype of the Maritime Silk Road; routes from the Shandong coast also led to the Korean Peninsula and the Japanese archipelago. In 2014, “Silk Roads: the Routes Network of Chang'an-Tianshan Corridor,” jointly nominated by China, Kazakhstan and Kyrgyzstan, was inscribed on the World Heritage List.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/a8436b69c931f6ab.jpg",
+          "w": 1280,
+          "h": 833,
+          "caption": "Silk Road Road Map",
+          "author": "en:User:Wikiality123",
+          "license": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Silk_route_chinese.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E4%B8%9D%E7%BB%B8%E4%B9%8B%E8%B7%AF",
@@ -2771,7 +2780,8 @@
         }
       ],
       "type": "Foreign relations",
-      "majorScore": 8
+      "majorScore": 8,
+      "updatedAt": 1791048075
     },
     {
       "id": "e134",
@@ -3206,15 +3216,29 @@
       "title": "Consort Clans and Eunuchs Take Power in Turn",
       "short": "From the mid-Eastern Han, child emperors let consort clans and eunuchs alternately seize government, appointing cronies and killing rivals, which led the dynasty to decline.",
       "detail": "From the middle of the Eastern Han, most emperors came to the throne very young, one, Emperor Shang, when only a little over a hundred days old, and could not rule themselves, so power fell to the empress dowager. The empress dowager often relied on her father, brothers and other relatives, so the consort clans swelled in power and took control of government. When the emperor grew up he resented being managed by them and wished to exercise power himself, but could only rely on the eunuchs who attended him daily, and plotted with them to remove the consort clan; the eunuchs thereby won trust and power. A new emperor would often repeat the cycle, producing the alternation of consort clans and eunuchs in the middle and late Eastern Han. For example, Emperor He relied on the eunuch Zheng Zhong to remove Dou Xian of the Dou clan; Liang Ji of the Liang clan successively enthroned Emperors Chong, Zhi and Huan and monopolized power for over twenty years, and when Emperor Zhi called him an “arrogant general,” he poisoned the boy emperor; later Emperor Huan joined five eunuchs including Shan Chao to kill Liang Ji, and all five were made marquises on the same day. With consort clans and eunuchs taking turns holding power, appointing cronies, selling offices and killing opponents, government grew thoroughly rotten, upright officials were shut out and framed, taxes and corvée mounted, and the people suffered. Officials and Imperial Academy students who attacked the eunuchs were slandered as a “partisan faction,” and two “Partisan Prohibitions” under Emperors Huan and Ling saw many scholars killed, exiled or barred from office. This vicious cycle badly shook the Eastern Han's foundations and sent it into decline, until it fell apart in the Yellow Turban Rebellion and warlord wars.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/a27b3805346bfea5.jpg",
+          "w": 395,
+          "h": 285,
+          "caption": "Eunuch of Eastern Han Dynasty",
+          "license": "unknown",
+          "sourceUrl": "https://bkimg.cdn.bcebos.com/pic/8718367adab44aed02616803b31c8701a18bfb2e?x-bce-process=image/format,f_auto/watermark,image_d2F0ZXIvYmFpa2UyNzI,g_7,xp_5,yp_5,P_20/resize,m_lfit,limit_1,h_1080"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E6%A2%81%E5%86%80",
           "title": "Wikipedia (Chinese) - Liang Ji"
+        },
+        {
+          "url": "https://baike.baidu.com/item/%E6%88%9A%E5%AE%A6%E4%B9%8B%E4%BA%89/1394462",
+          "title": "Baidu Baike - The dispute between Qi and Huan"
         }
       ],
       "type": "Politics",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791048191
     },
     {
       "id": "e138",
@@ -3255,7 +3279,7 @@
           "src": "images/75c52cc2eef6.jpg",
           "w": 500,
           "h": 350,
-          "caption": "",
+          "caption": "Map showing the Yellow Turban Rebellion in Eastern Han Dynasty of China",
           "author": "SY",
           "license": "CC BY-SA 4.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Yellow_Turban_Rebellion.jpg"
@@ -3282,7 +3306,7 @@
       ],
       "type": "War",
       "majorScore": 7,
-      "updatedAt": 1791000467
+      "updatedAt": 1791048302
     },
     {
       "id": "e139",
@@ -3323,10 +3347,19 @@
       "detail": "Hua Tuo, courtesy name Yuanhua, from Qiao county in the state of Pei (present-day Bozhou, Anhui), was an outstanding physician of the late Eastern Han, ranked with Dong Feng and Zhang Zhongjing as one of the “three divine doctors of the Jian'an era.” He was skilled in internal medicine, surgery, gynecology, pediatrics and acupuncture, especially surgery, and is honored as the “founder of surgery.” Hua Tuo invented “mafeisan”: the patient took it with wine and, once unconscious, underwent surgery such as opening the abdomen; afterward the wound was sewn and dressed with ointment, and healed in about a month. This is an early record of general anesthesia, over a thousand years before Western surgery used anesthetics. Unfortunately the formula is lost. Hua Tuo also valued disease prevention. He held that the body needs proper exercise, as a door hinge that turns often does not rot: “With movement the grain energy is dispersed, the blood flows, and illness cannot arise.” Imitating the movements of the tiger, deer, bear, ape and bird, he devised the exercises known as the “Five Animals' Frolic” to strengthen the body. According to the Book of the Later Han, “Biography of Hua Tuo,” his disciple Wu Pu practiced them for years and in his nineties still had sharp hearing and sight and firm, intact teeth. He practiced across today's Jiangsu, Shandong, Henan and Anhui, leaving many legendary tales. He cared nothing for office; when Cao Cao, suffering from headaches, summoned him as attending physician, Hua Tuo went home claiming his wife was ill and would not return, and Cao Cao had him jailed and executed. His medical writings were thereby lost. “Hua Tuo reborn” is still used to praise a skilled doctor, and the Five Animals' Frolic survives as a traditional form of exercise.",
       "images": [
         {
+          "src": "images/fe6baba1b93d8cf0.jpg",
+          "w": 1166,
+          "h": 1600,
+          "caption": "Hua Tuo, a famous Chinese doctor",
+          "author": "Unknown authorUnknown author",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%B1%89%E5%90%8D%E5%8C%BB%E5%8D%8E%E4%BD%97.jpg"
+        },
+        {
           "src": "images/361b9d88fd7a3581.jpg",
           "w": 800,
           "h": 600,
-          "caption": "",
+          "caption": "Statue of Hua Tuo (Vá To) in the Hong Chan Kuan Temple",
           "author": "Yumeto",
           "license": "CC BY-SA 4.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:20260809_Statue_of_Hua_Tuo_in_the_Hong_Chan_Kuan_Temple.jpg"
@@ -3340,7 +3373,7 @@
       ],
       "type": "Science",
       "majorScore": 5,
-      "updatedAt": 1791000467
+      "updatedAt": 1791048416
     },
     {
       "id": "e036",
@@ -3391,8 +3424,8 @@
           "src": "images/a1a854128561.jpg",
           "w": 500,
           "h": 379,
-          "caption": "",
-          "author": "竹圍牆 at Literary Chinese Wikipedia",
+          "caption": "Battle of Red Cliff",
+          "author": "文言文维基百科的竹圍牆",
           "license": "CC BY-SA 3.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Chibizhizhan.png"
         },
@@ -3428,7 +3461,7 @@
           "w": 500,
           "h": 720,
           "caption": "Cao Cao composing a poem before the battle, as in Romance of the Three Kingdoms; by Tsukioka Yoshitoshi.",
-          "author": "Yoshitoshi",
+          "author": "月冈芳年",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lev%C3%A9_de_lune_sur_le_Mont_Nanping.jpg"
         }
@@ -3445,7 +3478,7 @@
       ],
       "type": "War",
       "majorScore": 8,
-      "updatedAt": 1791000467
+      "updatedAt": 1791048512
     },
     {
       "id": "e038",
@@ -3664,22 +3697,13 @@
       "detail": "On the broad northern steppes of China lived nomadic peoples such as the Xiongnu, Xianbei, Jie, Di and Qiang, who followed water and grass. In the Eastern Han, Wei and Jin, Central Plains dynasties admitted northern peoples in succession to add labor and soldiers. The Di and Qiang of the northwest moved into Guanzhong in Shaanxi; the Xiongnu and Jie of the Mongolian steppe moved south to Shanxi; some Xianbei moved to Liaoning and some to Shaanxi and the Ordos region. By the Western Jin, the inward-moving peoples made up about half the population of Guanzhong. They lived mixed with the Han and gradually took up farming, promoting ethnic fusion. But Western Jin rule was corrupt: it taxed them heavily, drafted them for soldiering and labor, and even seized and sold them as slaves, provoking fierce resistance. After the War of the Eight Princes their chiefs took the chance to rise. In 304 the Xiongnu noble Liu Yuan rose and founded a state called Han (later renamed Zhao, known as the Former Zhao), which later took Luoyang and Chang'an and destroyed the Western Jin. From 304 until the Northern Wei reunified the north in 439, over twenty regimes appeared in the north, sixteen of them major, hence the “Sixteen Kingdoms.” The north saw frequent war and constant turnover of regimes, and the economy was badly damaged. Among them, Fu Jian of the Former Qin, employing the Han official Wang Meng for reforms, briefly unified the north but fell apart after defeat at the Battle of Fei River. In the Sixteen Kingdoms period, the regimes of the various peoples mostly adopted sinicizing measures and employed Han scholars, promoting ethnic fusion in the north and preparing the way for the Northern Wei's unification and the later Sui and Tang.",
       "images": [
         {
-          "src": "images/a3f36ea130d3bcb3.jpg",
-          "w": 288,
-          "h": 400,
-          "caption": "Hunting scene on the Chile plain (copy of a Northern Wei tomb mural)"
-        },
-        {
-          "src": "images/85f510263054c837.jpg",
-          "w": 600,
-          "h": 800,
-          "caption": "Brick painting from a Wei–Jin tomb at Jiayuguan, Gansu"
-        },
-        {
-          "src": "images/32ce3c0d8f8f7031.jpg",
-          "w": 800,
-          "h": 486,
-          "caption": "Map of the distribution of inward-moving minorities in the Western Jin"
+          "src": "images/025e9da56a668869.png",
+          "w": 556,
+          "h": 537,
+          "caption": "Map of Sixteen Kingdoms period (304-439) in AD 376",
+          "author": "Ian Kiu",
+          "license": "CC BY 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eastern_Jin_Dynasty_376_CE.png"
         }
       ],
       "sources": [
@@ -3689,7 +3713,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791048589
     },
     {
       "id": "e144",
@@ -4316,7 +4341,7 @@
           "src": "images/74eadab59044.jpg",
           "w": 500,
           "h": 483,
-          "caption": "",
+          "caption": "Sui Dynasty",
           "author": "Ian Kiu",
           "license": "CC BY 3.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cheui_Dynasty_581_CE.png"
@@ -4344,7 +4369,7 @@
           "w": 500,
           "h": 783,
           "caption": "Portrait of Emperor Yang of Sui",
-          "author": "Yan Liben",
+          "author": "阎立本",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sui_Yangdi_Tang.jpg"
         },
@@ -4379,7 +4404,7 @@
         "from": "Northern and Southern Dynasties",
         "to": "Sui"
       },
-      "updatedAt": 1791000467
+      "updatedAt": 1791048630
     },
     {
       "id": "e156",
@@ -4430,7 +4455,7 @@
           "src": "images/bb5097480c38.jpg",
           "w": 500,
           "h": 571,
-          "caption": "",
+          "caption": "Grand Canal",
           "author": "Groverlynn",
           "license": "CC BY-SA 4.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E5%A4%A7%E9%81%8B%E6%B2%B3.png"
@@ -4457,7 +4482,7 @@
       ],
       "type": "Science",
       "majorScore": 8,
-      "updatedAt": 1791000467
+      "updatedAt": 1791048670
     },
     {
       "id": "e045",
@@ -4937,7 +4962,7 @@
           "src": "images/fa92e7044e33.jpg",
           "w": 500,
           "h": 885,
-          "caption": "",
+          "caption": "Tang Empress' Travel painting in detail, depicting Wu Zetian and her attendants",
           "author": "Likely to be Zhang Xuan (张萱)",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E5%94%90%E5%90%8E%E8%A1%8C%E5%BE%9E%E5%9C%96_(%E5%B1%80%E9%83%A8)_-_%E6%AD%A6%E5%89%87%E5%A4%A9.png"
@@ -4986,7 +5011,7 @@
       ],
       "type": "Politics",
       "majorScore": 6,
-      "updatedAt": 1791000467
+      "updatedAt": 1791048769
     },
     {
       "id": "e163",
@@ -5021,10 +5046,13 @@
       "detail": "Emperor Xuanzong of Tang, Li Longji (685–762), was a grandson of Wu Zetian and a son of Emperor Ruizong. In 710 he staged a coup that killed Empress Wei's faction, took the throne in 712, and in 713 adopted the era name “Kaiyuan”. In his early reign he governed diligently and used capable men, appointing Yao Chong, Song Jing, Zhang Yue, Zhang Jiuling and others as chancellors, and carried out a series of reforms. He tidied official administration and cut redundant posts, paid attention to selecting local officials, personally tested county magistrates and dismissed at once those who failed. He developed the economy by registering households that had fled, raising state tax revenue, building irrigation works and promoting military farming colonies. He valued culture and set up the Academy of Worthies to collate and compile books. After over twenty years of rule, Tang had vast territory and Chang'an became a cosmopolitan city thronged with envoys, merchants and students. Government was stable, the economy flourished, the treasury was full, households grew to over eight million, society was calm and grain prices were low. Tang power reached its peak, known as the “Kaiyuan Golden Age”. The poet Du Fu described it in “Recalling the Past”: “I recall the full glory of Kaiyuan, when even a small town held ten thousand households. Rice was glossy and millet white, and granaries public and private were full.” But in the later Kaiyuan years Xuanzong grew complacent and idle and indulged in pleasure, appointing Li Linfu and then Yang Guozhong as chancellors. Government became increasingly corrupt, the military governors grew powerful, and tensions accumulated, until the An Lushan Rebellion broke out in 755 and Tang went from prosperity into decline.",
       "images": [
         {
-          "src": "images/d26ad4665dea.jpg",
-          "w": 330,
-          "h": 419,
-          "caption": "Emperor Xuanzong of Tang"
+          "src": "images/3b70b60e25cd1462.jpg",
+          "w": 343,
+          "h": 436,
+          "caption": "Tang Xuanzong",
+          "author": "AnonymousUnknown author",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tang_XianZong.jpg"
         }
       ],
       "sources": [
@@ -5038,7 +5066,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 8
+      "majorScore": 8,
+      "updatedAt": 1791048717
     },
     {
       "id": "e164",
@@ -5340,10 +5369,22 @@
       "detail": "In late Tang, rule grew more rotten, eunuchs held power, and regional warlordism worsened until the center could no longer control the military governors. Exploitation of the people increased, taxes and corvée were heavy, and with years of flood, drought and locusts many peasants could not live, so social tension was at a peak. In 874 the salt smuggler Wang Xianzhi rose at Changyuan; in 875 Huang Chao, also a salt smuggler, gathered followers at Yuanju (southwest of present-day Heze, Shandong) in response. The rebels fought across Shandong, Henan, Hubei and elsewhere, and after Wang Xianzhi died in battle Huang Chao became the leader. He avoided the main Tang armies, crossed the Yangtze, campaigned in Jiangxi, Zhejiang and Fujian, took Guangzhou, then turned north, attacking officials and landlords, and his force grew to several hundred thousand. In 880 the rebels took Luoyang, broke Tong Pass and entered Chang'an. In early 881 Huang Chao proclaimed himself emperor with the dynastic name “Great Qi”. But the rebels did not pursue the remaining Tang forces and built no secure base, and became isolated in Chang'an; Tang gathered the military governors' armies for a counterattack, the rebel general Zhu Wen defected to Tang, and the Shatuo leader Li Keyong also led troops against them. In 883 Huang Chao was forced out of Chang'an, and in 884 he was defeated and took his own life at Langhu Valley on Mount Tai. The uprising lasted ten years and ranged across much of China, dealing heavy blows to Tang rule and to the decaying aristocratic clans. After its defeat, Tang existed in name only, regional warlords grew stronger, and some twenty years later Zhu Wen destroyed Tang.",
       "images": [
         {
-          "src": "images/ba19687566c2e812.jpg",
-          "w": 450,
-          "h": 800,
-          "caption": "Portrait of Huang Chao"
+          "src": "images/01c17c08c016a1fc.png",
+          "w": 828,
+          "h": 667,
+          "caption": "​A map of the peasant war situation in the late Tang Dynasty. Drawn by: Bamboo Wall",
+          "author": "The original uploader was Zhuwq at Chinese Wikipedia.",
+          "license": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E5%94%90%E6%9C%AB%E5%86%9C%E6%B0%91%E8%B5%B7%E4%B9%89%E5%9B%BE.png"
+        },
+        {
+          "src": "images/2d8027bca9059734.jpg",
+          "w": 1280,
+          "h": 2084,
+          "caption": "Huang Chao (Historical Biography of the 5 Dynasties of the Tang Dynasty)",
+          "author": "Unknown authorUnknown author",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E9%BB%83%E5%B7%A2%EF%BC%88%E6%AE%98%E5%94%90%E4%BA%94%E4%BB%A3%E5%8F%B2%E6%BC%94%E7%BE%A9%E5%82%B3%EF%BC%89.jpg"
         }
       ],
       "sources": [
@@ -5353,7 +5394,8 @@
         }
       ],
       "type": "War",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791048846
     },
     {
       "id": "e053",
@@ -5747,22 +5789,22 @@
       "detail": "The Tangut people originally belonged to a branch of the Qiang and first lived in what is now southeastern Qinghai. In Tang times, pressed by Tubo, they moved gradually inland to eastern Gansu and northern Shaanxi, where contact with Central Plains culture grew and production developed. In late Tang, the Tangut leader Tuoba Sigong was granted the surname Li, made Duke of Xia and appointed military governor of Dingnan for helping Tang suppress the Huang Chao uprising, and from then the Tangut held Xiazhou (north of present-day Jingbian, Shaanxi) as a warlord domain. In early Northern Song, the Tangut leader Li Jiqian and his son Li Deming alternately submitted to Northern Song and to Liao, expanding their influence and seizing Lingzhou and the Hexi Corridor. In 1038, Li Deming's son Yuanhao formally took the imperial title, named the state Great Xia and made Xingqing (present-day Yinchuan, Ningxia) his capital; because it lay to Song's northwest it is called “Western Xia”. He copied Tang and Song institutions in setting up official and military systems and laws, encouraged land clearing and developed a farming and herding economy, and had officials such as Yeli Renrong create the Western Xia script, with over six thousand characters built on the structure of Chinese characters. Western Xia's territory included present-day Ningxia, most of Gansu, and parts of Shaanxi, Inner Mongolia and Qinghai, standing as a third power with Northern Song and Liao (later Jin). It valued Confucianism and Buddhism, founded schools and held examinations. The Western Xia imperial tombs at the foot of the Helan Mountains in the western suburbs of Yinchuan are called the “Pyramids of the East”. Western Xia lasted about 190 years and was destroyed by the Mongols in 1227.",
       "images": [
         {
-          "src": "images/e07dcbbdba30a582.jpg",
-          "w": 800,
-          "h": 770,
-          "caption": "Western Xia coin"
+          "src": "images/ae6d3e457e32d58a.png",
+          "w": 1088,
+          "h": 774,
+          "caption": "Map of the whole territory of Xixia",
+          "author": "玖巧仔",
+          "license": "CC BY 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E8%A5%BF%E5%A4%8F%E5%85%A8%E5%A2%83%E5%9B%BE%EF%BC%88%E7%B9%81%EF%BC%89.png"
         },
         {
-          "src": "images/7f298ce6ddac744c.jpg",
-          "w": 800,
-          "h": 532,
-          "caption": "Western Xia script contract"
-        },
-        {
-          "src": "images/132c9c25c9d0e92a.jpg",
-          "w": 800,
-          "h": 538,
-          "caption": "Western Xia tally"
+          "src": "images/37de4c7b13042e43.png",
+          "w": 556,
+          "h": 537,
+          "caption": "Map of Song, Liao and Xi Xia in 1111",
+          "author": "Douglasfrankfort",
+          "license": "CC BY 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Song-Liao-Xixia-1111.png"
         }
       ],
       "sources": [
@@ -5772,7 +5814,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791049118
     },
     {
       "id": "e056",
@@ -5783,6 +5826,14 @@
       "detail": "China invented woodblock printing in the Sui and Tang. The world's earliest surviving dated woodblock-printed work is the Diamond Sutra, printed in Tang in 868. Book printing flourished under Liao, Song, Western Xia and Jin. But carving blocks was laborious and slow, each block could print only one book, and a single wrong character could ruin a block. After years of exploration, Song printing saw a new breakthrough. According to Shen Kuo's Dream Pool Essays, during the Qingli era of Emperor Renzong (1041–1048), the commoner Bi Sheng invented movable-type printing. He carved characters one by one in reverse in clay, hardened each by firing to make type. To make a page, he spread a mixture of pine resin, wax and paper ash over an iron plate with an iron frame, set the type inside the frame according to the text, filling a frame to make one forme, then heated it; when the mixture began to melt he pressed the surface flat with a board, and when it cooled the type was fixed on the plate and could be inked and printed. After printing, it was heated again so the mixture melted and the type could be removed for reuse. The method, he noted, “is not simple if you print only two or three copies, but for tens, hundreds or thousands it is extremely fast”. Compared with woodblock printing, movable type was both cheaper and quicker. It later spread to Korea, Japan, Southeast Asia and Europe, some four hundred years before Gutenberg's metal movable type in Germany. Printing is one of China's Four Great Inventions and made a great contribution to the spread and growth of human civilization.",
       "images": [
         {
+          "src": "images/c61369e46231f1ed.jpg",
+          "w": 376,
+          "h": 531,
+          "caption": "Portrait of Bi Sheng",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTN3JZfcfu8ryvE3EQqw9VOwzjoG_RTAK1OScq0vbyRJg&s=10"
+        },
+        {
           "src": "images/1000c22eac07.jpg",
           "w": 500,
           "h": 500,
@@ -5790,14 +5841,6 @@
           "author": "User:Parhamr",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Chinese_movable_type_1313-ce.png"
-        },
-        {
-          "src": "images/b5d6eceaba6e.jpg",
-          "w": 500,
-          "h": 737,
-          "caption": "",
-          "license": "Public domain",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%B8%85%E4%B9%BE%E9%9A%86%E5%B9%B4%E6%AD%A6%E8%8B%B1%E6%AE%BF%E8%81%9A%E7%8F%8D%E7%89%88%E4%B9%A6%E9%A1%B5.JPG"
         },
         {
           "src": "images/458fa811a451.jpg",
@@ -5818,22 +5861,21 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Korean_book-Jikji-Selected_Teachings_of_Buddhist_Sages_and_Seon_Masters-1377.jpg"
         },
         {
-          "src": "images/058679ea5dd9a483.jpg",
-          "w": 369,
-          "h": 800,
-          "caption": "Portrait of Bi Sheng"
+          "src": "images/de94496e846cf226.jpg",
+          "w": 547,
+          "h": 365,
+          "caption": "Clay movable-type plate",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXBp91fd_jP4Xd7ij7aiIUgg0Y919VmVMpQ7Zwim1QTg&s=10"
         },
         {
-          "src": "images/f34774cb2ab36c31.jpg",
-          "w": 300,
-          "h": 300,
-          "caption": "Clay movable-type plate"
-        },
-        {
-          "src": "images/4477c221b7e2e378.jpg",
-          "w": 500,
-          "h": 333,
-          "caption": "Passage on Bi Sheng's invention in Dream Pool Essays"
+          "src": "images/116e216038b7d367.jpg",
+          "w": 1280,
+          "h": 853,
+          "caption": "Mengxi Written Talk-Hangzhou National Edition Museum",
+          "author": "User:CatOnMars",
+          "license": "CC BY 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Essays_of_Dream_Pool,_Hangzhou_National_Archives_146.jpg"
         }
       ],
       "sources": [
@@ -5844,7 +5886,7 @@
       ],
       "type": "Science",
       "majorScore": 9,
-      "updatedAt": 1791000467
+      "updatedAt": 1791049036
     },
     {
       "id": "e180",
@@ -5917,7 +5959,10 @@
           "src": "images/9f3acd75543bab20.jpg",
           "w": 398,
           "h": 508,
-          "caption": ""
+          "caption": "",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfZrJJHKgDRtunkCvqhNX8kabtKReEbqC38IaSVj0hjg&s",
+          "author": "Wang Anshi",
+          "license": "unknown"
         }
       ],
       "sources": [
@@ -5931,7 +5976,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 7
+      "majorScore": 7,
+      "updatedAt": 1791049176
     },
     {
       "id": "e182",
@@ -6063,7 +6109,35 @@
       "title": "Aguda Founds the Jin Dynasty",
       "short": "The Jurchen Wanyan tribe leader Aguda unified the Jurchen tribes, rose against Liao in 1114 and founded the Jin dynasty in 1115 with its capital at Huining, as Emperor Taizu of Jin.",
       "detail": "The Jurchen were an ancient people of Northeast China living in the Heilong River basin and around the Changbai Mountains, living by fishing, hunting, herding and farming. Under Liao rule they were controlled and oppressed: each year Liao demanded large amounts of ginseng, sable pelts, northern pearls and the hunting falcon “haidongqing”, and the Jurchen deeply resented its rule. They were then divided into many tribes, among which the Wanyan tribe of the Anchuhu River (the Ashi River in Heilongjiang today) grew strong and absorbed many others. In the late 11th century Aguda, leader of the Wanyan, completed the unification of the Jurchen tribes. In 1112 Emperor Tianzuo of Liao toured Chunzhou and at a banquet ordered the Jurchen chiefs to dance in turn; Aguda refused, and Tianzuo wanted to kill him but was dissuaded by ministers. In 1114 Aguda rose against Liao and defeated Liao armies in succession at Ningjiangzhou and Chuhedian, winning against greater numbers; Jurchen morale soared, and it was said that “if the Jurchen reach ten thousand men they cannot be beaten”. In 1115 Aguda took the imperial title and founded a regime named Great Jin, with its capital at Huiningfu (in present-day Acheng District, Harbin, Heilongjiang), as Emperor Taizu of Jin. Taizu copied Central Plains institutions, turned the Jurchen military organization of meng'an and mouke into a combined military-civil local system, developed production, and had Wanyan Xiyin create the Jurchen script on the model of Chinese and Khitan characters, and the state quickly grew stronger. Jin forces kept attacking Liao and took its Eastern and Supreme Capitals and other places. In 1125 Jin destroyed Liao and in 1127 destroyed Northern Song, becoming a powerful northern regime facing Southern Song.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/c842416e8137e3fa.jpg",
+          "w": 400,
+          "h": 585,
+          "caption": "Jurchen Jin Empire's 1st Emperor",
+          "author": "Unknown authorUnknown author",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Wanggiyan_Aguda.jpg"
+        },
+        {
+          "src": "images/d5a44f414ad893fa.png",
+          "w": 798,
+          "h": 1125,
+          "caption": "Circuits of Jurchen Jin Dynasty, as of 1142 A.D",
+          "author": "SY",
+          "license": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jurchen_Jin_Circuits.png"
+        },
+        {
+          "src": "images/01af23792f36cf8e.png",
+          "w": 800,
+          "h": 557,
+          "caption": "​Gold (the largest area) History and geography",
+          "author": "俊武",
+          "license": "CC BY 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Map_of_Jin.PNG"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E9%87%91%E6%9C%9D",
@@ -6071,7 +6145,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791049267
     },
     {
       "id": "e187",
@@ -6112,11 +6187,19 @@
       "detail": "Song commerce flourished more than in any earlier age. In Tang, cities had a ward-and-market system with residential and commercial areas strictly separated and commercial activity limited by time. Song broke these limits: shops could open anywhere in the city, trading hours were unrestricted, and morning and night markets appeared. Many commercial cities arose along the Yellow River, Yangtze and canals, and Northern Song's Dongjing (Kaifeng) and Southern Song's Lin'an (Hangzhou) each held up to a million people. Beyond the cities appeared periodic “grass markets” and new market towns, spreading commodity trade into the countryside. Along the River During the Qingming Festival is a work of the late Northern Song painter Zhang Zeduan. A silk handscroll in color, about 528 cm long and 25 cm wide, it uses scattered-point perspective to depict, in scroll form, the bustle of the outskirts of Dongjing and the banks of the Bian River at Qingming. It begins in quiet countryside, passes the busy Bian River docks and reaches the lively streets inside the city. It has over 550 figures, fifty or sixty animals, over twenty boats, over twenty carts and sedan chairs, and rainbow bridges, city towers, teahouses, taverns, butcher shops, drugstores, temples and stalls, each with its own manner. At its center is the wooden Rainbow Bridge over the Bian River, thronged with people, while below a large boat lowers its mast to pass under. The painting vividly recreates the look of the Northern Song capital and the lives of all levels of society, is of high artistic value, and is a precious source for the study of Northern Song's economy, urban planning, transport and customs. It is regarded as one of China's Ten Famous Paintings.",
       "images": [
         {
+          "src": "images/a93f836b900b09bc.jpg",
+          "w": 3000,
+          "h": 2318,
+          "caption": "Along the River During the Qingming Festival",
+          "license": "unknown",
+          "sourceUrl": "https://q1.itc.cn/q_70/images01/20241015/9e2ef6f3ef934c8faab4e864cf9fa141.jpeg"
+        },
+        {
           "src": "images/ad0940dfaf2d.jpg",
           "w": 500,
           "h": 358,
-          "caption": "",
-          "author": "Zhang Zeduan",
+          "caption": "Bianjing city gate in Along the River During the Qingming Festival.",
+          "author": "张择端",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bianjing_city_gate.JPG"
         },
@@ -6128,24 +6211,6 @@
           "author": "User Zhuwq on zh.wikipedia",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%B8%85%E6%98%8E%E4%B8%8A%E6%B2%B3%E5%9B%BE.jpg"
-        },
-        {
-          "src": "images/3f38bc8e5ca57231.jpg",
-          "w": 800,
-          "h": 581,
-          "caption": "Zhang Zeduan, Along the River During the Qingming Festival (detail), Song"
-        },
-        {
-          "src": "images/71b6096e491a0e87.jpg",
-          "w": 611,
-          "h": 800,
-          "caption": "The Knickknack Peddler (detail)"
-        },
-        {
-          "src": "images/dc3cf79520f8b8ca.jpg",
-          "w": 494,
-          "h": 438,
-          "caption": "Bronze printing plate of the Liu Family Needle Shop, Jinan"
         }
       ],
       "sources": [
@@ -6160,7 +6225,7 @@
       ],
       "type": "Culture",
       "majorScore": 7,
-      "updatedAt": 1791000467
+      "updatedAt": 1791049430
     },
     {
       "id": "e188",
@@ -6432,7 +6497,17 @@
       "title": "Mongols Destroy Western Xia",
       "short": "Genghis Khan attacked Western Xia six times and Jin refused to help; in 1227 the last Xia emperor surrendered and Western Xia fell, while Genghis Khan died near the Liupan Mountains.",
       "detail": "After uniting Mongolia, Genghis Khan first turned toward Western Xia and Jin. Western Xia lay on the Mongols' road south and controlled the Hexi Corridor; before attacking Jin and the Western Regions the Mongols had to remove the threat from Western Xia. From 1205 Genghis Khan attacked Western Xia six times. In 1209 Mongol troops besieged the Xia capital Zhongxing (present-day Yinchuan, Ningxia) and flooded it with Yellow River water; Western Xia was forced to offer a princess and sue for peace, submit to the Mongols and agree to send troops to help in their wars. Western Xia appealed to Jin for help, but because of old conflicts the Jin emperor refused, saying “when enemies attack each other, it is good fortune for our state”, and Song, Xia and Jin never united against the Mongols. Later Western Xia refused to join the Mongol western campaign and made peace with Jin, angering Genghis Khan. In 1226, returning from the western campaign, Genghis Khan personally led a great army against Western Xia a sixth time, taking Khara-Khoto, Ganzhou, Suzhou, Xiliang and other places, defeating the main Xia force at Jiudu on the Yellow River and besieging Zhongxing. The Xia capital was besieged for half a year, its food ran out, and it suffered earthquake and plague. In summer 1227 Genghis Khan fell gravely ill near the Liupan Mountains and soon died. On his deathbed he left instructions to keep his death secret, to kill the Xia ruler and his officials after their surrender, and to pass through Song territory in allying with Song to destroy Jin. That year the last Xia emperor, Li Xian, came out and surrendered and was killed by the Mongols, and Western Xia fell after about 190 years.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/28a5ecd4bb6ef689.png",
+          "w": 1085,
+          "h": 774,
+          "caption": "Mongol conquest of Western Xia",
+          "author": "Jason22",
+          "license": "CC BY 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mongol_conquest_of_Western_Xia.png"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E8%92%99%E5%8F%A4%E7%81%AD%E8%A5%BF%E5%A4%8F%E4%B9%8B%E6%88%98",
@@ -6440,7 +6515,8 @@
         }
       ],
       "type": "War",
-      "majorScore": 4
+      "majorScore": 4,
+      "updatedAt": 1791049476
     },
     {
       "id": "e192",
@@ -6449,7 +6525,17 @@
       "title": "Mongols Destroy Jin",
       "short": "After Genghis Khan's death Ogedei allied with Song against Jin. In 1234 the joint armies broke Caizhou, Emperor Aizong hanged himself and Jin fell, leaving Song and the Mongols face to face.",
       "detail": "In late Jin, politics were corrupt, national strength was weak, and the Mongols attacked constantly. From 1211 Genghis Khan repeatedly campaigned south against Jin, defeating the main Jin army at Yehuling and elsewhere and besieging the Central Capital (present-day Beijing). In 1214 Jin was forced to move its capital to Nanjing (present-day Kaifeng, Henan), and the next year the Mongols took the Central Capital, and Jin lost large areas north of the Yellow River. In 1229 Genghis Khan's third son Ogedei succeeded as great khan and continued the attack on Jin. In 1231 the Mongol army advanced in three columns, one under Tolui passing through Southern Song's Hanzhong region to circle behind Jin. In 1232 Tolui defeated the main Jin army at Sanfengshan in Junzhou, destroying Jin's elite forces. The Mongols then besieged Bianjing, Emperor Aizong of Jin fled and finally reached Caizhou (present-day Runan, Henan). In 1233 Southern Song allied with the Mongols, agreeing to destroy Jin together and to return the Henan lands to Song afterward. Southern Song sent Meng Gong with grain to join the Mongols in besieging Caizhou. In early 1234 the Mongol–Song armies broke Caizhou; Emperor Aizong passed the throne to the last emperor, Wanyan Chenglin, and hanged himself, and Jin fell after 120 years. After Jin's fall Southern Song tried to take back the old Northern Song capitals, sending troops into Kaifeng, Luoyang and elsewhere, but was counterattacked by the Mongols and failed, the “Duanping Entry into Luoyang”. From then on Southern Song and the Mongols faced each other directly and Mongol armies attacked Southern Song.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/ae0ab30ead6b95cf.png",
+          "w": 1280,
+          "h": 829,
+          "caption": "Mongol Empire, 13th century",
+          "author": "Historicair, Bkkbrad, translated by Buernia",
+          "license": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Genghis_Khan_empire-zh-hans.svg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E8%94%A1%E5%B7%9E%E4%B9%8B%E6%88%98",
@@ -6457,7 +6543,8 @@
         }
       ],
       "type": "War",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791049577
     },
     {
       "id": "e193",
@@ -6710,16 +6797,31 @@
       "detail": "Wen Tianxiang (1236–1283), courtesy name Lüshan, art name Wenshan, was from Luling in Jizhou (present-day Ji'an, Jiangxi), and took first place in the palace examination at twenty. In 1275, as Yuan forces came down the Yangtze toward Lin'an, the Southern Song court called on all regions to raise troops to defend the dynasty; Wen responded at once, recruiting over ten thousand volunteers to go to its aid. In 1276 the court appointed him Right Chancellor and Commissioner of Military Affairs and sent him to negotiate at the Yuan camp. He spoke boldly and denounced the Yuan side, and was detained by the Yuan commander Bayan. Soon Lin'an fell and Wen was taken north, but he escaped at Zhenjiang and, after many hardships, reached Fujian, where he continued to organize the remaining Song forces and local volunteers against the Yuan. In 1278 he was defeated and captured at Wupoling in Haifeng, Guangdong. The Yuan general Zhang Hongfan forced him to write urging Zhang Shijie, holding Yamen, to surrender; Wen answered with the poem Crossing Lingding Ocean, whose lines \"Who since antiquity has not died? Let my loyal heart shine in the annals\" became famous for all time. After the last Song forces were destroyed at Yamen in 1279, Wen was taken to Dadu and held for over three years. The Yuan rulers urged him repeatedly to submit; Kublai Khan received him in person and offered high office such as chancellor, and the captive Emperor Gong of Song was even sent to persuade him, but Wen would rather die, saying, \"Beyond death, there is nothing more for me to do.\" In prison he wrote the stirring Song of Righteousness, expressing his resolve to keep his integrity.",
       "images": [
         {
-          "src": "images/cf3be655e4469bdc.jpg",
-          "w": 661,
-          "h": 800,
-          "caption": "Portrait of Wen Tianxiang"
+          "src": "images/bb2fff3a120e336a.jpg",
+          "w": 1280,
+          "h": 2038,
+          "caption": "Portrait of Wen Tianxiang, painted by Ye Yanlan",
+          "author": "​葉衍蘭",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%96%87%E5%A4%A9%E7%A5%A5%E8%82%96%E5%83%8F.jpg"
         },
         {
-          "src": "images/47af930391069933.jpg",
-          "w": 601,
-          "h": 800,
-          "caption": "Temple of Chancellor Wen, Beijing"
+          "src": "images/34d54354a6d16910.png",
+          "w": 999,
+          "h": 1402,
+          "caption": "The ranking list of Jinshi examination in the Southern Song Dynasty",
+          "author": "百楽兎",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_ranking_list_of_Jinshi_examination_in_the_Southern_Song_Dynasty.png"
+        },
+        {
+          "src": "images/5bfcebcd868b7a72.jpg",
+          "w": 1280,
+          "h": 1707,
+          "caption": "Statue of Wen Tianxiang, Lianhua Peak Scenic Area, Shantou City",
+          "author": "CundiP",
+          "license": "CC0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E8%8E%B2%E8%8A%B1%E5%B3%B0%E6%96%87%E5%A4%A9%E7%A5%A5%E5%83%8F.jpg"
         }
       ],
       "sources": [
@@ -6729,7 +6831,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791049756
     },
     {
       "id": "e199",
@@ -6738,7 +6841,17 @@
       "title": "The Yuan Provincial System",
       "short": "The Yuan had the Secretariat, Bureau of Military Affairs and Censorate at the center and ten Branch Secretariats locally, the beginning of China's provincial system.",
       "detail": "After the Yuan was founded, Kublai Khan, helped by Han scholars and following the practice of earlier Central Plains dynasties, gradually established an autocratic, centralized system. At the center, the Secretariat handled national administration, with six ministries (Personnel, Revenue, Rites, War, Justice and Works) under it; the Bureau of Military Affairs directed military affairs and the deployment of armies; the Censorate oversaw supervision; and the Bureau of Buddhist and Tibetan Affairs governed Buddhist matters and the military and civil affairs of Tibet. Locally, the Yuan created the provincial system. As the empire was vast, to strengthen control the Yuan called today's Shandong, Shanxi, Hebei and parts of Inner Mongolia the \"inner region\" (Fuli), ruled directly by the Secretariat; Tibet came under the Bureau of Buddhist and Tibetan Affairs; and the rest was divided into ten Branch Secretariats, called \"provinces\" for short, including Lingbei, Liaoyang, Henan, Shaanxi, Sichuan, Gansu, Yunnan, Jiangzhe, Jiangxi and Huguang. A Branch Secretariat was originally an outpost of the Secretariat but gradually became the permanent highest local administrative body, with officials appointed by the center and charge of local military and civil affairs; its powers were great, but major matters had to be referred to the center. Below the province were circuits, prefectures, subprefectures and counties. Provincial boundaries were often drawn deliberately across natural barriers so that no province could hold out behind natural defenses. The system strengthened central control over the localities, consolidated national unity and promoted the development of frontier regions.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/f625378c0ed687bf.jpg",
+          "w": 790,
+          "h": 600,
+          "caption": "Administrative division of the Yuan Dynasty",
+          "author": "Jason22",
+          "license": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Yuan_Dynasty_Administrative_division_1330.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E8%A1%8C%E7%9C%81",
@@ -6746,7 +6859,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 7
+      "majorScore": 7,
+      "updatedAt": 1791049665
     },
     {
       "id": "e200",
@@ -7067,8 +7181,8 @@
           "src": "images/e6728c24cc483f73.jpg",
           "w": 500,
           "h": 732,
-          "caption": "",
-          "author": "Ren Yourong (Qing dynasty)",
+          "caption": "Fang-xiaoru",
+          "author": "清朝 任有容",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Fang-xiaoru.jpg"
         },
@@ -7076,7 +7190,7 @@
           "src": "images/004bfb46903ad7d3.jpg",
           "w": 500,
           "h": 726,
-          "caption": "",
+          "caption": "Seated portrait of Emperor Ming Chengzu",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Portrait_assis_de_l%27empereur_Ming_Chengzu.jpg"
         }
@@ -7089,7 +7203,7 @@
       ],
       "type": "Politics",
       "majorScore": 5,
-      "updatedAt": 1791000467
+      "updatedAt": 1791049917
     },
     {
       "id": "e210",
@@ -7098,7 +7212,16 @@
       "title": "Shunfeng Xiangsong Earliest Records the Diaoyu Islands",
       "short": "The navigation manual Shunfeng Xiangsong, first compiled in 1403, is the earliest extant text to record the Diaoyu Islands, indicating Chinese discovery and naming of them.",
       "detail": "The Diaoyu Islands and their affiliated islets lie to the northeast of Taiwan Island and are regarded in Chinese accounts as affiliated islands of Taiwan. Chinese sources hold that the Chinese were the first to discover, name and use the Diaoyu Islands; fishermen on the southeast coast fished in these waters from early times and used them as navigation markers. The earliest extant text recording names such as Diaoyu and Chiwei Islets is Shunfeng Xiangsong (Fair Winds for Escort), first compiled in 1403 (the first year of Yongle in the Ming). It is a navigation manual of compass bearings that, in recording the route from Fujian to the Ryukyus, mentions places such as \"Diaoyu Islet\" and \"Chikan Islet\", showing that China had already discovered and named the Diaoyu Islands by the 14th to 15th centuries. From 1372 the Ming repeatedly sent investiture envoys to the Ryukyus, and their records mention the Diaoyu Islands many times. Chen Kan's Record of the Mission to the Ryukyus of 1534 says that after the ship passed Diaoyu Islet, Huangmao Islet and Chi Islet, \"Gumi Mountain was seen, which belongs to the Ryukyus\", indicating that islands west of Gumi, including the Diaoyu Islands, did not belong to the Ryukyus. In the early Ming, to defend against Japanese pirates, the Diaoyu Islands were included in the coastal defense area; the Chouhai Tubian of 1562, edited by Zheng Ruozeng under Hu Zongxian, placed Diaoyu Islet and other islands in Fujian's coastal defense zone. The Qing followed the Ming and clearly placed the Diaoyu Islands under Taiwan's local administration, as recorded in works such as Huang Shujing's Taihai Shicha Lu. Many maps from China and abroad also show the Diaoyu Islands as belonging to China.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/65ee523fde557383.jpg",
+          "w": 831,
+          "h": 405,
+          "caption": "Aerial photo of Senkaku Islands",
+          "license": "Attribution",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Senkaku-uotsuri.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E9%92%93%E9%B1%BC%E5%B2%9B",
@@ -7106,7 +7229,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 4
+      "majorScore": 4,
+      "updatedAt": 1791049846
     },
     {
       "id": "e065",
@@ -7677,7 +7801,17 @@
       "title": "Hong Taiji Renames the State Qing",
       "short": "After Nurhaci, Hong Taiji renamed his people Manchu in 1635 and in 1636 proclaimed himself emperor at Shenyang with the state name Qing, raiding south of the Wall.",
       "detail": "After Nurhaci died in 1626, his eighth son Hong Taiji (1592–1643) succeeded as khan and changed the era name to Tiancong the next year. On taking power he strengthened the khan's authority, gradually ending the practice of \"jointly deliberating state affairs\" with the other beile, and set up six ministries on the Ming model, appointed Han officials, improved Manchu-Han relations and developed agriculture, strengthening the state. He sent troops to Korea and finally forced it to sever its tributary relationship with the Ming, and repeatedly marched on the Mongols south of the Gobi, defeating Ligdan Khan, after which the Mongol tribes there submitted one after another. In 1635 Ligdan's son Ejei surrendered and presented the Yuan jade seal, the \"Seal of Imperial Edicts\"; the same year Hong Taiji ordered the ethnic name \"Jurchen\" changed to \"Manchu\". In 1636 he proclaimed himself emperor at Shenyang, changed the state name to \"Qing\" and the era name to Chongde, and is known as Emperor Taizong of Qing. Qing forces then repeatedly went around through Mongolia, broke through the Great Wall and penetrated north China, seizing people and goods and seriously damaging the Ming. From 1640 to 1642 the Qing army defeated the Ming at the Battle of Songshan and Jinzhou and captured the Ming governor-general Hong Chengchou, leaving the Ming with only a few cities such as Ningyuan beyond Shanhaiguan. In 1643 Hong Taiji died and his son Fulin succeeded as the Shunzhi Emperor, with his uncle Dorgon and others as regents.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/06e3509e03d95fb8.jpg",
+          "w": 1280,
+          "h": 2305,
+          "caption": "Portrait of Hong Taiji (1592-1643)",
+          "author": "AnonymousUnknown author Qing Dynasty Court Painter",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%B8%85_%E4%BD%9A%E5%90%8D_%E3%80%8A%E6%B8%85%E5%A4%AA%E5%AE%97%E5%B4%87%E5%BE%B7%E7%9A%87%E5%B8%9D%E6%9C%9D%E6%9C%8D%E5%83%8F%E3%80%8B.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E7%9A%87%E5%A4%AA%E6%9E%81",
@@ -7685,7 +7819,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791049966
     },
     {
       "id": "e221",
@@ -7926,7 +8061,17 @@
       "title": "Literary Inquisitions and Cultural Control",
       "short": "Under Kangxi, Yongzheng and Qianlong, literary inquisitions built charges from phrases in writings, and the Siku Quanshu project banned and destroyed many books, stifling thought.",
       "detail": "To preserve autocratic rule, the Qing rulers paid great attention to tightly controlling intellectuals' thought. Under the Kangxi, Yongzheng and Qianlong emperors, rulers often picked out odd phrases from scholars' essays and poems, twisted their meaning and built charges, producing many unjust cases, known as \"literary inquisitions\". Their scale and number far exceeded earlier ages, with over a hundred in the Qianlong reign alone. In the early Kangxi \"Ming History case\", the wealthy Zhuang Tinglong of Zhejiang privately compiled a History of the Ming that used Southern Ming era names, and over seventy people involved in writing, printing or selling it were executed, with over two hundred more implicated. In the late Kangxi \"Nanshan Collection case\", Dai Mingshi was executed because his book used Southern Ming era names. Under Qianlong, the official Hu Zhongzao had a line in a poem, \"a heart that discusses the clear and the muddy\", and the emperor asked what he meant by putting the character \"muddy\" before \"Qing\" (the dynastic name, also meaning \"clear\"); Hu was beheaded. The Qing rulers also used the compilation of the Siku Quanshu (Complete Library of the Four Treasuries) to inspect books nationwide, listing those thought harmful to Qing rule as banned and confiscating, destroying or altering them; the Qianlong-era book bans lasted nearly twenty years and destroyed over three thousand titles. The inquisitions spread terror and ruined many talented people; intellectuals dared not discuss politics or reveal their thoughts, were careful even with wording, and many scholars turned to textual criticism, so that scholarship became detached from reality.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/7368bf57f6c5b5e6.jpg",
+          "w": 1280,
+          "h": 960,
+          "caption": "​Dai Mingshi's \"Nanshan Collection of Odd Copies\" from the Qing Dynasty, hidden in Anhui Museum",
+          "author": "猫猫的日记本",
+          "license": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Notes_of_Nanshan_by_Dai_Mingshi_2012-06.JPG"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E6%96%87%E5%AD%97%E7%8B%B1",
@@ -7934,7 +8079,8 @@
         }
       ],
       "type": "Culture",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791050160
     },
     {
       "id": "e226",
@@ -8119,7 +8265,17 @@
       "title": "Establishment of the Imperial Residents in Tibet",
       "short": "In 1727 the Qing set up Imperial Residents in Tibet; in 1751 the Kashag was created, the Dalai Lama and the Residents jointly managing Tibet's religious and political affairs.",
       "detail": "After entering the pass the Qing invested the Dalai Lama and Panchen Erdeni. In the early 18th century the Dzungars troubled Tibet, and in 1720 Qing troops entered Tibet, drove them out and stationed troops there. Fierce struggles then broke out among Tibetan nobles, and in 1727 civil strife erupted when Arbuba and others killed the chief minister Khangchenas. To strengthen administration of Tibet, the Yongzheng Emperor that year formally established the Imperial Residents in Tibet, stationing officials permanently at Lhasa to oversee local affairs on behalf of the central government and command the Qing troops there. The next year Qing troops entered Tibet and put down the strife, and the Qing appointed Polhanas, who had distinguished himself in the suppression, to run Tibetan affairs. In 1750 Polhanas's son Gyurme Namgyal plotted rebellion and the Residents Fuqing and Labdon killed him, and both Residents were killed by his followers. In 1751 the Qianlong Emperor promulgated the Thirteen-Article Ordinance, abolishing rule by a prince and setting up the \"Kashag\" as the Tibetan local government, made up of four kalons, authorizing the Dalai Lama and the Imperial Residents jointly to manage Tibet's religious and political affairs. \"Ka\" means command and \"shag\" means room, so Kashag means the place from which orders are issued. In 1793 the Qing promulgated the Twenty-Nine Article Ordinance, further defining the Residents as equal in status to the Dalai Lama and Panchen Erdeni, jointly managing Tibetan affairs and in charge of Tibet's military, foreign and financial matters. From 1727 to 1912 the Qing sent over a hundred Imperial Residents to Tibet.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/6b8319881bffc332.jpg",
+          "w": 1000,
+          "h": 667,
+          "caption": "Potala Sarayı, Lhasa Tibet Özerk Bölgesi",
+          "author": "René Heise",
+          "license": "CC0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lhasa_Potala.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E9%A9%BB%E8%97%8F%E5%A4%A7%E8%87%A3",
@@ -8127,7 +8283,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791050220
     },
     {
       "id": "e232",
@@ -8682,7 +8839,17 @@
       "title": "Wei Yuan’s Illustrated Treatise on the Maritime Countries",
       "short": "After the Opium War, Wei Yuan built on Lin Zexu’s translations to compile the Illustrated Treatise on the Maritime Countries, urging China to “learn the barbarians’ skills to control them.”",
       "detail": "China’s defeat in the Opium War shook some officials and thinkers, who began to study world affairs and foreign history and geography in search of ways to resist. During his anti-opium and anti-British work in Guangdong, Lin Zexu took care to “gather information on the foreigners,” had foreign books and periodicals translated, and compiled the Gazetteer of the Four Continents, earning him the name of the first person in modern China to “open his eyes to the world.” Wei Yuan (1794–1857), from Shaoyang, Hunan, was a friend of Lin Zexu. In 1841, when Lin was dismissed and exiled to Ili, he met Wei at Zhenjiang and gave him the Gazetteer and other materials. Wei gathered much more material and in 1842 completed the Illustrated Treatise on the Maritime Countries (Haiguo Tuzhi) in 50 juan, later expanded to 100. It describes the history, geography, politics, economy, religion and science and technology of countries around the world, with many maps and drawings of ships and cannon. In its preface he wrote that the book was compiled “to use barbarians against barbarians, to deal with barbarians through barbarians, and to learn the barbarians’ superior skills in order to control them.” He held that the West’s “superior skills” lay mainly in warships, firearms and methods of raising and training troops, and urged learning advanced Western military technology and setting up shipyards and arsenals. This idea broke with the traditional notion of China as the “Celestial Empire,” began modern China’s learning from the West, and influenced the later Self-Strengthening Movement and reform thought. The book drew little attention at home, but was reprinted many times in Japan, where it had some influence on the Meiji Restoration.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/ad5e4ddeba7e0f5e.jpg",
+          "w": 1280,
+          "h": 1920,
+          "caption": "Illustrated Treatise on the Maritime Kingdoms",
+          "author": "（清）魏源撰",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:CADAL02087089_%E6%B5%B7%E5%9C%8B%E5%9C%96%E5%BF%97%EF%BC%88%E4%B8%80%EF%BC%89.djvu"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E6%B5%B7%E5%9B%BD%E5%9B%BE%E5%BF%97",
@@ -8690,7 +8857,8 @@
         }
       ],
       "type": "Culture",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791050294
     },
     {
       "id": "e245",
@@ -8861,7 +9029,17 @@
       "title": "The Tianjing Incident",
       "short": "In 1856 the Taiping leaders turned on each other: Wei Changhui killed Yang Xiuqing, who sought the title “Ten Thousand Years,” and was then executed; Shi Dakai left in 1857 and the Taipings declined.",
       "detail": "After making Tianjing its capital the Taiping won great military successes, and in the first half of 1856 it destroyed the Qing’s Jiangbei and Jiangnan Camps, reaching its military peak. But its leaders gradually lost touch with the masses, indulged in pleasure and corruption, and fought over power. East King Yang Xiuqing held military and political power, grew arrogant over his achievements, and often claimed that “the Heavenly Father had descended” to suppress Hong Xiuquan and the other kings, sharpening conflicts. In August 1856 Yang used the Heavenly Father’s name to force Hong to name him “Ten Thousand Years.” Hong outwardly agreed but secretly ordered North King Wei Changhui and Assistant King Shi Dakai, who were away commanding troops, to return and kill Yang. In September Wei rushed back to Tianjing overnight, killed Yang and his family, and slaughtered over twenty thousand of the East King’s men and innocent civilians. When Shi Dakai returned and rebuked Wei for the killings, Wei tried to harm him too; Shi escaped over the city wall by night, and his family was killed. Shi raised troops at Anqing to set things right, Wei then attacked the Heavenly King’s palace, and in November Hong ordered Wei executed. Shi was summoned back to run the government, but Hong distrusted him. In 1857 Shi angrily left Tianjing with many elite troops and fought independently across Jiangxi, Zhejiang, Hunan, Guangxi, Guizhou, Yunnan and elsewhere; in 1863 he was surrounded by Qing forces at Zidadi by the Dadu River in Sichuan, captured and killed. The incident split the Taiping leadership, cost many outstanding commanders and elite troops, and let the Qing counterattack. It was the turning point of the Taiping’s decline, and exposed the limits of the peasant class.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/68d071abab37a177.jpg",
+          "w": 1280,
+          "h": 1044,
+          "caption": "Tianjing Incident - Examination of Embroidered Images and Suppression of Rebellion, Volume 2",
+          "author": "（清）吳友如繪",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:NCPSSD-71020798_%E7%B9%A1%E5%83%8F%E5%89%BF%E9%80%86%E5%9C%96%E8%80%83%E4%BA%8C%E5%8D%B7_%E7%AC%AC%E4%B8%80%E5%86%8C_(page_23_crop).jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%A4%A9%E4%BA%AC%E4%BA%8B%E5%8F%98",
@@ -8869,7 +9047,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791050418
     },
     {
       "id": "e249",
@@ -10637,7 +10816,16 @@
       "title": "Early Communist Groups Established",
       "short": "In 1920, with Comintern help, Chen Duxiu founded the first early communist group in Shanghai; groups followed in Beijing, Wuhan, Changsha and elsewhere, including overseas.",
       "detail": "After the May Fourth Movement, Marxism spread widely in China and gradually merged with the Chinese labor movement, and conditions for founding a Communist Party matured. In spring 1920 the Comintern sent Voitinsky and others to China. In August 1920, with Comintern help, Chen Duxiu and others founded China's first early communist group in Shanghai, with members including Li Hanjun, Li Da, Chen Wangdao and Yu Xiusong, and Chen Duxiu as secretary. The Shanghai group coordinated and promoted party-building elsewhere. In October Li Dazhao and others founded an early communist group in Beijing. Groups were then established by Dong Biwu, Chen Tanqiu and others in Wuhan, Mao Zedong, He Shuheng and others in Changsha, Wang Jinmei, Deng Enming and others in Jinan, and Tan Pingshan and others in Guangzhou; groups also formed among Chinese students and overseas Chinese in Japan and France. Once founded, the groups studied and propagated Marxism in an organized way: they published periodicals such as the monthly The Communist and Marxist works such as the complete Chinese translation of The Communist Manifesto; went into factories to organize workers, ran night schools and helped set up trade unions; and founded the Socialist Youth League, training a body of revolutionary cadres. These activities promoted the merging of Marxism with the Chinese labor movement and prepared the ground ideologically and organizationally for the formal founding of the Communist Party of China. In July 1921 delegates from the groups held the First National Congress in Shanghai, proclaiming the Party's formal founding.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/e98e5942c9d8b5b4.png",
+          "w": 666,
+          "h": 408,
+          "caption": "Early organization of the Communist Party",
+          "license": "unknown",
+          "sourceUrl": "https://p4.itc.cn/q_70/images03/20201220/642f0c9ccce44af3b2078f7dfe2fb3bb.png"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E4%B8%8A%E6%B5%B7%E5%85%B1%E4%BA%A7%E4%B8%BB%E4%B9%89%E5%B0%8F%E7%BB%84",
@@ -10645,7 +10833,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791050508
     },
     {
       "id": "e288",
@@ -12334,7 +12523,26 @@
       "title": "Crushing the Key-Point Offensive (Shaanbei and Menglianggu)",
       "short": "In 1947 the Kuomintang struck at northern Shaanxi and Shandong; Mao led the Central Committee through northern Shaanxi, and the East China Field Army destroyed the 74th Division at Menglianggu.",
       "detail": "In March 1947, after the general offensive had been blunted, Kuomintang forces turned to key-point attacks on the Shaanbei and Shandong liberated areas. In northern Shaanxi, Hu Zongnan led over 200,000 men against Yan'an, while the Liberation Army there numbered only some 20,000. To preserve its strength, Mao Zedong decided to evacuate Yan'an voluntarily, saying: \"If we keep the men and lose the land, both men and land will be kept; if we keep the land and lose the men, both men and land will be lost.\" Mao Zedong, Zhou Enlai and Ren Bishi led the Party Central Committee organs in remaining in northern Shaanxi to direct the national war of liberation, while Liu Shaoqi, Zhu De and others formed the Central Working Committee and went to North China. Peng Dehuai and Xi Zhongxun led the Northwest Field Army in \"dawdling\" tactics, wearing the enemy down, and won three battles in a row at Qinghuabian, Yangmaghe and Panlong, destroying over 14,000 enemy troops and stabilizing the situation in northern Shaanxi. In Shandong, the Kuomintang massed 450,000 troops against the liberated area. In May 1947 the East China Field Army under Chen Yi and Su Yu concentrated superior forces and wiped out the entire reorganized 74th Division, over 32,000 men, in the Menglianggu area of Mengyin County, Shandong, killing its commander Zhang Lingfu. The battle crushed the Kuomintang's key-point offensive in Shandong. The people of the Yimeng mountain area gave eager support to the front, and moving stories emerged such as that of the \"Red Sisters of Yimeng,\" who nursed the wounded with their own milk. By June 1947, after a year of fighting, the Liberation Army had destroyed 1.12 million Kuomintang troops, the key-point offensive had been crushed, and the course of the war had turned in the Liberation Army's favor. The Liberation Army then moved to a strategic offensive.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/78d94ae0d9e66de1.jpg",
+          "w": 500,
+          "h": 345,
+          "caption": "People's Liberation Army storms Menglianggu",
+          "author": "北京：人民出版社",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Civil_war_1946.jpg"
+        },
+        {
+          "src": "images/69b126edf0dadc53.jpg",
+          "w": 400,
+          "h": 338,
+          "caption": "Su Yu (粟裕), the 2nd from the left, was investigating the front field before the Menglianggu Campaign started",
+          "author": "北京：新华社",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Su_Yu_at_MengLiangGu_Battle_1947.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%AD%9F%E8%89%AF%E5%B4%AE%E6%88%98%E5%BD%B9",
@@ -12342,7 +12550,8 @@
         }
       ],
       "type": "War",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791050585
     },
     {
       "id": "e332",
@@ -12351,7 +12560,16 @@
       "title": "Liu-Deng Army Leaps to the Dabie Mountains",
       "short": "In summer 1947 Liu Bocheng and Deng Xiaoping led their field army across the Yellow River and a thousand li south into the Dabie Mountains, opening the Liberation Army's strategic offensive.",
       "detail": "After a year of fighting on interior lines, the Liberation Army had crushed the Kuomintang's general and key-point offensives, and the course of the war had turned in the people's favor. To carry the war into Kuomintang territory, on the night of 30 June 1947 Liu Bocheng and Deng Xiaoping led over 120,000 men of the main force of the Shanxi-Hebei-Shandong-Henan Field Army across the Yellow River in southwestern Shandong, and won the Battle of Southwest Shandong. The army then marched without a rear base straight into the heart of Kuomintang territory, reaching the Dabie Mountains at the end of August. The Dabie Mountains lie where Hubei, Henan and Anhui meet, pressing on Nanjing to the east and Wuhan to the west and bordering the Yangtze to the south, a position of great strategic importance. After entering the mountains the Liu-Deng army quickly deployed, set up base areas, and with local support crushed Kuomintang encirclement attacks and gained a firm footing. At the same time the Taiyue Column under Chen Geng and Xie Fuzhi advanced into western Henan, and the main force of the East China Field Army under Chen Yi and Su Yu advanced into the Henan-Anhui-Jiangsu border region. The three armies formed a triangular formation between the Yangtze, Huai, Yellow and Han Rivers, cooperating and fighting in mobile warfare, and created the Central Plains Liberated Area. On other fronts the Liberation Army likewise went over to the offensive. The leap into the Dabie Mountains opened the strategic offensive, carried the war into Kuomintang territory, and made the Central Plains the forward base for attacking Nanjing and Wuhan, the centers of Kuomintang rule. In December 1947 Mao Zedong declared: \"The Chinese people's revolutionary war has now reached a turning point.\"",
-      "images": [],
+      "images": [
+        {
+          "src": "images/600117cdb1e521d7.jpg",
+          "w": 275,
+          "h": 183,
+          "caption": "Liu and Deng's troops leaped thousands of miles into the Dabie Mountains Memorial Hall",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQSPi9SIHWfdrY81ihfXFQThZouTsXzAeQpZeKbdV7kQ&s"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%8D%83%E9%87%8C%E8%B7%83%E8%BF%9B%E5%A4%A7%E5%88%AB%E5%B1%B1",
@@ -12359,7 +12577,8 @@
         }
       ],
       "type": "War",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791050661
     },
     {
       "id": "e333",
@@ -12446,7 +12665,35 @@
       "title": "Huaihai Campaign",
       "short": "In late 1948 the Central Plains and East China Field Armies fought the Huaihai Campaign, destroying over 550,000 enemy troops and liberating most of East China and the Central Plains.",
       "detail": "After victory in the Liaoshen Campaign, the Party Central Committee decided to launch the Huaihai Campaign over the broad region centered on Xuzhou. For unified command it formed a General Front Committee of Liu Bocheng, Chen Yi, Deng Xiaoping, Su Yu and Tan Zhenlin, with Deng Xiaoping as secretary. On 6 November 1948 the Central Plains and East China Field Armies, 600,000 men in all, began the campaign against 800,000 Kuomintang troops. It had three stages. In the first, the East China Field Army destroyed Huang Baitao's army group at Nianzhuang, and Huang killed himself; He Jifeng and Zhang Kexia, deputy commanders of the Kuomintang Third Pacification Zone, led their troops in revolt. In the second, the Central Plains Field Army, with the East China Field Army, destroyed Huang Wei's army group in the Shuangduiji area of Su County, Anhui, and captured Huang Wei. In the third, the East China Field Army destroyed Du Yuming's group, which had withdrawn from Xuzhou, in the Chenguanzhuang area of Yongcheng, Henan, capturing Du Yuming and killing Qiu Qingquan. The campaign ended in victory on 10 January 1949 after 66 days, with the Liberation Army's 600,000 defeating 800,000 Kuomintang troops and destroying over 555,000 of them. East China and the Central Plains north of the Yangtze were largely liberated, and the Kuomintang capital Nanjing came under direct threat. It was the campaign that destroyed the most enemy troops and had the greatest political impact of the three. In it, over five million peasant laborers from East China, the Central Plains and other liberated areas supported the front, and Chen Yi said with deep feeling: \"The victory of the Huaihai Campaign was pushed forward by the people on wheelbarrows.\" The Huaihai Campaign Martyrs' Memorial Tower and museum stand in Xuzhou, Jiangsu.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/1663a6dd6dac3bc2.jpg",
+          "w": 1280,
+          "h": 940,
+          "caption": "During the Battle of Huaihai, the tanks of the East China Tank Brigade of the Chinese People's Liberation Army cooperated with the infantry to launch an attack",
+          "author": "Unknown authorUnknown author",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:PLAHuaihai.jpg"
+        },
+        {
+          "src": "images/7df6c671878b99dc.png",
+          "w": 796,
+          "h": 1113,
+          "caption": "The three military campaigns done by the CCP from 1948-1949",
+          "author": "SY",
+          "license": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Three_Campaigns_of_Chinese_Civil_War.png"
+        },
+        {
+          "src": "images/97154bb6c1f41f53.png",
+          "w": 1280,
+          "h": 960,
+          "caption": "The map on the eve of Hsupeng battle (Huaihai campaign) on Nov 05 1948 in Chinese Civil War",
+          "author": "Persianbeats",
+          "license": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Map_of_Hsupeng_battle_(Huaihai_campaign)_on_Nov_05_1948_in_Chinese_Civil_War.png"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E6%B7%AE%E6%B5%B7%E6%88%98%E5%BD%B9",
@@ -12454,7 +12701,8 @@
         }
       ],
       "type": "War",
-      "majorScore": 7
+      "majorScore": 7,
+      "updatedAt": 1791050748
     },
     {
       "id": "e337",
@@ -12517,10 +12765,22 @@
       "detail": "After the three great campaigns the Kuomintang's main military force had largely been destroyed. To gain time and rebuild its army, Chiang Kai-shek announced his \"retirement\" in January 1949, and Vice President Li Zongren became acting president and entered peace talks with the Communist Party, hoping to \"divide China at the Yangtze.\" In April 1949 delegates of both sides held talks in Beiping, but the Nanjing National Government refused to sign the peace agreement and the talks broke down. On 21 April Mao Zedong and Zhu De issued the Order to the Army for a Nationwide Advance. One million men of the Second and Third Field Armies, along a front of over 500 kilometers from Hukou in Jiangxi in the west to Jiangyin in Jiangsu in the east, crossed the Yangtze in three columns and quickly broke through the river defenses the Kuomintang had labored to build. The Kuomintang Navy's Second Coastal Defense Fleet rose in revolt near Nanjing. On 23 April the Liberation Army occupied Nanjing, the center of Kuomintang rule, and the Kuomintang government moved to Guangzhou, marking the collapse of its rule on the mainland. On hearing the news, Mao wrote the famous lines \"Wind and rain sweep over Zhongshan Mountain, a million brave troops cross the great river,\" and \"We should pursue the retreating enemy with all our remaining strength, and not seek vain fame like the overlord of Chu.\" The Liberation Army then pressed on, liberating Hangzhou, Wuhan and Shanghai in May, while the Fourth and First Field Armies advanced into Central-South and Northwest China; by 1950 the whole mainland except for Taiwan and some islands was largely liberated. The Memorial Hall of the Yangtze Crossing Victory in Nanjing, Jiangsu, presents this history.",
       "images": [
         {
-          "src": "images/fdc0ebb701478938.jpg",
-          "w": 400,
-          "h": 261,
-          "caption": "Liberation Army troops force the Yangtze crossing"
+          "src": "images/58dab6ee7379c654.jpg",
+          "w": 980,
+          "h": 726,
+          "caption": "The People's Liberation Army on top of the Presidential Palace in Nanjing",
+          "author": "邹健东 (Zou Jiandong)",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:People%27s_Liberation_Army_occupied_the_presidential_palace_1949.jpg"
+        },
+        {
+          "src": "images/b51ef55a920e04fa.jpg",
+          "w": 350,
+          "h": 400,
+          "caption": "In April 1949, Su Yu announced the crossing order to the Third Field Army",
+          "author": "Unknown authorUnknown author",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Suyu1949.jpg"
         }
       ],
       "sources": [
@@ -12530,7 +12790,8 @@
         }
       ],
       "type": "War",
-      "majorScore": 8
+      "majorScore": 8,
+      "updatedAt": 1791050834
     },
     {
       "id": "e340",
@@ -12800,7 +13061,17 @@
       "title": "Liu Qingshan and Zhang Zishan Case",
       "short": "In 1952 Liu Qingshan and Zhang Zishan were sentenced to death for embezzlement, the first major anti-corruption case of New China, which spurred the Three-Anti and Five-Anti campaigns.",
       "detail": "In New China's early years, some Party cadres grew complacent in peacetime, and embezzlement, waste and bureaucratism appeared. At the end of 1951 the Party Central Committee launched the Three-Anti campaign against corruption, waste and bureaucratism; in early 1952 it began the Five-Anti campaign among private industrialists and merchants. Liu Qingshan and Zhang Zishan were both veteran cadres who had joined the revolution many years earlier and contributed to it, and they successively served as Party secretary of the Tianjin prefecture. Using their positions, they misappropriated state disaster relief grain and funds, special river-control funds, and relief funds for cadres' families, embezzling and squandering over 17.1 billion yuan of public money (in old currency, about 1.71 million in new currency). After the case was exposed, the Hebei Provincial Party Committee proposed the death penalty for both. When some pleaded for leniency because they were veteran revolutionaries who had served, Mao Zedong said: \"It is precisely because their positions were high, their merits great and their influence large that we must resolve to execute them. Only by executing them can we save 20, 200, 2,000 or 20,000 cadres who have committed errors of varying degrees.\" On 10 February 1952 the Hebei Provincial People's Court held a public trial in Baoding and sentenced Liu Qingshan and Zhang Zishan to death, with immediate execution. It was the first major anti-corruption case of New China. It showed the Party's determination to oppose corruption and govern itself strictly, and strongly advanced the Three-Anti and Five-Anti campaigns, which largely ended in October 1952 and created conditions for planned economic construction.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/0328b6264992dca3.png",
+          "w": 1199,
+          "h": 569,
+          "caption": "On February 10, 1952, Liu Qingshan and Zhang Zishan were publicly tried at Baoding People’s Stadium",
+          "author": "《人民画报》",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:1952-03_1952%E5%B9%B42%E6%9C%8810%E6%97%A5%E5%88%98%E9%9D%92%E5%B1%B1%E5%BC%A0%E5%AD%90%E5%96%84%E5%9C%A8%E4%BF%9D%E5%AE%9A%E4%BA%BA%E6%B0%91%E4%BD%93%E8%82%B2%E5%9C%BA%E5%85%AC%E5%AE%A1.png"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%88%98%E9%9D%92%E5%B1%B1%E5%BC%A0%E5%AD%90%E5%96%84%E6%A1%88",
@@ -12808,7 +13079,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 3
+      "majorScore": 3,
+      "updatedAt": 1791050876
     },
     {
       "id": "e345",
@@ -12967,7 +13239,17 @@
       "title": "On the Ten Major Relationships and the Eighth Party Congress",
       "short": "In 1956 Mao Zedong's On the Ten Major Relationships began the search for a Chinese path of development, and the Eighth CCP National Congress called for focusing on the productive forces.",
       "detail": "After socialist transformation was largely complete, the Communist Party began to explore a road of socialist construction suited to China's conditions. In February 1956 the 20th Congress of the Soviet Communist Party met and Khrushchev denounced Stalin, exposing some flaws in the Soviet model. The Party Central Committee recognized that Soviet experience could not simply be copied, and that China should take the Soviet Union as a mirror and find its own way. In April 1956 Mao Zedong delivered On the Ten Major Relationships at an enlarged meeting of the Politburo, discussing ten questions such as the relationship of heavy industry to light industry and agriculture, and calling for mobilizing all positive factors to serve the cause of socialism. It marked a good beginning of the Party's exploration of China's own road of socialist construction. That year Mao also put forward the policies of \"Let a hundred flowers bloom, let a hundred schools of thought contend\" and of \"long-term coexistence and mutual supervision.\" In September 1956 the Eighth National Congress of the Chinese Communist Party met in Beijing. It stated that the socialist system had largely been established in China, that the main contradiction at home was between the people's demand for an advanced industrial country and the reality of a backward agrarian one, and that the main task of the Party and the people was to concentrate on developing the productive forces and turn China as quickly as possible from a backward agrarian country into an advanced industrial one. It held to an economic construction policy of opposing both conservatism and rash advance and moving steadily forward in comprehensive balance, and stressed collective leadership, opposition to the personality cult and the development of inner-Party democracy. The line of the Eighth Congress was correct but was not well upheld afterward.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/89710ca36b2760aa.jpg",
+          "w": 1280,
+          "h": 941,
+          "caption": "Chairman Mao delivering his opening speech for 8th National Congress of the Communist Party of China",
+          "author": "齐观山 吕厚民",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Big_issue_for_600_million_people.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E5%85%B1%E4%BA%A7%E5%85%9A%E7%AC%AC%E5%85%AB%E6%AC%A1%E5%85%A8%E5%9B%BD%E4%BB%A3%E8%A1%A8%E5%A4%A7%E4%BC%9A",
@@ -12975,7 +13257,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791050910
     },
     {
       "id": "e351",
@@ -13449,7 +13732,7 @@
           "w": 500,
           "h": 349,
           "caption": "",
-          "author": "United Nations General Assembly (Q47423)",
+          "author": "联合国大会​（Q47423）",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:UN2758_zh.JPG"
         },
@@ -13480,7 +13763,7 @@
       ],
       "type": "Foreign relations",
       "majorScore": 8,
-      "updatedAt": 1791000467
+      "updatedAt": 1791050943
     },
     {
       "id": "e096",
@@ -13714,7 +13997,17 @@
       "title": "Reinstatement of the College Entrance Exam",
       "short": "In 1977, under Deng Xiaoping, the college entrance exam was restored after a ten-year break; 5.7 million sat it that winter, putting higher education back on track.",
       "detail": "After the Cultural Revolution began, schools were forced to “suspend classes to make revolution,” and college admissions also halted. After 1970 some universities resumed enrollment but abolished examinations, using instead a recommendation system of “voluntary application, recommendation by the masses, approval by leaders and review by the school” to admit “worker-peasant-soldier students,” and educational quality fell sharply. In 1977 Deng Xiaoping, who had returned to work, volunteered to take charge of science, technology and education. In August, at a forum on science and education, he heard scientists’ and educators’ proposals to restore the entrance exam and decided on the spot to do so that very year. He said: “This year we must resolve to recruit students directly from high-school graduates, and stop the recommendation system.” In October the State Council approved the Ministry of Education’s Opinions on the 1977 University Admissions Work, announcing the restoration of the unified national entrance examination, with voluntary registration, a unified exam and admission by merit. In the winter of 1977, 5.7 million people sat the exam and more than 270,000 were admitted; in the summer of 1978 another 6.1 million took it. The restoration brought renewed respect for knowledge and talent, selected many outstanding people for the country and changed the fate of millions of young people. In March 1978 the National Science Conference was held, where Deng put forward that “science and technology are productive forces” and that “intellectuals are part of the working class,” ushering in the “spring of science.” Restoring the exam was an important breakthrough in setting right the wrongs of the previous years and had a profound impact on China’s modernization.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/d7e186be986b7179.jpg",
+          "w": 1280,
+          "h": 1823,
+          "caption": "The State Council approved and forwarded the Ministry of Education’s opinions on the enrollment of higher education institutions in 1977 (Guofa [1977] No. 112)",
+          "author": "State Council of the People's Republic of China",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E5%9B%BD%E5%8A%A1%E9%99%A2%E6%89%B9%E8%BD%AC%E6%95%99%E8%82%B2%E9%83%A8%E5%85%B3%E4%BA%8E%E4%B8%80%E4%B9%9D%E4%B8%83%E4%B8%83%E5%B9%B4%E9%AB%98%E7%AD%89%E5%AD%A6%E6%A0%A1%E6%8B%9B%E7%94%9F%E5%B7%A5%E4%BD%9C%E7%9A%84%E6%84%8F%E8%A7%81%EF%BC%88%E5%9B%BD%E5%8F%91%E3%80%941977%E3%80%95112%E5%8F%B7%EF%BC%89.pdf"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E6%81%A2%E5%A4%8D%E9%AB%98%E8%80%83",
@@ -13722,7 +14015,8 @@
         }
       ],
       "type": "Culture",
-      "majorScore": 7
+      "majorScore": 7,
+      "updatedAt": 1791050980
     },
     {
       "id": "e367",
@@ -13968,7 +14262,17 @@
       "title": "Setting Things Right and the History Resolution",
       "short": "After 1978 unjust cases were redressed and wrongs set right; the 1981 Resolution on Party History fully repudiated the Cultural Revolution and gave an assessment of Mao Zedong.",
       "detail": "Alongside the tide of liberated thinking, work to redress unjust, false and wrongly decided cases began nationwide. During the Cultural Revolution large numbers of cadres and ordinary people were persecuted, producing countless such cases. Under Hu Yaobang and others, the Organization Department of the Party Central Committee carried out the work comprehensively; by the end of 1982 more than three million cases had been redressed and over 470,000 Party members had their membership restored. In 1980 the Fifth Plenary Session of the 11th Central Committee fully rehabilitated Liu Shaoqi, restoring the reputation of the head of state who had died after being wronged. In 1980–1981 a Special Court of the Supreme People’s Court tried the principal members of the Lin Biao and Jiang Qing counter-revolutionary cliques in public. To sum up the experience and lessons since 1949, in June 1981 the Sixth Plenary Session of the 11th Central Committee adopted the Resolution on Certain Questions in the History of Our Party Since the Founding of the People’s Republic of China. It summarized the Party’s major historical events since 1949, fully repudiated the theory and practice of the Cultural Revolution, and assessed Mao Zedong’s historical standing, concluding that his achievements were primary and his errors secondary, and affirmed the great significance of Mao Zedong Thought as the Party’s guiding ideology. Its adoption marked the successful completion of the task of setting things right in guiding ideology.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/d179e33e8b252792.jpg",
+          "w": 1280,
+          "h": 1546,
+          "caption": "Deng Xiaoping",
+          "author": "Schumacher, Karl H.",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:DengXiaoping.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%85%B3%E4%BA%8E%E5%BB%BA%E5%9B%BD%E4%BB%A5%E6%9D%A5%E5%85%9A%E7%9A%84%E8%8B%A5%E5%B9%B2%E5%8E%86%E5%8F%B2%E9%97%AE%E9%A2%98%E7%9A%84%E5%86%B3%E8%AE%AE",
@@ -13976,7 +14280,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791051016
     },
     {
       "id": "e371",
@@ -13985,7 +14290,24 @@
       "title": "12th and 13th Party Congresses",
       "short": "In 1982 Deng Xiaoping called for “building socialism with Chinese characteristics”; in 1987 the 13th Party Congress set out the primary stage of socialism and the Party’s basic line.",
       "detail": "After the Third Plenary Session of the 11th Central Committee, Deng Xiaoping led the Communist Party in making a series of major decisions that pushed reform, opening-up and socialist modernization forward. In September 1982 the 12th National Congress of the Communist Party of China was held in Beijing. In his opening speech Deng said: “Integrate the universal truth of Marxism with the concrete realities of China, find our own path and build socialism with Chinese characteristics: this is the basic conclusion we have drawn from long historical experience.” The Congress set the strategic goal of quadrupling the gross annual output value of industry and agriculture by the end of the 20th century. In October 1987 the 13th National Congress was held. It systematically set out the theory of the primary stage of socialism, holding that China was then in that stage. It laid down the Party’s basic line for that stage: to lead and unite the people of all ethnic groups in focusing on economic development, upholding the Four Cardinal Principles and persisting in reform and opening-up, striving to build China into a prosperous, democratic and culturally advanced modern socialist country, summed up as “one central task, two basic points.” It also put forward a “three-step” strategy for economic development: meet basic needs, reach a moderately prosperous level, and basically achieve modernization by the middle of the 21st century. The two Congresses charted the course for building socialism with Chinese characteristics, and Deng Xiaoping Theory gradually took shape; in 1997 the 15th Congress established it as the Party’s guiding ideology.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/1db9032daac942a4.jpg",
+          "w": 550,
+          "h": 325,
+          "caption": "12th National Congress of the Communist Party of China",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvVB1EpeGgviYCsuB35Morm8cGjmoaP76WNHFNweacsxN47zhkI22wJj0&s=10"
+        },
+        {
+          "src": "images/59d5b37d20850a44.jpg",
+          "w": 554,
+          "h": 324,
+          "caption": "13th National Congress of the Communist Party of China",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRISz1PtbtHvxxL6zbs76p5i5rYqhFG_UZ2fsnRtm5QVz02Lbh7eRG7uZc&s=10"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E5%85%B1%E4%BA%A7%E5%85%9A%E7%AC%AC%E5%8D%81%E4%BA%8C%E6%AC%A1%E5%85%A8%E5%9B%BD%E4%BB%A3%E8%A1%A8%E5%A4%A7%E4%BC%9A",
@@ -13993,7 +14315,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791051162
     },
     {
       "id": "e372",
@@ -14002,7 +14325,17 @@
       "title": "Urban Economic Reform",
       "short": "In October 1984 the Third Plenum of the 12th Central Committee adopted the Decision on Economic Structural Reform, shifting reform’s focus from countryside to cities and invigorating enterprises.",
       "detail": "Success in the countryside laid the foundation for deeper reform, and the wave of reform spread from rural areas to cities. Under the highly centralized planned economy, state-owned enterprises were appendages of the government, lacked autonomy and were inefficient, and the economy lacked vitality. In October 1984 the Third Plenary Session of the 12th Central Committee adopted the Decision on Economic Structural Reform, which stated that the socialist economy is a planned commodity economy based on public ownership. This broke with the traditional view that set the planned economy against the commodity economy, and marked a shift in the focus of reform from the countryside to cities as economic reform unfolded across the board. Urban reform took invigorating enterprises as its central link: separating government from enterprise management, separating ownership from management to a suitable degree, expanding enterprise autonomy, and introducing contract management and the factory director (manager) responsibility system so that enterprises ran themselves and bore their own profits and losses. Public ownership remained dominant while individual, private and foreign-funded sectors were allowed and encouraged to develop together. Self-employed traders and private businesses appeared in large numbers, with Nian Guangjiu’s “Fool’s Melon Seeds” a well-known example. In 1986 China promulgated the Enterprise Bankruptcy Law (Trial), and the Shenyang Explosion-Proof Equipment Factory became the first state-owned enterprise to go bankrupt in the People’s Republic. Urban reform invigorated enterprises, promoted the commodity economy and clearly raised material and cultural living standards, though problems such as rising prices also appeared.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/24d25895df880d4a.jpg",
+          "w": 1280,
+          "h": 1920,
+          "caption": "Deng Xiaoping, known as the \"chief architect of reform and opening up\", was the core figure in bringing order to the chaos and in reform and opening up (pictured is the statue of Deng Xiaoping located on the top of Lotus Mountain in Shenzhen Special Economic Zone)",
+          "author": "张元柏",
+          "license": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:2011_%E6%B7%B1%E5%9C%B3_%E8%8E%B2%E8%8A%B1%E5%B1%B1%E9%A1%B6%EF%BC%8D%E9%82%93%E5%B0%8F%E5%B9%B3%E5%A4%B4%E5%83%8F_-_panoramio.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E6%94%B9%E9%9D%A9%E5%BC%80%E6%94%BE",
@@ -14010,7 +14343,8 @@
         }
       ],
       "type": "Economy",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791051063
     },
     {
       "id": "e373",
@@ -14067,7 +14401,17 @@
       "title": "Million-Strong Troop Reduction",
       "short": "In 1985 the Central Military Commission decided to cut the armed forces by one million, largely completed by 1987, setting the People’s Liberation Army on a path to a leaner force.",
       "detail": "Entering the 1980s, Party and state leaders correctly foresaw that a world war would not break out for the time being and that peace and development were the themes of the age. On this judgment China adjusted its guiding thinking on national defense, shifting from preparing for an early, large-scale nuclear war to a track of peacetime construction. Since 1949 the People’s Liberation Army had been large, with bloated organizations, excess personnel and low efficiency, and its total strength stood at over four million. In June 1985 an enlarged meeting of the Central Military Commission was held in Beijing, where Deng Xiaoping announced that the PLA would reduce its strength by one million. Over the next two years the army abolished or merged a large number of organizations at army level and above, merged the original eleven military regions into seven, reorganized armies into group armies, trimmed headquarters and non-combat personnel, and transferred some units to local authorities. By 1987 the reduction was basically complete, with total strength down to about 3.2 million. It streamlined the structure, improved the organization and raised combat capability, putting the PLA on a path to a lean force with Chinese characteristics and speeding its revolutionization, modernization and regularization. The cuts also lightened the state’s economic burden, helped concentrate efforts on economic construction and showed the world China’s sincerity in safeguarding peace. In 1988 the PLA restored its system of military ranks. China later made further reductions in 1997, 2003 and 2015, slimming the force toward a lean, joint and efficient military.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/f4a022dc50a72fba.jpg",
+          "w": 1077,
+          "h": 1330,
+          "caption": "Deng Xiaoping, Chairman of the Central Military Commission of the Communist Party of China",
+          "author": "Unknown or not provided",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Deng_Xiaoping.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E7%99%BE%E4%B8%87%E5%A4%A7%E8%A3%81%E5%86%9B",
@@ -14075,7 +14419,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 4
+      "majorScore": 4,
+      "updatedAt": 1791051214
     },
     {
       "id": "e376",
@@ -14108,7 +14453,24 @@
       "title": "Taiwan Compatriots Visit Relatives on the Mainland",
       "short": "In 1987 the Taiwan authorities allowed residents to visit relatives on the mainland, ending nearly four decades of isolation; economic and cultural exchanges then grew rapidly.",
       "detail": "After the Kuomintang retreated to Taiwan in 1949, the two sides of the Taiwan Strait long remained in military standoff and isolation. After the Message to Compatriots in Taiwan in 1979, the mainland actively promoted the cross-strait “three links” and exchanges. The Taiwan authorities at first held to the “three noes” policy of no contact, no negotiation and no compromise. As calls among Taiwan’s people to visit relatives grew louder, in 1987, under pressure from sources such as the “homesick” campaign of Taiwan’s veterans, the authorities were forced to adjust the “three noes.” In October that year they announced that Taiwan residents could visit relatives on the mainland, with registration from 2 November. In November the first Taiwan compatriots traveled to the mainland by way of Hong Kong, Tokyo and elsewhere, and many relatives separated for thirty or forty years were finally reunited. This ended nearly four decades of isolation and opened a new chapter in cross-strait exchanges. Afterward personnel exchanges, economic cooperation and cultural ties grew rapidly, more and more Taiwan compatriots visited relatives, traveled, invested and did business on the mainland, and Taiwan became an important trading partner and source of investment for the mainland. After 1990 the two sides set up the Straits Exchange Foundation and the Association for Relations Across the Taiwan Straits to hold working-level consultations. In 2008 the two sides achieved full, direct, two-way “three links” of mail, transport and trade. Wider exchanges deepened mutual understanding and kinship and promoted peaceful development of relations.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/d7b0c25cf3f7de11.jpg",
+          "w": 313,
+          "h": 450,
+          "caption": "Zhu Wenli, 80 years old, returned to his hometown in 1985",
+          "license": "unknown",
+          "sourceUrl": "https://www.chinanews.com.cn/tw/kong/news/2007/12-19/U102P4T8D1109281F116DT20071219164203.jpg"
+        },
+        {
+          "src": "images/01c32ac34c4ffc73.jpg",
+          "w": 395,
+          "h": 450,
+          "caption": "Liu Youneng shows the envelope from that year",
+          "license": "unknown",
+          "sourceUrl": "https://www.chinanews.com.cn/tw/kong/news/2007/12-19/U102P4T8D1109281F107DT20071219164203.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E4%B8%A4%E5%B2%B8%E5%85%B3%E7%B3%BB",
@@ -14116,7 +14478,8 @@
         }
       ],
       "type": "Society",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791051311
     },
     {
       "id": "e378",
@@ -14153,7 +14516,17 @@
       "title": "Deng Xiaoping’s Southern Tour",
       "short": "In early 1992 Deng Xiaoping toured Wuchang, Shenzhen, Zhuhai and Shanghai and gave talks answering questions that troubled people’s minds, moving reform and opening-up into a new stage.",
       "detail": "In the late 1980s and early 1990s the international and domestic situation changed greatly, with upheaval in Eastern Europe and the collapse of the Soviet Union; at home some people had doubts about reform and opening-up and asked whether it was “capitalist” or “socialist.” At this critical moment, from 18 January to 21 February 1992, Deng Xiaoping, then retired and 87 years old, toured Wuchang, Shenzhen, Zhuhai, Shanghai and other places and gave a series of important talks, known as the “Southern Tour Talks.” Deng stressed that the Party’s basic line must hold for a hundred years without wavering: “If we do not uphold socialism, carry out reform and opening-up, develop the economy and improve people’s lives, we will be left with only a dead end.” He said reform and opening-up should be bolder, with the courage to experiment: if something is judged right, try it boldly and break new ground. The criterion for judging it is chiefly whether it is conducive to developing the productive forces of socialist society, to increasing the overall strength of the socialist state and to raising people’s living standards (the “three favorables”). He also gave a penetrating account of planning and the market: “Whether there is more planning or more market is not the essential difference between socialism and capitalism. A planned economy is not equivalent to socialism, for capitalism also has planning; a market economy is not equivalent to capitalism, for socialism also has markets.” The talks theoretically answered many major questions that had long troubled and constrained people’s thinking and marked the maturing of Deng Xiaoping Theory. After the tour, a new wave of reform, opening-up and economic construction swept the country.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/2100aaeec7db6873.jpg",
+          "w": 799,
+          "h": 1065,
+          "caption": "Deng Xiaoping",
+          "author": "Unknown authorUnknown author",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Deng_Xiaoping_at_the_arrival_ceremony_for_the_Vice_Premier_of_China_(cropped).jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E9%82%93%E5%B0%8F%E5%B9%B3%E5%8D%97%E5%B7%A1%E8%AE%B2%E8%AF%9D",
@@ -14161,7 +14534,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 8
+      "majorScore": 8,
+      "updatedAt": 1791051390
     },
     {
       "id": "e380",
@@ -14170,7 +14544,16 @@
       "title": "Establishing the Socialist Market Economy",
       "short": "In 1992 the 14th Party Congress set the goal of economic reform as a socialist market economy, and in 1993 the Third Plenum of the 14th Central Committee outlined its basic framework.",
       "detail": "Since reform and opening-up began, China’s economic reform had moved from a “planned economy supplemented by market regulation” to a “planned commodity economy.” Deng Xiaoping’s Southern Tour Talks removed the ideological constraint of treating the planned and market economies as questions of basic social system. In October 1992 the 14th National Congress of the Communist Party of China set the goal of economic reform as establishing a socialist market economy, with the market playing a basic role in allocating resources under state macroeconomic regulation. In March 1993 the first session of the Eighth National People’s Congress passed a constitutional amendment writing “the state practices a socialist market economy” into the Constitution. In November 1993 the Third Plenary Session of the 14th Central Committee adopted the Decision on Several Issues Concerning the Establishment of a Socialist Market Economy, outlining its basic framework, including a modern enterprise system, a unified and open market system, a macroeconomic regulation system and a social security system. In 1997 the 15th Congress stated that public ownership as the mainstay with diverse forms of ownership developing together is the basic economic system of the primary stage of socialism. By the end of the 20th century the socialist market economy had been initially established. In 2013 the Third Plenary Session of the 18th Central Committee called for the market to play the decisive role in allocating resources while the government plays its role better. Establishing the socialist market economy was a major breakthrough in China’s economic reform, greatly freeing and developing productive forces and driving sustained, rapid economic growth.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/bd80a3a46d61aab5.jpg",
+          "w": 720,
+          "h": 426,
+          "caption": "market economic system",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQytFwmVNCSo8C-cO197kzGk53wa6Nts7PFN4nrFMlcuUhP-GzcCKdooz0&s=10"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E7%A4%BE%E4%BC%9A%E4%B8%BB%E4%B9%89%E5%B8%82%E5%9C%BA%E7%BB%8F%E6%B5%8E",
@@ -14178,7 +14561,8 @@
         }
       ],
       "type": "Economy",
-      "majorScore": 7
+      "majorScore": 7,
+      "updatedAt": 1791051459
     },
     {
       "id": "e381",
@@ -14247,7 +14631,16 @@
       "title": "15th Party Congress and Deng Xiaoping Theory",
       "short": "In 1997 the 15th Party Congress established Deng Xiaoping Theory as the Party’s guiding ideology and set out the basic program for the primary stage of socialism.",
       "detail": "Deng Xiaoping died in Beijing in February 1997. He was the chief architect of China’s socialist reform, opening-up and modernization. Deng Xiaoping Theory took shape under the conditions of peace and development as the themes of the age, and answered basic questions such as what socialism is and how to build it. In September 1997 the 15th National Congress of the Communist Party of China was held in Beijing. Jiang Zemin delivered a report titled “Hold High the Great Banner of Deng Xiaoping Theory for an All-Round Advancement of the Cause of Building Socialism with Chinese Characteristics into the 21st Century.” The Congress established Deng Xiaoping Theory as the Party’s guiding ideology and wrote it into the Party constitution. It set out the Party’s basic program for the primary stage of socialism, held that public ownership as the mainstay with diverse forms of ownership developing together is the basic economic system of that stage, and put forward the basic strategy of governing the country by law and building a socialist country under the rule of law. It also set cross-century goals: to double GNP by 2010 compared with 2000, to develop the national economy further by the Party’s centenary, and to basically achieve modernization by the centenary of the People’s Republic. In 1999 the second session of the Ninth National People’s Congress passed a constitutional amendment writing the guiding role of Deng Xiaoping Theory and the strategy of governing by law into the Constitution. Held at the turn of the century, the Congress charted the course for socialism with Chinese characteristics as it entered the new century.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/b961a6facedde317.jpg",
+          "w": 547,
+          "h": 365,
+          "caption": "The 15th National Congress of the Communist Party of China",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFdMrhl9AYCmDze6tPnomOz6L58nB_0lA8WX3i_tJ9Mg&s=10"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E5%85%B1%E4%BA%A7%E5%85%9A%E7%AC%AC%E5%8D%81%E4%BA%94%E6%AC%A1%E5%85%A8%E5%9B%BD%E4%BB%A3%E8%A1%A8%E5%A4%A7%E4%BC%9A",
@@ -14255,7 +14648,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791051508
     },
     {
       "id": "e384",
@@ -14300,7 +14694,26 @@
       "title": "Western Development Strategy",
       "short": "In 1999 the central government announced the Western Development strategy to speed growth in the west; major projects such as the West–East Gas Pipeline and Qinghai–Tibet Railway followed.",
       "detail": "Since reform and opening-up began, China’s eastern coast developed first, and the gap between east and west gradually widened. The western region comprises 12 provinces, autonomous regions and municipalities, including Chongqing, Sichuan, Guizhou, Yunnan, Tibet, Shaanxi, Gansu, Qinghai, Ningxia, Xinjiang, Inner Mongolia and Guangxi, covering about 71 percent of the country’s land; it is rich in resources but relatively backward in economic and social development. As early as the 1980s Deng Xiaoping put forward the “two overall situations” concept: the coastal areas should open up faster and develop first, and the interior should take that overall situation into account; when development reached a certain point, the coast should devote more strength to helping the interior develop, which was also an overall situation. In 1999 the Party Central Committee proposed the Western Development strategy, and in 2000 the State Council set up a leading group for it, formally launching the effort. It focused on infrastructure and ecological protection: the state increased investment and policy support, built major projects such as the West–East Gas Pipeline, West–East Power Transmission and the Qinghai–Tibet Railway, and carried out ecological programs such as returning farmland to forest, returning grazing land to grassland and natural forest protection. After more than twenty years, transport, communications, energy and other infrastructure in the west improved markedly, growth quickened, living standards rose significantly and ethnic unity was strengthened. In 2020 the Central Committee and State Council issued opinions on forming a new pattern for Western Development.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/de2ab6217dbce351.jpg",
+          "w": 1280,
+          "h": 824,
+          "caption": "Tibetan railway bridge, Qingzang railway.",
+          "author": "Taken by Fanghong",
+          "license": "CC BY 2.5",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:TibetanRailwayBridge.jpg"
+        },
+        {
+          "src": "images/9e205d426d7a2c1a.jpg",
+          "w": 1280,
+          "h": 510,
+          "caption": "The skyline of Chongqing, Photographed at Nanshan",
+          "author": "Oliver Ren",
+          "license": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:SkylineOfChongqing.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E8%A5%BF%E9%83%A8%E5%A4%A7%E5%BC%80%E5%8F%91",
@@ -14308,7 +14721,8 @@
         }
       ],
       "type": "Economy",
-      "majorScore": 6
+      "majorScore": 6,
+      "updatedAt": 1791051588
     },
     {
       "id": "e386",
@@ -14341,7 +14755,16 @@
       "title": "16th Party Congress and the “Three Represents”",
       "short": "In 2002 the 16th Party Congress made the “Three Represents” the Party’s guiding ideology and set the goal of building a moderately prosperous society in all respects.",
       "detail": "In 2000, while inspecting Guangdong, Jiang Zemin first set out the requirements of the “Three Represents” in fairly complete form: that the Party always represent the development requirements of China’s advanced productive forces, the orientation of its advanced culture and the fundamental interests of the overwhelming majority of the people. The thought arose from the great practice of building socialism with Chinese characteristics and answered the questions of what kind of party to build and how to build it. In November 2002 the 16th National Congress of the Communist Party of China was held in Beijing. Jiang Zemin delivered a report titled “Build a Well-Off Society in an All-Round Way and Create a New Situation in Building Socialism with Chinese Characteristics.” The Congress established the “Three Represents,” together with Marxism-Leninism, Mao Zedong Thought and Deng Xiaoping Theory, as the guiding ideology the Party must uphold over the long term, and wrote it into the Party constitution. It noted that people’s living standards had reached a moderately prosperous level overall, but one that was low, uneven and very unbalanced, and called for concentrating efforts in the first two decades of the 21st century on building a higher-level moderately prosperous society benefiting well over a billion people. The Congress elected a new central leadership with Hu Jintao as general secretary. As the first national congress of the new century, it charted the course for building a moderately prosperous society.",
-      "images": [],
+      "images": [
+        {
+          "src": "images/e632d295be8554e5.jpg",
+          "w": 518,
+          "h": 386,
+          "caption": "The 16th National Congress of the Communist Party of China",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkeHB4SPo9hgsUnA24RyQ35os5B6uX6J997tI1K43ytA&s=10"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E5%85%B1%E4%BA%A7%E5%85%9A%E7%AC%AC%E5%8D%81%E5%85%AD%E6%AC%A1%E5%85%A8%E5%9B%BD%E4%BB%A3%E8%A1%A8%E5%A4%A7%E4%BC%9A",
@@ -14349,7 +14772,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 5
+      "majorScore": 5,
+      "updatedAt": 1791051624
     },
     {
       "id": "e388",
@@ -14471,7 +14895,8 @@
           "src": "images/7a6c68462073aaca.jpg",
           "w": 500,
           "h": 375,
-          "caption": "",
+          "caption": "Inside the Beijing National Stadium during the 2008 Summer Olympics",
+          "author": "Tom Nguyen",
           "license": "CC BY 2.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Beijing_Birds_Nest_Olympics_track_.jpg"
         }
@@ -14484,7 +14909,7 @@
       ],
       "type": "Culture",
       "majorScore": 7,
-      "updatedAt": 1791000467
+      "updatedAt": 1791051673
     },
     {
       "id": "e393",
