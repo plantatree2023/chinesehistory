@@ -2170,6 +2170,9 @@
         syncCaptionInput('#imageInfoRows .info-caption', i, cap.value);
         updateLangCounts();
       });
+      cap.addEventListener('change', function () { translateImageCaptions(im, i, LANG); });
+      cap.addEventListener('keydown', function (e) { if (e.key === 'Enter') translateImageCaptions(im, i, LANG); });
+      pasteClipboardOnFocus(cap, function () { translateImageCaptions(im, i, LANG); });
       slot.appendChild(cap);
       box.appendChild(slot);
     });
@@ -2264,6 +2267,21 @@
   $('imageUrlInput').addEventListener('keydown', function (e) {
     if (e.key === 'Enter') { e.preventDefault(); addImageUrl(); }
   });
+  // 点进图片标题输入框时，如果框是空的、剪贴板里有文字，自动粘贴进来（并触发 input 事件同步数据）；afterPaste 在粘贴后调用
+  function pasteClipboardOnFocus(inp, afterPaste) {
+    inp.addEventListener('focus', function () {
+      if (inp.value.trim() || !navigator.clipboard || !navigator.clipboard.readText) return;
+      navigator.clipboard.readText().then(function (text) {
+        text = (text || '').replace(/\s+/g, ' ').trim();
+        if (inp.value.trim() || !text) return;
+        var max = inp.maxLength > 0 ? inp.maxLength : text.length;
+        inp.value = text.slice(0, max);
+        inp.select();
+        inp.dispatchEvent(new Event('input', { bubbles: true }));
+        if (afterPaste) afterPaste();
+      }, function () { /* 没有权限：忽略 */ });
+    });
+  }
 
   // 上传的图片压缩后以 dataURL 保存在本地
   function resizeFile(file, maxSide, cb) {
@@ -2349,6 +2367,7 @@
       input.addEventListener('input', function () { newCaptions[lang] = input.value; });
       // 首选语言的标题改完（离开输入框）后，翻译成其他语言（只填空的或自动填写的）
       if (lang === primaryLang()) input.addEventListener('change', function () { translateFromPrimary(null); });
+      pasteClipboardOnFocus(input, function () { if (lang === primaryLang()) translateFromPrimary(null); });
       item.appendChild(input);
       box.appendChild(item);
     });
@@ -2743,6 +2762,70 @@
   function availableLangs() {
     return Object.keys(siblings).filter(function (l) { return siblings[l].ev; });
   }
+  function resolvedCompareLang() {
+    var langs = availableLangs();
+    return langs.indexOf(compareLang) >= 0 ? compareLang : langs[0];
+  }
+  // 标题翻译成其他语言：只填空的（已有标题不覆盖）。fromLang 是刚编辑过的语言（当前语言或某个对照语言），
+  // 目标语言为除它以外的所有语言（当前语言 + 其他语言）；源语言用 auto 自动识别，避免把英文误当当前语言。
+  // 翻译结果存进 im.caption / im._tr，保存时由 saveSiblings 一起写入各语言的数据集
+  var captionTranslateToken = 0;
+  var captionTranslatePending = Promise.resolve();   // 等所有正在进行的标题自动翻译完成（保存前会等它）
+  function captionText(im, lang) { return lang === LANG ? (im.caption || '') : (trOf(im, lang) || ''); }
+  function setCaption(im, i, lang, text) {
+    if (lang === LANG) {
+      im.caption = text;
+      syncCaptionInput('#imageEditor .slot-caption', i, text);
+      syncCaptionInput('#imageInfoRows .info-caption', i, text);
+    } else {
+      im._tr[lang] = text;
+    }
+  }
+  function updateCompareInput(im, i) {
+    var cmp = resolvedCompareLang();
+    if (!cmp) return;
+    var row = $('imageInfoRows').children[i];
+    var tr = row && row.querySelector('.info-compare');
+    if (!tr) return;
+    var val = trOf(im, cmp);
+    if (tr.value !== val) tr.value = val;
+    tr.classList.toggle('warn', !!(im.caption || '').trim() && !(tr.value || '').trim());
+  }
+  // 文字是否属于该语言（用于判断当前语言框里是否填了外语）：中文看有没有汉字，其他语言看有没有拉丁字母
+  function sameScriptText(text, lang) {
+    if (/^zh/i.test(langCode(lang))) return /[一-鿿]/.test(text);
+    return /[A-Za-z]/.test(text);
+  }
+  function translateImageCaptions(im, i, fromLang) {
+    fromLang = fromLang || LANG;
+    var text = captionText(im, fromLang).trim();
+    var token = ++captionTranslateToken;
+    if (!text) return;
+    // 当前语言框里可能直接填了外语（如中文框里填英文）：先自动识别并翻回当前语言，再以它作为翻译源
+    var ready = Promise.resolve(text);
+    if (fromLang === LANG && !sameScriptText(text, LANG)) {
+      ready = translateText(text, 'auto', langCode(LANG)).then(function (t) {
+        if (token !== captionTranslateToken || !t) return text;
+        setCaption(im, i, LANG, t);
+        return text;   // 用原文作为其他语言的翻译源（原文已是外语，翻回当前语言后再由 auto 识别）
+      });
+    }
+    captionTranslatePending = captionTranslatePending.then(function () {
+      return ready.then(function (src) {
+        var targets = availableLangs().slice();
+        if (fromLang !== LANG) targets.push(LANG);
+        targets = targets.filter(function (l) { return l !== fromLang && !captionText(im, l).trim(); });
+        return Promise.all(targets.map(function (lang) {
+          return translateText(src, 'auto', langCode(lang)).then(function (t) {
+            if (token !== captionTranslateToken || !t) return;
+            setCaption(im, i, lang, t);
+            updateCompareInput(im, i);
+            updateLangCounts();
+          });
+        }));
+      });
+    }).catch(function () {});
+  }
   function syncCaptionInput(selector, i, value) {
     var other = document.querySelector(selector + '[data-index="' + i + '"]');
     if (other && other.value !== value) { other.value = value; other.title = value; }
@@ -2826,6 +2909,9 @@
         syncCaptionInput('#imageEditor .slot-caption', i, cap.value);
         updateLangCounts();
       });
+      cap.addEventListener('change', function () { translateImageCaptions(im, i, LANG); });
+      cap.addEventListener('keydown', function (e) { if (e.key === 'Enter') translateImageCaptions(im, i, LANG); });
+      pasteClipboardOnFocus(cap, function () { translateImageCaptions(im, i, LANG); });
       row.appendChild(cap);
       if (cmp) {
         var s = siblings[cmp], tr = el('input', 'info-compare');
@@ -2837,6 +2923,9 @@
         var markTr = function () { tr.classList.toggle('warn', !!(im.caption || '').trim() && !tr.value.trim()); };
         markTr();
         tr.addEventListener('input', function () { im._tr[cmp] = tr.value; markTr(); updateLangCounts(); });
+        tr.addEventListener('change', function () { translateImageCaptions(im, i, cmp); });
+        tr.addEventListener('keydown', function (e) { if (e.key === 'Enter') translateImageCaptions(im, i, cmp); });
+        pasteClipboardOnFocus(tr, function () { translateImageCaptions(im, i, cmp); });
         row.appendChild(tr);
       }
       var author = el('input', 'info-author');
@@ -2858,7 +2947,23 @@
       src.value = im.sourceUrl || '';
       src.setAttribute('aria-label', _('第 {n} 张图片的来源网址', n));
       src.addEventListener('input', function () { im.sourceUrl = src.value.trim(); markLic(); creditChanged(i); });
-      row.appendChild(src);
+      // 打开来源网址的快捷按钮（样式与参考链接的打开按钮一致）；网址无效时不可点
+      var srcWrap = el('div', 'info-source-wrap');
+      var open = el('a', 'icon-btn source-open', '↗');
+      open.target = '_blank';
+      open.rel = 'noopener';
+      open.title = _('在新标签页中打开');
+      open.setAttribute('aria-label', _('打开第 {n} 张图片的来源网址', n));
+      var syncOpen = function () {
+        var u = (src.value || '').trim();
+        if (/^https?:\/\/\S+$/.test(u)) { open.href = u; open.removeAttribute('aria-disabled'); }
+        else { open.removeAttribute('href'); open.setAttribute('aria-disabled', 'true'); }
+      };
+      syncOpen();
+      src.addEventListener('input', syncOpen);
+      srcWrap.appendChild(src);
+      srcWrap.appendChild(open);
+      row.appendChild(srcWrap);
       if (im._new) row.appendChild(el('div', 'info-note', im.license && im.license !== UNKNOWN_LICENSE
         ? _('✓ 刚添加的图片，版权信息来自上面的版权栏') : _('刚添加的图片：可以在这里补充作者和许可证')));
       rows.appendChild(row);
@@ -3347,14 +3452,17 @@
       events.push(data);
     }
     // 本地文件模式等待写入完成；浏览器模式直接保存到 localStorage。
-    // 然后把图片（版权信息、对照语言的标题）和新增的参考链接同步到其他语言的数据集（上传的图片先保存为文件，路径确定后再同步）
-    var trs = draftImages.slice(0, MAX_IMAGES).map(function (im) { return im._tr || null; });
+    // 然后把图片（版权信息、对照语言的标题）和新增的参考链接同步到其他语言的数据集（上传的图片先保存为文件，路径确定后再同步）；
+    // 先等正在进行的图片标题自动翻译完成，保证翻译结果一起保存
     var newSources = data.sources.filter(function (x) { return openedSourceUrls.indexOf(x.url) < 0; });
-    var written = (fileMode ? saveToFile() : Promise.resolve(save())).then(function (r) {
-      var saved = findEvent(id);
-      return saveSiblings(id, saved ? saved.images || [] : [], trs, newSources).catch(function (e) {
-        toast(_('其他语言的数据写入失败：{error}', { error: e.message }));
-      }).then(function () { return r; });
+    var written = captionTranslatePending.then(function () {
+      var trs = draftImages.slice(0, MAX_IMAGES).map(function (im) { return im._tr || null; });
+      return (fileMode ? saveToFile() : Promise.resolve(save())).then(function (r) {
+        var saved = findEvent(id);
+        return saveSiblings(id, saved ? saved.images || [] : [], trs, newSources).catch(function (e) {
+          toast(_('其他语言的数据写入失败：{error}', { error: e.message }));
+        }).then(function () { return r; });
+      });
     });
     return { id: id, wasEditing: !!editingId, written: written };
   }

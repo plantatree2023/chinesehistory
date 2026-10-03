@@ -261,6 +261,7 @@
     '第 {n} 张图片的作者': 'Author of image {n}',
     '第 {n} 张图片的许可证': 'License of image {n}',
     '第 {n} 张图片的来源网址': 'Source URL of image {n}',
+    '打开第 {n} 张图片的来源网址': 'Open source URL of image {n}',
     '✓ 刚添加的图片，版权信息来自上面的版权栏': '✓ Just added; copyright info taken from the row above',
     '刚添加的图片：可以在这里补充作者和许可证': 'Just added: you can fill in the author and license here',
     '查询中…': 'Looking up…',
