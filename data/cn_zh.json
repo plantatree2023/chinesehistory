@@ -857,10 +857,28 @@
       "detail": "陶寺遗址位于山西省襄汾县东北陶寺村一带，距今约4300—4000年，属于龙山文化陶寺类型。遗址自1978年起进行系统发掘，1999年以后确认了大规模城址，总面积约280万平方米，是黄河中游同时期规模最大的城址之一。城址中部有围墙环绕的宫城，内有多处大型夯土建筑基址，出土了可能用于宫殿屋顶的陶板等建筑构件。城内有等级分明的墓地，大型墓葬随葬彩绘陶鼓、石磬、玉钺、彩绘龙盘等礼器，显示墓主人地位尊贵；而大量小墓几乎没有随葬品，社会分层明显。遗址中还出土了铜铃等小件铜器，以及一件用朱砂书写符号的陶扁壶，有学者认为其中的符号是文字。尤为引人注目的是城址东南发现的一处半圆形夯土建筑，由多根夯土柱构成观测缝，被认为可能是用来观测日出方位、确定节气的观象台。不少学者根据陶寺遗址的位置、年代和规模推测，它可能就是文献记载的“尧都平阳”，说明当时黄河中游已经出现早期国家，对于探索中华文明起源意义重大。陶寺遗址被评为“20世纪中国100项考古大发现”之一，并被列为中华文明探源工程的重点遗址，是研究中原地区早期国家形成的关键资料。",
       "images": [
         {
-          "src": "images/adda429b37e79372.jpg",
-          "w": 800,
-          "h": 695,
-          "caption": "陶寺遗址出土的铜铃、彩绘龙纹陶盘和朱书符号陶壶"
+          "src": "images/a560a1ef0fb46225.jpg",
+          "w": 400,
+          "h": 406,
+          "caption": "陶寺遗址出土的龙盘",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfNsuQ-OvEljiAiTOzZPio4K5CKK5tNC3a7Mq_0sz9w&s=10"
+        },
+        {
+          "src": "images/bae4fe1b836ef2aa.jpg",
+          "w": 272,
+          "h": 600,
+          "caption": "陶寺遗址出土的玉钺",
+          "license": "unknown",
+          "sourceUrl": "http://www.people.com.cn/mediafile/pic/20180717/42/12937177497738026790.jpg"
+        },
+        {
+          "src": "images/b01fa3371433a29c.jpg",
+          "w": 400,
+          "h": 348,
+          "caption": "陶寺遗址出土的铜齿轮形器",
+          "license": "unknown",
+          "sourceUrl": "http://www.people.com.cn/mediafile/pic/20180717/79/16714227506935555287.jpg"
         }
       ],
       "sources": [
@@ -870,7 +888,8 @@
         }
       ],
       "type": "史前",
-      "majorScore": 4
+      "majorScore": 4,
+      "updatedAt": 1791041418
     },
     {
       "id": "e110",
@@ -881,10 +900,12 @@
       "detail": "相传在黄帝之后，黄河流域有许多部族。为增强实力，陶唐氏、有虞氏和夏后氏等部族结成联盟，尧、舜、禹依次担任联盟首领。当时实行禅让制，即通过推举，把联盟首领的位置传给有才能、有德行的人，而不是传给自己的儿子。相传尧鼓励人们开垦农田，命羲和等观测天象、制定历法，指导人们按时耕种。尧年老时，征求各部族首领的意见，大家推举以孝行著称的舜作为继承人。尧对舜进行了多年考察，才把首领之位让给他。舜在位时制定刑法，选拔贤能，完善制度，稳定局势，又派禹治理洪水，解除水患。舜年老时，又让位于治水有功的禹。禅让制反映了原始社会末期部落联盟推选首领的民主遗风，后世儒家把它视为“天下为公”的理想政治，《礼记·礼运》以“大道之行也，天下为公，选贤与能”来概括这一时代。也有古籍如《竹书纪年》对禅让提出不同说法，反映出这段历史带有浓厚的传说色彩。禹死后，其子启继承王位，“公天下”变为“家天下”，禅让制被王位世袭制取代。尽管尧、舜、禹的事迹缺乏同时代文字记载，但这些传说反映了我国原始社会末期部落联盟的组织形式和首领推举方式，具有重要的史料价值。",
       "images": [
         {
-          "src": "images/1498f75db8b6fc15.jpg",
-          "w": 860,
-          "h": 484,
-          "caption": "禅让制"
+          "src": "images/7b3186ebb581c816.webp",
+          "w": 1284,
+          "h": 419,
+          "caption": "禅让制",
+          "license": "unknown",
+          "sourceUrl": "https://contentcenter-drcn.dbankcdn.cn/img/pub_1/Browser_contentImg_1178_8/c6/v3/1051178OCMS1588517974e1a39b_si_-2/9aa5d39f02b545048326a021b50d7cf8_5_0/hd.webp"
         }
       ],
       "sources": [
@@ -894,7 +915,8 @@
         }
       ],
       "type": "政治",
-      "majorScore": 7
+      "majorScore": 7,
+      "updatedAt": 1791041489
     },
     {
       "id": "e009",
@@ -923,16 +945,31 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nine_Provinces_of_China.png"
         },
         {
-          "src": "images/2457b634555a7ee0.jpg",
-          "w": 500,
-          "h": 730,
-          "caption": "大禹"
+          "src": "images/0d309912f84f620b.jpg",
+          "w": 1280,
+          "h": 1869,
+          "caption": "大禹",
+          "author": "Unknown Chinese artist",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Portraits_of_Famous_Men_-_Da_Yu.jpg"
         },
         {
-          "src": "images/cb67bb7be39f2f06.jpg",
-          "w": 500,
-          "h": 780,
-          "caption": "夏禹治水"
+          "src": "images/42104b6b5b2b0ee6.jpg",
+          "w": 1280,
+          "h": 1998,
+          "caption": "​夏禹治水",
+          "author": "Unknown authorUnknown author",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E5%A4%8F%E7%A6%B9%E6%B2%BB%E6%B0%B4%EF%BC%88%E5%BB%BF%E4%B8%80%E5%8F%B2%E9%80%9A%E4%BF%97%E8%A1%8D%E7%BE%A9%EF%BC%89.jpg"
+        },
+        {
+          "src": "images/7b9bc38569bc0175.jpg",
+          "w": 1280,
+          "h": 2770,
+          "caption": "夏禹王立像",
+          "author": "Ma Lin",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:King_Yu_of_Xia.jpg"
         }
       ],
       "sources": [
@@ -943,7 +980,7 @@
       ],
       "type": "社会",
       "majorScore": 6,
-      "updatedAt": 1791001546
+      "updatedAt": 1791041706
     },
     {
       "id": "e010",

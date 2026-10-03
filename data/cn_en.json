@@ -857,10 +857,28 @@
       "detail": "The Taosi site lies around Taosi village northeast of Xiangfen County, Shanxi, and dates to about 4,300–4,000 years ago, belonging to the Taosi type of the Longshan culture. Systematically excavated since 1978, a large walled city was confirmed after 1999, covering about 2.8 million square meters, one of the largest contemporary cities in the middle Yellow River region. In the middle of the city is a walled palace enclosure containing several large rammed-earth foundations, with architectural elements such as clay tiles that may have roofed palaces. The city has a cemetery with clear ranks: large tombs contained ritual items such as painted pottery drums, stone chimes, jade yue axes and painted dragon-design plates, showing the high status of the occupants, while many small tombs had almost no goods, indicating clear social stratification. The site also produced small copper objects such as a bell, and a pottery flask with symbols written in cinnabar, which some scholars consider writing. Particularly striking is a semicircular rammed-earth structure southeast of the city, with observation slits formed by rammed-earth pillars, thought possibly to have been an observatory for watching the sunrise position and fixing the solar terms. Based on its location, date and scale, many scholars suggest Taosi may be the “Yao's capital Pingyang” of the texts, indicating that an early state had appeared in the middle Yellow River, which is of great significance for exploring the origins of Chinese civilization. Taosi was named one of the “100 Great Archaeological Discoveries in 20th-Century China” and is a key site of the Project to Trace the Origins of Chinese Civilization.",
       "images": [
         {
-          "src": "images/adda429b37e79372.jpg",
-          "w": 800,
-          "h": 695,
-          "caption": "Bronze bell, painted dragon-design pottery plate and pottery pot with cinnabar-written symbols from the Taosi site"
+          "src": "images/a560a1ef0fb46225.jpg",
+          "w": 400,
+          "h": 406,
+          "caption": "Dragon plate unearthed from Taosi site",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnfNsuQ-OvEljiAiTOzZPio4K5CKK5tNC3a7Mq_0sz9w&s=10"
+        },
+        {
+          "src": "images/bae4fe1b836ef2aa.jpg",
+          "w": 272,
+          "h": 600,
+          "caption": "Jade ax unearthed from Taosi site",
+          "license": "unknown",
+          "sourceUrl": "http://www.people.com.cn/mediafile/pic/20180717/42/12937177497738026790.jpg"
+        },
+        {
+          "src": "images/b01fa3371433a29c.jpg",
+          "w": 400,
+          "h": 348,
+          "caption": "Bronze gear-shaped instrument unearthed from the Taosi site",
+          "license": "unknown",
+          "sourceUrl": "http://www.people.com.cn/mediafile/pic/20180717/79/16714227506935555287.jpg"
         }
       ],
       "sources": [
@@ -870,7 +888,8 @@
         }
       ],
       "type": "Prehistory",
-      "majorScore": 4
+      "majorScore": 4,
+      "updatedAt": 1791041419
     },
     {
       "id": "e110",
@@ -881,10 +900,12 @@
       "detail": "Tradition says that after the Yellow Emperor, many tribes lived in the Yellow River basin. To grow stronger, tribes such as the Taotang, Youyu and Xiahou formed an alliance, and Yao, Shun and Yu served in turn as its leader. A system of abdication was practiced: leadership was passed by selection to a capable and virtuous person rather than to one's own son. Yao is said to have encouraged people to clear farmland and ordered Xihe and others to observe the heavens and draw up a calendar, guiding people to farm on time. When Yao grew old, he consulted tribal leaders, who recommended Shun, known for his filial conduct. Yao tested Shun for years before yielding the leadership to him. Under Shun, penal laws were made, the worthy were chosen, institutions were improved and order kept; he also sent Yu to control the floods. When Shun grew old, he in turn yielded to Yu, who had succeeded in taming the floods. The abdication system reflects the democratic tradition of choosing leaders in tribal alliances at the end of primitive society. Later Confucians regarded it as the ideal of “the world as a shared possession,” and the Book of Rites (Liji), “Liyun,” sums up the age as one when “the Great Way prevailed and the world was shared by all; the worthy and able were chosen.” Some ancient texts, such as the Bamboo Annals, give different accounts of the abdications, showing how legendary this history is. After Yu died, his son Qi took the throne and the “world shared by all” became the “world owned by one family,” the abdication system being replaced by hereditary succession.",
       "images": [
         {
-          "src": "images/1498f75db8b6fc15.jpg",
-          "w": 860,
-          "h": 484,
-          "caption": "Abdication system"
+          "src": "images/7b3186ebb581c816.webp",
+          "w": 1284,
+          "h": 419,
+          "caption": "Abdication system",
+          "license": "unknown",
+          "sourceUrl": "https://contentcenter-drcn.dbankcdn.cn/img/pub_1/Browser_contentImg_1178_8/c6/v3/1051178OCMS1588517974e1a39b_si_-2/9aa5d39f02b545048326a021b50d7cf8_5_0/hd.webp"
         }
       ],
       "sources": [
@@ -894,7 +915,8 @@
         }
       ],
       "type": "Politics",
-      "majorScore": 7
+      "majorScore": 7,
+      "updatedAt": 1791041490
     },
     {
       "id": "e009",
@@ -923,16 +945,31 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nine_Provinces_of_China.png"
         },
         {
-          "src": "images/2457b634555a7ee0.jpg",
-          "w": 500,
-          "h": 730,
-          "caption": "Yu the Great"
+          "src": "images/0d309912f84f620b.jpg",
+          "w": 1280,
+          "h": 1869,
+          "caption": "Portraits of Famous Men: Da Yu",
+          "author": "Unknown Chinese artist",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Portraits_of_Famous_Men_-_Da_Yu.jpg"
         },
         {
-          "src": "images/cb67bb7be39f2f06.jpg",
-          "w": 500,
-          "h": 780,
-          "caption": "Yu of Xia controlling the floods"
+          "src": "images/42104b6b5b2b0ee6.jpg",
+          "w": 1280,
+          "h": 1998,
+          "caption": "Xia Yu controlled floods",
+          "author": "Unknown authorUnknown author",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E5%A4%8F%E7%A6%B9%E6%B2%BB%E6%B0%B4%EF%BC%88%E5%BB%BF%E4%B8%80%E5%8F%B2%E9%80%9A%E4%BF%97%E8%A1%8D%E7%BE%A9%EF%BC%89.jpg"
+        },
+        {
+          "src": "images/7b9bc38569bc0175.jpg",
+          "w": 1280,
+          "h": 2770,
+          "caption": "King Yu (禹) as imagined by by Song Dynasty painter Ma Lin (馬麟)",
+          "author": "Ma Lin",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:King_Yu_of_Xia.jpg"
         }
       ],
       "sources": [
@@ -943,7 +980,7 @@
       ],
       "type": "Society",
       "majorScore": 6,
-      "updatedAt": 1791001546
+      "updatedAt": 1791041707
     },
     {
       "id": "e010",
