@@ -14503,6 +14503,43 @@
       "majorScore": 5
     },
     {
+      "title": "上海世界博览会",
+      "year": 2010,
+      "date": "2010",
+      "short": "2010年，上海举报世界博览会。这是中国第一次举办世界博览会。",
+      "detail": "中国2010年上海世界博览会（Expo 2010 Shanghai China），简称上海世博会，是第41届世界博览会，于2010年5月1日至10月31日在中国上海市卢湾区（今黄浦区）和浦东新区举行。该世博会是中国首次举办的综合性世界博览会，也是首次由发展中国家主办的世博会，共有256个国家、地区、国际组织参展，吸引世界各地7308万人次参观者前往。该世博会主题为“城市，让生活更美好（Better City, Better Life）”。虽经历全球经济危机，但目前最新资料显示，中华人民共和国政府在上海世博会的总投资额达450亿美元，是史上最大规模的世界博览会，远超2008年于北京举办的第29届奥运会。",
+      "images": [
+        {
+          "src": "images/94bee03403f3f1ab.jpg",
+          "w": 1280,
+          "h": 600,
+          "caption": "​2010年上海世博会世博轴夜景",
+          "author": "凌智 (Suzuki)",
+          "license": "CC BY 2.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Expo_Axis_nighttime.jpg"
+        },
+        {
+          "src": "images/24e788b1f9f35f37.jpg",
+          "w": 400,
+          "h": 300,
+          "caption": "“城市，让生活更美好”——上海世博会主题",
+          "author": "The original uploader was Cedventure at English Wikipedia.",
+          "license": "CC BY-SA 2.5",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Shanghai_(Huang_Pu_River_at_Night)_046.jpg"
+        }
+      ],
+      "sources": [
+        {
+          "url": "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9C%8B2010%E5%B9%B4%E4%B8%8A%E6%B5%B7%E4%B8%96%E7%95%8C%E5%8D%9A%E8%A6%BD%E6%9C%83",
+          "title": "维基百科 - 中国2010年上海世界博览会"
+        }
+      ],
+      "majorScore": 7,
+      "type": "对外交流",
+      "id": "emusl8xd1n99dr",
+      "updatedAt": 1791043821
+    },
+    {
       "id": "e394",
       "year": 2011,
       "date": "2011年6月30日",
