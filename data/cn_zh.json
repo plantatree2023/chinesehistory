@@ -1364,7 +1364,16 @@
       "title": "西周分封制",
       "short": "西周根据血缘远近和功劳大小把宗亲、功臣分封到各地建立诸侯国，形成天子、诸侯、卿大夫、士的等级制度。",
       "detail": "西周建立后，为稳定政局、巩固新征服的广大地区，周王实行分封制，即按照血缘关系远近和功劳大小，把王族宗亲、功臣以及古代帝王的后代分封到各地，授予他们管理土地和人民的权力，建立诸侯国，“封建亲戚，以藩屏周”。据记载，周初分封了70多个诸侯国，其中重要的有：周公长子伯禽封于鲁（今山东曲阜），吕尚封于齐（今山东淄博），召公之子封于燕（今北京），叔虞封于唐（后改称晋，在今山西翼城一带），商纣王的庶兄微子启封于宋（今河南商丘），以安抚商朝遗民。诸侯在封国内有较大的独立性，可以设置官员、建立军队、征收赋税，但必须服从周王的命令，定期朝贡，随从作战，保卫王室。诸侯在自己的封地内还可以对卿大夫进行再分封，卿大夫再分封给士，从而形成了天子—诸侯—卿大夫—士的等级秩序。与分封制相配合的还有以嫡长子继承为核心的宗法制和区分等级的礼乐制度。分封制使西周的统治范围扩大到黄河、长江流域，加强了对地方的控制，促进了各地经济文化交流和民族融合。但随着诸侯势力增强，周王室逐渐衰微，到春秋时期分封制逐步瓦解，被郡县制所取代。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/804d8c211ecde77d.png",
+          "w": 640,
+          "h": 570,
+          "caption": "西周分封制",
+          "license": "unknown",
+          "sourceUrl": "https://img.mp.sohu.com/q_70,c_zoom,w_640/upload/20170306/fad05f1f19a34118a7390d4b6e32fd21.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%88%86%E5%B0%81%E5%88%B6",
@@ -1373,7 +1382,7 @@
       ],
       "type": "政治",
       "majorScore": 7,
-      "updatedAt": 1791052615
+      "updatedAt": 1791070912
     },
     {
       "id": "e015",
@@ -1382,7 +1391,16 @@
       "title": "国人暴动",
       "short": "公元前841年，周厉王垄断山林川泽之利、压制言论，激起国人暴动，厉王出逃，此后“共和行政”。",
       "detail": "国人暴动又称“彘之乱”，是西周后期的一次大规模民众暴动。“国人”是西周、春秋时期对居住在都城及近郊之人的称呼，主要是平民和下层贵族。周厉王在位时，任用荣夷公推行“专利”政策，把原本供国人共同使用的山林川泽收归王室所有，断绝了国人的生计；他还暴虐专横，派卫国的巫师监视批评朝政的人，一经告发便加以杀戮，国人在路上相遇只敢以目示意，史称“道路以目”。大臣召公劝谏说：“防民之口，甚于防川”，但厉王不听。公元前841年，忍无可忍的国人自发聚集起来发动暴动，攻入王宫，周厉王仓皇出逃到彘（今山西霍州），后来死在那里。暴动后，由召公、周公等大臣共同主持朝政（一说由共伯和摄行王政），史称“共和行政”。这一年即共和元年（公元前841年），从此中国历史有了确切的连续纪年，《史记·十二诸侯年表》即从这一年开始。十四年后厉王死于彘，太子静即位，是为周宣王。国人暴动沉重打击了西周王朝的统治，反映出西周后期社会矛盾的激化，周王室从此走向衰落，“共和”一词也因此进入汉语，近代被用来翻译“共和制”。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/c6b885a50d21ec4d.jpg",
+          "w": 418,
+          "h": 478,
+          "caption": "国人暴动",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRErpTZRuewOKnDLT7E5E_EuoimUZMbvYqlUmvYcFmxvg&s=10"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%9B%BD%E4%BA%BA%E6%9A%B4%E5%8A%A8",
@@ -1391,7 +1409,7 @@
       ],
       "type": "社会",
       "majorScore": 4,
-      "updatedAt": 1791052615
+      "updatedAt": 1791070766
     },
     {
       "id": "e016",
@@ -1400,14 +1418,20 @@
       "title": "西周灭亡与平王东迁",
       "short": "周幽王时朝政腐败，公元前771年申侯联合犬戎攻破镐京，西周灭亡；次年周平王迁都洛邑，东周开始。",
       "detail": "周宣王时一度出现“中兴”局面，但到其子周幽王在位时，朝政腐败，社会矛盾激化，又接连发生地震、旱灾，民不聊生。据《史记·周本纪》记载，周幽王宠爱褒姒，废黜了王后申后和太子宜臼，改立褒姒之子伯服为太子。传说为博褒姒一笑，幽王曾点燃烽火戏弄诸侯，此即“烽火戏诸侯”的故事，但不少学者认为这一情节缺乏可靠依据。申后之父申侯对此十分愤怒，联合缯国和西北的犬戎于公元前771年进攻镐京，诸侯不来救援，幽王在骊山下被杀，镐京遭到洗劫，西周灭亡。此后，申侯等诸侯拥立原太子宜臼为王，即周平王。由于镐京残破，又靠近戎族，公元前770年，周平王在晋、郑、秦等诸侯护送下，把都城东迁到洛邑（今河南洛阳），史称东周。秦襄公因护驾有功被封为诸侯，秦国从此兴起。平王东迁是周朝由盛转衰的转折点，此后周王室直接控制的地区仅剩洛邑一带，经济和军事实力大为削弱，虽然名义上仍是天下共主，但已无力控制诸侯。东周又分为春秋和战国两个时期，中国历史进入大变革的时代。“烽火戏诸侯”的故事虽然流传甚广，但2011年公布的清华简《系年》记载西周灭亡的经过与《史记》有所不同，说明这段历史仍有待进一步研究。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/62c5c508f5c0835f.jpg",
+          "w": 321,
+          "h": 461,
+          "caption": "周平王",
+          "author": "冯梦龙、蔡元放",
+          "license": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E5%91%A8%E5%B9%B3%E7%8E%8B.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%B9%B3%E7%8E%8B%E4%B8%9C%E8%BF%81",
-          "title": "维基百科 - 周平王东迁"
-        },
-        {
-          "url": "https://zh.wikipedia.org/wiki/%E5%91%A8%E5%B9%B3%E7%8E%8B%E4%B8%9C%E8%BF%81",
           "title": "维基百科 - 周平王东迁"
         }
       ],
@@ -1417,7 +1441,7 @@
         "from": "西周",
         "to": "春秋"
       },
-      "updatedAt": 1791052615
+      "updatedAt": 1791070830
     },
     {
       "id": "e115",
@@ -1696,7 +1720,17 @@
       "title": "三家分晋与战国七雄",
       "short": "晋国被韩、赵、魏三家瓜分，齐国由田氏取代，公元前403年周天子承认三家为诸侯，战国七雄格局形成。",
       "detail": "春秋后期，一些诸侯国内部的卿大夫势力不断壮大，逐渐控制了国家政权。晋国的大权长期掌握在韩、赵、魏、智、范、中行六家卿大夫手中，他们相互兼并，最后剩下韩、赵、魏、智四家。公元前453年，智伯联合韩、魏围攻赵氏于晋阳，赵襄子暗中说服韩、魏两家倒戈，三家联手消灭了智氏，瓜分了晋国的大部分土地。公元前403年，周威烈王正式承认韩、赵、魏为诸侯，史称“三家分晋”，三国合称“三晋”。北宋司马光编撰的《资治通鉴》即从这一年开始记述。在齐国，大夫田氏通过“大斗出、小斗进”等手段笼络民心，逐渐掌握大权，公元前386年田和被周天子册封为齐侯，史称“田氏代齐”。这样，战国时期较强的诸侯国就形成了齐、楚、燕、韩、赵、魏、秦七国，史称“战国七雄”。战国时期一般指公元前475年至前221年，因西汉刘向整理的《战国策》一书而得名。这一时期，强大的诸侯已不再打“尊王攘夷”的旗号，周王室名存实亡，各国纷纷变法图强，扩充军队，兼并战争规模越来越大，参战兵力多、交战区域广、持续时间长，桂陵之战、马陵之战、长平之战等著名战役都发生在这一时期。战国是社会大变革的时代，旧的制度瓦解，新的封建制度逐步确立，中国历史逐渐走向统一。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/9c5df849ae30aaef.png",
+          "w": 1280,
+          "h": 1178,
+          "caption": "战国七雄地图",
+          "author": "丁志仁",
+          "license": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%88%B0%E5%9C%8B%E4%B8%83%E9%9B%84%E5%9C%B0%E5%9C%96-zhtw.png"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E4%B8%89%E5%AE%B6%E5%88%86%E6%99%8B",
@@ -1709,7 +1743,7 @@
         "from": "春秋",
         "to": "战国"
       },
-      "updatedAt": 1791052615
+      "updatedAt": 1791071043
     },
     {
       "id": "e020",
@@ -1718,7 +1752,17 @@
       "title": "商鞅变法",
       "short": "公元前356年秦孝公任用商鞅变法，废井田、奖军功、建县制、重农抑商，秦国一跃成为最强盛的诸侯国。",
       "detail": "战国时期，铁农具和牛耕进一步推广，新兴地主阶级势力增强，各国纷纷实行变法以求富国强兵，其中以秦国的商鞅变法成效最大。商鞅原名卫鞅，卫国人，后因功受封于商地，故称商鞅。秦孝公即位后发布求贤令，商鞅携李悝《法经》入秦，得到重用。为取信于民，他在国都南门立一根三丈长的木头，宣布能把它搬到北门者赏十金，后加到五十金，有人搬了便当即兑现，这就是“徙木立信”的故事。公元前356年和前350年，商鞅先后两次主持变法，主要内容有：政治上，废除贵族的世袭特权，建立县制，由国君直接派官吏治理；改革户籍制度，实行“什伍连坐”；严明法度，禁止私斗。经济上，废除井田制，“开阡陌封疆”，承认土地私有，允许土地买卖；重农抑商，奖励耕织，生产粮食布帛多的人可免除徭役；统一度量衡。军事上，奖励军功，按战功授予爵位和田宅，取消没有军功的贵族特权。此外还把国都迁到咸阳。变法触动了旧贵族的利益，秦孝公死后，商鞅被诬谋反，遭车裂而死，但新法继续推行。商鞅变法使秦国经济发展、军队战斗力大大增强，一跃成为战国七雄中最强盛的国家，为秦统一全国奠定了基础。商鞅铸造的标准量器“商鞅方升”今藏于上海博物馆。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/a01ed304d9d3ceed.jpg",
+          "w": 1280,
+          "h": 1903,
+          "caption": "商鞅",
+          "author": "Taken by Fanghong",
+          "license": "CC BY 2.5",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Statue_of_Shang_Yang.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%95%86%E9%9E%85%E5%8F%98%E6%B3%95",
@@ -1727,7 +1771,7 @@
       ],
       "type": "政治",
       "majorScore": 8,
-      "updatedAt": 1791052615
+      "updatedAt": 1791071114
     },
     {
       "id": "e120",
@@ -1736,7 +1780,17 @@
       "title": "百家争鸣",
       "short": "战国时期学术空前活跃，儒、墨、道、法等学派著书立说、相互辩难，形成“百家争鸣”局面，奠定中国思想文化基础。",
       "detail": "春秋战国时期社会急剧变革，各诸侯国为富国强兵竞相招揽人才，私学兴起，“士”阶层活跃，学术思想领域出现空前繁荣的局面，形成了不同的学派，各派著书立说，相互辩论，史称“诸子百家”“百家争鸣”。“子”原是对卿大夫的称呼，后来成为对学者和老师的尊称。影响最大的学派有儒家、墨家、道家和法家。墨家创始人墨子主张“兼爱”“非攻”，要求人们互爱互利，反对攻伐兼并，主张选拔贤能治国，提倡节俭。儒家在战国时的代表人物是孟子和荀子：孟子主张“仁政”，提出“民为贵，社稷次之，君为轻”；荀子主张“礼法并施”，提出“君者舟也，庶人者水也，水则载舟，水则覆舟”和“制天命而用之”。道家代表庄子继承老子思想，追求精神自由。法家代表韩非子集法家思想之大成，主张以法治国，建立君主专制的中央集权国家，顺应了统一的历史趋势，为秦所采用。此外，还有兵家的孙膑、阴阳家的邹衍、名家的公孙龙、纵横家的苏秦和张仪、农家的许行等。齐国在都城临淄设立“稷下学宫”，吸引各派学者讲学辩论，成为百家争鸣的中心。百家争鸣是我国历史上第一次思想解放运动，促进了学术文化的繁荣，奠定了中国传统思想文化的基础，对后世影响深远。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/25fb987d66cc912f.png",
+          "w": 1280,
+          "h": 909,
+          "caption": "​诸子百家出生地",
+          "author": "SY",
+          "license": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Birth_Places_of_Chinese_Philosophers.png"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E7%99%BE%E5%AE%B6%E4%BA%89%E9%B8%A3",
@@ -1745,7 +1799,7 @@
       ],
       "type": "文化",
       "majorScore": 8,
-      "updatedAt": 1791052615
+      "updatedAt": 1791070953
     },
     {
       "id": "e121",
@@ -2005,7 +2059,16 @@
       "title": "统一文字、货币、度量衡",
       "short": "秦始皇以小篆为标准统一文字，以圆形方孔半两钱统一货币，统一度量衡和车轨，促进了经济文化交流和国家统一。",
       "detail": "战国时期各国长期分裂割据，文字、货币、度量衡乃至车轨都各不相同，给统一后的国家治理和各地交往带来很大不便。为巩固统一，秦始皇推行了一系列措施。在文字方面，他命丞相李斯等人对文字进行整理，以秦国文字为基础，把笔画规整的小篆作为标准字体颁行全国，并编写识字范本推行；与此同时，民间和官府文书中又流行一种书写更加简便的隶书。文字的统一使政令能在全国顺利推行，各地人民能顺畅沟通，对中华文化的传承和发展意义重大。在货币方面，秦始皇废除六国原有的刀币、布币、蚁鼻钱等各种货币，以黄金为上币，以秦国的圆形方孔“半两”铜钱为下币，在全国流通。圆形方孔钱便于携带和计数，此后一直沿用到清末，影响了两千多年。在度量衡方面，以秦国的度量衡制度为标准统一全国，并由国家统一监制标准器，在许多量器、权器上刻有秦始皇统一度量衡的诏书。此外，秦朝还统一车轨，规定车宽六尺，即“车同轨”，并修建以咸阳为中心、通往全国各地的驰道和直道，便于交通运输和军队调动。这些措施改变了以往的混乱状况，有利于国家对经济的管理和各地经济文化交流，对巩固国家统一、促进中华民族的形成和发展起了重要作用。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/88b3b3aa23ee37bc.jpg",
+          "w": 221,
+          "h": 350,
+          "caption": "统一货币、度量衡",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLrHvuh_ZH23WHIfVSr0bFeX9LqpWq_skhlfXOhn0_cQ&s=10"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E4%B9%A6%E5%90%8C%E6%96%87",
@@ -2014,7 +2077,7 @@
       ],
       "type": "政治",
       "majorScore": 8,
-      "updatedAt": 1791052615
+      "updatedAt": 1791071187
     },
     {
       "id": "e124",
@@ -2390,7 +2453,16 @@
       "title": "罢黜百家，尊崇儒术",
       "short": "汉武帝接受董仲舒建议，把儒家学说立为正统思想，设立五经博士、兴办太学，儒学从此居于主导地位。",
       "detail": "西汉初年，统治者奉行“无为而治”的黄老思想，诸子百家学说在社会上都很流行，诸侯王门下聚集许多宾客，常常议论和批评朝政。随着国力增强，以“无为”为特点的黄老之学已不适应加强中央集权、实现大一统的需要。汉武帝即位后，广泛征求治国方略。约公元前134年，儒学大师董仲舒在对策中提出“天人感应”和“大一统”学说，主张“诸不在六艺之科、孔子之术者，皆绝其道，勿使并进”，建议独尊儒学，统一思想。董仲舒以儒学为核心，吸收了阴阳家、法家等学派的思想，提出“君权神授”和“三纲五常”等主张，强调忠君、守礼，适应了巩固大一统政权的需要，深得汉武帝赞赏。汉武帝接受了这一建议，把儒家学说立为正统思想，设立“五经博士”，专门讲授儒家经典；公元前124年又在长安兴办太学，以儒家的《诗》《书》《礼》《易》《春秋》作为教材，培养统治阶级需要的人才，太学毕业生考试合格可以做官，各郡国也设立学校。儒学由此与选官制度结合起来，儒生大量进入各级政权机构。从此，儒学成为中国古代社会的正统思想，为历代王朝所推崇，对中国的政治、教育和社会文化产生了深远影响。不过汉代并未完全禁绝其他学派，实行的是“霸王道杂之”的统治方式。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/15ddd906edca5ab4.png",
+          "w": 1280,
+          "h": 1463,
+          "caption": "董仲舒",
+          "license": "CC BY 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%AD%B7%E4%BB%A3%E8%81%96%E8%B3%A2%E5%8D%8A%E8%BA%AB%E5%83%8F_%E5%86%8A_%E8%91%A3%E4%BB%B2%E8%88%92_(Dong_Zhongshu).png"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E7%BD%A2%E9%BB%9C%E7%99%BE%E5%AE%B6%EF%BC%8C%E7%8B%AC%E5%B0%8A%E5%84%92%E6%9C%AF",
@@ -2399,7 +2471,7 @@
       ],
       "type": "文化",
       "majorScore": 7,
-      "updatedAt": 1791052615
+      "updatedAt": 1791071225
     },
     {
       "id": "e129",
@@ -2408,7 +2480,17 @@
       "title": "察举制确立",
       "short": "汉武帝把地方推荐人才的做法定为制度，由各郡国每年向朝廷推举品行好、有才能的人，经考察后授予官职。",
       "detail": "先秦时期，官职多由贵族世袭；秦朝主要通过军功等途径选拔官吏。汉初，政府开始尝试由地方推荐人才的办法，汉文帝曾下诏让各地推举“贤良方正、能直言极谏者”，但还没有形成固定的制度。汉武帝在位时，为适应大一统国家对人才的需要，于公元前134年下诏，令各郡国每年推举孝子、廉吏各一人，称为“举孝廉”，从此察举制作为一种选官制度确立下来。察举制的主要做法是由各郡国长官定期考察本地人才，根据品德和才能向朝廷推荐，朝廷经过考核后授予官职。察举的科目分为常科和特科：常科定期举行，主要有孝廉、秀才（东汉避光武帝刘秀讳改称茂才）等；特科根据需要临时下诏举行，如贤良方正、文学、明经、明法等。有时皇帝还亲自出题策问考察被推荐者，如董仲舒就是通过贤良对策而受到汉武帝重用的。通过察举制，汉朝选拔了大批有才能的人，如公孙弘、董仲舒、主父偃等，使官员队伍的构成发生了变化，打破了贵族世袭垄断官职的局面。但是，察举制主要依靠地方官员推荐，缺乏客观统一的标准，到东汉后期逐渐被世家大族操纵，出现了“举秀才，不知书；察孝廉，父别居”的弊端。魏晋时期，察举制逐步被九品中正制所取代，后来又发展为隋唐的科举制。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/99ec84e55e21b581.jpg",
+          "w": 902,
+          "h": 1388,
+          "caption": "汉武帝像",
+          "author": "Wang Qi",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E4%B8%89%E6%89%8D%E5%9C%96%E6%9C%83_%E6%BC%A2%E6%AD%A6%E5%B8%9D%E5%8A%89%E5%BE%B9%E7%9B%B8.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%AF%9F%E4%B8%BE%E5%88%B6",
@@ -2417,7 +2499,7 @@
       ],
       "type": "政治",
       "majorScore": 4,
-      "updatedAt": 1791052615
+      "updatedAt": 1791071558
     },
     {
       "id": "e130",
@@ -2600,7 +2682,16 @@
       "title": "《太初历》与二十四节气",
       "short": "公元前104年汉武帝颁行《太初历》，以正月为岁首，首次把二十四节气正式订入历法，影响延续至今。",
       "detail": "汉初沿用秦朝的《颛顼历》，以十月为岁首，经过一百多年，历法与实际天象已有明显误差，出现“朔晦月见”等现象。公元前104年，汉武帝下令改定历法，由邓平、落下闳、唐都、司马迁等人共同编制新历，同年颁行，因这一年改元太初，所以称为《太初历》。《太初历》以正月为一年的开始，此后两千多年，除个别时期外，中国一直以正月为岁首，延续到今天的农历。《太初历》是阴阳合历：以月亮圆缺变化的周期定月份，以朔日为每月初一，大月30天、小月29天；以太阳运行的周期即回归年定年份，一年约365天多一点；并以无中气之月为闰月。尤为重要的是，《太初历》首次把二十四节气正式订入历法。二十四节气是古人根据太阳在黄道上的位置，把一年划分为二十四段，每段约15天，即立春、雨水、惊蛰、春分、清明、谷雨、立夏、小满、芒种、夏至、小暑、大暑、立秋、处暑、白露、秋分、寒露、霜降、立冬、小雪、大雪、冬至、小寒、大寒，能准确反映季节、气候和物候的变化，对指导农业生产意义重大。《太初历》后经刘歆整理为《三统历》保存下来，是我国现存最早的完整历法。2016年，“二十四节气”被列入联合国教科文组织人类非物质文化遗产代表作名录。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/f4c0c03e70e7a7c7.png",
+          "w": 547,
+          "h": 365,
+          "caption": "二十四节气",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg6EHo19u3ZNCYXiPrMWFN5GB_t5Os_VaANEwdexhuQg&s=10"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%A4%AA%E5%88%9D%E5%8E%86",
@@ -2609,7 +2700,7 @@
       ],
       "type": "科技",
       "majorScore": 5,
-      "updatedAt": 1791052615
+      "updatedAt": 1791071621
     },
     {
       "id": "e030",
@@ -3276,7 +3367,16 @@
       "title": "卫温率船队到达夷洲",
       "short": "230年吴王孙权派将军卫温、诸葛直率领万人船队到达夷洲（今台湾），这是大陆与台湾交往的较早明确记载。",
       "detail": "三国时期，孙吴政权立国江东，十分重视发展水上力量。当时吴国的造船业相当发达，能造出载重量很大的船只。孙吴积极发展海上交通，曾派人到达辽东、海南岛，又派朱应、康泰出使扶南（今柬埔寨一带）等东南亚国家。230年，吴王孙权派将军卫温、诸葛直率领甲士一万人，乘船渡海前往夷洲和亶洲。经过近一年的航行，船队到达夷洲，但始终没有找到亶洲。由于不服水土，士兵患病死亡很多，船队后来带回夷洲居民数千人返回大陆。卫温、诸葛直因“违诏无功”被下狱处死。当时吴国人沈莹所著《临海水土志》记载了夷洲的气候、物产和居民习俗，与台湾的风貌相符。学术界一般认为，夷洲就是今天的台湾。三国时期吴国人沈莹所著的《临海水土志》，记载了夷洲的地理环境、物产和当地居民的风俗习惯，是世界上关于台湾最早的文献记载之一。卫温航行夷洲，是大陆政权派遣大规模船队到达台湾的较早明确记载，加强了大陆与台湾的联系，说明台湾与大陆自古以来就有密切的往来。此后，隋朝曾三次派人到达流求，元朝设立澎湖巡检司，明朝末年郑成功收复台湾，清朝在台湾设府，台湾与祖国大陆的联系日益紧密。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/5ab9d19757dcd774.jpg",
+          "w": 640,
+          "h": 480,
+          "caption": "夷洲",
+          "license": "unknown",
+          "sourceUrl": "https://5b0988e595225.cdn.sohucs.com/q_70,c_zoom,w_640/images/20191222/a7436ce3be5640c0b479b04497097b00.jpeg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%8D%AB%E6%B8%A9",
@@ -3285,7 +3385,7 @@
       ],
       "type": "对外交流",
       "majorScore": 5,
-      "updatedAt": 1791052615
+      "updatedAt": 1791071683
     },
     {
       "id": "e103",
@@ -3648,7 +3748,7 @@
           "src": "images/88d84171929e2128.png",
           "w": 500,
           "h": 400,
-          "caption": "",
+          "caption": "北魏·刘宋地图",
           "author": "日语维基百科的俊武",
           "license": "CC BY-SA 3.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Map_of_Northern_Wei_and_Liu_Song_Dynasty_ja.png"
@@ -3705,7 +3805,7 @@
         "to": "南北朝"
       },
       "wiki": "刘宋",
-      "updatedAt": 1791052615
+      "updatedAt": 1791071876
     },
     {
       "id": "e148",
@@ -3722,7 +3822,7 @@
           "author": "原上传者为日语维基百科的俊武",
           "license": "CC BY-SA 3.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E5%8C%97%E9%AD%8F%EF%BD%A5%E6%96%89.PNG",
-          "caption": ""
+          "caption": "北魏·齐地图"
         },
         {
           "src": "images/5eb798a5152a20dd.jpg",
@@ -3759,7 +3859,7 @@
       ],
       "type": "政治",
       "majorScore": 5,
-      "updatedAt": 1791053569
+      "updatedAt": 1791071827
     },
     {
       "id": "e149",
@@ -3803,51 +3903,6 @@
           "license": "CC BY 1.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Village_in_Jiang_Nan.jpg",
           "caption": "江南山村，还保持着晚期的典型江南建筑风格，即白墙黑瓦。"
-        },
-        {
-          "src": "images/44a5a904fd834f58.jpg",
-          "w": 500,
-          "h": 415,
-          "author": "Willem Jansz Blaeu and Joan Blaeu",
-          "license": "Public domain",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nanking_sive_Kiangnan_imperii_sinarum_provincia_nona_-_(tir%C3%A9_du_P._Martini)_;_J._Blaeu_excud._-_btv1b59630645.jpg",
-          "caption": "神圣罗马帝国传教士卫匡国（Martino Martini）和荷兰地图绘制大师胡安布劳（Joan Blaeu ）于1655年绘制的大明帝国的南京或江南（拉丁语：N"
-        },
-        {
-          "src": "images/29ed3be84079d0b6.jpg",
-          "w": 500,
-          "h": 333,
-          "author": "Gary Todd from Xinzheng, China",
-          "license": "CC0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Carved_Marks_of_Shuangdun_Culture,_Bengbu,_Anhui_(10185385103).jpg",
-          "caption": ""
-        },
-        {
-          "src": "images/776439d550f72e74.jpg",
-          "w": 250,
-          "h": 374,
-          "author": "Siyuwj",
-          "license": "CC BY-SA 4.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jade_human_figure_at_Lingjiatan_Site,_2017-05-21.jpg",
-          "caption": ""
-        },
-        {
-          "src": "images/965f0fa1422daebb.jpg",
-          "w": 500,
-          "h": 333,
-          "author": "Gary Todd from Xinzheng, China",
-          "license": "CC0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Characters_from_Liangzhu_Culture,_Zhejiang_(10185266686).jpg",
-          "caption": ""
-        },
-        {
-          "src": "images/96a19ca6a85cfb94.jpg",
-          "w": 250,
-          "h": 250,
-          "author": "Cangminzho",
-          "license": "CC BY-SA 4.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E7%BA%B9%E9%9D%A2%E6%B3%A5%E5%A1%91%E4%BA%BA%E5%A4%B4%E5%83%8F(%E5%A4%8D%E5%88%B6%E5%93%81)1299.jpg",
-          "caption": ""
         }
       ],
       "sources": [
@@ -3858,7 +3913,7 @@
       ],
       "type": "经济",
       "majorScore": 6,
-      "updatedAt": 1791056438
+      "updatedAt": 1791072096
     },
     {
       "id": "e150",
@@ -3875,7 +3930,7 @@
           "author": "xiquinhosilva",
           "license": "CC BY 2.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:61292-Yungang-Grottoes_(28498548881).jpg",
-          "caption": ""
+          "caption": "云冈石窟"
         },
         {
           "src": "images/12d2a73a67cbb79c.jpg",
@@ -3884,7 +3939,7 @@
           "author": "Charlie fong",
           "license": "CC BY-SA 4.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Yunganggrottoes2019.jpg",
-          "caption": ""
+          "caption": "​中国山西云冈石窟，北魏时期皇家佛教造像集中地。崖壁后上方为明代要塞，云岗堡遗址。东侧远山为丁崖山的风力发电场。"
         },
         {
           "src": "images/6caa7e37f985dfa0.jpg",
@@ -3893,7 +3948,7 @@
           "author": "xiquinhosilva",
           "license": "CC BY 2.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:61414-Yungang-Grottoes_(28292792370).jpg",
-          "caption": ""
+          "caption": "云冈石窟"
         },
         {
           "src": "images/73cd415b1402eb6c.jpg",
@@ -3902,7 +3957,7 @@
           "author": "Zhangzhugang",
           "license": "CC BY-SA 3.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Datong_Yungang_Shiku_2013.08.29_15-08-05.jpg",
-          "caption": ""
+          "caption": "第16窟"
         },
         {
           "src": "images/2a517b3c1ef33c0c.jpg",
@@ -3911,7 +3966,7 @@
           "author": "Zhangzhugang",
           "license": "CC BY-SA 3.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Datong_Yungang_Shiku_2013.08.29_15-07-21.jpg",
-          "caption": ""
+          "caption": "第16窟"
         },
         {
           "src": "images/10bc4682edadc456.jpg",
@@ -3929,7 +3984,7 @@
           "author": "Patrick20242023",
           "license": "CC BY-SA 4.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E4%BA%91%E5%86%88%E7%9F%B3%E7%AA%9F%E7%AC%AC17%E7%AA%9F%E6%AD%A3%E9%9D%A2%E4%B8%8A%E5%8D%8A%E8%BA%AB%E7%89%B9%E5%86%99.jpg",
-          "caption": ""
+          "caption": "云冈石窟第17窟正面上半身特写"
         },
         {
           "src": "images/c2882348f71a67c2.jpg",
@@ -3938,7 +3993,7 @@
           "author": "Patrick20242023",
           "license": "CC BY-SA 4.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E4%BA%91%E5%86%88%E7%9F%B3%E7%AA%9F%E7%AC%AC17%E7%AA%9F%E5%B7%A6%E5%A3%81%E7%89%B9%E5%86%99.jpg",
-          "caption": ""
+          "caption": "​云冈石窟第17窟左壁特写"
         },
         {
           "src": "images/a9eaa05d90c10aa9.jpg",
@@ -3947,7 +4002,7 @@
           "author": "Patrick20242023",
           "license": "CC BY-SA 4.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E4%BA%91%E5%86%88%E7%9F%B3%E7%AA%9F%E7%AC%AC17%E7%AA%9F%E5%8F%B3%E5%A3%81%E7%89%B9%E5%86%99.jpg",
-          "caption": ""
+          "caption": "云冈石窟第17窟右壁特写"
         }
       ],
       "sources": [
@@ -3958,7 +4013,7 @@
       ],
       "type": "文化",
       "majorScore": 5,
-      "updatedAt": 1791053585
+      "updatedAt": 1791072019
     },
     {
       "id": "e151",
@@ -4049,20 +4104,26 @@
       "title": "北魏孝文帝改革",
       "short": "北魏孝文帝在冯太后改革基础上，494年迁都洛阳，推行说汉语、穿汉服、改汉姓、与汉族通婚等汉化措施，促进民族交融。",
       "detail": "北魏孝文帝拓跋宏五岁即位，由祖母冯太后临朝听政。冯太后进行了一系列改革：整顿吏治，实行俸禄制，惩治贪污；485年颁布均田令，把国家掌握的荒地按人口分配给农民耕种；建立三长制，加强对基层的控制；实行新的租调制，减轻农民负担。这些改革推动了鲜卑族的封建化，促进了经济发展，孝文帝深受其影响。490年冯太后去世后，孝文帝亲政，继续深化改革。493年，孝文帝以南征南齐为名，率领大军南下，494年正式迁都洛阳，把百余万鲜卑族等北方各族人民迁到中原。迁都后，孝文帝推行一系列汉化措施：规定官员在朝廷中必须使用汉语，禁用鲜卑语；以汉服代替鲜卑服；把鲜卑复姓改为汉姓，皇族拓跋氏改姓元，孝文帝也改名元宏；鼓励鲜卑贵族与汉族士族通婚，他带头娶汉族大族之女；采用汉族的官制、礼仪和律令，尊崇孔子，学习儒家经典。孝文帝改革遭到部分鲜卑贵族的反对。孝文帝改革加速了鲜卑族的封建化和汉化进程，促进了北方各民族的交融，增强了北魏的实力，为后来隋唐的统一和繁荣奠定了基础，在中华民族发展史上具有重要意义。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/c3f554bc3b3e9b25.jpg",
+          "w": 500,
+          "h": 363,
+          "caption": "北魏孝文帝像",
+          "author": "Original uploader was Jason22 at zh.wikipedia",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Emperor_Xiaowen_of_Northern_Wei.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%8C%97%E9%AD%8F%E5%AD%9D%E6%96%87%E5%B8%9D%E6%94%B9%E9%9D%A9",
-          "title": "维基百科 - 孝文帝改革"
-        },
-        {
-          "url": "https://zh.wikipedia.org/wiki/%E5%AD%9D%E6%96%87%E5%B8%9D%E6%94%B9%E9%9D%A9",
           "title": "维基百科 - 孝文帝改革"
         }
       ],
       "type": "政治",
       "majorScore": 7,
-      "updatedAt": 1791052615
+      "updatedAt": 1791072392
     },
     {
       "id": "e152",
@@ -4098,7 +4159,16 @@
       "title": "范缜著《神灭论》",
       "short": "南朝思想家范缜著《神灭论》，提出“形存则神存，形谢则神灭”，系统阐述无神论思想，批判佛教的因果报应说。",
       "detail": "魏晋南北朝时期社会动荡，人们为摆脱现实苦难纷纷信仰佛教，统治者也大力扶持，佛教盛行起来，各地大量修建寺庙。因此，不断有人站出来反对佛教，其中最著名的是南朝齐梁时期的思想家范缜。范缜（约450—约515），字子真，南乡舞阴（今河南泌阳）人。南齐时，竟陵王萧子良笃信佛教，在府中召集宾客宣扬佛法。萧子良问范缜：“你不相信因果报应，那么人为什么有富贵贫贱之分？”范缜回答说：人生就像树上的花朵，随风飘落，有的落在华丽的坐席上，有的落在粪坑里，富贵贫贱只是偶然的遭遇，与因果报应毫无关系。后来，范缜撰写了《神灭论》，系统阐述了无神论思想。他认为“形者神之质，神者形之用”，人的精神和肉体是相互结合的统一体，有了肉体，才有精神；肉体死了，精神也随之消失，即“形存则神存，形谢则神灭”。他还用刀刃和锋利的关系作比喻：锋利离不开刀刃，没有刀刃也就没有锋利，同样，没有肉体也就不存在精神。《神灭论》一出，朝野震动。梁武帝时，佛教被尊为国教，梁武帝组织六十多人撰文围攻《神灭论》，范缜表示决不“卖论取官”。《神灭论》是中国古代唯物主义思想的重要著作，在中国哲学史上占有重要地位。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/b040dd074f75040b.jpg",
+          "w": 418,
+          "h": 478,
+          "caption": "范缜",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkFPqMHGv9DDtfgX218Qe4xCiO2Os7fOAzXuQUMknCYCMqK44tzOyVlcc&s=10"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E8%8C%83%E7%BC%9C",
@@ -4107,7 +4177,7 @@
       ],
       "type": "文化",
       "majorScore": 4,
-      "updatedAt": 1791052615
+      "updatedAt": 1791072354
     },
     {
       "id": "e154",
@@ -4124,16 +4194,16 @@
           "author": "My photo of map by Sang Qin (桑欽) (third century AD), revised by Li Daoyuan (郦道元) (d. 527 AD) or Guo Pu (郭璞) (d. 324 AD)",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Weishui.png",
-          "caption": ""
+          "caption": "该地图显示了中国陕西渭河向东流向黄河的情况。出自《水经注》。该地图可能来自三国时期（公元三世纪）。"
         },
         {
-          "src": "images/cf4544f199a22efa.jpg",
-          "w": 500,
-          "h": 61,
-          "author": "杨守敬",
-          "license": "Public domain",
+          "src": "images/f081055d972499ce.jpg",
+          "w": 3840,
+          "h": 467,
+          "caption": "杨守敬书法，文字摘自郦道元《水经注》。",
+          "license": "unknown",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Yang_Shoujing_calligraphy_of_Shui_Jing_Zhu.jpg",
-          "caption": ""
+          "author": "杨守敬"
         }
       ],
       "sources": [
@@ -4144,7 +4214,7 @@
       ],
       "type": "科技",
       "majorScore": 5,
-      "updatedAt": 1791053589
+      "updatedAt": 1791072277
     },
     {
       "id": "e155",
@@ -4548,6 +4618,14 @@
       "detail": "玄奘（602—664），俗姓陈，名祎，洛州缑氏（今河南偃师）人，唐代高僧、佛经翻译家和旅行家，被尊称为“三藏法师”。他十三岁出家，遍访名师，决心前往佛教发源地天竺（今印度一带）求取真经。627年（一说629年），玄奘违背朝廷禁令，私自从长安出发西行，经凉州、出玉门关，穿越八百里流沙的大沙漠，几乎渴死，又翻越雪山，经过高昌、龟兹以及中亚诸国，历经艰险，经过四年的长途跋涉到达天竺。他遍访天竺名寺，在当时佛学的最高学府那烂陀寺跟随戒贤法师学习五年，后来又游历天竺各地，成为远近闻名的佛学大师。645年，玄奘携带657部佛经回到长安，受到唐太宗的接见和隆重欢迎。此后他在长安弘福寺、大慈恩寺等处主持译经，十九年间与弟子共译出佛经75部、1335卷，是中国历史上翻译佛经最多的人之一，并创立了法相宗（唯识宗）。为存放从天竺带回的佛经和佛像，他主持修建了大雁塔。根据他的口述，由弟子辩机笔录写成的《大唐西域记》，记载了他亲身游历和听闻的138个国家和地区的山川、物产、风俗、宗教和历史，是研究古代中亚、南亚历史和地理以及中外交流史的珍贵文献。明代小说《西游记》就是以玄奘西行的故事为原型创作的。",
       "images": [
         {
+          "src": "images/cf1ab25a3a27.jpg",
+          "w": 500,
+          "h": 1119,
+          "caption": "​三藏法师玄奘",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Xuanzang_w.jpg"
+        },
+        {
           "src": "images/35a488949bb6.jpg",
           "w": 500,
           "h": 333,
@@ -4555,14 +4633,6 @@
           "author": "汤馥鳞",
           "license": "CC BY-SA 4.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E5%85%B4%E6%95%99%E5%AF%BA%E5%A1%94CNSN-029-014.jpg"
-        },
-        {
-          "src": "images/cf1ab25a3a27.jpg",
-          "w": 500,
-          "h": 1119,
-          "caption": "",
-          "license": "Public domain",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Xuanzang_w.jpg"
         }
       ],
       "sources": [
@@ -4573,7 +4643,7 @@
       ],
       "type": "对外交流",
       "majorScore": 7,
-      "updatedAt": 1791052615
+      "updatedAt": 1791072438
     },
     {
       "id": "e158",
@@ -4582,7 +4652,17 @@
       "title": "唐太宗击败突厥，被尊为“天可汗”",
       "short": "唐太宗派李靖等击败东突厥，俘获颉利可汗，北方和西北各族首领尊奉唐太宗为“天可汗”，唐朝民族关系开明。",
       "detail": "突厥是活动在我国北方的游牧民族，6世纪中期兴起于阿尔泰山一带，后分裂为东、西两部。唐朝初年，东突厥势力强盛，控制了漠北地区，经常南下侵扰。626年，唐太宗刚即位，东突厥颉利可汗率十多万骑兵直抵长安附近的渭水便桥，唐太宗亲临渭水，与颉利可汗隔水对话，订立盟约，突厥才退兵，史称“渭水之盟”。唐太宗把此事视为耻辱，加紧练兵备战。629年，东突厥因内乱和雪灾而衰弱，唐太宗派大将李靖、李勣等分路出击。630年，李靖率三千精骑夜袭定襄，大败突厥，随后在阴山再次大败东突厥，俘获颉利可汗，东突厥灭亡。唐太宗对归降的突厥人采取了开明的政策，把他们安置在今内蒙古一带，保留其部落组织，任命其首领为都督、刺史等官员，还有不少突厥贵族到长安做官。同年，北方和西北各族首领齐聚长安，请求唐太宗做他们的“天可汗”，即各族共同的君主。后来唐朝又先后击败吐谷浑、高昌和西突厥，设置安西都护府、北庭都护府等机构，加强了对西域的管辖。唐朝实行开明的民族政策，汉族与少数民族杂居、通婚，民族交融进一步发展，许多少数民族将领在唐朝任职。东北、西北、西南等地区的一些少数民族政权也与唐朝关系密切，唐朝成为统一多民族国家发展的重要时期。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/8bfbcc75953e650f.jpg",
+          "w": 1280,
+          "h": 1820,
+          "caption": "李靖·清宫殿藏本",
+          "author": "Unknown authorUnknown author",
+          "license": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%9D%8E%E9%9D%96.jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%A4%A9%E5%8F%AF%E6%B1%97",
@@ -4591,7 +4671,7 @@
       ],
       "type": "对外交流",
       "majorScore": 6,
-      "updatedAt": 1791052615
+      "updatedAt": 1791072609
     },
     {
       "id": "e159",
@@ -4777,7 +4857,7 @@
           "src": "images/81f562fd17971fd4.jpg",
           "w": 533,
           "h": 800,
-          "caption": "",
+          "caption": "中国木刻、著名医学人物：孙思邈",
           "license": "CC BY 4.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Chinese_woodcut,_Famous_medical_figures;_Sun_Simiao_Wellcome_L0039324.jpg",
           "author": "Gan Bozong (Tang period, 618-907)"
@@ -4791,7 +4871,7 @@
       ],
       "type": "科技",
       "majorScore": 4,
-      "updatedAt": 1791056438
+      "updatedAt": 1791072646
     },
     {
       "id": "e162",
@@ -4802,10 +4882,19 @@
       "detail": "隋唐时期，朝鲜半岛上有高句丽、百济、新罗三国，与中国往来频繁。7世纪中叶，新罗联合唐朝先后灭掉百济和高句丽，到675年前后基本统一了朝鲜半岛大同江以南地区。新罗强盛以后，与唐朝的关系十分密切，几乎每年都派遣使节到唐朝，还派遣大批留学生到长安国子监学习中国文化，人数最多时达一百多人。新罗仿照唐朝建立了中央和地方的政治制度，实行以儒家经典为内容的考试选拔官吏，还引入了中国的医学、天文、历算、建筑等科学技术和佛教，唐朝的诗文、典籍大量传入朝鲜半岛。许多新罗商人来到中国经商，在山东半岛和江淮一带形成了“新罗坊”等聚居区。新罗的牛黄、人参、海豹皮、金银器等物产大量输入唐朝，居唐朝进口物品的首位；唐朝的丝绸、茶叶、瓷器、书籍等也输入新罗。朝鲜半岛的音乐也传入中国，“高丽乐”在唐朝宫廷演出，并在民间广泛流行。在中朝交流中，崔致远是杰出的代表人物。他12岁入唐求学，18岁考中进士，在唐朝做官，曾为高骈起草讨伐黄巢的檄文，享有盛名，后来回到新罗。他的诗文集《桂苑笔耕集》流传至今，是研究唐代历史和中朝关系的重要资料，他也被尊为朝鲜汉文学的奠基人。唐与新罗的友好往来，促进了双方经济文化的共同发展。",
       "images": [
         {
+          "src": "images/d556b772b1ca6354.png",
+          "w": 1058,
+          "h": 1450,
+          "caption": "576年，逐渐迈入兴盛的新罗领土已达黄海",
+          "author": "Historiographer at English Wikipedia",
+          "license": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:History_of_Korea_576_ja.png"
+        },
+        {
           "src": "images/ec9a71618bab4188.jpg",
           "w": 599,
           "h": 800,
-          "caption": "",
+          "caption": "瞻星台是东亚现存最古老的天文台之一，也是地球上最古老的科学设施之一。它的历史可以追溯到公元7世纪的新罗王国时期，当时的首都是庆州。瞻星台于1962年12月20日被指定为国家第31号国宝。",
           "author": "Zsinj",
           "license": "CC BY-SA 4.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cheomseongdae-1.jpg"
@@ -4819,7 +4908,7 @@
       ],
       "type": "对外交流",
       "majorScore": 4,
-      "updatedAt": 1791000467
+      "updatedAt": 1791072764
     },
     {
       "id": "e050",
@@ -4967,10 +5056,28 @@
       "detail": "靺鞨是生活在我国东北松花江、黑龙江流域的古老民族，是后来女真族和满族的祖先，唐朝时分为粟末、黑水等部。698年，粟末靺鞨首领大祚荣统一靺鞨诸部，在东牟山（今吉林敦化一带）建立政权，自称“震国王”。713年，唐玄宗派崔忻前往册封大祚荣为“渤海郡王”，并在其辖地设置忽汗州，任命大祚荣为忽汗州都督，此后该政权以“渤海”为国号，成为唐朝管辖下的地方民族政权。崔忻返回途中在今旅顺凿井刻石留念，这块“鸿胪井刻石”1908年被日本人掠走。渤海国与唐朝关系密切，经常派遣使节、学生到长安朝贡和学习，唐朝的诗文、典籍、佛教、制度等大量传入渤海。渤海国仿照唐朝建立了三省六部的政治制度，地方设五京、十五府、六十二州，使用汉字，都城上京龙泉府（今黑龙江宁安渤海镇）的布局也仿照长安城。渤海国与内地经济贸易往来频繁，农业、手工业和商业都有很大发展，经济文化繁荣，被称为“海东盛国”。渤海国的疆域鼎盛时包括今我国东北东部、朝鲜半岛东北部和俄罗斯远东一部分地区。926年，渤海国被契丹所灭，前后存在二百多年。渤海国的历史表明，东北地区的少数民族很早就与中原王朝有着密切的联系，是中华民族多元一体格局形成的重要组成部分。",
       "images": [
         {
+          "src": "images/7044cd6ee95faa5b.png",
+          "w": 1280,
+          "h": 1451,
+          "caption": "渤海地图",
+          "author": "Samhanin",
+          "license": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Balhae.svg"
+        },
+        {
+          "src": "images/7f61c1064a09f028.jpg",
+          "w": 768,
+          "h": 1024,
+          "caption": "现藏于日本大原美术馆的渤海国咸和四年铭佛龛",
+          "author": "pressapochista (a flickr user)",
+          "license": "CC BY-SA 2.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pressapochista4.jpg"
+        },
+        {
           "src": "images/139b74c1ee16aeef.jpg",
           "w": 800,
           "h": 638,
-          "caption": "",
+          "caption": "黑龍江寧安渤海上京城遺址出土殘磚，上面刻“上京”兩字。中國國家博物館藏。",
           "author": "BabelStone",
           "license": "CC BY-SA 3.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bohai_shangjing_brick.jpg"
@@ -4984,7 +5091,7 @@
       ],
       "type": "对外交流",
       "majorScore": 4,
-      "updatedAt": 1791000467
+      "updatedAt": 1791073167
     },
     {
       "id": "e165",
@@ -4995,84 +5102,12 @@
       "detail": "唐朝前期的一百多年间，经济发展迅速，社会呈现繁荣景象。农业方面，垦田面积不断扩大，农业生产技术不断改进，发明和推广了曲辕犁和筒车等重要工具。曲辕犁轻便灵巧，回转省力，适于精耕细作；筒车利用水力提水灌溉，日夜不停。唐朝重视兴修水利，在全国各地修建了许多水利工程，粮食产量大幅提高。手工业方面，丝织、制瓷、造纸、印刷和金银器制作等都很发达；瓷器有“南青北白”之说，即南方越窑的青瓷和北方邢窑的白瓷；色彩绚丽的唐三彩是著名的陶器工艺品。商业方面，长安、洛阳、扬州、成都、广州等城市商业繁荣，有“扬一益二”的说法。都城长安规模宏大，布局严整，城市面积约84平方千米，人口约百万，是当时世界上规模最大的城市之一。长安城由宫城、皇城和外郭城组成，以朱雀大街为中轴线，东西对称，全城划分为一百多个封闭的坊，居民区（坊）和商业区（市）严格分开。东市和西市是两个大型商业区，商品琳琅满目，西市尤其聚集了众多来自西域、波斯、大食的外国商人，被称为“金市”。长安城中还有许多外国使节、留学生、僧侣居住，是一座繁华的国际性大都市。盛唐经济的繁荣为文化的发达和对外交往的兴盛奠定了坚实的基础。",
       "images": [
         {
-          "src": "images/214763c84a74930f.jpg",
+          "src": "images/1dfd6005dc478c2e.jpg",
           "w": 500,
-          "h": 105,
-          "author": "张萱",
-          "license": "Public domain",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E8%99%A2%E5%9B%BD%E5%A4%AB%E4%BA%BA%E6%B8%B8%E6%98%A5%E5%9B%BE.jpg",
-          "caption": ""
-        },
-        {
-          "src": "images/9529827d496aab5f.jpg",
-          "w": 500,
-          "h": 570,
-          "author": "Legolas1024",
-          "license": "CC BY-SA 4.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%B1%89%E9%95%BF%E5%AE%89%E5%9F%8E%E5%9B%BE.jpg",
-          "caption": "西汉时期长安地图"
-        },
-        {
-          "src": "images/80a5da3ed7f9ea93.jpg",
-          "w": 330,
-          "h": 306,
-          "license": "Public domain",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:HanHorse.jpg",
-          "caption": "汉代长安陶马头"
-        },
-        {
-          "src": "images/a49b4437874cdf46.jpg",
-          "w": 500,
-          "h": 339,
-          "author": "​毕沅（1730年至1797年）",
-          "license": "Public domain",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Chang_Le_Gong_and_Wei_Yang_Gong_by_Bi_Yuan.jpg",
-          "caption": "清朝毕沅所绘的汉长乐未央宫图，载于《关中胜迹图志》卷四"
-        },
-        {
-          "src": "images/a955de8232ba5e10.jpg",
-          "w": 500,
-          "h": 241,
-          "author": "原上传者为中文维基百科的Refrain",
-          "license": "CC BY-SA 3.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Silk-Road_course.jpg",
-          "caption": "丝绸之路"
-        },
-        {
-          "src": "images/cd37e98f7d3877fb.png",
-          "w": 500,
-          "h": 447,
-          "author": "Jason22",
-          "license": "CC BY-SA 3.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E9%9A%8B%E5%A4%A7%E8%88%88%E5%9F%8E%E5%9D%8A%E5%B9%B3%E9%9D%A2%E5%9C%96.png",
-          "caption": "隋朝大兴城城坊平面图"
-        },
-        {
-          "src": "images/c3d65f2a48f070fc.jpg",
-          "w": 500,
-          "h": 667,
-          "author": "原上传者为英语维基百科的Bobak",
-          "license": "CC BY 2.5",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:ChinaTrip2005-110.jpg",
-          "caption": "长安大雁塔永徽三年（652年）建造"
-        },
-        {
-          "src": "images/3ad36e8d2d2ba30e.jpg",
-          "w": 120,
-          "h": 90,
-          "author": "jiashiang",
-          "license": "CC BY 2.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Xi%27anviewtombs.jpg",
-          "caption": ""
-        },
-        {
-          "src": "images/301856dccdf3506d.jpg",
-          "w": 120,
-          "h": 90,
-          "author": "Emcc",
-          "license": "CC BY-SA 3.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:DaCiEnSi.jpg",
-          "caption": ""
+          "h": 314,
+          "caption": "唐长安城",
+          "license": "unknown",
+          "sourceUrl": "https://bkimg.cdn.bcebos.com/smart/6a63f6246b600c339a37ce1a1d4c510fd8f9a191-bkimg-process,v_1,rw_401,rh_252,maxl_802?x-bce-process=image/format,f_auto"
         }
       ],
       "sources": [
@@ -5083,7 +5118,7 @@
       ],
       "type": "经济",
       "majorScore": 6,
-      "updatedAt": 1791053620
+      "updatedAt": 1791073067
     },
     {
       "id": "e166",
@@ -5094,63 +5129,13 @@
       "detail": "唐朝国力强盛，统治者实行开放的政策，各民族交往频繁，中外交流密切，社会风气比较开放，充满活力，人们普遍表现出一种昂扬进取、积极向上的精神风貌。唐朝的社会风气兼容并包，人们在衣食住行和娱乐等方面受到西北少数民族和外来文化的很大影响。在服饰上，长安等地流行穿胡服、戴胡帽，女子穿男装、着胡服十分常见；在饮食上，胡饼、胡麻、葡萄酒等广受欢迎；在音乐舞蹈上，西域传来的龟兹乐、胡旋舞、胡腾舞风靡一时，诗人王建写道“城头山鸡鸣角角，洛阳家家学胡乐”。唐朝妇女的地位相对较高，社会对女性的束缚较少，她们可以较为自由地外出活动，许多妇女受过文学、音乐等方面的教育，喜好骑马、打马球、拔河、射箭、荡秋千、下棋等活动。唐代出土的陶俑和壁画中，常常可以看到骑马出行、打马球的女子形象，张萱的《虢国夫人游春图》即是例证。唐朝还盛行刚健豪迈的尚武之风，许多文人都有从军边塞的志向，边塞诗由此兴盛，“宁为百夫长，胜作一书生”便是这种风气的写照。马球、拔河、蹴鞠、围棋等体育娱乐活动在社会各阶层中十分流行。唐朝开放的社会风气与国家的强盛、民族的交融和中外文化交流密切相关，体现了大唐的自信与包容。",
       "images": [
         {
-          "src": "images/b2b0fbd891df708b.jpg",
-          "w": 500,
-          "h": 692,
+          "src": "images/6f179cef17de5bc3.jpg",
+          "w": 1280,
+          "h": 268,
+          "caption": "虢国夫人游春图",
+          "author": "Zhang Xuan",
           "license": "Public domain",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dufu.jpg",
-          "caption": ""
-        },
-        {
-          "src": "images/edefff35a7118db8.png",
-          "w": 500,
-          "h": 715,
-          "license": "Public domain",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%9D%8E%E7%99%BD.png",
-          "caption": ""
-        },
-        {
-          "src": "images/fd820c0867374299.jpg",
-          "w": 500,
-          "h": 1002,
-          "license": "Public domain",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Han_Yu.jpg",
-          "caption": "韩愈像"
-        },
-        {
-          "src": "images/56de709e262d9ff1.jpg",
-          "w": 500,
-          "h": 667,
-          "author": "kimoji",
-          "license": "CC BY-SA 4.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Leshan_grosser_buddha.JPG",
-          "caption": ""
-        },
-        {
-          "src": "images/9e948c1ec888ceb4.jpg",
-          "w": 500,
-          "h": 667,
-          "author": "J. Coster",
-          "license": "CC BY-SA 3.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Da_Qin_Pagoda.jpg",
-          "caption": ""
-        },
-        {
-          "src": "images/c3d65f2a48f070fc.jpg",
-          "w": 500,
-          "h": 667,
-          "author": "原上传者为英语维基百科的Bobak",
-          "license": "CC BY 2.5",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:ChinaTrip2005-110.jpg",
-          "caption": ""
-        },
-        {
-          "src": "images/adcdf04322b0cc27.jpg",
-          "w": 500,
-          "h": 502,
-          "license": "Public domain",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dunhuang_star_map.jpg",
-          "caption": ""
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E8%99%A2%E5%9B%BD%E5%A4%AB%E4%BA%BA%E6%B8%B8%E6%98%A5%E5%9B%BE.jpg"
         },
         {
           "src": "images/b09867c2d17f94e9.jpg",
@@ -5162,13 +5147,28 @@
           "caption": "李思训之金碧山水画"
         },
         {
-          "src": "images/23cfd7ad94c5f35a.jpg",
+          "src": "images/edefff35a7118db8.png",
           "w": 500,
-          "h": 70,
-          "author": "Wu Daozi (c.685 - 758)",
+          "h": 715,
           "license": "Public domain",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:EightySevenCelestials3.jpg",
-          "caption": ""
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%9D%8E%E7%99%BD.png",
+          "caption": "李白"
+        },
+        {
+          "src": "images/b2b0fbd891df708b.jpg",
+          "w": 500,
+          "h": 692,
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dufu.jpg",
+          "caption": "杜甫"
+        },
+        {
+          "src": "images/fd820c0867374299.jpg",
+          "w": 500,
+          "h": 1002,
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Han_Yu.jpg",
+          "caption": "韩愈像"
         }
       ],
       "sources": [
@@ -5179,7 +5179,7 @@
       ],
       "type": "社会",
       "majorScore": 4,
-      "updatedAt": 1791053626
+      "updatedAt": 1791072934
     },
     {
       "id": "e167",
@@ -7186,13 +7186,13 @@
       "detail": "澎湖列岛位于台湾海峡东南部，由大大小小几十个岛屿组成，是大陆通往台湾的重要跳板。早在宋代，大陆沿海居民就已开始到澎湖捕鱼和居住，南宋时澎湖已隶属福建泉州晋江县管辖，并派兵驻防。元朝统一全国后，为了对辽阔的疆域进行有效治理，根据各地区的情况采取因地制宜的方式，在东北、西北、东南、西南等地区设置了相应的管理机构。在东南地区，元朝在澎湖设置了澎湖巡检司，隶属福建行省泉州路晋江县，负责管辖澎湖和琉球（今台湾）的事务，包括巡逻、缉捕盗贼和管理民政，并征收盐税等赋税。澎湖巡检司是历史上中国中央政府首次在台湾地区正式建立的行政机构，标志着台湾及其附属岛屿正式纳入中国中央政府的行政管辖。元朝汪大渊在《岛夷志略》中记载，澎湖“有草无木，土瘠不宜禾稻”，当地居民“煮海为盐，酿秫为酒，采鱼虾螺蛤以佐食”，有“工商兴贩，以乐其利”，并说明澎湖“地隶泉州晋江县，至元年间立巡检司”。元朝还曾两次派兵到琉球。明朝初年延续元制在澎湖设巡检司，后来一度废止，明朝后期又在澎湖设兵驻守。元朝设立澎湖巡检司，加强了大陆与台湾的联系，促进了台湾地区的开发，是台湾自古以来就是中国领土的重要历史证据。",
       "images": [
         {
-          "src": "images/c678c0c5cd069f59.png",
-          "w": 135,
-          "h": 71,
-          "author": "User:PhiLiP",
-          "license": "CC BY-SA 3.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:History_of_Taiwan_zh-hans.png",
-          "caption": ""
+          "src": "images/118747a1445304a9.png",
+          "w": 1280,
+          "h": 1470,
+          "caption": "​17世纪的台湾",
+          "author": "Republic of China, administrative divisions (county level) - de - monochrome (counties vs. towns).svg: Uwe Dedering / this file: Furfur (help with Chinese characters by Newfraferz87 is gratefully ackn",
+          "license": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dutch_and_Spanish_Taiwan_zh-hans.svg"
         }
       ],
       "sources": [
@@ -7203,7 +7203,7 @@
       ],
       "type": "政治",
       "majorScore": 6,
-      "updatedAt": 1791055420
+      "updatedAt": 1791073494
     },
     {
       "id": "e203",
@@ -7212,7 +7212,16 @@
       "title": "四等人制",
       "short": "元朝统治者实行民族歧视政策，把全国居民分为蒙古人、色目人、汉人、南人四等，在政治、法律等方面待遇不平等。",
       "detail": "元朝统治者为了维护蒙古贵族对汉族和其他各族人民的统治，实行民族分化和民族歧视政策，社会上逐渐形成了蒙古人、色目人、汉人、南人四个等级，称为“四等人制”。第一等是“蒙古人”，即蒙古族各部，他们是元朝的统治民族，享有各种特权。第二等是“色目人”，主要指西夏人（唐兀）、畏兀儿人、回回人以及中亚、西亚、欧洲等各族出身的人，他们较早归附蒙古，协助蒙古统治，地位仅次于蒙古人。第三等是“汉人”，指淮河以北原金朝统治下的汉族人以及契丹人、女真人、高丽人等。第四等是“南人”，大体指原南宋统治下的汉族和其他各族人民，他们最后被元朝征服，地位最低。四等人在政治、经济、法律等方面的待遇都不平等。政治上，中央和地方的重要官职，以及各地的监临官“达鲁花赤”，一般都由蒙古人担任，色目人次之，汉人、南人很难担任要职。科举考试中，蒙古人、色目人和汉人、南人分别考试，前者考题容易，录取名额却相同。法律上，蒙古人打死汉人只需断罚出征并交付烧埋银，汉人打死蒙古人则要处死；汉人、南人还被禁止私藏兵器、集会结社。四等人制加剧了民族矛盾和社会矛盾，是元朝统治不稳固、不到百年就灭亡的重要原因之一。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/f997cce73093c152.jpg",
+          "w": 386,
+          "h": 518,
+          "caption": "四等人制",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtmTFpLtTiYrwdsq_H75GUwSD5efeWScRMVJOegNCEh3_tC3aBATy6Xwst&s=10"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%9B%9B%E7%AD%89%E4%BA%BA%E5%88%B6",
@@ -7221,7 +7230,7 @@
       ],
       "type": "社会",
       "majorScore": 4,
-      "updatedAt": 1791052615
+      "updatedAt": 1791073456
     },
     {
       "id": "e204",
@@ -7232,33 +7241,24 @@
       "detail": "宋元时期，中外交通有了很大发展。元朝统治区域辽阔，为了加强对各地的统治和联系，建立了以大都为中心、覆盖全国的陆路交通网和四通八达的驿站系统。元朝的驿站称为“站赤”，全国共设驿站一千五百多处，各站备有马、牛、驴、车、船等交通工具，供往来官员、使臣和传递公文使用，政府颁发的乘驿凭证称为“牌符”。元朝的陆路交通向西通往中亚、西亚和欧洲，古代的陆上丝绸之路在元朝时空前畅通，欧洲的商人、传教士和使节络绎不绝地来到中国，马可·波罗就是沿着这条道路来到元朝的。在海路方面，元朝继承和发展了宋朝的海外贸易，在泉州、广州、庆元（今宁波）、上海、杭州等港口设立市舶司管理海外贸易。泉州是当时世界上最大的港口之一，被誉为“东方第一大港”，港内停泊着来自世界各地的商船，城中居住着大批外国商人。元朝的海船远航东南亚、南亚、阿拉伯半岛和非洲东海岸，与一百多个国家和地区有贸易往来。元朝航海家汪大渊两次随商船出海，到过东南亚、印度洋沿岸的许多地方，著有《岛夷志略》，记载了二百多个国家和地区的风土物产。2021年，“泉州：宋元中国的世界海洋商贸中心”被列入《世界遗产名录》。",
       "images": [
         {
-          "src": "images/8b4438e5363ffee8.jpg",
-          "w": 500,
-          "h": 375,
-          "author": "Nesnad",
-          "license": "CC BY 4.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Shinjuku_Station_-_2024_Feb_13_various_17_28_01_134000.jpg",
-          "caption": "东京新宿站南口的站名招牌，可见以“驿”（駅）称呼车站"
-        },
-        {
-          "src": "images/9e6813e2601d7618.jpg",
-          "w": 500,
-          "h": 333,
-          "author": "Evian Tsai",
-          "license": "CC BY-SA 2.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:PTP_Bike_Stage_20120704.jpg",
-          "caption": "位于南回公路的寿峠铁马驿站"
+          "src": "images/92120c51faba3da2.png",
+          "w": 800,
+          "h": 480,
+          "caption": "1世纪的丝绸之路",
+          "author": "TwoOneTwo",
+          "license": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Transasia_trade_routes_1stC_CE_gr2.png"
         }
       ],
       "sources": [
         {
-          "url": "https://zh.wikipedia.org/wiki/%E9%A9%BF%E7%AB%99",
-          "title": "维基百科 - 驿站"
+          "url": "https://zh.wikipedia.org/zh-tw/%E6%B5%B7%E4%B8%8A%E4%B8%9D%E7%BB%B8%E4%B9%8B%E8%B7%AF",
+          "title": "维基百科 - 海上丝绸之路"
         }
       ],
       "type": "对外交流",
       "majorScore": 6,
-      "updatedAt": 1791053917
+      "updatedAt": 1791073375
     },
     {
       "id": "e205",
@@ -7275,16 +7275,7 @@
           "author": "SY",
           "license": "CC BY-SA 4.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Red_Turban.png",
-          "caption": ""
-        },
-        {
-          "src": "images/76b2f26697193c62.jpg",
-          "w": 500,
-          "h": 333,
-          "author": "Gary Lee Todd, Ph.D.",
-          "license": "CC0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:2014_East_Tomb_(Fuling,_Tomb_of_Manchu_Chief_Nurhachi)_91.jpg",
-          "caption": "女真头盔"
+          "caption": "元末红巾军起义及其余军阀势力分布示意图"
         },
         {
           "src": "images/d237f97cba66b1fb.jpg",
@@ -7314,15 +7305,6 @@
           "caption": "元代 陶马"
         },
         {
-          "src": "images/dd1c811194813bb8.jpg",
-          "w": 500,
-          "h": 604,
-          "author": "Shaolin Abbot Wenzai",
-          "license": "Public domain",
-          "sourceUrl": "https://en.wikipedia.org/wiki/File:Shaolinstele.jpg",
-          "caption": "少林石碑，描绘了一个底层厨工变山的传奇故事——"
-        },
-        {
           "src": "images/d9f69e2c28ebe020.jpg",
           "w": 500,
           "h": 375,
@@ -7340,7 +7322,7 @@
       ],
       "type": "战争",
       "majorScore": 5,
-      "updatedAt": 1791055496
+      "updatedAt": 1791073557
     },
     {
       "id": "e064",
@@ -7354,7 +7336,7 @@
           "src": "images/782c2a8f8bcb.jpg",
           "w": 500,
           "h": 431,
-          "caption": "",
+          "caption": "永乐年间的明朝",
           "author": "玖巧仔",
           "license": "CC BY-SA 3.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%B0%B8%E4%B9%90%E5%B9%B4%E9%97%B4%E7%9A%84%E6%98%8E%E6%9C%9D%EF%BC%88%E7%AE%80%EF%BC%89.png"
@@ -7380,7 +7362,7 @@
         "from": "元",
         "to": "明"
       },
-      "updatedAt": 1791052615
+      "updatedAt": 1791073245
     },
     {
       "id": "e206",
@@ -7706,7 +7688,7 @@
           "src": "images/28476756ea78.jpg",
           "w": 500,
           "h": 338,
-          "caption": "",
+          "caption": "于景山向南俯瞰故宫",
           "author": "Han Zheng",
           "license": "CC BY-SA 2.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%99%AF%E5%B1%B1%E5%85%AC%E5%9B%AD_(19687188164).jpg"
@@ -7759,7 +7741,7 @@
       ],
       "type": "文化",
       "majorScore": 7,
-      "updatedAt": 1791052615
+      "updatedAt": 1791073600
     },
     {
       "id": "e212",
@@ -8061,21 +8043,21 @@
       "detail": "明朝时，戏曲艺术进一步发展，戏剧表演成为城乡人民重要的文化活动。嘉靖年间，魏良辅等人对昆山腔进行改良，使之曲调婉转细腻，被称为“水磨调”，昆曲逐渐流行全国，成为明清时期影响最大的剧种。汤显祖（1550—1616），字义仍，号若士，江西临川人，是明朝后期最负盛名的戏剧家。他三十多岁考中进士，因上疏批评朝政被贬到广东徐闻，后任浙江遂昌知县，1598年弃官回乡，专心从事戏剧创作。他的代表作是《牡丹亭》，又名《还魂记》，与《紫钗记》《南柯记》《邯郸记》合称“临川四梦”。《牡丹亭》描写南安太守之女杜丽娘游园后在梦中与书生柳梦梅相爱，醒后相思成疾而死；后来柳梦梅拾得她的自画像，杜丽娘魂魄与他相会，并起死回生，两人终成眷属。剧中“情不知所起，一往而深，生者可以死，死可以生”的思想，有力地批判了束缚人性的封建礼教，歌颂了青年男女追求爱情自由和个性解放的精神。《牡丹亭》曲文流丽优美，人物内心描写细腻，《游园》《惊梦》等折至今仍在舞台上演出。汤显祖与英国戏剧家莎士比亚同于1616年去世，被称为“东方的莎士比亚”。2001年，昆曲被联合国教科文组织列为“人类口述和非物质遗产代表作”。",
       "images": [
         {
-          "src": "images/a9e63add36151302.jpg",
-          "w": 476,
-          "h": 800,
-          "caption": "",
-          "license": "Public domain",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mudan_Ting_Huanhun_Ji.jpg"
-        },
-        {
           "src": "images/272486c46a1da7e9.jpg",
           "w": 523,
           "h": 800,
-          "caption": "",
+          "caption": "2006年4月18日，中国北京，昆剧演员沉凤英（左）和演员于九林在北京大学礼堂的舞台上在昆剧《牡丹亭》中表演。",
           "author": "Bohan_伯韩 Shen_沈 from Beijing, China",
           "license": "CC BY-SA 2.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Peony_Pavilion_%EF%BC%88%E7%89%A1%E4%B8%B9%E4%BA%AD%EF%BC%891.jpg"
+        },
+        {
+          "src": "images/a9e63add36151302.jpg",
+          "w": 476,
+          "h": 800,
+          "caption": "牡丹亭",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mudan_Ting_Huanhun_Ji.jpg"
         }
       ],
       "sources": [
@@ -8086,7 +8068,7 @@
       ],
       "type": "文化",
       "majorScore": 5,
-      "updatedAt": 1791000467
+      "updatedAt": 1791073686
     },
     {
       "id": "e068",
@@ -8207,7 +8189,17 @@
       "title": "明朝政治腐败与社会动荡",
       "short": "明朝中后期皇帝怠政，宦官专权，党争激烈，明神宗二十多年不上朝，土地兼并严重，社会矛盾日益尖锐。",
       "detail": "明朝中后期，社会经济虽有明显发展，但政治日益腐败，皇帝大多沉迷享乐，疏于朝政。明英宗宠信宦官王振，1449年在土木堡之变中被瓦剌俘虏。明武宗把政事交给宦官刘瑾，自己在“豹房”纵情享乐，还四处巡游。明世宗崇信道教，二十多年不上朝，权臣严嵩专权二十年，贪赃枉法。明神宗在位48年，有二十多年不上朝、不批奏疏，许多官职空缺不补，导致不少机构瘫痪。明熹宗爱好木工，成年累月制作木器，把朝政交给宦官魏忠贤。魏忠贤掌管东厂，排斥异己，各地官员为他修建“生祠”，人称“九千岁”。统治集团内部钩心斗角，大臣结党营私，东林党与阉党相互攻击。其间，张居正在万历初年推行改革，整顿吏治，清丈土地，推行“一条鞭法”，使财政状况一度好转，但他去世后改革措施多被废止。朝政的混乱造成中央对社会的控制力不断下降，法纪松弛，各级官吏贪赃枉法，对民众百般盘剥。皇室、贵族、宦官、官僚和地主疯狂兼并土地，如明神宗之子福王朱常洵受封河南，赐田达两万顷，大量农民失去土地，流离失所。万历后期又派宦官到各地充当矿监、税使，横征暴敛，激起多地城市民变。这些都为明末农民大起义埋下了伏笔。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/47272a7d6110efd9.jpg",
+          "w": 1280,
+          "h": 1709,
+          "caption": "《明英宗坐像　軸》",
+          "author": "Unknown authorUnknown author",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ming_Yingzong_(1).jpg"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E9%AD%8F%E5%BF%A0%E8%B4%A4",
@@ -8216,7 +8208,7 @@
       ],
       "type": "政治",
       "majorScore": 5,
-      "updatedAt": 1791052615
+      "updatedAt": 1791074055
     },
     {
       "id": "e220",
@@ -8260,7 +8252,7 @@
           "h": 394,
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Chinese_Fining_and_Blast_Furnace.jpg",
-          "caption": ""
+          "caption": "《天工开物》冶铁内容的插图"
         },
         {
           "src": "images/9d6ef38e14409257.gif",
@@ -8307,7 +8299,7 @@
       ],
       "type": "科技",
       "majorScore": 7,
-      "updatedAt": 1791054033
+      "updatedAt": 1791073894
     },
     {
       "id": "e222",
@@ -8344,7 +8336,16 @@
       "title": "《徐霞客游记》",
       "short": "明末徐霞客三十多年游历大半个中国，所写日记被整理成《徐霞客游记》，对石灰岩地貌的考察居当时世界先进水平。",
       "detail": "徐霞客（1587—1641），名弘祖，号霞客，南直隶江阴（今江苏江阴）人。他自幼喜爱读地理、历史和探险游记之类的书籍，立下了“大丈夫当朝碧海而暮苍梧”的志向，不愿走科举做官的道路。在母亲的支持下，他从22岁起开始出游，三十多年间足迹遍及今天的十几个省区，走遍了大半个中国。他游历的方式主要是徒步，常常攀登悬崖、深入洞穴，历尽艰险。1636年，徐霞客开始了最后一次、也是历时最长的“万里遐征”，经浙江、江西、湖南、广西、贵州到达云南，直到滇西的腾冲一带，1640年因病被送回家乡，次年去世。他坚持每天写日记，记录考察所得，共留下60余万字的游记资料，后人整理成《徐霞客游记》。这部书详细记录了各地的地理、水文、地质、植物等自然现象，以及经济、交通、城镇聚落和风土人情。他对广西、贵州、云南一带的石灰岩地貌（岩溶地貌）作了系统的考察和记述，分析了溶洞、石峰的成因，早于欧洲同类研究；他还考证出金沙江是长江的上源，纠正了“岷山导江”的旧说。徐霞客写景状物具体生动，情景交融，《徐霞客游记》既是地理学巨著，也是文学名著。该书开篇《游天台山日记》的写作日期5月19日，2011年被定为“中国旅游日”。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/2eed9f6aa7459404.jpg",
+          "w": 400,
+          "h": 349,
+          "caption": "徐霞客游记",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqGsbHGwNudque07tT0a_S3NOKQArpNFVVAeHZLAaAFwKcA5ZFdJLCGAU&s=10"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%BE%90%E9%9C%9E%E5%AE%A2%E6%B8%B8%E8%AE%B0",
@@ -8353,7 +8354,7 @@
       ],
       "type": "科技",
       "majorScore": 5,
-      "updatedAt": 1791052615
+      "updatedAt": 1791073809
     },
     {
       "id": "e069",
@@ -8367,7 +8368,7 @@
           "src": "images/476419e494d0.jpg",
           "w": 500,
           "h": 545,
-          "caption": "",
+          "caption": "20 世纪的插图，描绘了违背李自成初入城时“秋毫无犯”承诺的大顺军。对贵族、富户、官员抄家甚至灭门的情景",
           "author": "Henry Charles Seppings Wright",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Fall_of_Beijing_to_Li_Zicheng_in_1644.png"
@@ -8377,10 +8378,6 @@
         {
           "url": "https://zh.wikipedia.org/wiki/%E7%94%B2%E7%94%B3%E4%B9%8B%E5%8F%98",
           "title": "维基百科 - 甲申之变"
-        },
-        {
-          "url": "https://zh.wikipedia.org/wiki/%E7%94%B2%E7%94%B3%E4%B9%8B%E8%AE%8A",
-          "title": "维基百科 - 甲申之变"
         }
       ],
       "type": "政治",
@@ -8389,7 +8386,7 @@
         "from": "明",
         "to": "清"
       },
-      "updatedAt": 1791052615
+      "updatedAt": 1791074138
     },
     {
       "id": "e224",
@@ -8527,7 +8524,7 @@
           "h": 318,
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Een_schip_met_slapende_bemanning.jpg",
-          "caption": ""
+          "caption": "《托梦护舟》"
         }
       ],
       "sources": [
@@ -8538,7 +8535,7 @@
       ],
       "type": "政治",
       "majorScore": 7,
-      "updatedAt": 1791054039
+      "updatedAt": 1791074269
     },
     {
       "id": "e227",
@@ -8589,7 +8586,7 @@
           "src": "images/9f1f0ded4809.jpg",
           "w": 417,
           "h": 295,
-          "caption": "",
+          "caption": "尼布楚条约》拉丁文版本",
           "author": "Governments of Russia and China",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Treaty_of_Nerchinsk_(1689).jpg"
@@ -8617,15 +8614,11 @@
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%B0%BC%E5%B8%83%E6%A5%9A%E6%9D%A1%E7%BA%A6",
           "title": "维基百科 - 尼布楚条约"
-        },
-        {
-          "url": "https://zh.wikipedia.org/wiki/%E5%B0%BC%E5%B8%83%E6%A5%9A%E6%A2%9D%E7%B4%84",
-          "title": "维基百科 - 尼布楚条约"
         }
       ],
       "type": "对外交流",
       "majorScore": 6,
-      "updatedAt": 1791000467
+      "updatedAt": 1791074383
     },
     {
       "id": "e228",
@@ -9105,7 +9098,7 @@
           "author": "Charles-Michel Geoffroy",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kalmyk_exodus_(Geoffroy,_1845).JPG",
-          "caption": ""
+          "caption": "卡尔梅克人出走"
         }
       ],
       "sources": [
@@ -9116,7 +9109,7 @@
       ],
       "type": "政治",
       "majorScore": 5,
-      "updatedAt": 1791054089
+      "updatedAt": 1791074416
     },
     {
       "id": "e072",
@@ -9130,7 +9123,7 @@
           "src": "images/73a36c755b56.jpg",
           "w": 500,
           "h": 778,
-          "caption": "",
+          "caption": "《四库全书》",
           "author": "​纪昀, 1724-1805",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Complete_Library_in_Four_Sections_(Siku_Quanshu)_WDL3020.jpg"
@@ -9176,15 +9169,11 @@
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%9B%9B%E5%BA%93%E5%85%A8%E4%B9%A6",
           "title": "维基百科 - 四库全书"
-        },
-        {
-          "url": "https://zh.wikipedia.org/wiki/%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8",
-          "title": "维基百科 - 四库全书"
         }
       ],
       "type": "文化",
       "majorScore": 6,
-      "updatedAt": 1791052615
+      "updatedAt": 1791074468
     },
     {
       "id": "e238",
@@ -9391,7 +9380,7 @@
           "h": 928,
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hesen.jpg",
-          "caption": ""
+          "caption": "和珅"
         },
         {
           "src": "images/6485ba558aa0376d.png",
@@ -9429,7 +9418,7 @@
       ],
       "type": "政治",
       "majorScore": 5,
-      "updatedAt": 1791054120
+      "updatedAt": 1791074499
     },
     {
       "id": "e073",
@@ -9717,7 +9706,16 @@
       "title": "太平天国定都天京与《天朝田亩制度》",
       "short": "1853年太平军攻占南京，改称天京，定为都城，颁布《天朝田亩制度》，提出“有田同耕，有饭同食”的理想，但无法真正实行。",
       "detail": "1852年春，太平军从永安突围北上，先后围攻桂林、长沙。南王冯云山、西王萧朝贵在进军途中先后牺牲。1853年1月，太平军攻克湖北省城武昌，队伍发展到五十万人。随后，太平军放弃武昌，水陆并进，沿长江东下，连克九江、安庆、芜湖等地，1853年3月攻占南京，将南京改名为天京，定为都城，正式建立起与清朝对峙的农民政权。太平天国定都天京后，颁布了《天朝田亩制度》，规定把田地按产量分为九等，不分男女，按人口和年龄平均分配土地，十六岁以上的分全份，十五岁以下的减半；每二十五家组成一个“两”，设国库和礼拜堂，每户除留下必需的口粮外，其余产品都要上缴国库，提出了“有田同耕，有饭同食，有衣同穿，有钱同使，无处不均匀，无人不饱暖”的理想社会方案。《天朝田亩制度》反映了广大农民要求废除封建土地所有制、获得土地的强烈愿望，是农民反封建斗争的纲领性文件，但它带有浓厚的绝对平均主义色彩，脱离当时的社会实际，根本无法实行。后来太平天国在占领区实际上实行“照旧交粮纳税”的政策。定都天京后，太平天国还派出军队北伐和西征，北伐军孤军深入，一度逼近天津，最终失败；西征军则取得了很大胜利，控制了长江中游的许多地区。",
-      "images": [],
+      "images": [
+        {
+          "src": "images/d9d18a762dd1e0bd.jpg",
+          "w": 596,
+          "h": 335,
+          "caption": "《天朝田亩制度》",
+          "license": "unknown",
+          "sourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4dfPaRWbSN9e6tQ4ni13phLI9bZPl1v0rCmge1aFXUQRSVy_Gs1mF7O4i&s=10"
+        }
+      ],
       "sources": [
         {
           "url": "https://zh.wikipedia.org/wiki/%E5%A4%A9%E6%9C%9D%E7%94%B0%E4%BA%A9%E5%88%B6%E5%BA%A6",
@@ -9726,7 +9724,7 @@
       ],
       "type": "政治",
       "majorScore": 7,
-      "updatedAt": 1791052615
+      "updatedAt": 1791074566
     },
     {
       "id": "e247",
@@ -10562,10 +10560,37 @@
       "detail": "甲午战争中清军节节败退，清政府被迫求和。1895年春，清政府派李鸿章为全权大臣，前往日本马关（今下关）与日本首相伊藤博文、外相陆奥宗光议和。谈判期间，李鸿章遭日本浪人枪击受伤。1895年4月17日，中日双方签订《马关条约》。条约规定：中国承认朝鲜“独立”，实际上使朝鲜成为日本的附庸；割让辽东半岛、台湾全岛及所有附属各岛屿、澎湖列岛给日本；赔偿日本军费白银2亿两；开放沙市、重庆、苏州、杭州为商埠；允许日本在中国通商口岸开设工厂，产品运销中国内地免收内地税。《马关条约》是继《南京条约》以来最严重的不平等条约，使中国社会半殖民地化程度大大加深：割让台湾等地严重破坏了中国的领土主权；巨额赔款约相当于清政府近三年的财政收入，清政府只得大借外债，列强由此控制了中国的财政；通商口岸深入到长江中上游；允许日本设厂，适应了列强资本输出的需要，严重阻碍了中国民族资本主义的发展。条约签订后，俄、德、法三国为了自身利益，出面干涉，迫使日本放弃辽东半岛，日本则向中国勒索了3000万两白银作为“赎辽费”，史称“三国干涉还辽”。《马关条约》的签订大大加深了中华民族的危机，此后列强掀起瓜分中国的狂潮。",
       "images": [
         {
+          "src": "images/7c7709a3895ddc50.png",
+          "w": 1280,
+          "h": 1811,
+          "caption": "《马关条约》领土变更示意图",
+          "author": "Uncreatethetaatwill",
+          "license": "CC BY-SA 4.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Treaty_of_Shimonoseki_Territory_Changes_Map-zh.svg"
+        },
+        {
+          "src": "images/f58275e8328a5b1e.jpg",
+          "w": 1280,
+          "h": 834,
+          "caption": "条约之日文原本（或其复制品），展示于日本外务省外交史料馆",
+          "author": "World Imaging",
+          "license": "CC BY-SA 3.0",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Japan_China_Peace_Treaty_17_April_1895.jpg"
+        },
+        {
+          "src": "images/f73f0a52eedea2ba.jpg",
+          "w": 1280,
+          "h": 1805,
+          "caption": "李鸿章，清光绪二十一年、日本明治二十八年（1895年）于日本签署《马关条约》期间",
+          "author": "小川一真",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Li_Hung-chang_in_Shimonoseki.jpg"
+        },
+        {
           "src": "images/b7ac3e5b1890162c.jpg",
           "w": 800,
           "h": 591,
-          "caption": "",
+          "caption": "1926年的中华民国全图，由于台湾已于1895年马关条约中被割让给日本，故当中并未包含台湾。",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:China_old_map.jpg"
         }
@@ -10578,7 +10603,7 @@
       ],
       "type": "对外交流",
       "majorScore": 8,
-      "updatedAt": 1791000467
+      "updatedAt": 1791074745
     },
     {
       "id": "e261",
@@ -11388,7 +11413,7 @@
           "author": "Ren Jingfeng 任景丰 (director of Dingjunshan), died probably 80 years ago",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tan_Xinpei_Dingjunshan_1905.jpg",
-          "caption": ""
+          "caption": "定军山"
         }
       ],
       "sources": [
@@ -11399,7 +11424,7 @@
       ],
       "type": "文化",
       "majorScore": 4,
-      "updatedAt": 1791054239
+      "updatedAt": 1791074795
     },
     {
       "id": "e274",
@@ -11444,16 +11469,7 @@
           "author": "谭景棠（1876年－1915年）",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jztl-6.jpg",
-          "caption": ""
-        },
-        {
-          "src": "images/6a59575f1e9c0b63.jpg",
-          "w": 500,
-          "h": 450,
-          "author": "华北交通株式会社",
-          "license": "Public domain",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E5%8C%97%E4%BA%AC%E9%99%84%E8%BF%91%E8%AF%A6%E7%BB%86%E5%9B%BE-%E5%8D%8E%E5%8C%97%E4%BA%A4%E9%80%9A%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE.jpg",
-          "caption": "1938年的华北交通丰台站附近铁路线路详图"
+          "caption": "青龙桥车站西侧沿京张铁路行驶的两列火车。照片前景有一列货车。第二列为客车，但火车头后面一节运有货物。"
         },
         {
           "src": "images/b6f654ab889b6e82.jpg",
@@ -11507,13 +11523,13 @@
           "caption": "马莱4型蒸汽机车"
         },
         {
-          "src": "images/aab9d71fe6a58357.jpg",
+          "src": "images/6a59575f1e9c0b63.jpg",
           "w": 500,
-          "h": 333,
-          "author": "N509FZ",
-          "license": "CC BY-SA 4.0",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:NDJ3_0004_and_0002_at_Juyongguan_(20220402135229).jpg",
-          "caption": ""
+          "h": 450,
+          "author": "华北交通株式会社",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E5%8C%97%E4%BA%AC%E9%99%84%E8%BF%91%E8%AF%A6%E7%BB%86%E5%9B%BE-%E5%8D%8E%E5%8C%97%E4%BA%A4%E9%80%9A%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE.jpg",
+          "caption": "1938年的华北交通丰台站附近铁路线路详图"
         }
       ],
       "sources": [
@@ -11524,7 +11540,7 @@
       ],
       "type": "科技",
       "majorScore": 6,
-      "updatedAt": 1791054253
+      "updatedAt": 1791074865
     },
     {
       "id": "e276",
@@ -12810,10 +12826,28 @@
           "src": "images/87e659e343963e5b.png",
           "w": 330,
           "h": 207,
-          "caption": "",
+          "caption": "​中华民国国旗，于民国元年至民国十七年间使用，通称“五色旗”",
           "author": "Original: en:Provisional Government of the Republic of China (1912) Vector: Kibinsky",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Flag_of_China_(1912%E2%80%931928).svg"
+        },
+        {
+          "src": "images/184f3a6441147bd7.png",
+          "w": 1280,
+          "h": 854,
+          "caption": "中华民国国旗",
+          "author": "Sun Yat-sen",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Flag_of_the_Republic_of_China.svg"
+        },
+        {
+          "src": "images/b495375b46c31f18.jpg",
+          "w": 1280,
+          "h": 740,
+          "caption": "皇姑屯事件中被炸的列车",
+          "author": "オリジナルは朝日新聞社カメラマン宮内霊勝が撮影",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Zhang_zuolin_in_1928.jpg"
         }
       ],
       "sources": [
@@ -12824,7 +12858,7 @@
       ],
       "type": "政治",
       "majorScore": 5,
-      "updatedAt": 1791056438
+      "updatedAt": 1791075022
     },
     {
       "id": "e300",
@@ -13041,7 +13075,7 @@
           "src": "images/e7b1ebe8460f9081.jpg",
           "w": 500,
           "h": 674,
-          "caption": "",
+          "caption": "​爱新觉罗·溥仪",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aisin-Gioro_Puyi_01.jpg"
         }
@@ -13054,7 +13088,7 @@
       ],
       "type": "战争",
       "majorScore": 5,
-      "updatedAt": 1791000467
+      "updatedAt": 1791075067
     },
     {
       "id": "e087",
@@ -13065,22 +13099,6 @@
       "detail": "红军和根据地的发展，使国民党统治集团大为震惊。从1930年10月开始，国民党对中央革命根据地连续进行了四次大规模的军事“围剿”，均被红军粉碎。1933年9月，蒋介石调集一百万军队，对各革命根据地发动第五次“围剿”，其中以五十万兵力进攻中央根据地，采取“堡垒主义”战术。这时，以博古为首的中共临时中央已从上海迁入中央根据地，共产国际派来的军事顾问李德掌握了红军的军事指挥权。他们实行“左”倾冒险主义的军事方针，同装备精良的敌人拼消耗，致使红军遭受严重损失，第五次反“围剿”失败。1934年10月，中共中央和中央红军主力八万六千余人被迫撤离中央根据地，从江西瑞金、于都等地出发，开始了战略转移，即长征。由于“左”倾领导者在战略转移中又犯了逃跑主义错误，接连突破国民党军三道封锁线后，于1934年11月底至12月初在广西全州、兴安一带的湘江与敌人展开血战。湘江战役是长征中最壮烈的一战，红军虽然最终渡过了湘江，但付出了极其惨重的代价，中央红军由出发时的八万多人锐减到三万多人，红三十四师几乎全部牺牲，师长陈树湘负伤被俘后，断肠就义。湘江战役的惨重损失，使广大指战员对“左”倾错误领导的不满达到顶点。",
       "images": [
         {
-          "src": "images/168bf8ecf35e0e35.jpg",
-          "w": 250,
-          "h": 327,
-          "caption": "",
-          "license": "Public domain",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Chin_Banxian.jpg"
-        },
-        {
-          "src": "images/8a08946eb4aeee0c.jpg",
-          "w": 250,
-          "h": 380,
-          "caption": "",
-          "license": "Public domain",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Otto_Braun.jpg"
-        },
-        {
           "src": "images/90e293e2aeb72000.jpg",
           "w": 500,
           "h": 812,
@@ -13088,6 +13106,38 @@
           "author": "Xiumuzidiao",
           "license": "CC BY-SA 4.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Declaration_of_the_Red_Army_of_Chinese_Workers_and_Peasants_Going_North_to_Resist_Japan.jpg"
+        },
+        {
+          "src": "images/2e00a1bcfa2ce459.jpg",
+          "w": 330,
+          "h": 384,
+          "caption": "毛泽东",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mao1931.jpg"
+        },
+        {
+          "src": "images/1ed837841cb086b9.jpg",
+          "w": 200,
+          "h": 297,
+          "caption": "周恩来",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:ZhouEnlai2.jpg"
+        },
+        {
+          "src": "images/168bf8ecf35e0e35.jpg",
+          "w": 250,
+          "h": 327,
+          "caption": "博古",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Chin_Banxian.jpg"
+        },
+        {
+          "src": "images/8a08946eb4aeee0c.jpg",
+          "w": 250,
+          "h": 380,
+          "caption": "​李德",
+          "license": "Public domain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Otto_Braun.jpg"
         },
         {
           "src": "images/256a45c2fa24a035.jpg",
@@ -13105,30 +13155,6 @@
           "caption": "1935年2月，接替博古任中共中央总书记的张闻天（洛甫）",
           "license": "Public domain",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Zhang_Wentian-2.jpg"
-        },
-        {
-          "src": "images/2e00a1bcfa2ce459.jpg",
-          "w": 330,
-          "h": 384,
-          "caption": "",
-          "license": "Public domain",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mao1931.jpg"
-        },
-        {
-          "src": "images/1ed837841cb086b9.jpg",
-          "w": 200,
-          "h": 297,
-          "caption": "",
-          "license": "Public domain",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:ZhouEnlai2.jpg"
-        },
-        {
-          "src": "images/ff383e67be991ce6.jpg",
-          "w": 330,
-          "h": 418,
-          "caption": "",
-          "license": "Public domain",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Wang_Jiaxiang.jpg"
         }
       ],
       "sources": [
@@ -13139,7 +13165,7 @@
       ],
       "type": "战争",
       "majorScore": 7,
-      "updatedAt": 1791000467
+      "updatedAt": 1791075185
     },
     {
       "id": "e303",
@@ -13156,7 +13182,7 @@
           "author": "小小新手",
           "license": "CC BY-SA 3.0",
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:ZunyiMeeting.jpg",
-          "caption": ""
+          "caption": "遵义会议会址"
         }
       ],
       "sources": [
@@ -13167,7 +13193,7 @@
       ],
       "type": "政治",
       "majorScore": 8,
-      "updatedAt": 1791054418
+      "updatedAt": 1791075220
     },
     {
       "id": "e304",
